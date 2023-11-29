@@ -1,4 +1,4 @@
-# [Figma link](https://www.figma.com/file/FeGAaMkvbM1vjRKqyGqCm7/LEGOcy?type=design&node-id=0-1&mode=design)
+# [Figma link](https://www.figma.com/file/737CkzNGX8pu6TtpGM21Uu/Legocy---new?type=design&node-id=0-1&mode=design&t=D8gAHV340msKoYzw-0)
 
 
 
