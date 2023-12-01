@@ -1,3 +1,5 @@
+# [Figma Link](https://www.figma.com/file/737CkzNGX8pu6TtpGM21Uu/Legocy---new?type=design&node-id=0-1&mode=design&t=D8gAHV340msKoYzw-0)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
