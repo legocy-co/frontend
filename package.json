@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "effector": "^23.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.1",
+    "sass": "^1.69.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

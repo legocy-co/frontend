@@ -1,0 +1,28 @@
+$header-logo-gradient: linear-gradient(to left, #FFD540, #B81A1A);
+
+.logo {
+  display: inline-block;
+  font-family: Raleway, sans-serif;
+  background: $header-logo-gradient;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 5.25rem;
+  line-height: 6.126rem;
+  white-space: nowrap;
+  will-change: filter;
+  transition: filter 0.1s, opacity 0.1s;
+  cursor: pointer;
+
+  img {
+    width: 62px;
+  }
+
+  &:hover {
+    filter: drop-shadow(0 0 2em rgba(219, 120, 44, 0.5));
+    opacity: 0.9;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}

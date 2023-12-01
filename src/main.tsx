@@ -1,10 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
+import { BrowserRouter } from 'react-router-dom';
+import ReactDOM from 'react-dom/client'
+import AppRouter from './routes/routes.tsx'
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <DndProvider backend={HTML5Backend}>
+      <AppRouter />
+    </DndProvider>
+  </BrowserRouter>,
 )
