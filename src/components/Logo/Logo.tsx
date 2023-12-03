@@ -2,7 +2,7 @@ import './Logo.scss'
 
 function Logo() {
   return (
-      <a href="">
+      <a href="/blank-page">
         <img src="/logo.svg" alt="" className="logo"/>
       </a>
   )

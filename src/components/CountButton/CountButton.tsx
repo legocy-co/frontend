@@ -11,7 +11,7 @@ function CountButton() {
             onClick={() => setCount((count) => count + 1)}>
           clicks: {count}
         </button>
-        <p>CountButton Component at <code>src/components/CountButton/CountButton.tsx</code></p>
+        <p>CountButton Component is at <code>src/components/CountButton/CountButton.tsx</code></p>
       </div>
   )
 }
