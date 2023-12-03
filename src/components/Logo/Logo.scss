@@ -1,0 +1,15 @@
+.logo {
+  will-change: filter;
+  transition: filter 0.1s, opacity 0.1s;
+  width: 320px;
+  cursor: pointer;
+
+  &:hover {
+    filter: drop-shadow(0 0 2em rgba(219, 120, 44, 0.5));
+    opacity: 0.9;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
+}
