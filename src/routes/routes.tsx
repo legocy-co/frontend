@@ -23,14 +23,8 @@ const AppRouter = () => {
 
   return (
       <Routes>
-        <Route
-          path="/"
-          element={<RootPage />}
-        />
-        <Route
-          path="/blank-page"
-          element={<BlankPage />}
-        ></Route>
+        <Route path="/" element={<RootPage />}/>
+        <Route path="/blank-page" element={<BlankPage />}></Route>
       </Routes>
   )
 }
