@@ -1,6 +1,6 @@
-import './AuthorizationPage.scss';
+import './AuthPage.scss';
 
-export default function AuthorizationPage() {
+export default function AuthPage() {
   return (
       <></>
   );

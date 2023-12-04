@@ -1,3 +1,3 @@
-import AuthorizationPage from './AuthorizationPage.tsx';
+import AuthPage from './AuthPage.tsx';
 
-export default AuthorizationPage;
+export default AuthPage;
