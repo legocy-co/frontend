@@ -13,7 +13,23 @@ footer {
 }
 
 .footer--group {
-  width: 1222px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
   height: 67px;
   background: lightblue;
+}
+
+.footer--contacts {
+  width: 349px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.footer--policy {
+  width: 223px;
+  display: grid;
+  //grid-template: ;
 }
