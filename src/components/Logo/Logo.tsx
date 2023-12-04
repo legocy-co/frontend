@@ -1,9 +1,11 @@
 import './Logo.scss'
 
-export default function Logo() {
+const Logo = () => {
   return (
-      <a href="/blank-page">
+      <a href="/auth">
         <img src="/logo.svg" alt="" className="logo"/>
       </a>
-  )
+  );
 }
+
+export default Logo;

@@ -1,4 +1,4 @@
-import './index.css'
+import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client'
 import AppRouter from './routes/routes.tsx'

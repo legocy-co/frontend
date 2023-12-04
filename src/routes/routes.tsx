@@ -3,7 +3,7 @@ import { history } from './history';
 import { useEffect } from 'react';
 import { locationChanged, navigateChanged } from '../shared/lib/react-router';
 import RootPage from '../pages/RootPage';
-import BlankPage from "../pages/BlankPage";
+import AuthPage from "../pages/AuthPage";
 
 const AppRouter = () => {
   const
@@ -23,8 +23,8 @@ const AppRouter = () => {
 
   return (
       <Routes>
-        <Route path="/" element={<RootPage />}/>
-        <Route path="/blank-page" element={<BlankPage />}></Route>
+        <Route path="/auth/" element={<AuthPage />} />
+        <Route path="/" element={<RootPage />} />
       </Routes>
   )
 }
