@@ -11,6 +11,16 @@ const Footer = () => {
           </div>
           <div className="footer--policy">
             <img src="/logo-dark.svg" alt=""/>
+            <div>
+              <p>&copy; 2022 Legocy </p>
+              <p>Privacy Policy</p>
+            </div>
+          </div>
+          <div className="footer--right">
+            <p>SUPPORT</p>
+            <p>CATALOG</p>
+            <p>FAQ</p>
+            <p>CONTACT US</p>
           </div>
         </div>
       </footer>

@@ -10,6 +10,8 @@ footer {
   white-space: nowrap;
   overflow: clip;
   background: #D9D9D9;
+  font-size: 12px;
+  p {margin: 0;}
 }
 
 .footer--group {
@@ -18,18 +20,35 @@ footer {
   align-items: center;
   width: 95%;
   height: 67px;
-  background: lightblue;
+  //background: lightblue;
 }
 
 .footer--contacts {
   width: 349px;
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  align-items: center;
 }
 
 .footer--policy {
   width: 223px;
-  display: grid;
-  //grid-template: ;
+  height: 67px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  div {
+    width: 223px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+  }
+}
+
+.footer--right {
+  width: 376px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
