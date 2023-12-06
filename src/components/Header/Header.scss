@@ -44,7 +44,7 @@ header {
     border-radius: 12px;
     cursor: pointer;
     transition: background 0.1s;
-    font-size: 1.25rem;
+    font: 500 1.25rem $font;
     &:hover {
       background: #f5cc3c;
     }
@@ -71,7 +71,7 @@ header {
     outline: none;
     padding: 8px 73px 8px 18px;
     color: #00000075;
-    font: 20px $font;
+    font: 500 1.25rem $font;
     &::placeholder {
       color: #00000075;
     }

@@ -1,0 +1,16 @@
+.signup--banner {
+  width: 1208px;
+  height: 634px;
+  background-image: url("/src/assets/pics/red-bricks.png");
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  p {
+    color: white;
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+}

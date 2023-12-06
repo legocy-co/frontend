@@ -5,9 +5,7 @@ const RootPage = () => {
   return (
     <>
       <Logo />
-
       <h1>Web Service for LEGO Lovers and Sellers.</h1>
-
       <p>Logo routes to the Authorization Page</p>
     </>
   );
