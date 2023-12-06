@@ -21,12 +21,12 @@ const SignUpPage = () => {
   }
 
   function handleChange(e: SyntheticEvent) {
-    const {name, value} = e.target
-
+    const eventTarget = (e.target as HTMLInputElement)
+    console.log(formData)
     setFormData(prevData => {
       return {
         ...prevData,
-        [name]: value,
+        [eventTarget.name]: eventTarget.value,
       }
     })
   }
@@ -37,11 +37,32 @@ const SignUpPage = () => {
       <div className="signup--banner">
         <p>Sign Up</p>
         <form onSubmit={handleSubmit}>
+          <label htmlFor="username">Username</label>
           <input
               type="text"
               onChange={handleChange}
               name="username"
               value={formData.username}
+          />
+          <label htmlFor="email">E-mail address</label>
+          <input
+              type="email"
+              onChange={handleChange}
+              name="email"
+              value={formData.email}
+          />
+          <label htmlFor="password">Password</label>
+          <input
+              type="password"
+              onChange={handleChange}
+              name="password"
+              value={formData.password}
+          />
+          <input
+              type="password"
+              onChange={handleChange}
+              name="confirmPassword"
+              value={formData.confirmPassword}
           />
         </form>
       </div>
