@@ -20,11 +20,11 @@ const SignUpPage = () => {
     e.preventDefault();
 
     if (formData.password !== formData.passwordConfirm) {
-      setShowMessage("Passwords do not match");
+      setShowMessage('Passwords do not match');
     } else {
       // sendData(formData);
       console.log(formData);
-      setShowMessage("");
+      setShowMessage('');
     }
   }
 
@@ -39,9 +39,18 @@ const SignUpPage = () => {
     })
   }
 
-  function ShowPassword(id: string) {
-    const inputField = document.getElementById(id) as HTMLInputElement;
-    inputField.type = inputField.type === 'password' ? 'text' : 'password';
+  function ShowPassword(inputID: string, toggleID: string) {
+    const
+        inputField = document.getElementById(inputID) as HTMLInputElement,
+        toggle = document.getElementById(toggleID) as HTMLImageElement;
+
+    if (inputField.type === 'password') {
+      inputField.type = 'text';
+      toggle.src = '/src/assets/icons/hide.svg';
+    } else {
+      inputField.type = 'password';
+      toggle.src = '/src/assets/icons/show.svg'
+    }
   }
 
   return (
@@ -75,9 +84,10 @@ const SignUpPage = () => {
                   value={formData.password}
               />
               <img
-                  src="/src/assets/icons/show-hide-password.svg"
+                  id="showPassword"
+                  src="/src/assets/icons/show.svg"
                   alt=""
-                  onClick={() => ShowPassword("password")}
+                  onClick={() => ShowPassword("password", "showPassword")}
               />
             </div>
             <label htmlFor="passwordConfirm">Confirm password</label>
@@ -90,13 +100,14 @@ const SignUpPage = () => {
                   value={formData.passwordConfirm}
               />
               <img
-                  src="/src/assets/icons/show-hide-password.svg"
+                  id="showPasswordConfirm"
+                  src="/src/assets/icons/show.svg"
                   alt=""
-                  onClick={() => ShowPassword("passwordConfirm")}
+                  onClick={() => ShowPassword("passwordConfirm", "showPasswordConfirm")}
               />
             </div>
           </div>
-          <div className="signup--button">
+          <div className="signup--submit">
             {(showMessage && <div>{showMessage}</div>)}
             <button>Sign Up</button>
           </div>
