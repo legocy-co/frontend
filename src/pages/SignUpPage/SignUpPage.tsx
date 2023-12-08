@@ -6,46 +6,60 @@ import Footer from "../../components/Footer";
 import Input from "../../components/Input";
 
 const SignUpPage = () => {
-  const [showMessage, setShowMessage] = useState("");
+  const [showMessage, setShowMessage] = useState('');
 
   const [formData, setFormData] = useState(
       {
-        username: "",
-        email: "",
-        password: "",
-        passwordConfirm: "",
+        username: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
       }
   );
 
   function handleSubmit(e: SyntheticEvent) {
     const
-        password = document.getElementById('password') as HTMLInputElement,
-        passwordConfirm = document.getElementById('passwordConfirm') as HTMLInputElement;
+        formKeys = Object.keys(formData),
+        formValues = Object.values(formData),
+        formLabels = document.getElementsByTagName('label');
 
-    password.style.background = 'white';
-    passwordConfirm.style.background = 'white';
+    const colorInputs = (inputs: string[], color: string) => {
+      for (let i = 0; i < inputs.length; i++) {
+        const input = document.getElementById(inputs[i]) as HTMLInputElement;
+        input.style.background = color;
+      }
+    }
 
     e.preventDefault();
+    colorInputs(formKeys, 'white');
+
+    for (let i = 0; i < formKeys.length; i++) {
+      if (!formValues[i]) {
+        colorInputs([formKeys[i]], '#FFD0D0');
+        setShowMessage(`Missing ${formLabels[i].innerText}`);
+        return;
+      }
+    }
 
     if (formData.password !== formData.passwordConfirm) {
-      password.style.background = '#FFD0D0';
-      passwordConfirm.style.background = '#FFD0D0';
-
+      colorInputs(['password', 'passwordConfirm'], '#FFD0D0');
       setShowMessage('Passwords do not match');
-    } else {
-      // sendData(formData);
-      console.log(formData);
-      setShowMessage('');
+      return;
     }
+
+    // toAPI(formData);
+    console.log(formData);
+
+    setShowMessage('');
   }
 
   function handleChange(e: SyntheticEvent) {
-    const eventTarget = e.target as HTMLInputElement;
+    const formInput = e.target as HTMLInputElement;
 
     setFormData(prevData => {
       return {
         ...prevData,
-        [eventTarget.name]: eventTarget.value,
+        [formInput.name]: formInput.value,
       };
     })
   }
