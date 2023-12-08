@@ -2,7 +2,7 @@ import './PasswordInput.scss'
 import { SyntheticEvent } from 'react';
 import Input from "../Input";
 
-interface SignUpPasswordProps {
+interface PasswordProps {
   label: string,
   inputID: string,
   toggleID: string,
@@ -12,7 +12,7 @@ interface SignUpPasswordProps {
   onChange: (e: SyntheticEvent<Element, Event>) => void;
 }
 
-const PasswordInput = (props: SignUpPasswordProps) => {
+const PasswordInput = (props: PasswordProps) => {
   function ShowPassword(inputID: string, toggleID: string) {
     const
         input = document.getElementById(inputID) as HTMLInputElement,
@@ -20,10 +20,16 @@ const PasswordInput = (props: SignUpPasswordProps) => {
 
     if (input.type === 'password') {
       input.type = '';
+
       toggle.src = '/src/assets/icons/hide.svg';
+      toggle.style.bottom = '14px';
+      toggle.style.right = '11px';
     } else {
       input.type = 'password';
+
       toggle.src = '/src/assets/icons/show.svg';
+      toggle.style.bottom = '16px';
+      toggle.style.right = '12px';
     }
   }
 
