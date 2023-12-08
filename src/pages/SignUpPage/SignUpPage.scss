@@ -1,0 +1,37 @@
+$font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+.signup--banner {
+  width: 1208px;
+  height: 634px;
+  background-image: url('/src/assets/pics/red-lego.png');
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  p {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.signup--submit {
+  display: flex;
+  justify-content: center;
+  div {
+    margin-top: 1px;
+    position: absolute;
+    padding: 6px 15px;
+    background: #FFD0D0D1;
+    color: #821919;
+    border: 1px solid #821919;
+    border-radius: 17px;
+  }
+}
