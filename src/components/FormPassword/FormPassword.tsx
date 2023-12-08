@@ -1,4 +1,3 @@
-import './SignUpPassword.scss';
 import { SyntheticEvent } from 'react';
 
 interface SignUpPasswordProps {
@@ -9,7 +8,7 @@ interface SignUpPasswordProps {
   handleChange: (e: SyntheticEvent<Element, Event>) => void;
 }
 
-const SignUpPassword = (props: SignUpPasswordProps) => {
+const FormPassword = (props: SignUpPasswordProps) => {
   function ShowPassword(inputID: string, toggleID: string) {
     const
         input = document.getElementById(inputID) as HTMLInputElement,
@@ -43,4 +42,4 @@ const SignUpPassword = (props: SignUpPasswordProps) => {
   );
 }
 
-export default SignUpPassword;
+export default FormPassword;

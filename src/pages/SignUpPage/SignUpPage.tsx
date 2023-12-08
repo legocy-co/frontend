@@ -1,8 +1,8 @@
 import './SignUpPage.scss'
 import { useState, SyntheticEvent } from "react";
 import Header from "../../components/Header";
+import FormPassword from "../../components/FormPassword";
 import Footer from "../../components/Footer";
-import SignUpPassword from "../../components/SignUpPassword";
 
 const SignUpPage = () => {
   const [showMessage, setShowMessage] = useState("");
@@ -71,7 +71,7 @@ const SignUpPage = () => {
                 value={formData.email}
             />
             <label htmlFor="password">Password</label>
-            <SignUpPassword
+            <FormPassword
                 inputID="password"
                 name="password"
                 toggleID="showPassword"
@@ -79,7 +79,7 @@ const SignUpPage = () => {
                 handleChange={handleChange}
             />
             <label htmlFor="passwordConfirm">Confirm password</label>
-            <SignUpPassword
+            <FormPassword
                 inputID="passwordConfirm"
                 name="passwordConfirm"
                 toggleID="showPasswordConfirm"
