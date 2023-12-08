@@ -34,11 +34,14 @@ export const handleSubmit = (
       setShowMessage('Passwords do not match');
       return;
     }
+
   }
 
   // toAPI(formData); w/o passwordConfirm
+  delete (formData as SignUpFormData)['passwordConfirm'];
   console.log(formData);
 
+  (formData as SignUpFormData)['passwordConfirm'] = formValues[2];
   setShowMessage('');
 }
 
