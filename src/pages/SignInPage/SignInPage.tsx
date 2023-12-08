@@ -1,7 +1,6 @@
 import './SignInPage.scss';
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import FormPassword from "../../components/FormPassword";
 
 const SignInPage = () => {
   return (

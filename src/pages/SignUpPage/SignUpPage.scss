@@ -23,34 +23,6 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cant
   div {
     position: relative;
   }
-  label {
-    font-weight: 500;
-  }
-  input {
-    display: block;
-    width: 343px;
-    height: 44px;
-    border: 1px solid #3C3A3A;
-    border-radius: 10px;
-    margin-bottom: 14px;
-    color: #2C2828;
-    font: 500 1rem $font;
-    text-indent: 12px;
-    outline: none;
-  }
-  img {
-    position: absolute;
-    top: 16px;
-    right: 12px;
-    cursor: pointer;
-    transition: opacity 0.1s;
-    &:hover {
-      opacity: 0.9;
-    }
-    &:active {
-      opacity: 0.9;
-    }
-  }
   button {
     margin-top: 56px;
     width: 242px;

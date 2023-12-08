@@ -1,8 +1,9 @@
 import './SignUpPage.scss'
 import { useState, SyntheticEvent } from "react";
 import Header from "../../components/Header";
-import FormPassword from "../../components/FormPassword";
+import PasswordInput from "../../components/PasswordInput";
 import Footer from "../../components/Footer";
+import Input from "../../components/Input";
 
 const SignUpPage = () => {
   const [showMessage, setShowMessage] = useState("");
@@ -56,35 +57,39 @@ const SignUpPage = () => {
         <p>Sign Up</p>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username">Username</label>
-            <input
+            <Input
+                label="Username"
+                id="username"
                 type="text"
-                onChange={handleChange}
                 name="username"
                 value={formData.username}
-            />
-            <label htmlFor="email">E-mail address</label>
-            <input
-                type="email"
                 onChange={handleChange}
+            />
+            <Input
+                label="E-mail address"
+                id="email"
+                type="email"
                 name="email"
                 value={formData.email}
+                onChange={handleChange}
             />
-            <label htmlFor="password">Password</label>
-            <FormPassword
+            <PasswordInput
+                label="Password"
                 inputID="password"
                 name="password"
+                type="password"
                 toggleID="showPassword"
                 value={formData.password}
-                handleChange={handleChange}
+                onChange={handleChange}
             />
-            <label htmlFor="passwordConfirm">Confirm password</label>
-            <FormPassword
+            <PasswordInput
+                label="Confirm password"
                 inputID="passwordConfirm"
                 name="passwordConfirm"
+                type="password"
                 toggleID="showPasswordConfirm"
                 value={formData.passwordConfirm}
-                handleChange={handleChange}
+                onChange={handleChange}
             />
           </div>
           <div className="signup--submit">
