@@ -1,8 +1,8 @@
 import './SignUpPage.scss'
-import { useState } from "react";
+import { useState, SyntheticEvent } from "react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import {SyntheticEvent} from "react";
+import SignUpPassword from "../../components/SignUpPassword";
 
 const SignUpPage = () => {
   const [showMessage, setShowMessage] = useState("");
@@ -27,8 +27,8 @@ const SignUpPage = () => {
     e.preventDefault();
 
     if (formData.password !== formData.passwordConfirm) {
-      password.style.background = '#FFD0D0D1';
-      passwordConfirm.style.background = '#FFD0D0D1';
+      password.style.background = '#FFD0D0';
+      passwordConfirm.style.background = '#FFD0D0';
 
       setShowMessage('Passwords do not match');
     } else {
@@ -47,20 +47,6 @@ const SignUpPage = () => {
         [eventTarget.name]: eventTarget.value,
       };
     })
-  }
-
-  function ShowPassword(inputID: string, toggleID: string) {
-    const
-        input = document.getElementById(inputID) as HTMLInputElement,
-        toggle = document.getElementById(toggleID) as HTMLImageElement;
-
-    if (input.type === 'password') {
-      input.type = 'text';
-      toggle.src = '/src/assets/icons/hide.svg';
-    } else {
-      input.type = 'password';
-      toggle.src = '/src/assets/icons/show.svg';
-    }
   }
 
   return (
@@ -85,37 +71,21 @@ const SignUpPage = () => {
                 value={formData.email}
             />
             <label htmlFor="password">Password</label>
-            <div className="signup--password">
-              <input
-                  id="password"
-                  type="password"
-                  onChange={handleChange}
-                  name="password"
-                  value={formData.password}
-              />
-              <img
-                  id="showPassword"
-                  src="/src/assets/icons/show.svg"
-                  alt=""
-                  onClick={() => ShowPassword("password", "showPassword")}
-              />
-            </div>
+            <SignUpPassword
+                inputID="password"
+                name="password"
+                toggleID="showPassword"
+                value={formData.password}
+                handleChange={handleChange}
+            />
             <label htmlFor="passwordConfirm">Confirm password</label>
-            <div className="signup--password">
-              <input
-                  id="passwordConfirm"
-                  type="password"
-                  onChange={handleChange}
-                  name="passwordConfirm"
-                  value={formData.passwordConfirm}
-              />
-              <img
-                  id="showPasswordConfirm"
-                  src="/src/assets/icons/show.svg"
-                  alt=""
-                  onClick={() => ShowPassword("passwordConfirm", "showPasswordConfirm")}
-              />
-            </div>
+            <SignUpPassword
+                inputID="passwordConfirm"
+                name="passwordConfirm"
+                toggleID="showPasswordConfirm"
+                value={formData.passwordConfirm}
+                handleChange={handleChange}
+            />
           </div>
           <div className="signup--submit">
             {(showMessage && <div>{showMessage}</div>)}

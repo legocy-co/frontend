@@ -15,9 +15,6 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cant
     font-size: 2.5rem;
     margin-bottom: 30px;
   }
-  div {
-    position: relative;
-  }
   form {
     display: flex;
     flex-direction: column;
@@ -26,6 +23,7 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cant
   label {
     color: white;
     font-weight: 500;
+    align-items: start;
   }
   input {
     display: block;
@@ -71,12 +69,8 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cant
   }
 }
 
-.signup--password {
-  position: relative;
-}
-
 .signup--submit {
-  position: relative;
+  //position: relative;
   display: flex;
   justify-content: center;
   div {
