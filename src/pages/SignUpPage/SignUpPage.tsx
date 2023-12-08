@@ -17,9 +17,19 @@ const SignUpPage = () => {
   );
 
   function handleSubmit(e: SyntheticEvent) {
+    const
+        password = document.getElementById('password') as HTMLInputElement,
+        passwordConfirm = document.getElementById('passwordConfirm') as HTMLInputElement;
+
+    password.style.background = 'white';
+    passwordConfirm.style.background = 'white';
+
     e.preventDefault();
 
     if (formData.password !== formData.passwordConfirm) {
+      password.style.background = '#FFD0D0D1';
+      passwordConfirm.style.background = '#FFD0D0D1';
+
       setShowMessage('Passwords do not match');
     } else {
       // sendData(formData);
@@ -41,15 +51,15 @@ const SignUpPage = () => {
 
   function ShowPassword(inputID: string, toggleID: string) {
     const
-        inputField = document.getElementById(inputID) as HTMLInputElement,
+        input = document.getElementById(inputID) as HTMLInputElement,
         toggle = document.getElementById(toggleID) as HTMLImageElement;
 
-    if (inputField.type === 'password') {
-      inputField.type = 'text';
+    if (input.type === 'password') {
+      input.type = 'text';
       toggle.src = '/src/assets/icons/hide.svg';
     } else {
-      inputField.type = 'password';
-      toggle.src = '/src/assets/icons/show.svg'
+      input.type = 'password';
+      toggle.src = '/src/assets/icons/show.svg';
     }
   }
 
