@@ -4,7 +4,7 @@ import {SyntheticEvent} from "react";
 interface InputProps {
   label: string,
   id: string,
-  type: string,
+  type?: string,
   name: string,
   value: string,
   onChange: (e: SyntheticEvent<Element, Event>) => void;

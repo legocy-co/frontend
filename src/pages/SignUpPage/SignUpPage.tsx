@@ -1,9 +1,11 @@
 import './SignUpPage.scss'
-import { useState, SyntheticEvent } from "react";
+import { useState } from "react";
 import Header from "../../components/Header";
 import PasswordInput from "../../components/PasswordInput";
 import Footer from "../../components/Footer";
 import Input from "../../components/Input";
+import { handleSubmit, handleChange } from "../../features/forms.ts";
+import Submit from "../../components/Submit";
 
 const SignUpPage = () => {
   const [showMessage, setShowMessage] = useState('');
@@ -17,67 +19,49 @@ const SignUpPage = () => {
       }
   );
 
-  function handleSubmit(e: SyntheticEvent) {
-    const
-        formKeys = Object.keys(formData),
-        formValues = Object.values(formData),
-        formLabels = document.getElementsByTagName('label');
-
-    const colorInputs = (inputs: string[], color: string) => {
-      for (let i = 0; i < inputs.length; i++) {
-        const input = document.getElementById(inputs[i]) as HTMLInputElement;
-        input.style.background = color;
-      }
-    }
-
-    e.preventDefault();
-    colorInputs(formKeys, 'white');
-
-    for (let i = 0; i < formKeys.length; i++) {
-      if (!formValues[i]) {
-        colorInputs([formKeys[i]], '#FFD0D0');
-        setShowMessage(`Missing ${formLabels[i].innerText}`);
-        return;
-      }
-    }
-
-    if (formData.password !== formData.passwordConfirm) {
-      colorInputs(['password', 'passwordConfirm'], '#FFD0D0');
-      setShowMessage('Passwords do not match');
-      return;
-    }
-
-    // toAPI(formData);
-    console.log(formData);
-
-    setShowMessage('');
-  }
-
-  function handleChange(e: SyntheticEvent) {
-    const formInput = e.target as HTMLInputElement;
-
-    setFormData(prevData => {
-      return {
-        ...prevData,
-        [formInput.name]: formInput.value,
-      };
-    })
-  }
+  // function handleSubmit(e: SyntheticEvent) {
+  //   const
+  //       formKeys = Object.keys(formData),
+  //       formValues = Object.values(formData),
+  //       formLabels = document.getElementsByTagName('label');
+  //
+  //   e.preventDefault();
+  //   colorInputs(formKeys, 'white');
+  //
+  //   for (let i = 0; i < formKeys.length; i++) {
+  //     if (!formValues[i]) {
+  //       colorInputs([formKeys[i]], '#FFD0D0');
+  //       setShowMessage(`Missing ${formLabels[i].innerText}`);
+  //       return;
+  //     }
+  //   }
+  //
+  //   if (formData.password !== formData.passwordConfirm) {
+  //     colorInputs(['password', 'passwordConfirm'], '#FFD0D0');
+  //     setShowMessage('Passwords do not match');
+  //     console.log(formValues[2], formValues[3])
+  //     return;
+  //   }
+  //
+  //   // toAPI(formData); w/o passwordConfirm
+  //   console.log(formData);
+  //
+  //   setShowMessage('');
+  // }
 
   return (
     <>
       <Header />
       <div className="signup--banner">
         <p>Sign Up</p>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e, formData, setShowMessage)}>
           <div>
             <Input
                 label="Username"
                 id="username"
-                type="text"
                 name="username"
                 value={formData.username}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setFormData)}
             />
             <Input
                 label="E-mail address"
@@ -85,7 +69,7 @@ const SignUpPage = () => {
                 type="email"
                 name="email"
                 value={formData.email}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setFormData)}
             />
             <PasswordInput
                 label="Password"
@@ -94,7 +78,7 @@ const SignUpPage = () => {
                 type="password"
                 toggleID="showPassword"
                 value={formData.password}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setFormData)}
             />
             <PasswordInput
                 label="Confirm password"
@@ -103,13 +87,10 @@ const SignUpPage = () => {
                 type="password"
                 toggleID="showPasswordConfirm"
                 value={formData.passwordConfirm}
-                onChange={handleChange}
+                onChange={(e) => handleChange(e, setFormData)}
             />
           </div>
-          <div className="signup--submit">
-            {(showMessage && <div>{showMessage}</div>)}
-            <button>Sign Up</button>
-          </div>
+          <Submit showMessage={showMessage} buttonText="Sign Up" />
         </form>
       </div>
       <Footer />

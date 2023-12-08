@@ -19,7 +19,7 @@ const PasswordInput = (props: SignUpPasswordProps) => {
         toggle = document.getElementById(toggleID) as HTMLImageElement;
 
     if (input.type === 'password') {
-      input.type = 'text';
+      input.type = '';
       toggle.src = '/src/assets/icons/hide.svg';
     } else {
       input.type = 'password';
