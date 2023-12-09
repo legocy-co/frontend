@@ -1,12 +1,7 @@
 import { SyntheticEvent, Dispatch, SetStateAction } from "react";
 import { SignUpFormData, SignInFormData } from "../types/forms.ts";
 
-export const colorInputs = (inputs: string[], color: string) => {
-  for (let i = 0; i < inputs.length; i++) {
-    const input = document.getElementById(inputs[i]) as HTMLInputElement;
-    input.style.background = color;
-  }
-}
+
 
 export const handleSubmit = (
     e: SyntheticEvent,
@@ -16,6 +11,13 @@ export const handleSubmit = (
       formKeys = Object.keys(formData),
       formValues = Object.values(formData),
       formLabels = document.getElementsByTagName('label');
+
+  const colorInputs = (inputs: string[], color: string) => {
+    for (let i = 0; i < inputs.length; i++) {
+      const input = document.getElementById(inputs[i]) as HTMLInputElement;
+      input.style.background = color;
+    }
+  }
 
   e.preventDefault();
   colorInputs(formKeys, 'white');
@@ -34,14 +36,10 @@ export const handleSubmit = (
       setShowMessage('Passwords do not match');
       return;
     }
-
   }
 
   // toAPI(formData); w/o passwordConfirm
-  delete (formData as SignUpFormData)['passwordConfirm'];
   console.log(formData);
-
-  (formData as SignUpFormData)['passwordConfirm'] = formValues[2];
   setShowMessage('');
 }
 
