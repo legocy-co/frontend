@@ -1,23 +1,21 @@
-import { SyntheticEvent, Dispatch, SetStateAction } from "react";
-import { SignUpFormData, SignInFormData } from "../types/forms.ts";
-
-
+import { SyntheticEvent, Dispatch, SetStateAction } from 'react';
+import { SignUpFormData, SignInFormData } from '../types/forms.ts';
 
 export const handleSubmit = (
-    e: SyntheticEvent,
-    formData: SignInFormData | SignUpFormData,
-    setShowMessage: Dispatch<SetStateAction<string>>) => {
-  const
-      formKeys = Object.keys(formData),
-      formValues = Object.values(formData),
-      formLabels = document.getElementsByTagName('label');
+  e: SyntheticEvent,
+  formData: SignInFormData | SignUpFormData,
+  setShowMessage: Dispatch<SetStateAction<string>>,
+) => {
+  const formKeys = Object.keys(formData),
+    formValues = Object.values(formData),
+    formLabels = document.getElementsByTagName('label');
 
   const colorInputs = (inputs: string[], color: string) => {
     for (let i = 0; i < inputs.length; i++) {
       const input = document.getElementById(inputs[i]) as HTMLInputElement;
       input.style.background = color;
     }
-  }
+  };
 
   e.preventDefault();
   colorInputs(formKeys, 'white');
@@ -41,11 +39,14 @@ export const handleSubmit = (
   // toAPI(formData); w/o passwordConfirm
   console.log(formData);
   setShowMessage('');
-}
+};
 
 export const handleChange = (
-    e: SyntheticEvent,
-    setFormData: Dispatch<SetStateAction<SignInFormData>> | Dispatch<SetStateAction<SignUpFormData>>) => {
+  e: SyntheticEvent,
+  setFormData:
+    | Dispatch<SetStateAction<SignInFormData>>
+    | Dispatch<SetStateAction<SignUpFormData>>,
+) => {
   const formInput = e.target as HTMLInputElement;
 
   setFormData((prevData: any) => {
@@ -54,4 +55,4 @@ export const handleChange = (
       [formInput.name]: formInput.value,
     };
   });
-}
+};

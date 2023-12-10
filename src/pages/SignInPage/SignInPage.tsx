@@ -1,74 +1,21 @@
-import './SignInPage.scss';
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import Input from "../../components/Input";
-import { useState } from "react";
-import PasswordInput from "../../components/PasswordInput";
-import Submit from "../../components/Submit";
-import { handleSubmit, handleChange } from "../../features/forms.ts";
+import { SignIn } from "../../features/sign-in/ui.tsx";
 
 const SignInPage = () => {
-  const [showMessage, setShowMessage] = useState('');
-
-  const [formData, setFormData] = useState(
-      {
-        username: '',
-        password: '',
-      }
-  );
-
-  // function handleSubmit(e: SyntheticEvent) {
-  //   const
-  //       formKeys = Object.keys(formData),
-  //       formValues = Object.values(formData),
-  //       formLabels = document.getElementsByTagName('label');
-  //
-  //   e.preventDefault();
-  //   colorInputs(formKeys, 'white');
-  //
-  //   for (let i = 0; i < formKeys.length; i++) {
-  //     if (!formValues[i]) {
-  //       colorInputs([formKeys[i]], '#FFD0D0');
-  //       setShowMessage(`Missing ${formLabels[i].innerText}`);
-  //       return;
-  //     }
-  //   }
-  //
-  //   // toAPI(formData); w/o passwordConfirm
-  //   console.log(formData);
-  //
-  //   setShowMessage('');
-  // }
-
   return (
-    <>
+    <div className="w-full h-full py-32 flex flex-col items-center">
       <Header />
-      <div className="signin--banner">
-        <h1>Sign In</h1>
-        <p>Welcome back! To access your account, please sign in</p>
-        <form onSubmit={(e) => handleSubmit(e, formData, setShowMessage)}>
-          <Input
-              label="Username"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={(e) => handleChange(e, setFormData)}
-          />
-          <PasswordInput
-              label="Password"
-              inputID="password"
-              toggleID="showPassword"
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={(e) => handleChange(e, setFormData)}
-          />
-          <Submit showMessage={showMessage} buttonText="Sign In" />
-        </form>
+      <div className="w-[1213px] h-[544px] bg-cover bg-center bg-no-repeat bg-sign-in bg-amber-300 rounded-2xl flex flex-col justify-center items-center text-white">
+        <h1 className="font-bold text-bh mb-5">Sign In</h1>
+        <p className="text-xl text-center w-80 mb-8">
+          Welcome back! To access your account, please sign in
+        </p>
+        <SignIn />
       </div>
       <Footer />
-    </>
+    </div>
   );
-}
+};
 
 export default SignInPage;
