@@ -14,6 +14,11 @@ export const SignIn = () => {
         field={model.form.fields.username}
         labelText="Username"
       />
+      <TextFieldAdapter
+        field={model.form.fields.password}
+        labelText="Password"
+        type="password"
+      />
     </form>
   );
 };
