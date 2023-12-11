@@ -1,5 +1,6 @@
 import { Field, useField } from 'effector-forms';
 import { Input, InputProps } from './input';
+import {Error} from "./error.tsx";
 
 type FormAdapterProps<T> = {
   field: Field<T>;
@@ -12,11 +13,13 @@ export const TextFieldAdapter = ({
   const { value, onChange, hasError } = useField(field);
 
   return (
-    <Input
-      value={value}
-      onChange={(e) => onChange(e.currentTarget.value)}
-      isInvalid={hasError()}
-      {...props}
-    />
+    <>
+      <Input
+        value={value}
+        onChange={(e) => onChange(e.currentTarget.value)}
+        isInvalid={hasError()}
+        {...props}
+      />
+    </>
   );
 };

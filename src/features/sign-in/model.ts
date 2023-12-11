@@ -19,7 +19,7 @@ export const form = createForm({
       rules: [
         createRule({
           name: 'password',
-          schema: z.string().trim().min(1, 'Missing password'),
+          schema: z.string().trim().min(1, 'Missing Password'),
         }),
       ],
     },
