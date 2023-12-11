@@ -2,6 +2,7 @@ import { FormEvent } from 'react';
 import * as model from './model';
 import { TextFieldAdapter } from '../../shared/ui/form-adapters.tsx';
 import { Button } from '../../shared/ui/button.tsx';
+import { Error } from '../../shared/ui/error.tsx';
 
 export const SignIn = () => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -20,7 +21,8 @@ export const SignIn = () => {
         labelText="Password"
         type="password"
       />
-      <div className="text-center">
+      <div className="flex justify-center">
+        {<Error>Missing something</Error>}
         <Button type="submit">Sign In</Button>
       </div>
     </form>

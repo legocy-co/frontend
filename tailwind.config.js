@@ -16,6 +16,8 @@ export default {
         'legocy': '#FFD540',
         'legocyhover': '#f5cc3c',
         'legocyactive': '#ecc439',
+        'roseo': '#FFD0D0D1',
+        'crimson': '#821919',
       }
     },
   },

@@ -11,7 +11,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
   ({ onClick, type = 'button', form, children }, ref) => {
     return (
       <button
-        className="text-center mt-14 w-60 h-14 bg-legocy rounded-xl text-2xl hover:bg-legocyhover active:bg-legocyactive"
+        className="text-center mt-14 w-60 h-14 bg-legocy rounded-xl text-2xl text-black hover:bg-legocyhover active:bg-legocyactive"
         ref={ref}
         type={type ?? 'button'}
         onClick={onClick}
