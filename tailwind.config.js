@@ -5,6 +5,7 @@ export default {
     extend: {
       backgroundImage: {
         'sign-in': 'url("/src/assets/pics/mixed-lego.png")',
+        'sign-up': 'url("/src/assets/pics/red-lego.png")',
       },
       fontSize: {
         'bh': '2.5rem',
@@ -14,12 +15,11 @@ export default {
         'charcoal': '#2C2828',
         'rose': '#FFD0D0',
         'legocy': '#FFD540',
-        'legocyhover': '#f5cc3c',
-        'legocyactive': '#ecc439',
-        'roseo': '#FFD0D0D1',
-        'crimson': '#821919',
+        'legocy-hover': '#f5cc3c',
+        'legocy-active': '#ecc439',
+        'rose-2': '#FFD0D0D1',
+        'burgundy': '#821919',
       }
     },
   },
-  // plugins: [require('daisyui')],
 };

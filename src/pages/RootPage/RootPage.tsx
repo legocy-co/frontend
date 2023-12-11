@@ -1,5 +1,4 @@
-import "./RootPage.scss";
-import Logo from "../../components/Logo";
+import Logo from '../../components/Logo';
 
 const RootPage = () => {
   return (

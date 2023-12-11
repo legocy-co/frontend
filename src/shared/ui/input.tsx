@@ -29,18 +29,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           {...rest}
         />
         {isPassword && (
-          <button
-            type="button"
+          <img
+            className="absolute top-4 right-3 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
             onClick={() => setPasswordVisible((prevState) => !prevState)}
-            className="absolute top-4 right-3 cursor-pointer"
-          >
-            <img
-              src={`/src/assets/icons/${
-                isPasswordVisible ? 'hide' : 'show'
-              }.svg`}
-              alt=""
-            />
-          </button>
+            src={`/src/assets/icons/${isPasswordVisible ? 'hide' : 'show'}.svg`}
+            alt=""
+          />
         )}
       </div>
     </>

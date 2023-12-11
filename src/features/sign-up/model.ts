@@ -1,7 +1,7 @@
 import { createForm } from 'effector-forms';
-import { attach, sample } from 'effector';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
+import { attach, sample } from 'effector';
 
 export const form = createForm({
   fields: {
@@ -14,12 +14,30 @@ export const form = createForm({
         }),
       ],
     },
+    email: {
+      init: '',
+      rules: [
+        createRule({
+          name: 'email',
+          schema: z.string().trim().min(1, 'Missing E-mail address'),
+        }),
+      ],
+    },
     password: {
       init: '',
       rules: [
         createRule({
           name: 'password',
           schema: z.string().trim().min(1, 'Missing Password'),
+        }),
+      ],
+    },
+    passwordConfirm: {
+      init: '',
+      rules: [
+        createRule({
+          name: 'passwordConfirm',
+          schema: z.string().trim().min(1, 'Missing Password confirmation'),
         }),
       ],
     },
@@ -32,6 +50,7 @@ const signInFx = attach({
   effect: (values) =>
     console.log({
       username: values.username,
+      email: values.email,
       password: values.password,
     }),
 });
