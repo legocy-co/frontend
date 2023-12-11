@@ -32,7 +32,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           <button
             type="button"
             onClick={() => setPasswordVisible((prevState) => !prevState)}
-            className="absolute top-4 right-3 cursor-pointer hover:transition-opacity"
+            className="absolute top-4 right-3 cursor-pointer"
           >
             <img
               src={`/src/assets/icons/${

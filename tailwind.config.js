@@ -13,6 +13,9 @@ export default {
         'slate': '#3C3A3A',
         'charcoal': '#2C2828',
         'rose': '#FFD0D0',
+        'legocy': '#FFD540',
+        'legocyhover': '#f5cc3c',
+        'legocyactive': '#ecc439',
       }
     },
   },

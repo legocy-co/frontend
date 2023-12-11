@@ -1,6 +1,7 @@
 import { FormEvent } from 'react';
 import * as model from './model';
 import { TextFieldAdapter } from '../../shared/ui/form-adapters.tsx';
+import { Button } from '../../shared/ui/button.tsx';
 
 export const SignIn = () => {
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -19,6 +20,9 @@ export const SignIn = () => {
         labelText="Password"
         type="password"
       />
+      <div className="text-center">
+        <Button type="submit">Sign In</Button>
+      </div>
     </form>
   );
 };
