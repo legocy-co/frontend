@@ -1,6 +1,5 @@
 import { Field, useField } from 'effector-forms';
 import { Input, InputProps } from './input';
-import {Error} from "./error.tsx";
 
 type FormAdapterProps<T> = {
   field: Field<T>;
