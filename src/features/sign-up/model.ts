@@ -19,7 +19,11 @@ export const form = createForm({
       rules: [
         createRule({
           name: 'email',
-          schema: z.string().trim().min(1, 'Missing E-mail address').email('Invalid E-mail address'),
+          schema: z
+            .string()
+            .trim()
+            .min(1, 'Missing E-mail address')
+            .email('Invalid E-mail address'),
         }),
       ],
     },
@@ -34,7 +38,7 @@ export const form = createForm({
           name: 'passwords-equal',
           validator: (value: string, { passwordConfirm }) => {
             return value === passwordConfirm;
-          },
+          }, // isInvalid red glow
         },
       ],
     },
@@ -50,6 +54,7 @@ export const form = createForm({
           validator: (value: string, { password }) => {
             return value === password;
           },
+          errorText: 'Passwords do not match',
         },
       ],
     },
