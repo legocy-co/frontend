@@ -51,10 +51,6 @@ export const form = createForm({
             return value === password;
           },
         },
-        createRule({
-          name: 'passwords-equal',
-          schema: z.string().trim().refine(),
-        })
       ],
     },
   },
