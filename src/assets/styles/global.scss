@@ -1,0 +1,44 @@
+@import 'colors';
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--black);
+
+  & * {
+    box-sizing: border-box;
+
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    overflow-y: hidden;
+  }
+}
+
+#root {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 130px 0 230px 0;
+  align-items: center;
+
+  background: var(--white);
+
+  min-height: 100vh;
+  max-width: 100vw;
+
+  @media only screen and (max-width: 600px) {
+    height: 100%;
+    width: 100%;
+  }
+}

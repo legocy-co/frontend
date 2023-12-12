@@ -1,3 +1,3 @@
-import RootPage from './RootPage';
+import RootPage from "./RootPage";
 
 export default RootPage;
