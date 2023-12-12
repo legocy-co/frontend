@@ -39,7 +39,8 @@ export const SignUp = () => {
             {fields.username.errorText() ||
               fields.email.errorText() ||
               fields.password.errorText() ||
-              fields.passwordConfirm.errorText()}
+              fields.passwordConfirm.errorText() ||
+              'Passwords do not match'}
           </Error>
         )}
         <Button className={'mt-14'} type="submit">
