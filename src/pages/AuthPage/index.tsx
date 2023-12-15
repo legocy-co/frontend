@@ -1,3 +1,7 @@
-import AuthPage from './AuthPage.tsx';
+import { lazy } from 'react';
 
-export default AuthPage;
+const AuthPage = lazy(() =>
+  import('./AuthPage').then((page) => ({ default: page.AuthPage })),
+);
+
+export const AuthRoute = () => <AuthPage />;

@@ -1,5 +1,5 @@
 import { createForm } from 'effector-forms';
-import { attach, sample } from 'effector';
+import { attach, sample, createEvent } from 'effector';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import { AuthService } from '../../services/AuthService.ts';
@@ -41,7 +41,29 @@ const signInFx = attach({
     }),
 });
 
+export const signedIn = createEvent();
+
 sample({
   clock: form.formValidated,
   target: signInFx,
+});
+
+sample({
+  clock: signInFx.fail,
+  target: form.fields.email.addError.prepend(() => ({
+    errorText: 'Invalid email or password',
+    rule: 'email',
+  })),
+});
+
+sample({
+  clock: signInFx.fail,
+  target: form.fields.password.addError.prepend(() => ({
+    rule: 'password',
+  })), // password red glow
+});
+
+sample({
+  clock: signInFx.done,
+  target: signedIn,
 });

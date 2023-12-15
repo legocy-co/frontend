@@ -1,11 +1,14 @@
 import './AuthPage.scss';
+import { useGate } from 'effector-react';
+import * as model from './model';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../shared/ui/button.tsx';
 
-const AuthPage = () => {
+export const AuthPage = () => {
   const navigate = useNavigate();
+  useGate(model.Gate);
 
   return (
     <>

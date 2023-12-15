@@ -2,14 +2,14 @@ import { GetConfig, SetConfig } from '../configs';
 import { SignInData } from '../types/SignIn.ts';
 import axios from 'axios';
 
-const IsAuthorized = () => {
-  const config = GetConfig();
-  return config.accessToken !== '';
-};
-
 type SignInResponse = {
   access_token: string;
   refresh_token: string;
+};
+
+const IsAuthorized = () => {
+  const config = GetConfig();
+  return config.accessToken !== '';
 };
 
 const SignIn = async (data: SignInData) => {
