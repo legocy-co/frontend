@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const IsAuthorized = () => {
   const config = GetConfig();
-  return config.AccessToken !== '';
+  return config.accessToken !== '';
 };
 
 type SignInResponse = {
@@ -20,8 +20,8 @@ const SignIn = async (data: SignInData) => {
     .then((response) => response.data);
 
   const config = GetConfig();
-  config.AccessToken = response.access_token;
-  config.RefreshToken = response.refresh_token;
+  config.accessToken = response.access_token;
+  config.refreshToken = response.refresh_token;
   SetConfig(config);
 
   axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
@@ -29,8 +29,19 @@ const SignIn = async (data: SignInData) => {
 
 const GetAccessTokenHeader = () => {
   const config = GetConfig();
-  return `Bearer ${config.AccessToken}`;
+  return `Bearer ${config.accessToken}`;
 };
+
+const GetBaseUrl = () => {
+  if (import.meta.env.VITE_API_ENDPOINT)
+    return import.meta.env.VITE_API_ENDPOINT;
+  return '/api/v1';
+};
+
+axios.defaults.baseURL = GetBaseUrl();
+axios.defaults.headers.common.Authorization = IsAuthorized()
+  ? GetAccessTokenHeader()
+  : '';
 
 export interface AuthService {
   IsAuthorized: () => boolean;

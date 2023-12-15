@@ -1,16 +1,16 @@
 const CONFIG_LOCAL_STORAGE_KEY = 'legocy-configs';
 
 type Config = {
-  AccessToken: string;
-  RefreshToken: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 const GetConfig = (): Config => {
   const strConfig = localStorage.getItem(CONFIG_LOCAL_STORAGE_KEY);
 
   let config: Config = {
-    AccessToken: '',
-    RefreshToken: '',
+    accessToken: '',
+    refreshToken: '',
   };
 
   if (strConfig) config = JSON.parse(strConfig);

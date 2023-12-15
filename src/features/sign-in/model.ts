@@ -6,12 +6,16 @@ import { AuthService } from '../../services/AuthService.ts';
 
 export const form = createForm({
   fields: {
-    username: {
+    email: {
       init: '',
       rules: [
         createRule({
-          name: 'username',
-          schema: z.string().trim().min(1, 'Missing Username'),
+          name: 'email',
+          schema: z
+            .string()
+            .trim()
+            .min(1, 'Missing E-mail address')
+            .email('Invalid E-mail address'),
         }),
       ],
     },
@@ -32,7 +36,7 @@ const signInFx = attach({
   source: form.$values,
   effect: (values) =>
     AuthService.SignIn({
-      username: values.username,
+      email: values.email,
       password: values.password,
     }),
 });
