@@ -36,8 +36,8 @@ export const form = createForm({
             .string()
             .trim()
             .min(1, 'Missing Password')
-            .min(8, 'The password must be at least 8 characters long')
-            .max(32, 'The password must be a maximum 32 characters')
+            .min(5, 'The password must be at least 5 characters long')
+            .max(30, 'The password must be a maximum 30 characters')
             .regex(
               /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*-])[A-Za-z\d!@#$%&*-]{8,}$/,
               'The password must contain a special character, a number and an uppercase letter',
