@@ -35,7 +35,7 @@ export const form = createForm({
 const signInFx = attach({
   source: form.$values,
   effect: (values) =>
-    AuthService.SignIn({
+    AuthService.Authorize({
       email: values.email,
       password: values.password,
     }),

@@ -3,6 +3,7 @@ import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import { attach, sample } from 'effector';
 import { AuthService } from '../../services/AuthService.ts';
+import {signedIn} from "../sign-in/model.ts";
 
 export const form = createForm({
   fields: {
@@ -73,10 +74,11 @@ export const form = createForm({
 });
 
 // AuthService
-const signInFx = attach({
+const signUpFx = attach({
   source: form.$values,
   effect: (values) =>
-    AuthService.SignIn({
+    AuthService.Authorize({
+      username: values.username,
       email: values.email,
       password: values.password,
     }),
@@ -84,5 +86,26 @@ const signInFx = attach({
 
 sample({
   clock: form.formValidated,
-  target: signInFx,
+  target: signUpFx,
+});
+
+sample({
+  clock: signUpFx.fail,
+  target: form.fields.username.addError.prepend(() => ({
+    errorText: 'Occupied Username or E-mail address',
+    rule: 'username',
+  })),
+});
+
+sample({
+  clock: signUpFx.fail,
+  target: form.fields.email.addError.prepend(() => ({
+    errorText: 'Occupied Username or E-mail address',
+    rule: 'email',
+  })),
+});
+
+sample({
+  clock: signUpFx.done,
+  target: signedIn,
 });

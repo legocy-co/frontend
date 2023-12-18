@@ -1,7 +1,7 @@
 import { GetConfig, SetConfig } from '../configs';
 import { SignInData } from '../types/SignIn.ts';
 import axios from 'axios';
-import {SignUpData} from "../types/SignUp.ts";
+import { SignUpData } from '../types/SignUp.ts';
 
 type AuthResponse = {
   accessToken: string;
@@ -14,7 +14,7 @@ const IsAuthorized = () => {
 };
 
 const Authorize = async (data: SignInData | SignUpData) => {
-  const url = `/users/auth/${'username' in data ? 'sign-in' : 'register'}`;
+  const url = `/users/auth/${'username' in data ? 'register' : 'sign-in'}`;
 
   const response = await axios
     .post<AuthResponse>(url, data)
