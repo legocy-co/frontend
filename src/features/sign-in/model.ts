@@ -59,6 +59,7 @@ sample({
 sample({
   clock: signInFx.fail,
   target: form.fields.password.addError.prepend(() => ({
+    errorText: 'Invalid email or password',
     rule: 'password',
   })), // password red glow
 });

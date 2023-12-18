@@ -1,10 +1,11 @@
 import { GetConfig, SetConfig } from '../configs';
 import { SignInData } from '../types/SignIn.ts';
 import axios from 'axios';
+import {SignUpData} from "../types/SignUp.ts";
 
-type SignInResponse = {
-  access_token: string;
-  refresh_token: string;
+type AuthResponse = {
+  accessToken: string;
+  refreshToken: string;
 };
 
 const IsAuthorized = () => {
@@ -12,16 +13,16 @@ const IsAuthorized = () => {
   return config.accessToken !== '';
 };
 
-const SignIn = async (data: SignInData) => {
-  const url = '/users/auth/sign-in';
+const Authorize = async (data: SignInData | SignUpData) => {
+  const url = `/users/auth/${'username' in data ? 'sign-in' : 'register'}`;
 
   const response = await axios
-    .post<SignInResponse>(url, data)
+    .post<AuthResponse>(url, data)
     .then((response) => response.data);
 
   const config = GetConfig();
-  config.accessToken = response.access_token;
-  config.refreshToken = response.refresh_token;
+  config.accessToken = response.accessToken;
+  config.refreshToken = response.refreshToken;
   SetConfig(config);
 
   axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
@@ -45,10 +46,10 @@ axios.defaults.headers.common.Authorization = IsAuthorized()
 
 export interface AuthService {
   IsAuthorized: () => boolean;
-  SignIn: (data: SignInData) => void;
+  Authorize: (data: SignInData | SignUpData) => void;
 }
 
 export const AuthService: AuthService = {
   IsAuthorized: IsAuthorized,
-  SignIn: SignIn,
+  Authorize: Authorize,
 };
