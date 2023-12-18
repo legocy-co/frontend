@@ -9,6 +9,8 @@ import {
   locationChanged,
   navigateChanged,
 } from '../shared/lib/react-router.ts';
+import PrivateRoute from "./PrivateRoute.tsx";
+import PrivatePage from "../pages/PrivatePage";
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -27,10 +29,18 @@ const AppRouter = () => {
 
   return (
     <Routes>
-      <Route path="/auth/" element={<AuthRoute />} />
-      <Route path="/auth/sign-up" element={<SignUpPage />} />
-      <Route path="/auth/sign-in" element={<SignInPage />} />
+      <Route path="auth/" element={<AuthRoute />} />
+      <Route path="auth/sign-up" element={<SignUpPage />} />
+      <Route path="auth/sign-in" element={<SignInPage />} />
       <Route path="/" element={<RootPage />} />
+      <Route
+        path="private"
+        element={
+          <PrivateRoute>
+            <PrivatePage />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 };

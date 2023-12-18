@@ -1,7 +1,8 @@
 import { createGate } from 'effector-react';
-import { $location, navigateFx } from '../../shared/lib/react-router.ts';
+import { $location, navigateFx } from '../../shared/lib/react-router';
 import { attach, sample } from 'effector';
-import * as signInModel from '../../features/sign-in/model.ts';
+import * as signInModel from '../../features/sign-in/model';
+import { AuthService } from '../../services/AuthService.ts';
 
 export const Gate = createGate();
 
@@ -21,6 +22,12 @@ const redirectBackFx = attach({
       pathname: from,
     });
   },
+});
+
+sample({
+  clock: Gate.open,
+  filter: () => AuthService.IsAuthorized(),
+  target: redirectBackFx,
 });
 
 sample({

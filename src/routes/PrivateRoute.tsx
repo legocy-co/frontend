@@ -11,8 +11,7 @@ const PrivateRoute = ({ children }: ProtectedRouteType) => {
   const location = useLocation();
 
   useEffect(() => {
-    !AuthService.IsAuthorized() &&
-      navigate(`/auth/sign-in?from=${location.pathname}`);
+    !AuthService.IsAuthorized() && navigate(`/auth?from=${location.pathname}`);
   }, []);
 
   return children;

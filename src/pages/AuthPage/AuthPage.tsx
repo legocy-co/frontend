@@ -3,11 +3,12 @@ import { useGate } from 'effector-react';
 import * as model from './model';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../shared/ui/button.tsx';
 
 export const AuthPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   useGate(model.Gate);
 
   return (
@@ -18,12 +19,17 @@ export const AuthPage = () => {
         <h2>Welcome back! To access your account, please sign in</h2>
         <Button
           className={'mt-0 mb-7 h-14'}
-          onClick={() => navigate('/auth/sign-up')}
+          onClick={() =>
+            navigate(`/auth/sign-up?from=${location.search.split('=')[1]}`)
+          }
         >
           Sign Up
         </Button>
         <p>
-          Already have an account? <a href="/auth/sign-in">Sign in here</a>
+          Already have an account?
+          <a href={`/auth/sign-in?from=${location.search.split('=')[1]}`}>
+            Sign in here
+          </a>
         </p>
       </div>
       <Footer />

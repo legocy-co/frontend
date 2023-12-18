@@ -2,6 +2,7 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import { attach, sample } from 'effector';
+import {AuthService} from "../../services/AuthService.ts";
 
 export const form = createForm({
   fields: {
@@ -75,8 +76,7 @@ export const form = createForm({
 const signInFx = attach({
   source: form.$values,
   effect: (values) =>
-    console.log({
-      username: values.username,
+    AuthService.SignIn({
       email: values.email,
       password: values.password,
     }),
