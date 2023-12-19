@@ -1,7 +1,7 @@
 const RootPage = () => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
-      Success
+      Success, you are on a Private Page
     </div>
   );
 };
