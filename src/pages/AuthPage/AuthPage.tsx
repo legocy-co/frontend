@@ -26,7 +26,7 @@ export const AuthPage = () => {
           Sign Up
         </Button>
         <p>
-          Already have an account?
+          Already have an account?{' '}
           <a href={`/auth/sign-in?from=${location.search.split('=')[1]}`}>
             Sign in here
           </a>
