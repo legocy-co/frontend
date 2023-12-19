@@ -78,12 +78,10 @@ axios.defaults.headers.common.Authorization = IsAuthorized()
 
 axios.interceptors.request.use(
   async (req) => {
-    const currentTime = Math.floor(Date.now() / 1000);
     const config = GetConfig();
     if (config.refreshToken) {
       const decodedRefresh = jwtDecode<TokenType>(config.refreshToken);
-      const isExpired = currentTime > decodedRefresh.exp - 60;
-      if (isExpired) {
+      if (Math.floor(Date.now() / 1000) > decodedRefresh.exp - 60) {
         Logout();
         history.navigate(`auth?from=${history.location?.pathname}`);
       }
