@@ -1,8 +1,12 @@
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { SignUp } from '../../features/sign-up/ui.tsx';
+import { useGate } from 'effector-react';
+import * as model from '../AuthPage/model.ts';
 
 const SignUpPage = () => {
+  useGate(model.Gate);
+
   return (
     <>
       <Header />

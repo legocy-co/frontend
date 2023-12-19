@@ -15,8 +15,9 @@ export const SignIn = () => {
   return (
     <form onSubmit={onSubmit}>
       <TextFieldAdapter
-        field={model.form.fields.username}
-        labelText="Username"
+        field={model.form.fields.email}
+        labelText="E-mail address"
+        type="email"
       />
       <TextFieldAdapter
         field={model.form.fields.password}
@@ -26,7 +27,7 @@ export const SignIn = () => {
       <div className="flex justify-center">
         {!eachValid && (
           <Error>
-            {fields.username.errorText() || fields.password.errorText()}
+            {fields.email.errorText() || fields.password.errorText()}
           </Error>
         )}
         <Button className={'mt-14'} type="submit">

@@ -5,7 +5,7 @@ const Footer = () => {
     <footer>
       <div className="footer--group">
         <div className="footer--contacts">
-          <p>legocy.info@gmail.com</p>
+          <p>legocycorp@gmail.com</p>
           <p>+7 898 384 9884</p>
           <img src="/src/assets/icons/social.svg" alt="" />
         </div>

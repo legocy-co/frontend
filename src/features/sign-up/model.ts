@@ -1,7 +1,9 @@
 import { createForm } from 'effector-forms';
-import { createRule } from '../../services/utils.ts';
+import { createRule } from '../../services/utils';
 import { z } from 'zod';
 import { attach, sample } from 'effector';
+import { AuthService } from '../../services/AuthService';
+import { signedIn } from '../sign-in/model';
 
 export const form = createForm({
   fields: {
@@ -36,8 +38,8 @@ export const form = createForm({
             .string()
             .trim()
             .min(1, 'Missing Password')
-            .min(8, 'The password must be at least 8 characters long')
-            .max(32, 'The password must be a maximum 32 characters')
+            .min(5, 'The password must be at least 5 characters long')
+            .max(30, 'The password must be a maximum 30 characters')
             .regex(
               /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*-])[A-Za-z\d!@#$%&*-]{8,}$/,
               'The password must contain a special character, a number and an uppercase letter',
@@ -72,10 +74,10 @@ export const form = createForm({
 });
 
 // AuthService
-const signInFx = attach({
+const signUpFx = attach({
   source: form.$values,
   effect: (values) =>
-    console.log({
+    AuthService.Authorize({
       username: values.username,
       email: values.email,
       password: values.password,
@@ -84,5 +86,26 @@ const signInFx = attach({
 
 sample({
   clock: form.formValidated,
-  target: signInFx,
+  target: signUpFx,
+});
+
+sample({
+  clock: signUpFx.fail,
+  target: form.fields.username.addError.prepend(() => ({
+    errorText: 'Occupied Username or E-mail address',
+    rule: 'username',
+  })),
+});
+
+sample({
+  clock: signUpFx.fail,
+  target: form.fields.email.addError.prepend(() => ({
+    errorText: 'Occupied Username or E-mail address',
+    rule: 'email',
+  })),
+});
+
+sample({
+  clock: signUpFx.done,
+  target: signedIn,
 });
