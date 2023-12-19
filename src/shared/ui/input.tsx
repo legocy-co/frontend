@@ -1,5 +1,7 @@
 import { InputHTMLAttributes, forwardRef, useState } from 'react';
 import clsx from 'clsx';
+import HideIcon from '../../assets/icons/hide.svg';
+import ShowIcon from '../../assets/icons/show.svg';
 
 type NativeInputProps = InputHTMLAttributes<HTMLInputElement>;
 
@@ -32,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           <img
             className="absolute top-4 right-3 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
             onClick={() => setPasswordVisible((prevState) => !prevState)}
-            src={`/src/assets/icons/${isPasswordVisible ? 'hide' : 'show'}.svg`}
+            src={isPasswordVisible ? HideIcon : ShowIcon}
             alt=""
           />
         )}

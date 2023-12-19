@@ -1,4 +1,5 @@
 import './Footer.scss';
+import SocialIcon from '../../assets/icons/social.svg';
 
 const Footer = () => {
   return (
@@ -7,7 +8,7 @@ const Footer = () => {
         <div className="footer--contacts">
           <p>legocycorp@gmail.com</p>
           <p>+7 898 384 9884</p>
-          <img src="/src/assets/icons/social.svg" alt="" />
+          <img src={SocialIcon} alt="" />
         </div>
         <div className="footer--policy">
           <img src="/logo-dark.svg" alt="" />

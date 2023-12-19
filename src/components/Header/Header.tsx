@@ -1,4 +1,8 @@
 import './Header.scss';
+import SearchIcon from '../../assets/icons/search.svg';
+import MapIcon from '../../assets/icons/map.svg';
+import ChatIcon from '../../assets/icons/chat.svg';
+import UserIcon from '../../assets/icons/user.svg';
 
 const Header = () => {
   const messagesCounter = 1;
@@ -12,14 +16,14 @@ const Header = () => {
         <button>Catalog</button>
         <div className="header--searchbar">
           <input type="text" placeholder="Search" />
-          <img src="/src/assets/icons/search.svg" alt="" />
+          <img src={SearchIcon} alt="" />
         </div>
-        <img className="header--map" src="/src/assets/icons/map.svg" alt="" />
+        <img className="header--map" src={MapIcon} alt="" />
         <div className="header--chat">
-          <img src="/src/assets/icons/chat.svg" alt="" />
+          <img src={ChatIcon} alt="" />
           <div>{messagesCounter}</div>
         </div>
-        <img src="/src/assets/icons/user.svg" alt="" />
+        <img src={UserIcon} alt="" />
       </div>
     </header>
   );
