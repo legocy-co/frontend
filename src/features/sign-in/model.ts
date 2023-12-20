@@ -14,8 +14,8 @@ export const form = createForm({
           schema: z
             .string()
             .trim()
-            .min(1, 'Missing E-mail address')
-            .email('Invalid E-mail address'),
+            .min(1, 'Missing email')
+            .email('Invalid email'),
         }),
       ],
     },
@@ -24,7 +24,7 @@ export const form = createForm({
       rules: [
         createRule({
           name: 'password',
-          schema: z.string().trim().min(1, 'Missing Password'),
+          schema: z.string().trim().min(1, 'Missing password'),
         }),
       ],
     },
@@ -35,7 +35,7 @@ export const form = createForm({
 const signInFx = attach({
   source: form.$values,
   effect: (values) =>
-    AuthService.Authorize({
+    AuthService.SignIn({
       email: values.email,
       password: values.password,
     }),
@@ -51,7 +51,7 @@ sample({
 sample({
   clock: signInFx.fail,
   target: form.fields.email.addError.prepend(() => ({
-    errorText: 'Invalid email or password',
+    errorText: 'Wrong email or password',
     rule: 'email',
   })),
 });
@@ -59,7 +59,7 @@ sample({
 sample({
   clock: signInFx.fail,
   target: form.fields.password.addError.prepend(() => ({
-    errorText: 'Invalid email or password',
+    errorText: 'Wrong email or password',
     rule: 'password',
   })), // password red glow
 });
