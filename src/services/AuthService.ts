@@ -49,6 +49,7 @@ const RefreshToken = async () => {
       refreshToken: config.refreshToken,
     })
     .then((response) => response.data);
+
   config.accessToken = response.accessToken;
   SetConfig(config);
 };
@@ -118,7 +119,7 @@ axios.interceptors.response.use(
       if (error?.config.headers)
         error.config.headers.Authorization = GetAccessTokenHeader();
 
-      return axios(error?.config.headers);
+      return axios(error?.config);
     }
 
     return Promise.reject(error);
