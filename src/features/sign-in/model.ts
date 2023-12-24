@@ -61,7 +61,7 @@ sample({
   target: form.fields.password.addError.prepend(() => ({
     errorText: 'Wrong email or password',
     rule: 'password',
-  })), // password red glow
+  })),
 });
 
 sample({

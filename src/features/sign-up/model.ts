@@ -42,7 +42,7 @@ export const form = createForm({
             .max(30, 'The password must be a maximum 30 characters')
             .regex(
               /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{5,}$/,
-              'The password must contain a lowercase, uppercase, digit and a special character',
+              'The password must contain a lowercase, uppercase, digit and a special character'
             ),
         }),
         {
