@@ -12,7 +12,7 @@ export const form = createForm({
       rules: [
         createRule({
           name: 'username',
-          schema: z.string().trim().min(1, 'Missing Username'),
+          schema: z.string().trim().min(1, 'Missing username'),
         }),
       ],
     },
@@ -24,8 +24,8 @@ export const form = createForm({
           schema: z
             .string()
             .trim()
-            .min(1, 'Missing E-mail address')
-            .email('Invalid E-mail address'),
+            .min(1, 'Missing email')
+            .email('Invalid email'),
         }),
       ],
     },
@@ -37,12 +37,12 @@ export const form = createForm({
           schema: z
             .string()
             .trim()
-            .min(1, 'Missing Password')
+            .min(1, 'Missing password')
             .min(5, 'The password must be at least 5 characters long')
             .max(30, 'The password must be a maximum 30 characters')
             .regex(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%&*-])[A-Za-z\d!@#$%&*-]{8,}$/,
-              'The password must contain a special character, a number and an uppercase letter',
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{5,}$/,
+              'The password must contain a lowercase, uppercase, digit and a special character'
             ),
         }),
         {
@@ -59,7 +59,7 @@ export const form = createForm({
       rules: [
         createRule({
           name: 'passwordConfirm',
-          schema: z.string().trim().min(1, 'Missing Password confirmation'),
+          schema: z.string().trim().min(1, 'Missing password confirmation'),
         }),
         {
           name: 'passwords-equal',
@@ -77,7 +77,7 @@ export const form = createForm({
 const signUpFx = attach({
   source: form.$values,
   effect: (values) =>
-    AuthService.Authorize({
+    AuthService.SignUp({
       username: values.username,
       email: values.email,
       password: values.password,
@@ -92,7 +92,7 @@ sample({
 sample({
   clock: signUpFx.fail,
   target: form.fields.username.addError.prepend(() => ({
-    errorText: 'Occupied Username or E-mail address',
+    errorText: 'Occupied username or email',
     rule: 'username',
   })),
 });
@@ -100,7 +100,7 @@ sample({
 sample({
   clock: signUpFx.fail,
   target: form.fields.email.addError.prepend(() => ({
-    errorText: 'Occupied Username or E-mail address',
+    errorText: 'Occupied username or email',
     rule: 'email',
   })),
 });

@@ -26,20 +26,20 @@ const IsAuthorized = () => {
   return config.accessToken !== '';
 };
 
-const Authorize = async (data: SignInData | SignUpData) => {
+const SignIn = async (data: SignInData) => {
   const response = await axios
-    .post<AuthResponse>(
-      `/users/auth/${'username' in data ? 'register' : 'sign-in'}`,
-      data,
-    )
+    .post<AuthResponse>('/users/auth/sign-in', data)
     .then((response) => response.data);
 
-  const config = GetConfig();
-  config.accessToken = response.accessToken;
-  config.refreshToken = response.refreshToken;
-  SetConfig(config);
+  SetAuthHeaders(response);
+};
 
-  axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
+const SignUp = async (data: SignUpData) => {
+  const response = await axios
+    .post<AuthResponse>('/users/auth/register', data)
+    .then((response) => response.data);
+
+  SetAuthHeaders(response);
 };
 
 const RefreshToken = async () => {
@@ -49,8 +49,25 @@ const RefreshToken = async () => {
       refreshToken: config.refreshToken,
     })
     .then((response) => response.data);
+
   config.accessToken = response.accessToken;
   SetConfig(config);
+};
+
+const Logout = () => {
+  const config = GetConfig();
+  config.accessToken = '';
+  config.refreshToken = '';
+  SetConfig(config);
+};
+
+const SetAuthHeaders = (response: AuthResponse) => {
+  const config = GetConfig();
+  config.accessToken = response.accessToken;
+  config.refreshToken = response.refreshToken;
+  SetConfig(config);
+
+  axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
 };
 
 const GetAccessTokenHeader = () => {
@@ -62,13 +79,6 @@ const GetBaseUrl = () => {
   if (import.meta.env.VITE_API_ENDPOINT)
     return import.meta.env.VITE_API_ENDPOINT;
   return '/api/v1';
-};
-
-const Logout = () => {
-  const config = GetConfig();
-  config.accessToken = '';
-  config.refreshToken = '';
-  SetConfig(config);
 };
 
 axios.defaults.baseURL = GetBaseUrl();
@@ -91,7 +101,7 @@ axios.interceptors.request.use(
   },
   function (error) {
     return Promise.reject(error);
-  },
+  }
 );
 
 axios.interceptors.response.use(
@@ -109,23 +119,25 @@ axios.interceptors.response.use(
       if (error?.config.headers)
         error.config.headers.Authorization = GetAccessTokenHeader();
 
-      return axios(error?.config.headers);
+      return axios(error?.config);
     }
 
     return Promise.reject(error);
-  },
+  }
 );
 
 export interface AuthService {
   IsAuthorized: () => boolean;
-  Authorize: (data: SignInData | SignUpData) => void;
+  SignIn: (data: SignInData) => void;
+  SignUp: (data: SignUpData) => void;
   RefreshToken?: () => void;
   Logout: () => void;
 }
 
 export const AuthService: AuthService = {
   IsAuthorized: IsAuthorized,
-  Authorize: Authorize,
+  SignIn: SignIn,
+  SignUp: SignUp,
   RefreshToken: RefreshToken,
   Logout: Logout,
 };
