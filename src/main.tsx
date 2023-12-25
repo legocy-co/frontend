@@ -12,5 +12,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <DndProvider backend={HTML5Backend}>
       <AppRouter />
     </DndProvider>
-  </BrowserRouter>,
+  </BrowserRouter>
 );

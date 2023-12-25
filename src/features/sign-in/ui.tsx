@@ -6,12 +6,12 @@ import { Error } from '../../shared/ui/error.tsx';
 import { useForm } from 'effector-forms';
 
 export const SignIn = () => {
-  const { fields, eachValid } = useForm(model.form);
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     model.form.submit();
   };
 
+  const { fields, eachValid } = useForm(model.form);
   return (
     <form onSubmit={onSubmit}>
       <TextFieldAdapter

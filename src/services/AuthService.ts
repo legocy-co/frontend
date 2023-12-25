@@ -4,6 +4,9 @@ import axios from 'axios';
 import { SignUpData } from '../types/SignUp.ts';
 import { jwtDecode } from 'jwt-decode';
 import { history } from '../routes/history.ts';
+import * as si from '../features/sign-in/model';
+import * as su from '../features/sign-up/model';
+import { handleAuthError } from './ErrorHandlers.ts';
 
 type AuthResponse = {
   accessToken: string;
@@ -27,19 +30,27 @@ const IsAuthorized = () => {
 };
 
 const SignIn = async (data: SignInData) => {
-  const response = await axios
-    .post<AuthResponse>('/users/auth/sign-in', data)
-    .then((response) => response.data);
+  try {
+    const response = await axios
+      .post<AuthResponse>('/users/auth/sign-in', data)
+      .then((response) => response.data);
 
-  SetAuthHeaders(response);
+    SetAuthHeaders(response);
+  } catch (e) {
+    return handleAuthError(e, 'SignIn', si.form);
+  }
 };
 
 const SignUp = async (data: SignUpData) => {
-  const response = await axios
-    .post<AuthResponse>('/users/auth/register', data)
-    .then((response) => response.data);
+  try {
+    const response = await axios
+      .post<AuthResponse>('/users/auth/register', data)
+      .then((response) => response.data);
 
-  SetAuthHeaders(response);
+    SetAuthHeaders(response);
+  } catch (e) {
+    return handleAuthError(e, 'SignUp', su.form);
+  }
 };
 
 const RefreshToken = async () => {
@@ -75,13 +86,7 @@ const GetAccessTokenHeader = () => {
   return `Bearer ${config.accessToken}`;
 };
 
-const GetBaseUrl = () => {
-  if (import.meta.env.VITE_API_ENDPOINT)
-    return import.meta.env.VITE_API_ENDPOINT;
-  return '/api/v1';
-};
-
-axios.defaults.baseURL = GetBaseUrl();
+axios.defaults.baseURL = '/api/v1';
 axios.defaults.headers.common.Authorization = IsAuthorized()
   ? GetAccessTokenHeader()
   : '';

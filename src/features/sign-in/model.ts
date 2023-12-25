@@ -49,22 +49,6 @@ sample({
 });
 
 sample({
-  clock: signInFx.fail,
-  target: form.fields.email.addError.prepend(() => ({
-    errorText: 'Wrong email or password',
-    rule: 'email',
-  })),
-});
-
-sample({
-  clock: signInFx.fail,
-  target: form.fields.password.addError.prepend(() => ({
-    errorText: 'Wrong email or password',
-    rule: 'password',
-  })),
-});
-
-sample({
   clock: signInFx.done,
   target: signedIn,
 });
