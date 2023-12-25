@@ -90,22 +90,6 @@ sample({
 });
 
 sample({
-  clock: signUpFx.fail,
-  target: form.fields.username.addError.prepend(() => ({
-    errorText: 'Occupied username or email',
-    rule: 'username',
-  })),
-});
-
-sample({
-  clock: signUpFx.fail,
-  target: form.fields.email.addError.prepend(() => ({
-    errorText: 'Occupied username or email',
-    rule: 'email',
-  })),
-});
-
-sample({
   clock: signUpFx.done,
   target: signedIn,
 });

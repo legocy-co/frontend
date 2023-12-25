@@ -25,7 +25,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           ref={ref}
           className={clsx(
             'block w-[343px] h-[44px] border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5',
-            { 'bg-rose': isInvalid },
+            { 'bg-rose': isInvalid }
           )}
           type={parsedType}
           {...rest}

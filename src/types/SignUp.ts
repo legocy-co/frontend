@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Form } from 'effector-forms';
 
 export const SignUpSchema = z.object({
   username: z.string().min(1),
@@ -13,3 +14,10 @@ export const SignUpSchema = z.object({
 });
 
 export type SignUpData = z.infer<typeof SignUpSchema>;
+
+export type SignUpForm = Form<{
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}>;
