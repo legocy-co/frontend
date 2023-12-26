@@ -86,7 +86,13 @@ const GetAccessTokenHeader = () => {
   return `Bearer ${config.accessToken}`;
 };
 
-axios.defaults.baseURL = '/api/v1';
+const GetBaseUrl = () => {
+  const baseUrl = import.meta.env.VITE_API_ENDPOINT;
+  if (baseUrl) return baseUrl;
+  return '/api/v1';
+};
+
+axios.defaults.baseURL = GetBaseUrl();
 axios.defaults.headers.common.Authorization = IsAuthorized()
   ? GetAccessTokenHeader()
   : '';
