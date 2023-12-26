@@ -1,5 +1,6 @@
 import './Footer.scss';
 import SocialIcon from '../../assets/icons/social.svg';
+import { addDefaultSrc } from '../../services/utils.ts';
 
 const Footer = () => {
   return (
@@ -11,7 +12,7 @@ const Footer = () => {
           <img src={SocialIcon} alt="" />
         </div>
         <div className="footer--policy">
-          <img src="/logo-dark.svg" alt="" />
+          <img src="/logo-dark.svg" onError={addDefaultSrc} alt="" />
           <div>
             <p>&copy; 2022 Legocy </p>
             <p>Privacy Policy</p>
