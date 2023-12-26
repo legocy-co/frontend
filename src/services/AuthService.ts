@@ -98,7 +98,7 @@ axios.defaults.headers.common.Authorization = IsAuthorized()
   : '';
 
 axios.interceptors.request.use(
-  async (req) => {
+  async (request) => {
     const config = GetConfig();
     if (config.refreshToken) {
       const decodedRefresh = jwtDecode<TokenType>(config.refreshToken);
@@ -108,7 +108,7 @@ axios.interceptors.request.use(
       }
     }
 
-    return req;
+    return request;
   },
   function (error) {
     return Promise.reject(error);

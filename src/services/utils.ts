@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { Rule } from 'effector-forms';
+import { SyntheticEvent } from 'react';
 
 export function createRule<V, T = unknown>({
   schema,
@@ -21,4 +22,10 @@ export function createRule<V, T = unknown>({
       };
     },
   };
+}
+
+export function addDefaultSrc(e: SyntheticEvent<HTMLImageElement>) {
+  e.currentTarget.width = 130;
+  e.currentTarget.height = 38;
+  e.currentTarget.src = './src/assets/pics/404.png';
 }
