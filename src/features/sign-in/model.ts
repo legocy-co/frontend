@@ -2,7 +2,7 @@ import { createForm } from 'effector-forms';
 import { attach, sample, createEvent } from 'effector';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
-import { AuthService } from '../../services/AuthService.tsx';
+import { AuthService } from '../../services/AuthService.ts';
 
 export const form = createForm({
   fields: {
