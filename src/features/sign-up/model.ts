@@ -2,7 +2,7 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../services/utils';
 import { z } from 'zod';
 import { attach, sample } from 'effector';
-import { AuthService } from '../../services/AuthService';
+import { AuthService } from '../../services/AuthService.tsx';
 import { signedIn } from '../sign-in/model';
 
 export const form = createForm({

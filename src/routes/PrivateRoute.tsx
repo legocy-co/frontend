@@ -1,6 +1,6 @@
 import { JSX, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AuthService } from '../services/AuthService.ts';
+import { AuthService } from '../services/AuthService.tsx';
 
 type ProtectedRouteType = {
   children: JSX.Element;

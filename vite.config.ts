@@ -9,7 +9,7 @@ import react from '@vitejs/plugin-react-swc';
 //     port: 5173,
 //     proxy: {
 //       '/api': {
-//         target: import.meta.env.VITE_API_ENDPOINT,
+//         target: 'https:/site.legocy.online',
 //         changeOrigin: true,
 //         secure: false,
 //       },
