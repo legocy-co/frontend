@@ -25,7 +25,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(
         {children}
       </button>
     );
-  },
+  }
 );
 
 Button.displayName = 'Button';

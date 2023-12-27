@@ -1,10 +1,16 @@
 import './Logo.scss';
+import { useNavigate } from 'react-router-dom';
 
 const Logo = () => {
+  const navigate = useNavigate();
+
   return (
-    <a href="/private">
-      <img src="/logo.svg" alt="" className="logo" />
-    </a>
+    <img
+      src="/logo.svg"
+      alt=""
+      className="logo"
+      onClick={() => navigate('/private')}
+    />
   );
 };
 

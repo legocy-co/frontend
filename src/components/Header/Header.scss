@@ -15,6 +15,18 @@ header {
   z-index: 1;
   //background: lightblue;
 
+  a:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+
+  a:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+  }
+
   img {
     cursor: pointer;
     transition: opacity 0.1s;
