@@ -1,7 +1,7 @@
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
-const RootPage = () => {
+const PrivatePage = () => {
   return (
     <>
       <Header />
@@ -13,4 +13,4 @@ const RootPage = () => {
   );
 };
 
-export default RootPage;
+export default PrivatePage;
