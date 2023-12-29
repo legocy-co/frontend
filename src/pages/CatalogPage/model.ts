@@ -5,7 +5,7 @@ import { MarketItem } from '../../types/MarketItemType.ts';
 
 type MarketItemCell = {
   location: string;
-  images?: string[];
+  images: string[];
   set: string;
   price: number;
   series: string;
@@ -16,7 +16,7 @@ type MarketItemCell = {
 function toCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
     location: marketItem.location,
-    images: marketItem.images?.map((image) => image.imageURL, []),
+    images: marketItem.images.map((image) => image.image_url),
     set: marketItem.lego_set.name,
     price: marketItem.price,
     series: marketItem.lego_set.series.name,

@@ -11,9 +11,14 @@ interface MarketItemService {
   DeleteMarketItem: (id: number) => Promise<boolean>;
 }
 
+type MarketItemResponse = {
+  data: object | object[];
+  meta: object;
+};
+
 const GetMarketItems = async (): Promise<MarketItem[]> => {
-  const response = await axios.get<MarketItem[]>('/market-items/');
-  const result = MarketItemSchema.array().safeParse(response.data);
+  const response = await axios.get<MarketItemResponse>('/market-items/');
+  const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
     return handleIncorrectParse(result.error, 'GetMarketItems');
 

@@ -8,6 +8,14 @@ import * as si from '../features/sign-in/model';
 import * as su from '../features/sign-up/model';
 import { handleAuthError } from './ErrorHandlers.ts';
 
+export interface AuthService {
+  IsAuthorized: () => boolean;
+  SignIn: (data: SignInData) => void;
+  SignUp: (data: SignUpData) => void;
+  RefreshToken?: () => void;
+  Logout: () => void;
+}
+
 type AuthResponse = {
   access_token: string;
   refresh_token: string;
@@ -137,14 +145,6 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export interface AuthService {
-  IsAuthorized: () => boolean;
-  SignIn: (data: SignInData) => void;
-  SignUp: (data: SignUpData) => void;
-  RefreshToken?: () => void;
-  Logout: () => void;
-}
 
 export const AuthService: AuthService = {
   IsAuthorized: IsAuthorized,

@@ -12,6 +12,7 @@ const SetStates = [
   'BUILT_WITH_BOX',
   'BUILT_WITHOUT_BOX',
   'BUILT_PIECES_LOST',
+  '',
 ] as const;
 
 export const MarketItemSchema = z.object({
@@ -23,5 +24,5 @@ export const MarketItemSchema = z.object({
   status: z.string().optional(),
   set_state: z.enum(SetStates),
   description: z.string(),
-  images: z.array(MarketItemImageSchema).optional(),
+  images: z.array(MarketItemImageSchema),
 });

@@ -2,6 +2,6 @@ import { z } from 'zod';
 
 export const MarketItemImageSchema = z.object({
   id: z.number(),
-  imageURL: z.string().url(),
+  image_url: z.string(),
   is_main: z.boolean(),
 });
