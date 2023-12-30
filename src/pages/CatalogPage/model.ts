@@ -2,6 +2,7 @@ import { sample, createEffect, createStore } from 'effector';
 import { createGate } from 'effector-react';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import { MarketItem } from '../../types/MarketItemType.ts';
+import { AuthService } from '../../services/AuthService.ts';
 
 type MarketItemCell = {
   location: string;
@@ -29,13 +30,25 @@ export const $marketItemCells = createStore<MarketItemCell[]>([]);
 export const Gate = createGate();
 
 const getMarketItemsFx = createEffect(() => marketItemService.GetMarketItems());
+const getMarketItemsAuthorizedFx = createEffect(() =>
+  marketItemService.GetMarketItemsAuthorized()
+);
+
 sample({
   clock: Gate.open,
-  target: getMarketItemsFx,
+  target: AuthService.IsAuthorized()
+    ? getMarketItemsAuthorizedFx
+    : getMarketItemsFx,
 });
 
 sample({
   clock: getMarketItemsFx.doneData,
+  fn: toCells,
+  target: $marketItemCells,
+});
+
+sample({
+  clock: getMarketItemsAuthorizedFx.doneData,
   fn: toCells,
   target: $marketItemCells,
 });

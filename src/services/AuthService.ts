@@ -82,7 +82,6 @@ const Logout = () => {
 
 const SetAuthHeaders = (response: AuthResponse) => {
   const config = GetConfig();
-  console.log(response);
   config.accessToken = response.access_token;
   config.refreshToken = response.refresh_token;
   SetConfig(config);

@@ -10,16 +10,24 @@ export const CatalogPage = () => {
       <Header />
       <div className="w-full h-full flex flex-col justify-center items-center">
         Catalog
-        <CatalogGrid />
+        <CatalogContent />
       </div>
       <Footer />
     </>
   );
 };
 
-const CatalogGrid = () => {
+const CatalogContent = () => {
   const marketItems = useUnit(model.$marketItemCells);
   console.log(marketItems);
 
   return <></>;
 };
+
+// const CatalogCell () => {
+//   return (
+//     <>
+//
+//     </>
+//   );
+// };

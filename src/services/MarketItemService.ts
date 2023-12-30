@@ -33,8 +33,10 @@ const CreateMarketItem = async (marketItem: MarketItem): Promise<boolean> => {
 };
 
 const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
-  const response = await axios.get<MarketItem[]>('/market-items/authorized/');
-  const result = MarketItemSchema.array().safeParse(response.data);
+  const response = await axios.get<MarketItemResponse>(
+    '/market-items/authorized/'
+  );
+  const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
     return handleIncorrectParse(result.error, 'GetMarketItemsAuthorized');
 
@@ -42,7 +44,7 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
 };
 
 const GetMarketItem = async (id: number): Promise<MarketItem> => {
-  const response = await axios.get<MarketItem>('/market-items/' + id);
+  const response = await axios.get<MarketItemResponse>('/market-items/' + id);
   const result = MarketItemSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(result.error, 'GetMarketItem');
