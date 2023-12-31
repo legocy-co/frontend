@@ -5,7 +5,7 @@ import { useGate } from 'effector-react';
 import * as model from '../AuthPage/model.ts';
 
 const SignUpPage = () => {
-  useGate(model.Gate);
+  useGate(model.gate);
 
   return (
     <>
