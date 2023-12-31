@@ -21,7 +21,7 @@ const MarketItemCardPage = () => {
             <img
               loading="lazy"
               src={'https://' + marketItem.main_image}
-              onError={(e) => addDefaultSrc(e, '../.')}
+              onError={addDefaultSrc}
               className="aspect-[1.27] object-contain object-center w-full fill-[url(<path-to-image>),lightgray_50%_/_cover_no-repeat,#C4C4C4] overflow-hidden grow max-md:max-w-full max-md:mt-8"
             />
           </div>
@@ -67,7 +67,7 @@ const MarketItemCardPage = () => {
             >
               <img
                 src={'https://' + image}
-                onError={(e) => addDefaultSrc(e, '../.')}
+                onError={addDefaultSrc}
                 alt=""
                 className="aspect-[1.13] object-contain object-center w-full overflow-hidden shrink-0 grow flex-1 max-md:mt-8"
               ></img>
