@@ -2,6 +2,7 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import * as model from './model';
 import { useGate, useUnit } from 'effector-react';
+import CatalogCell from '../../components/CatalogCell';
 
 export const CatalogPage = () => {
   useGate(model.Gate);
@@ -21,13 +22,17 @@ const CatalogContent = () => {
   const marketItems = useUnit(model.$marketItemCells);
   console.log(marketItems);
 
-  return <></>;
-};
+  const marketItemsElements = marketItems.map((marketItem) => (
+    <CatalogCell
+      location={marketItem.location}
+      condition={marketItem.condition}
+      images={marketItem.images}
+      price={marketItem.price}
+      series={marketItem.series}
+      set={marketItem.set}
+      set_number={marketItem.set_number}
+    />
+  ));
 
-// const CatalogCell () => {
-//   return (
-//     <>
-//
-//     </>
-//   );
-// };
+  return <div className="grid grid-cols-5 gap-6">{marketItemsElements}</div>;
+};

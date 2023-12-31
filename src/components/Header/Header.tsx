@@ -23,11 +23,11 @@ const Header = () => {
         <button onClick={() => navigate('/catalog')}>Catalog</button>
         <div className="header--searchbar">
           <input type="text" placeholder="Search" />
-          <img src={SearchIcon} alt="" />
+          <img src={SearchIcon} onError={addDefaultSrc} alt="" />
         </div>
         <img className="header--map" src={MapIcon} alt="" />
         <div className="header--chat">
-          <img src={ChatIcon} alt="" />
+          <img src={ChatIcon} onError={addDefaultSrc} alt="" />
           <div>{messagesCounter}</div>
         </div>
         <img

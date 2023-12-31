@@ -8,7 +8,7 @@ const SignInPage = () => {
   useGate(model.Gate);
 
   return (
-    <div>
+    <>
       <Header />
       <div className="w-[1213px] h-[544px] bg-cover bg-center bg-no-repeat bg-sign-in bg-amber-300 rounded-2xl flex flex-col justify-center items-center text-white">
         <h1 className="font-bold text-bh mb-5">Sign In</h1>
@@ -18,7 +18,7 @@ const SignInPage = () => {
         <SignIn />
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

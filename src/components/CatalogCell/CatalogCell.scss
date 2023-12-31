@@ -1,0 +1,15 @@
+.catalog-cell {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.15);
+  border: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  img {
+    width: 250px;
+    height: 182px;
+    object-fit: contain;
+  }
+}
