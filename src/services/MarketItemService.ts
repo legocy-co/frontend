@@ -6,7 +6,7 @@ interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
   CreateMarketItem: (marketItem: MarketItem) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
-  GetMarketItem: (id: number) => Promise<MarketItem>;
+  GetMarketItem: (id: number | string) => Promise<MarketItem>;
   UpdateMarketItem: (id: number, marketItem: MarketItem) => Promise<MarketItem>;
   DeleteMarketItem: (id: number) => Promise<boolean>;
 }
@@ -43,9 +43,9 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
   return result.data;
 };
 
-const GetMarketItem = async (id: number): Promise<MarketItem> => {
+const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
   const response = await axios.get<MarketItemResponse>('/market-items/' + id);
-  const result = MarketItemSchema.safeParse(response.data);
+  const result = MarketItemSchema.safeParse(response.data.data);
   if (!result.success)
     return handleIncorrectParse(result.error, 'GetMarketItem');
 

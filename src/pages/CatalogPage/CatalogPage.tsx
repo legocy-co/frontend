@@ -21,9 +21,10 @@ export const CatalogPage = () => {
 const CatalogContent = () => {
   const marketItems = useUnit(model.$marketItemCells);
   console.log(marketItems);
-
   const marketItemsElements = marketItems.map((marketItem) => (
     <CatalogCell
+      key={marketItem.id}
+      id={marketItem.id}
       location={marketItem.location}
       condition={marketItem.condition}
       images={marketItem.images}

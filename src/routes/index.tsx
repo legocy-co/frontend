@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { AuthRoute } from '../pages/AuthPage';
 import SignUpPage from '../pages/SignUpPage';
 import SignInPage from '../pages/SignInPage';
@@ -11,6 +11,7 @@ import {
 } from '../shared/lib/react-router.ts';
 import PrivateRoute from './PrivateRoute.tsx';
 import PrivatePage from '../pages/PrivatePage';
+import MarketItemCardPage from '../pages/MarketItemCardPage';
 import CatalogPage from '../pages/CatalogPage';
 
 const AppRouter = () => {
@@ -33,7 +34,10 @@ const AppRouter = () => {
       <Route path="auth/" element={<AuthRoute />} />
       <Route path="auth/sign-up" element={<SignUpPage />} />
       <Route path="auth/sign-in" element={<SignInPage />} />
-      <Route path="catalog" element={<CatalogPage />} />
+      <Route path="catalog" element={<Outlet />}>
+        <Route index element={<CatalogPage />} />
+        <Route path=":id" element={<MarketItemCardPage />} />
+      </Route>
       <Route path="/" element={<RootPage />} />
       <Route
         path="private"

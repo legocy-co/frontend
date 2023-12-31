@@ -5,6 +5,8 @@ import { MarketItemImageSchema } from './MarketItemImage.ts';
 
 export type MarketItem = z.infer<typeof MarketItemSchema>;
 
+const ListingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
+
 const SetStates = [
   'BRAND_NEW',
   'BOX_OPENED',
@@ -16,12 +18,12 @@ const SetStates = [
 ] as const;
 
 export const MarketItemSchema = z.object({
-  id: z.number().optional(),
+  id: z.number(),
   price: z.number(),
   location: z.string(),
   lego_set: LegoSetSchema,
   seller: UserSchema,
-  status: z.string().optional(),
+  status: z.enum(ListingStatus).optional(),
   set_state: z.enum(SetStates),
   description: z.string(),
   images: z.array(MarketItemImageSchema),

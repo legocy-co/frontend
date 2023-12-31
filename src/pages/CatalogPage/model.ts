@@ -5,6 +5,7 @@ import { MarketItem } from '../../types/MarketItemType.ts';
 import { AuthService } from '../../services/AuthService.ts';
 
 type MarketItemCell = {
+  id: number;
   location: string;
   images: string[];
   set: string;
@@ -16,6 +17,7 @@ type MarketItemCell = {
 
 function toCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
+    id: marketItem.id,
     location: marketItem.location,
     images: marketItem.images.map((image) => image.image_url),
     set: marketItem.lego_set.name,
@@ -29,26 +31,26 @@ function toCells(marketItems: MarketItem[]): MarketItemCell[] {
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
 export const Gate = createGate();
 
-const getMarketItemsFx = createEffect(() => marketItemService.GetMarketItems());
-const getMarketItemsAuthorizedFx = createEffect(() =>
+const GetMarketItemsFx = createEffect(() => marketItemService.GetMarketItems());
+const GetMarketItemsAuthorizedFx = createEffect(() =>
   marketItemService.GetMarketItemsAuthorized()
 );
 
 sample({
   clock: Gate.open,
   target: AuthService.IsAuthorized()
-    ? getMarketItemsAuthorizedFx
-    : getMarketItemsFx,
+    ? GetMarketItemsAuthorizedFx
+    : GetMarketItemsFx,
 });
 
 sample({
-  clock: getMarketItemsFx.doneData,
+  clock: GetMarketItemsFx.doneData,
   fn: toCells,
   target: $marketItemCells,
 });
 
 sample({
-  clock: getMarketItemsAuthorizedFx.doneData,
+  clock: GetMarketItemsAuthorizedFx.doneData,
   fn: toCells,
   target: $marketItemCells,
 });
