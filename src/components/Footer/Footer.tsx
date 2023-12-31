@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="footer--contacts">
           <p>legocycorp@gmail.com</p>
           <p>+7 898 384 9884</p>
-          <img src={SocialIcon} alt="" />
+          <img src={SocialIcon} onError={addDefaultSrc} alt="" />
         </div>
         <div className="footer--policy">
           <img src="/logo-dark.svg" onError={addDefaultSrc} alt="" />

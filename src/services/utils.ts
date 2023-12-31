@@ -11,21 +11,24 @@ export function createRule<V, T = unknown>({
 }): Rule<V> {
   return {
     name,
-    validator: (v: V) => {
-      const parsed = schema.safeParse(v);
-      if (parsed.success) return { isValid: true, value: v };
+    validator: (value: V) => {
+      const parsedSchema = schema.safeParse(value);
+      if (parsedSchema.success) return { isValid: true, value: value };
 
       return {
         isValid: false,
-        value: v,
-        errorText: parsed.error.issues[0]?.message ?? 'error_occurred',
+        value: value,
+        errorText: parsedSchema.error.issues[0]?.message ?? 'error_occurred',
       };
     },
   };
 }
 
-export function addDefaultSrc(e: SyntheticEvent<HTMLImageElement>) {
-  e.currentTarget.width = 130;
-  e.currentTarget.height = 38;
-  e.currentTarget.src = './src/assets/pics/404.png';
+export function addDefaultSrc(
+  e: SyntheticEvent<HTMLImageElement>,
+  prefix?: string
+) {
+  e.currentTarget.width = 65;
+  e.currentTarget.height = 19;
+  e.currentTarget.src = prefix + './src/assets/pics/404.png';
 }

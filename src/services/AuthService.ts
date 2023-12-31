@@ -8,13 +8,21 @@ import * as si from '../features/sign-in/model';
 import * as su from '../features/sign-up/model';
 import { handleAuthError } from './ErrorHandlers.ts';
 
+export interface AuthService {
+  IsAuthorized: () => boolean;
+  SignIn: (data: SignInData) => void;
+  SignUp: (data: SignUpData) => void;
+  RefreshToken?: () => void;
+  Logout: () => void;
+}
+
 type AuthResponse = {
-  accessToken: string;
-  refreshToken: string;
+  access_token: string;
+  refresh_token: string;
 };
 
-type RefreshResponse = {
-  accessToken: string;
+type RefreshTokenResponse = {
+  access_token: string;
 };
 
 interface TokenType {
@@ -56,12 +64,12 @@ const SignUp = async (data: SignUpData) => {
 const RefreshToken = async () => {
   const config = GetConfig();
   const response = await axios
-    .post<RefreshResponse>('/users/auth/refresh', {
-      refreshToken: config.refreshToken,
+    .post<RefreshTokenResponse>('/users/auth/refresh', {
+      refresh_token: config.refreshToken,
     })
     .then((response) => response.data);
 
-  config.accessToken = response.accessToken;
+  config.accessToken = response.access_token;
   SetConfig(config);
 };
 
@@ -74,8 +82,8 @@ const Logout = () => {
 
 const SetAuthHeaders = (response: AuthResponse) => {
   const config = GetConfig();
-  config.accessToken = response.accessToken;
-  config.refreshToken = response.refreshToken;
+  config.accessToken = response.access_token;
+  config.refreshToken = response.refresh_token;
   SetConfig(config);
 
   axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
@@ -137,15 +145,7 @@ axios.interceptors.response.use(
   }
 );
 
-export interface AuthService {
-  IsAuthorized: () => boolean;
-  SignIn: (data: SignInData) => void;
-  SignUp: (data: SignUpData) => void;
-  RefreshToken?: () => void;
-  Logout: () => void;
-}
-
-export const AuthService: AuthService = {
+export const authService: AuthService = {
   IsAuthorized: IsAuthorized,
   SignIn: SignIn,
   SignUp: SignUp,

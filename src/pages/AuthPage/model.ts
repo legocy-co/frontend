@@ -2,11 +2,11 @@ import { createGate } from 'effector-react';
 import { $location, navigateFx } from '../../shared/lib/react-router';
 import { attach, sample } from 'effector';
 import * as signInModel from '../../features/sign-in/model';
-import { AuthService } from '../../services/AuthService.ts';
+import { authService } from '../../services/AuthService.ts';
 
-export const Gate = createGate();
+export const gate = createGate();
 
-const getFrom = (search: string | null) => {
+const GetFrom = (search: string | null) => {
   if (!search) return '/';
 
   const params = new URLSearchParams(search);
@@ -14,7 +14,7 @@ const getFrom = (search: string | null) => {
   return from ?? '/';
 };
 
-const $from = $location.map((loc) => getFrom(loc?.search ?? null));
+const $from = $location.map((loc) => GetFrom(loc?.search ?? null));
 const redirectBackFx = attach({
   source: $from,
   effect: (from) => {
@@ -25,8 +25,8 @@ const redirectBackFx = attach({
 });
 
 sample({
-  clock: Gate.open,
-  filter: () => AuthService.IsAuthorized(),
+  clock: gate.open,
+  filter: () => authService.IsAuthorized(),
   target: redirectBackFx,
 });
 
