@@ -24,8 +24,11 @@ export function createRule<V, T = unknown>({
   };
 }
 
-export function addDefaultSrc(e: SyntheticEvent<HTMLImageElement>) {
+export function addDefaultSrc(
+  e: SyntheticEvent<HTMLImageElement>,
+  prefix?: string
+) {
   e.currentTarget.width = 65;
   e.currentTarget.height = 19;
-  e.currentTarget.src = './src/assets/pics/404.png';
+  e.currentTarget.src = prefix + './src/assets/pics/404.png';
 }
