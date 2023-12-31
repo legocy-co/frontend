@@ -2,7 +2,7 @@ import { sample, createEffect, createStore } from 'effector';
 import { createGate } from 'effector-react';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import { MarketItem } from '../../types/MarketItemType.ts';
-import { AuthService } from '../../services/AuthService.ts';
+import { authService } from '../../services/AuthService.ts';
 
 type MarketItemCell = {
   id: number;
@@ -29,7 +29,7 @@ function toCells(marketItems: MarketItem[]): MarketItemCell[] {
 }
 
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
-export const Gate = createGate();
+export const gate = createGate();
 
 const GetMarketItemsFx = createEffect(() => marketItemService.GetMarketItems());
 const GetMarketItemsAuthorizedFx = createEffect(() =>
@@ -37,8 +37,8 @@ const GetMarketItemsAuthorizedFx = createEffect(() =>
 );
 
 sample({
-  clock: Gate.open,
-  target: AuthService.IsAuthorized()
+  clock: gate.open,
+  target: authService.IsAuthorized()
     ? GetMarketItemsAuthorizedFx
     : GetMarketItemsFx,
 });

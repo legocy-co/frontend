@@ -145,7 +145,7 @@ axios.interceptors.response.use(
   }
 );
 
-export const AuthService: AuthService = {
+export const authService: AuthService = {
   IsAuthorized: IsAuthorized,
   SignIn: SignIn,
   SignUp: SignUp,

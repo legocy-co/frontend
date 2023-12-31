@@ -8,7 +8,7 @@ const MarketItemCardPage = () => {
   const params = useParams<'id'>();
 
   const navigate = useNavigate();
-  useGate(model.Gate, { id: params.id ?? null, navigate });
+  useGate(model.gate, { id: params.id ?? null, navigate });
 
   const marketItem = useUnit(model.$marketItemCard);
   console.log(marketItem);

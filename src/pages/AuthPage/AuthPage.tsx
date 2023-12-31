@@ -9,7 +9,7 @@ import { Button } from '../../shared/ui/button.tsx';
 export const AuthPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  useGate(model.Gate);
+  useGate(model.gate);
 
   return (
     <>

@@ -19,13 +19,12 @@ type MarketItemCard = {
 };
 
 function toCard(marketItem: MarketItem): MarketItemCard {
-  console.log(marketItem.id);
   return {
     id: marketItem.id,
-    main_image: marketItem.images.find((img) => (img.is_main = true))
-      ?.image_url,
+    main_image:
+      marketItem.images.find((img) => (img.is_main = false))?.image_url || '',
     rest_images: marketItem.images
-      .filter((img) => (img.is_main = false))
+      .filter((img) => (img.is_main = true))
       ?.map((img) => img.image_url),
     set: marketItem.lego_set.name,
     condition: marketItem.set_state,
@@ -38,9 +37,7 @@ function toCard(marketItem: MarketItem): MarketItemCard {
   };
 }
 
-// export const Gate = createGate();
-
-export const Gate = createGate<{
+export const gate = createGate<{
   id: string | null;
   navigate: NavigateFunction;
 }>();
@@ -57,10 +54,10 @@ export const $marketItemCard = createStore<MarketItemCard>({
   set_number: 0,
 });
 
-const $productId = Gate.state.map(({ id }) => id);
+const $marketItemId = gate.state.map(({ id }) => id);
 
 const GetMarketItemFx = attach({
-  source: $productId,
+  source: $marketItemId,
   effect: (id) => {
     if (!id) throw new Error('No id provided');
 
@@ -69,7 +66,7 @@ const GetMarketItemFx = attach({
 });
 
 sample({
-  clock: Gate.open,
+  clock: gate.open,
   target: GetMarketItemFx,
 });
 

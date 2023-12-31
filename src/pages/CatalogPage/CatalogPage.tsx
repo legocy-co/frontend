@@ -5,7 +5,7 @@ import { useGate, useUnit } from 'effector-react';
 import CatalogCell from '../../components/CatalogCell';
 
 export const CatalogPage = () => {
-  useGate(model.Gate);
+  useGate(model.gate);
   return (
     <>
       <Header />
@@ -20,7 +20,6 @@ export const CatalogPage = () => {
 
 const CatalogContent = () => {
   const marketItems = useUnit(model.$marketItemCells);
-  console.log(marketItems);
   const marketItemsElements = marketItems.map((marketItem) => (
     <CatalogCell
       key={marketItem.id}

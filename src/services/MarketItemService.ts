@@ -6,9 +6,9 @@ interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
   CreateMarketItem: (marketItem: MarketItem) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
-  GetMarketItem: (id: number | string) => Promise<MarketItem>;
-  UpdateMarketItem: (id: number, marketItem: MarketItem) => Promise<MarketItem>;
-  DeleteMarketItem: (id: number) => Promise<boolean>;
+  GetMarketItem: (id: string) => Promise<MarketItem>;
+  UpdateMarketItem: (id: string, marketItem: MarketItem) => Promise<MarketItem>;
+  DeleteMarketItem: (id: string) => Promise<boolean>;
 }
 
 type MarketItemResponse = {
@@ -43,9 +43,9 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
   return result.data;
 };
 
-const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
+const GetMarketItem = async (id: string): Promise<MarketItem> => {
   const response = await axios.get<MarketItemResponse>('/market-items/' + id);
-  const result = MarketItemSchema.safeParse(response.data.data);
+  const result = MarketItemSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(result.error, 'GetMarketItem');
 
@@ -53,7 +53,7 @@ const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
 };
 
 const UpdateMarketItem = async (
-  id: number,
+  id: string,
   marketItem: MarketItem
 ): Promise<MarketItem> => {
   await axios.patch('/market-items/' + id, marketItem);
@@ -62,7 +62,7 @@ const UpdateMarketItem = async (
   return Promise.resolve(marketItem);
 };
 
-const DeleteMarketItem = async (id: number): Promise<boolean> => {
+const DeleteMarketItem = async (id: string): Promise<boolean> => {
   await axios.delete('/market-items/' + id);
   console.log('marketItem deleted');
 
