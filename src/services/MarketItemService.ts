@@ -21,7 +21,11 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
   const response = await axios.get<MarketItemResponse>('/market-items/');
   const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
-    return handleIncorrectParse(result.error, 'GetMarketItems');
+    return handleIncorrectParse(
+      result.error,
+      'GetMarketItems',
+      "Can't get market items"
+    );
 
   return result.data;
 };
@@ -39,7 +43,11 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
   );
   const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
-    return handleIncorrectParse(result.error, 'GetMarketItemsAuthorized');
+    return handleIncorrectParse(
+      result.error,
+      'GetMarketItemsAuthorized',
+      "Can't get market items (authorized)"
+    );
 
   return result.data;
 };
@@ -48,7 +56,11 @@ const GetMarketItem = async (id: string): Promise<MarketItem> => {
   const response = await axios.get<MarketItemResponse>('/market-items/' + id);
   const result = MarketItemSchema.safeParse(response.data);
   if (!result.success)
-    return handleIncorrectParse(result.error, 'GetMarketItem');
+    return handleIncorrectParse(
+      result.error,
+      'GetMarketItem',
+      "Can't get market items (unauthorized)"
+    );
 
   return result.data;
 };

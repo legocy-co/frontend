@@ -5,10 +5,10 @@ import { useGate, useUnit } from 'effector-react';
 import MarketItemCell from '../../components/MarketItemCell';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
+import { ToastContainer } from 'react-toastify';
 
 export const CatalogPage = () => {
   useGate(model.gate);
-
   return (
     <div className="w-full h-full flex flex-col items-center">
       <Header />
@@ -24,6 +24,7 @@ export const CatalogPage = () => {
       </div>
       <MarketItemContent />
       <Footer />
+      <ToastContainer />
     </div>
   );
 };

@@ -23,6 +23,7 @@ const MarketItemCardPage = () => {
               src={'https://' + marketItem.main_image}
               onError={addDefaultSrc}
               className="aspect-[1.27] object-contain object-center w-full fill-[url(<path-to-image>),lightgray_50%_/_cover_no-repeat,#C4C4C4] overflow-hidden grow max-md:max-w-full max-md:mt-8"
+              alt=""
             />
           </div>
           <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">
