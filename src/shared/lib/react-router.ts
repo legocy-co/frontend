@@ -1,4 +1,4 @@
-import {attach, createEvent, createStore, sample} from 'effector';
+import { attach, createEvent, createStore, sample } from 'effector';
 import { Location, NavigateFunction, To } from 'react-router-dom';
 
 export const locationChanged = createEvent<Location>();

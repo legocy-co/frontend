@@ -3,7 +3,7 @@ import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import HeartIcon from '../../assets/icons/heart.svg';
 
-interface CatalogCellProps {
+interface MarketItemCellProps {
   id: number;
   condition: string;
   images: string[];
@@ -14,29 +14,38 @@ interface CatalogCellProps {
   set_number: number;
 }
 
-const MarketItemCell = (props: CatalogCellProps) => {
+const MarketItemCell = (props: MarketItemCellProps) => {
   const navigate = useNavigate();
 
+  const imagesElement = props.images.map((image) => (
+    <img
+      key={image}
+      className="cell--image"
+      src={'https://' + image}
+      onError={addDefaultSrc}
+      alt=""
+    ></img>
+  ));
+
+  // const radiosElements = props.images.map((image) => (
+  //   <div>
+  //     <input type="radio" name="radio-btn" id={image} />
+  //     <label htmlFor={image} className="navigation-btn" />
+  //   </div>
+  // ));
+
   return (
-    <div className="cell" onClick={() => navigate(`/catalog/${props.id}`)}>
+    <div className="cell">
       <h1>{props.location}</h1>
-      {props.images.map((image) => (
-        <div className="cell--image-wrapper">
-          <img
-            className="cell--image"
-            key={image}
-            src={'https://' + image}
-            onError={addDefaultSrc}
-            alt=""
-          ></img>
-          <img
-            className="cell--favorite"
-            src={HeartIcon}
-            onError={addDefaultSrc}
-            alt=""
-          />
-        </div>
-      ))}
+      <div className="cell--image-wrapper">
+        {imagesElement}
+        <img
+          className="cell--favorite"
+          src={HeartIcon}
+          onError={addDefaultSrc}
+          alt=""
+        />
+      </div>
       <div className="cell--heading">
         <h1>{props.set}</h1> <h1>{props.price}$</h1>
       </div>
@@ -47,7 +56,10 @@ const MarketItemCell = (props: CatalogCellProps) => {
       <p>
         <u>Set number: {props.set_number}</u>
       </p>
-      <div className="cell--moreinfo">
+      <div
+        className="cell--moreinfo"
+        onClick={() => navigate(`/catalog/${props.id}`)}
+      >
         <h1>More Info</h1>
       </div>
     </div>

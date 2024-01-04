@@ -1,6 +1,7 @@
 import { MarketItem, MarketItemSchema } from '../types/MarketItemType.ts';
 import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
+import { navigateFx } from '../shared/lib/react-router.ts';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
@@ -68,6 +69,17 @@ const DeleteMarketItem = async (id: string): Promise<boolean> => {
 
   return Promise.resolve(true);
 };
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error?.response?.status === 404) {
+      await navigateFx({ pathname: '/catalog' });
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export const marketItemService: MarketItemService = {
   GetMarketItems: GetMarketItems,
