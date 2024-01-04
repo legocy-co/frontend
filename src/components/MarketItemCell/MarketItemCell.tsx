@@ -1,4 +1,4 @@
-import './CatalogCell.scss';
+import './MarketItemCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,7 +13,7 @@ interface CatalogCellProps {
   set_number: number;
 }
 
-const CatalogCell = (props: CatalogCellProps) => {
+const MarketItemCell = (props: CatalogCellProps) => {
   const navigate = useNavigate();
 
   return (
@@ -37,4 +37,4 @@ const CatalogCell = (props: CatalogCellProps) => {
   );
 };
 
-export default CatalogCell;
+export default MarketItemCell;

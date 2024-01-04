@@ -13,7 +13,7 @@ const MarketItemCardPage = () => {
 
   const marketItem = useUnit(model.$marketItemCard);
   return (
-    <div className="w-full h-full flex px-64 flex-col justify-center items-center">
+    <div className="w-full h-full px-64 flex flex-col justify-center items-center">
       <Header />
       <div className="self-stretch mt-8 max-md:max-w-full">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">

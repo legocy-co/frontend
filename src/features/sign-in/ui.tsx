@@ -2,7 +2,7 @@ import { FormEvent } from 'react';
 import * as model from './model';
 import { TextFieldAdapter } from '../../shared/ui/form-adapters.tsx';
 import { Button } from '../../shared/ui/button.tsx';
-import { Error } from '../../shared/ui/error.tsx';
+import { FormError } from '../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 
 export const SignIn = () => {
@@ -26,9 +26,9 @@ export const SignIn = () => {
       />
       <div className="flex justify-center">
         {!eachValid && (
-          <Error>
+          <FormError>
             {fields.email.errorText() || fields.password.errorText()}
-          </Error>
+          </FormError>
         )}
         <Button className={'mt-14'} type="submit">
           Sign In

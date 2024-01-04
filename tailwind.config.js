@@ -19,6 +19,7 @@ export default {
         'legocy-active': '#ecc439',
         'rose-2': '#FFD0D0D1',
         'burgundy': '#821919',
+        'graphite': '#414141AD',
       }
     },
   },
