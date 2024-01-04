@@ -38,6 +38,14 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     <div className="cell">
       <h1>{props.location}</h1>
       <div className="cell--image-wrapper">
+        {props.images.length === 0 && (
+          <img
+            className="cell--image"
+            src=""
+            onError={addDefaultSrc}
+            alt=""
+          ></img>
+        )}
         {imagesElement}
         <img
           className="cell--favorite"

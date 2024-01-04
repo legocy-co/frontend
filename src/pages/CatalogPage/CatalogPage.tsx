@@ -1,11 +1,11 @@
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import * as model from './model';
-import { useGate, useUnit } from 'effector-react';
-import MarketItemCell from '../../components/MarketItemCell';
+import { useGate } from 'effector-react';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
 import { ToastContainer } from 'react-toastify';
+import MarketItemsList from '../../components/MarketItemsList';
 
 export const CatalogPage = () => {
   useGate(model.gate);
@@ -22,28 +22,9 @@ export const CatalogPage = () => {
         <MenuButton>Filter by rating</MenuButton>
         <MenuButton isCurrency />
       </div>
-      <MarketItemContent />
+      <MarketItemsList />
       <Footer />
       <ToastContainer />
     </div>
   );
-};
-
-const MarketItemContent = () => {
-  const marketItems = useUnit(model.$marketItemCells);
-  const marketItemsElements = marketItems.map((marketItem) => (
-    <MarketItemCell
-      key={marketItem.id}
-      id={marketItem.id}
-      location={marketItem.location}
-      condition={marketItem.condition}
-      images={marketItem.images}
-      price={marketItem.price}
-      series={marketItem.series}
-      set={marketItem.set}
-      set_number={marketItem.set_number}
-    />
-  ));
-
-  return <div className="grid grid-cols-5 gap-6">{marketItemsElements}</div>;
 };
