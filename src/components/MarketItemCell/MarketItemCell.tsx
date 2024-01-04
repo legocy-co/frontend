@@ -1,6 +1,7 @@
 import './MarketItemCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
+import HeartIcon from '../../assets/icons/heart.svg';
 
 interface CatalogCellProps {
   id: number;
@@ -17,22 +18,38 @@ const MarketItemCell = (props: CatalogCellProps) => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className="catalog-cell"
-      onClick={() => navigate(`/catalog/${props.id}`)}
-    >
-      <p>{props.location}</p>
+    <div className="cell" onClick={() => navigate(`/catalog/${props.id}`)}>
+      <h1>{props.location}</h1>
       {props.images.map((image) => (
-        <img
-          key={image}
-          src={'https://' + image}
-          onError={addDefaultSrc}
-          alt=""
-        ></img>
+        <div className="cell--image-wrapper">
+          <img
+            className="cell--image"
+            key={image}
+            src={'https://' + image}
+            onError={addDefaultSrc}
+            alt=""
+          ></img>
+          <img
+            className="cell--favorite"
+            src={HeartIcon}
+            onError={addDefaultSrc}
+            alt=""
+          />
+        </div>
       ))}
-      {props.set}&nbsp; price: {props.price}
-      <p>series: {props.series}</p>
-      <p>set number: {props.set_number}</p>
+      <div className="cell--heading">
+        <h1>{props.set}</h1> <h1>{props.price}$</h1>
+      </div>
+      <p>
+        Series: {props.series}&nbsp;&nbsp;&nbsp;&nbsp;Condition:{' '}
+        {props.condition}
+      </p>
+      <p>
+        <u>Set number: {props.set_number}</u>
+      </p>
+      <div className="cell--moreinfo">
+        <h1>More Info</h1>
+      </div>
     </div>
   );
 };

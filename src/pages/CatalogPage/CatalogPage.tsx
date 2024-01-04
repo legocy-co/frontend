@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import * as model from './model';
 import { useGate, useUnit } from 'effector-react';
 import MarketItemCell from '../../components/MarketItemCell';
-import { MenuButton } from '../../shared/ui/menu-buttons.tsx';
+import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
 
 export const CatalogPage = () => {
@@ -20,6 +20,7 @@ export const CatalogPage = () => {
         <MenuButton>Filter by area</MenuButton>
         <MenuButton>Filter by series</MenuButton>
         <MenuButton>Filter by rating</MenuButton>
+        <MenuButton isCurrency />
       </div>
       <MarketItemContent />
       <Footer />

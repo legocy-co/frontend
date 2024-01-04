@@ -20,6 +20,9 @@ export default {
         'rose-2': '#FFD0D0D1',
         'burgundy': '#821919',
         'graphite': '#414141AD',
+      },
+      dropShadow: {
+        'legocy': '-1px 1px 10px 2px #52525226',
       }
     },
   },
