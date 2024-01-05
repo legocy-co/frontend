@@ -13,7 +13,7 @@ const MarketItemCardPage = () => {
 
   const marketItem = useUnit(model.$marketItemCard);
   return (
-    <div className="w-full h-full flex px-64 flex-col justify-center items-center">
+    <div className="w-full h-full px-64 flex flex-col justify-center items-center">
       <Header />
       <div className="self-stretch mt-8 max-md:max-w-full">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
@@ -23,6 +23,7 @@ const MarketItemCardPage = () => {
               src={'https://' + marketItem.main_image}
               onError={addDefaultSrc}
               className="aspect-[1.27] object-contain object-center w-full fill-[url(<path-to-image>),lightgray_50%_/_cover_no-repeat,#C4C4C4] overflow-hidden grow max-md:max-w-full max-md:mt-8"
+              alt=""
             />
           </div>
           <div className="flex flex-col items-stretch w-6/12 ml-5 max-md:w-full max-md:ml-0">

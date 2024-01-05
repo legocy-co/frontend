@@ -1,13 +1,16 @@
 import axios, { AxiosError } from 'axios';
-import { SignInForm } from '../types/SignIn.ts';
-import { SignUpForm } from '../types/SignUp.ts';
+import { SignInForm } from '../types/SignIn';
+import { SignUpForm } from '../types/SignUp';
 import { ZodError } from 'zod';
+import toaster from '../shared/lib/react-toastify';
 
 const handleIncorrectParse = (
   e: ZodError,
-  consolePrefix: string
+  consolePrefix: string,
+  toasterMessage: string
 ): Promise<never> => {
   console.error(consolePrefix + ': cannot parse incoming data:', e);
+  toaster.showToastError(toasterMessage + ': incorrect incoming data');
   return Promise.reject(e.format());
 };
 

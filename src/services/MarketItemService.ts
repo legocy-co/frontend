@@ -1,6 +1,7 @@
 import { MarketItem, MarketItemSchema } from '../types/MarketItemType.ts';
 import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
+import { navigateFx } from '../shared/lib/react-router.ts';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
@@ -20,7 +21,11 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
   const response = await axios.get<MarketItemResponse>('/market-items/');
   const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
-    return handleIncorrectParse(result.error, 'GetMarketItems');
+    return handleIncorrectParse(
+      result.error,
+      'GetMarketItems',
+      "Can't get market items (unauthorized)"
+    );
 
   return result.data;
 };
@@ -38,7 +43,11 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
   );
   const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
-    return handleIncorrectParse(result.error, 'GetMarketItemsAuthorized');
+    return handleIncorrectParse(
+      result.error,
+      'GetMarketItemsAuthorized',
+      "Can't get market items (authorized)"
+    );
 
   return result.data;
 };
@@ -47,7 +56,11 @@ const GetMarketItem = async (id: string): Promise<MarketItem> => {
   const response = await axios.get<MarketItemResponse>('/market-items/' + id);
   const result = MarketItemSchema.safeParse(response.data);
   if (!result.success)
-    return handleIncorrectParse(result.error, 'GetMarketItem');
+    return handleIncorrectParse(
+      result.error,
+      'GetMarketItem',
+      "Can't get market item"
+    );
 
   return result.data;
 };
@@ -68,6 +81,16 @@ const DeleteMarketItem = async (id: string): Promise<boolean> => {
 
   return Promise.resolve(true);
 };
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    error?.response?.status === 404 &&
+      (await navigateFx({ pathname: '/catalog' }));
+
+    return Promise.reject(error);
+  }
+);
 
 export const marketItemService: MarketItemService = {
   GetMarketItems: GetMarketItems,
