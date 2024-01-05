@@ -2,6 +2,7 @@ import './MarketItemCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import HeartIcon from '../../assets/icons/heart.svg';
+import { useState } from 'react';
 
 interface MarketItemCellProps {
   id: number;
@@ -16,37 +17,31 @@ interface MarketItemCellProps {
 
 const MarketItemCell = (props: MarketItemCellProps) => {
   const navigate = useNavigate();
+  const [imageSrc, setImageSrc] = useState(props.images[0]);
 
-  const imagesElement = props.images.map((image) => (
-    <img
-      key={image}
-      className="cell--image"
-      src={'https://' + image}
-      onError={addDefaultSrc}
-      alt=""
-    ></img>
+  const radioElements = props.images.map((image) => (
+    <div key={image}>
+      <input
+        type="radio"
+        id={image}
+        onChange={() => setImageSrc(image)}
+        checked={image === imageSrc}
+      />
+      <label htmlFor={image} />
+    </div>
   ));
-
-  // const radiosElements = props.images.map((image) => (
-  //   <div>
-  //     <input type="radio" name="radio-btn" id={image} />
-  //     <label htmlFor={image} className="navigation-btn" />
-  //   </div>
-  // ));
 
   return (
     <div className="cell">
       <h1>{props.location}</h1>
       <div className="cell--image-wrapper">
-        {props.images.length === 0 && (
-          <img
-            className="cell--image"
-            src=""
-            onError={addDefaultSrc}
-            alt=""
-          ></img>
-        )}
-        {imagesElement}
+        <img
+          className="cell--image"
+          src={'https://' + imageSrc}
+          onError={addDefaultSrc}
+          alt=""
+        ></img>
+        <div className="cell--image-choice">{radioElements}</div>
         <img
           className="cell--favorite"
           src={HeartIcon}
@@ -54,18 +49,18 @@ const MarketItemCell = (props: MarketItemCellProps) => {
           alt=""
         />
       </div>
-      <div className="cell--heading">
+      <div className="cell--props">
         <h1>{props.set}</h1> <h1>{props.price}$</h1>
       </div>
-      <p>
-        Series: {props.series}&nbsp;&nbsp;&nbsp;&nbsp;Condition:{' '}
-        {props.condition}
-      </p>
+      <div className="cell--props">
+        <p>Series: {props.series}</p>
+        <p>Condition: {props.condition}</p>
+      </div>
       <p>
         <u>Set number: {props.set_number}</u>
       </p>
       <div
-        className="cell--moreinfo"
+        className="cell--link"
         onClick={() => navigate(`/catalog/${props.id}`)}
       >
         <h1>More Info</h1>

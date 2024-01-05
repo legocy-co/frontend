@@ -24,7 +24,7 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
     return handleIncorrectParse(
       result.error,
       'GetMarketItems',
-      "Can't get market items"
+      "Can't get market items (unauthorized)"
     );
 
   return result.data;
@@ -59,7 +59,7 @@ const GetMarketItem = async (id: string): Promise<MarketItem> => {
     return handleIncorrectParse(
       result.error,
       'GetMarketItem',
-      "Can't get market items (unauthorized)"
+      "Can't get market item"
     );
 
   return result.data;
@@ -85,9 +85,8 @@ const DeleteMarketItem = async (id: string): Promise<boolean> => {
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error?.response?.status === 404) {
-      await navigateFx({ pathname: '/catalog' });
-    }
+    error?.response?.status === 404 &&
+      (await navigateFx({ pathname: '/catalog' }));
 
     return Promise.reject(error);
   }
