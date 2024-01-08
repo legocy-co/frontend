@@ -1,26 +1,23 @@
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model';
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from '../../components/Header';
-import Footer from '../../components/Footer';
 import { addDefaultSrc } from '../../services/utils.ts';
 
 const MarketItemCardPage = () => {
+  const marketItem = useUnit(model.$marketItemCard);
   const params = useParams<'id'>();
 
   const navigate = useNavigate();
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const marketItem = useUnit(model.$marketItemCard);
   return (
     <div className="w-full h-full px-64 flex flex-col justify-center items-center">
-      <Header />
       <div className="self-stretch mt-8 max-md:max-w-full">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
           <div className="flex flex-col items-stretch w-6/12 max-md:w-full max-md:ml-0">
             <img
               loading="lazy"
-              src={'https://' + marketItem.main_image}
+              src={'https://' + marketItem.images.slice(0, 1)}
               onError={addDefaultSrc}
               className="aspect-[1.27] object-contain object-center w-full fill-[url(<path-to-image>),lightgray_50%_/_cover_no-repeat,#C4C4C4] overflow-hidden grow max-md:max-w-full max-md:mt-8"
               alt=""
@@ -61,7 +58,7 @@ const MarketItemCardPage = () => {
       </div>
       <div className="w-[594px] max-w-full mt-8 self-start">
         <div className="gap-5 flex max-md:flex-col max-md:items-stretch max-md:gap-0">
-          {marketItem.rest_images?.map((image) => (
+          {marketItem.images.slice(1).map((image) => (
             <div
               key={image}
               className="flex flex-col items-stretch w-[33%] max-md:w-full max-md:ml-0"
@@ -83,7 +80,6 @@ const MarketItemCardPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
