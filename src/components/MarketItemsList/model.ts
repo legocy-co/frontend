@@ -16,7 +16,9 @@ export function toCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
     id: marketItem.id,
     location: marketItem.location,
-    images: marketItem.images.map((image) => image.image_url),
+    images: marketItem.images
+      .sort((current, next) => Number(current.is_main) - Number(next.is_main))
+      .map((image) => image.image_url),
     set: marketItem.lego_set.name,
     price: marketItem.price,
     series: marketItem.lego_set.series.name,

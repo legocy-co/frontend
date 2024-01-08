@@ -1,17 +1,13 @@
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
 import * as model from './model';
 import { useGate } from 'effector-react';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
-import { ToastContainer } from 'react-toastify';
 import MarketItemsList from '../../components/MarketItemsList';
 
 export const CatalogPage = () => {
   useGate(model.gate);
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <Header />
       <PageHeading>Catalog</PageHeading>
       <div className="w-full flex items-center justify-center gap-5 mb-7">
         <MenuButton>Filter by set</MenuButton>
@@ -23,8 +19,6 @@ export const CatalogPage = () => {
         <MenuButton isCurrency />
       </div>
       <MarketItemsList />
-      <Footer />
-      <ToastContainer />
     </div>
   );
 };

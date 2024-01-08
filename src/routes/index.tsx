@@ -1,4 +1,10 @@
-import { Routes, Route, useNavigate, useLocation, Outlet } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  Outlet, Navigate,
+} from 'react-router-dom';
 import { AuthRoute } from '../pages/AuthPage';
 import SignUpPage from '../pages/SignUpPage';
 import SignInPage from '../pages/SignInPage';
@@ -31,22 +37,24 @@ const AppRouter = () => {
 
   return (
     <Routes>
-      <Route path="auth/" element={<AuthRoute />} />
-      <Route path="auth/sign-up" element={<SignUpPage />} />
-      <Route path="auth/sign-in" element={<SignInPage />} />
-      <Route path="catalog" element={<Outlet />}>
-        <Route index element={<CatalogPage />} />
-        <Route path=":id" element={<MarketItemCardPage />} />
+      <Route path="/" element={<RootPage />}>
+        <Route index element={<Navigate to="/catalog" />} />
+        <Route path="auth/" element={<AuthRoute />} />
+        <Route path="auth/sign-up" element={<SignUpPage />} />
+        <Route path="auth/sign-in" element={<SignInPage />} />
+        <Route path="catalog" element={<Outlet />}>
+          <Route index element={<CatalogPage />} />
+          <Route path=":id" element={<MarketItemCardPage />} />
+        </Route>
+        <Route
+          path="private"
+          element={
+            <PrivateRoute>
+              <PrivatePage />
+            </PrivateRoute>
+          }
+        />
       </Route>
-      <Route path="/" element={<RootPage />} />
-      <Route
-        path="private"
-        element={
-          <PrivateRoute>
-            <PrivatePage />
-          </PrivateRoute>
-        }
-      />
     </Routes>
   );
 };

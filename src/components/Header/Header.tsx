@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
-  const messagesCounter = 28;
+  const messagesCounter = 1;
 
   return (
     <header>
@@ -28,7 +28,7 @@ const Header = () => {
         <img className="header--map" src={MapIcon} alt="" />
         <div className="header--chat">
           <img src={ChatIcon} onError={addDefaultSrc} alt="" />
-          <div>{messagesCounter}</div>
+          {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
         </div>
         <img
           src={UserIcon}

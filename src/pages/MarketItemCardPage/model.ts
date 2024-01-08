@@ -6,8 +6,7 @@ import { NavigateFunction } from 'react-router-dom';
 
 type MarketItemCard = {
   id: number;
-  main_image?: string;
-  rest_images?: string[];
+  images: string[];
   set: string;
   condition: string;
   series: string;
@@ -21,11 +20,9 @@ type MarketItemCard = {
 function toCard(marketItem: MarketItem): MarketItemCard {
   return {
     id: marketItem.id,
-    main_image:
-      marketItem.images.find((img) => (img.is_main = false))?.image_url || '',
-    rest_images: marketItem.images
-      .filter((img) => (img.is_main = true))
-      ?.map((img) => img.image_url),
+    images: marketItem.images
+      .sort((current, next) => Number(current.is_main) - Number(next.is_main))
+      .map((img) => img.image_url),
     set: marketItem.lego_set.name,
     condition: marketItem.set_state,
     series: marketItem.lego_set.series.name,
@@ -43,6 +40,7 @@ export const gate = createGate<{
 }>();
 
 export const $marketItemCard = createStore<MarketItemCard>({
+  images: [],
   condition: '',
   description: '',
   id: 0,
@@ -55,7 +53,6 @@ export const $marketItemCard = createStore<MarketItemCard>({
 });
 
 const $marketItemId = gate.state.map(({ id }) => id);
-
 const GetMarketItemFx = attach({
   source: $marketItemId,
   effect: (id) => {
