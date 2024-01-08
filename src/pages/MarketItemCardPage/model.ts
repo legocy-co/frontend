@@ -1,7 +1,7 @@
 import { attach, createStore, sample } from 'effector';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import { createGate } from 'effector-react';
-import { MarketItem } from '../../types/MarketItemType.ts';
+import { MarketItem, setStates } from '../../types/MarketItemType.ts';
 import { NavigateFunction } from 'react-router-dom';
 
 type MarketItemCard = {
@@ -24,7 +24,7 @@ function toCard(marketItem: MarketItem): MarketItemCard {
       .sort((current, next) => Number(current.is_main) - Number(next.is_main))
       .map((img) => img.image_url),
     set: marketItem.lego_set.name,
-    condition: marketItem.set_state,
+    condition: setStates[marketItem.set_state as keyof typeof setStates],
     series: marketItem.lego_set.series.name,
     location: marketItem.location,
     set_number: marketItem.lego_set.number,

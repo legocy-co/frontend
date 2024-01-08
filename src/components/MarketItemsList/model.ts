@@ -1,4 +1,4 @@
-import { MarketItem } from '../../types/MarketItemType.ts';
+import { MarketItem, setStates } from '../../types/MarketItemType.ts';
 import { createStore } from 'effector';
 
 export type MarketItemCell = {
@@ -22,7 +22,7 @@ export function toCells(marketItems: MarketItem[]): MarketItemCell[] {
     set: marketItem.lego_set.name,
     price: marketItem.price,
     series: marketItem.lego_set.series.name,
-    condition: marketItem.set_state,
+    condition: setStates[marketItem.set_state as keyof typeof setStates],
     set_number: marketItem.lego_set.number,
   }));
 }
