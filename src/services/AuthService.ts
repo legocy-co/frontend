@@ -132,6 +132,7 @@ axios.interceptors.response.use(
         axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
       } catch (e) {
         Logout();
+        history.navigate(`auth?from=${history.location?.pathname}`);
         return Promise.reject(error);
       }
 

@@ -3,7 +3,8 @@ import {
   Route,
   useNavigate,
   useLocation,
-  Outlet, Navigate,
+  Outlet,
+  Navigate,
 } from 'react-router-dom';
 import { AuthRoute } from '../pages/AuthPage';
 import SignUpPage from '../pages/SignUpPage';
@@ -22,10 +23,7 @@ import CatalogPage from '../pages/CatalogPage';
 
 const AppRouter = () => {
   const navigate = useNavigate();
-  history.navigate = navigate;
-
   const location = useLocation();
-  history.location = location;
 
   useEffect(() => {
     navigateChanged(navigate);
@@ -34,6 +32,9 @@ const AppRouter = () => {
   useEffect(() => {
     locationChanged(location);
   }, [location]);
+
+  history.navigate = navigate;
+  history.location = location;
 
   return (
     <Routes>
