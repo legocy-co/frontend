@@ -110,6 +110,7 @@ axios.interceptors.request.use(
     const config = GetConfig();
     if (config.refreshToken) {
       const decodedRefresh = jwtDecode<TokenType>(config.refreshToken);
+
       if (Math.floor(Date.now() / 1000) > decodedRefresh.exp - 60) {
         Logout();
         history.navigate(`auth?from=${history.location?.pathname}`);
@@ -125,24 +126,25 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    if (error?.response?.status === 401) {
+  async (err) => {
+    if (err?.response?.status === 401) {
       try {
         await RefreshToken();
         axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
       } catch (e) {
         Logout();
         history.navigate(`auth?from=${history.location?.pathname}`);
-        return Promise.reject(error);
+
+        return Promise.reject(err);
       }
 
-      if (error?.config.headers)
-        error.config.headers.Authorization = GetAccessTokenHeader();
+      if (err?.config.headers)
+        err.config.headers.Authorization = GetAccessTokenHeader();
 
-      return axios(error?.config);
+      return axios(err?.config);
     }
 
-    return Promise.reject(error);
+    return Promise.reject(err);
   }
 );
 

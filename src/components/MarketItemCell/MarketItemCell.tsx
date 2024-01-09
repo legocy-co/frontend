@@ -41,6 +41,33 @@ const MarketItemCell = (props: MarketItemCellProps) => {
           onError={addDefaultSrc}
           alt=""
         ></img>
+        {props.images.length > 1 && (
+          <div className="cell--buttons-wrapper">
+            <button
+              onClick={() =>
+                setImageSrc(
+                  props.images[
+                    (props.images.findIndex((img) => img === imageSrc) +
+                      props.images.length -
+                      1) %
+                      props.images.length
+                  ]
+                )
+              }
+            ></button>
+            <button
+              onClick={() =>
+                setImageSrc(
+                  props.images[
+                    (props.images.findIndex((img) => img === imageSrc) + 1) %
+                      props.images.length
+                  ]
+                )
+              }
+            ></button>
+          </div>
+        )}
+
         <div className="cell--image-choice">{radioElements}</div>
         <img
           className="cell--favorite"
