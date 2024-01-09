@@ -3,8 +3,8 @@ import * as model from './model';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addDefaultSrc } from '../../services/utils.ts';
 
-const MarketItemCardPage = () => {
-  const marketItem = useUnit(model.$marketItemCard);
+const MarketItemDetailPage = () => {
+  const marketItem = useUnit(model.$marketItemDetail);
   const params = useParams<'id'>();
 
   const navigate = useNavigate();
@@ -84,4 +84,4 @@ const MarketItemCardPage = () => {
   );
 };
 
-export default MarketItemCardPage;
+export default MarketItemDetailPage;

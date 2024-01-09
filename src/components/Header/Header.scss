@@ -91,6 +91,7 @@ header {
 .header--chat {
   position: relative;
   margin: 0 6%;
+  min-width: 28px;
   div {
     background: $legocy-yellow;
     display: flex;

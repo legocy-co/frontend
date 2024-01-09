@@ -17,7 +17,7 @@ import {
 } from '../shared/lib/react-router.ts';
 import PrivateRoute from './PrivateRoute.tsx';
 import PrivatePage from '../pages/PrivatePage';
-import MarketItemCardPage from '../pages/MarketItemCardPage';
+import MarketItemDetailPage from '../pages/MarketItemDetailPage';
 import CatalogPage from '../pages/CatalogPage';
 
 const AppRouter = () => {
@@ -44,7 +44,7 @@ const AppRouter = () => {
         <Route path="auth/sign-in" element={<SignInPage />} />
         <Route path="catalog" element={<Outlet />}>
           <Route index element={<CatalogPage />} />
-          <Route path=":id" element={<MarketItemCardPage />} />
+          <Route path=":id" element={<MarketItemDetailPage />} />
         </Route>
         <Route
           path="private"
