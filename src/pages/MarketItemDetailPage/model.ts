@@ -15,6 +15,7 @@ type MarketItemDetail = {
   description: string;
   price: number;
   seller_username: string;
+  seller_image: string;
 };
 
 function toDetail(marketItem: MarketItem): MarketItemDetail {
@@ -31,6 +32,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     description: marketItem.description,
     price: marketItem.price,
     seller_username: marketItem.seller.username,
+    seller_image: marketItem.seller.images[0].downloadURL,
   };
 }
 
@@ -50,6 +52,7 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   series: '',
   set: '',
   set_number: 0,
+  seller_image: '',
 });
 
 const $marketItemId = gate.state.map(({ id }) => id);

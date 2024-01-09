@@ -3,6 +3,7 @@ import { useGate } from 'effector-react';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
 import MarketItemsList from '../../components/MarketItemsList';
+// import { Button } from '../../shared/ui/button.tsx';
 
 export const CatalogPage = () => {
   useGate(model.gate);
@@ -19,6 +20,7 @@ export const CatalogPage = () => {
         <MenuButton isCurrency />
       </div>
       <MarketItemsList />
+      {/*<Button className="mt-11">Show More</Button>*/}
     </div>
   );
 };

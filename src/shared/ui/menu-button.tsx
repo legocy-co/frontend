@@ -16,7 +16,7 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
         className={clsx(
           className,
           'py-3 px-6 rounded-full border border-solid border-graphite text-nowrap font-medium transition-shadow hover:drop-shadow active:drop-shadow-sm',
-          { 'flex justify-between items-center w-32 px-4': isCurrency }
+          { 'flex justify-between items-center min-w-32 px-4': isCurrency }
         )}
         ref={ref}
         onClick={onClick}
