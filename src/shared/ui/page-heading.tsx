@@ -16,22 +16,20 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
 
     return (
       <div
-        className="relative w-full h-12 flex justify-center items-center mb-7"
+        className="relative w-2/3 h-12 flex justify-between items-center mb-7"
         ref={ref}
       >
         <img
           src={BackIcon}
           onError={addDefaultSrc}
-          className="absolute left-64 hover:opacity-90 transition-opacity active:opacity-80 cursor-pointer"
+          className="hover:opacity-90 transition-opacity active:opacity-80 cursor-pointer"
           onClick={() => navigate(to)}
           alt=""
         />{' '}
-        <p className="text-bh font-bold">{children}</p>
-        {isMarketItemDetail && (
-          <div className="absolute right-64">
-            <MenuButton isCurrency />
-          </div>
-        )}
+        <p className="absolute left-0 right-0 text-center text-bh font-bold pointer-events-none">
+          {children}
+        </p>
+        {isMarketItemDetail && <MenuButton isCurrency />}
       </div>
     );
   }

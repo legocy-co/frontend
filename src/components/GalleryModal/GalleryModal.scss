@@ -1,0 +1,17 @@
+.gallery_modal {
+  padding: 2rem 1.4rem;
+
+  background: var(--black);
+
+  display: flex;
+  flex-direction: column;
+
+  &--image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    border-radius: 6px;
+    background: #252121;
+  }
+}

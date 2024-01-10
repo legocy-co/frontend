@@ -15,7 +15,7 @@ type MarketItemDetail = {
   description: string;
   price: number;
   seller_username: string;
-  seller_image: string;
+  seller_image?: string;
 };
 
 function toDetail(marketItem: MarketItem): MarketItemDetail {
@@ -32,7 +32,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     description: marketItem.description,
     price: marketItem.price,
     seller_username: marketItem.seller.username,
-    seller_image: marketItem.seller.images[0].downloadURL,
+    seller_image: marketItem.seller.images[0]?.downloadURL,
   };
 }
 
