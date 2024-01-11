@@ -3,7 +3,8 @@ import {
   Route,
   useNavigate,
   useLocation,
-  Outlet, Navigate,
+  Outlet,
+  Navigate,
 } from 'react-router-dom';
 import { AuthRoute } from '../pages/AuthPage';
 import SignUpPage from '../pages/SignUpPage';
@@ -17,15 +18,12 @@ import {
 } from '../shared/lib/react-router.ts';
 import PrivateRoute from './PrivateRoute.tsx';
 import PrivatePage from '../pages/PrivatePage';
-import MarketItemCardPage from '../pages/MarketItemCardPage';
+import MarketItemDetailPage from '../pages/MarketItemDetailPage';
 import CatalogPage from '../pages/CatalogPage';
 
 const AppRouter = () => {
   const navigate = useNavigate();
-  history.navigate = navigate;
-
   const location = useLocation();
-  history.location = location;
 
   useEffect(() => {
     navigateChanged(navigate);
@@ -34,6 +32,9 @@ const AppRouter = () => {
   useEffect(() => {
     locationChanged(location);
   }, [location]);
+
+  history.navigate = navigate;
+  history.location = location;
 
   return (
     <Routes>
@@ -44,7 +45,7 @@ const AppRouter = () => {
         <Route path="auth/sign-in" element={<SignInPage />} />
         <Route path="catalog" element={<Outlet />}>
           <Route index element={<CatalogPage />} />
-          <Route path=":id" element={<MarketItemCardPage />} />
+          <Route path=":id" element={<MarketItemDetailPage />} />
         </Route>
         <Route
           path="private"

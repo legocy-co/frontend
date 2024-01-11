@@ -38,6 +38,7 @@ header {
 
   button {
     margin: 0 4%;
+    padding: 0 10px 0 10px;
     width: 179px;
     height: 38px;
     background: $legocy-yellow;
@@ -91,6 +92,7 @@ header {
 .header--chat {
   position: relative;
   margin: 0 6%;
+  min-width: 28px;
   div {
     background: $legocy-yellow;
     display: flex;

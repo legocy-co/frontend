@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { LegoSetSchema } from './LegoSet.ts';
 import { UserSchema } from './User.ts';
 import { MarketItemImageSchema } from './MarketItemImage.ts';
+import objectKeysToZodEnum from '../shared/lib/zod.ts';
 
 export type MarketItem = z.infer<typeof MarketItemSchema>;
 
@@ -15,8 +16,6 @@ export const setStates = {
 };
 
 const ListingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
-const [setStatesFirstKey, ...setStatesOtherKeys] = Object.keys(setStates);
-
 export const MarketItemSchema = z.object({
   id: z.number(),
   price: z.number(),
@@ -24,7 +23,7 @@ export const MarketItemSchema = z.object({
   lego_set: LegoSetSchema,
   seller: UserSchema,
   status: z.enum(ListingStatus).optional(),
-  set_state: z.enum([setStatesFirstKey, ...setStatesOtherKeys]),
+  set_state: objectKeysToZodEnum(setStates),
   description: z.string(),
   images: z.array(MarketItemImageSchema),
 });

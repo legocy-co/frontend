@@ -4,7 +4,7 @@ import { createGate } from 'effector-react';
 import { MarketItem, setStates } from '../../types/MarketItemType.ts';
 import { NavigateFunction } from 'react-router-dom';
 
-type MarketItemCard = {
+type MarketItemDetail = {
   id: number;
   images: string[];
   set: string;
@@ -15,9 +15,10 @@ type MarketItemCard = {
   description: string;
   price: number;
   seller_username: string;
+  seller_image?: string;
 };
 
-function toCard(marketItem: MarketItem): MarketItemCard {
+function toDetail(marketItem: MarketItem): MarketItemDetail {
   return {
     id: marketItem.id,
     images: marketItem.images
@@ -31,6 +32,7 @@ function toCard(marketItem: MarketItem): MarketItemCard {
     description: marketItem.description,
     price: marketItem.price,
     seller_username: marketItem.seller.username,
+    seller_image: marketItem.seller.images[0]?.downloadURL,
   };
 }
 
@@ -39,7 +41,7 @@ export const gate = createGate<{
   navigate: NavigateFunction;
 }>();
 
-export const $marketItemCard = createStore<MarketItemCard>({
+export const $marketItemDetail = createStore<MarketItemDetail>({
   images: [],
   condition: '',
   description: '',
@@ -50,6 +52,7 @@ export const $marketItemCard = createStore<MarketItemCard>({
   series: '',
   set: '',
   set_number: 0,
+  seller_image: '',
 });
 
 const $marketItemId = gate.state.map(({ id }) => id);
@@ -69,6 +72,6 @@ sample({
 
 sample({
   clock: GetMarketItemFx.doneData,
-  fn: toCard,
-  target: $marketItemCard,
+  fn: toDetail,
+  target: $marketItemDetail,
 });

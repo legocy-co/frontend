@@ -3,6 +3,7 @@ import Footer from '../../components/Footer';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../../assets/styles/style.scss';
 
 const RootPage = () => {
   return (
@@ -11,6 +12,7 @@ const RootPage = () => {
       <Outlet />
       <Footer />
       <ToastContainer />
+      <div id="portal_root" />
     </>
   );
 };
