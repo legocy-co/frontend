@@ -13,19 +13,20 @@ const MarketItemDetailPage = () => {
   const navigate = useNavigate();
 
   const marketItem = useUnit(model.$marketItemDetail);
-  const [showGallery, setShowGallery] = useState<string>('');
+  const [showGallery, setShowGallery] = useState<number>(-1);
 
-  const subImages = marketItem.images.slice(1, 3).map((image, i) => (
-    <div className="w-44 h-40" key={image}>
+  const subImagesElement = marketItem.images
+    .slice(1, 3)
+    .map((image, i) => (
       <img
+        key={image}
         src={'https://' + image}
         onError={addDefaultSrc}
-        onClick={() => setShowGallery(marketItem.images[i + 1])}
+        onClick={() => setShowGallery(i + 1)}
         alt=""
-        className="w-full h-full object-cover object-center rounded-md cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+        className="w-44 h-40 object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
       ></img>
-    </div>
-  ));
+    ));
 
   useGate(model.gate, { id: params.id ?? null, navigate });
   return (
@@ -38,7 +39,7 @@ const MarketItemDetailPage = () => {
               className="w-full h-[470px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
               src={'https://' + marketItem.images.slice(0, 1)}
               onError={addDefaultSrc}
-              onClick={() => setShowGallery(marketItem.images[0])}
+              onClick={() => setShowGallery(0)}
               alt=""
             />
             <img
@@ -47,7 +48,7 @@ const MarketItemDetailPage = () => {
               alt=""
             />
           </div>
-          <div className="flex justify-center w-full">{subImages}</div>
+          <div className="flex justify-center w-full">{subImagesElement}</div>
         </div>
         <div className="w-[577px] align-top inline-block ml-7 text-xl">
           <p className="text-3xl font-semibold mb-10">{marketItem.set}</p>
@@ -88,8 +89,16 @@ const MarketItemDetailPage = () => {
         </div>
         <p className="text-2xl">{marketItem.seller_username}</p>
       </div>
-      {showGallery && (
-        <GalleryModal image={showGallery} onClose={() => setShowGallery('')} />
+      {showGallery > -1 && (
+        <GalleryModal
+          list={
+            marketItem.images
+              ? marketItem.images
+              : Array.from('../assets/pics/404.png')
+          }
+          i={showGallery}
+          onClose={() => setShowGallery(-1)}
+        />
       )}
     </div>
   );
