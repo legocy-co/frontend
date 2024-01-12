@@ -13,6 +13,7 @@ interface MarketItemCellProps {
   series: string;
   set: string;
   set_number: number;
+  seller_id: number;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
@@ -37,7 +38,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
       <div className="cell--image-wrapper">
         <img
           className="cell--image"
-          src={'https://' + imageSrc}
+          src={imageSrc ? imageSrc : ''}
           onError={addDefaultSrc}
           alt=""
         ></img>

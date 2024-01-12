@@ -14,27 +14,10 @@ type MarketItemDetail = {
   set_number: number;
   description: string;
   price: number;
+  seller_id: number;
   seller_username: string;
   seller_image?: string;
 };
-
-function toDetail(marketItem: MarketItem): MarketItemDetail {
-  return {
-    id: marketItem.id,
-    images: marketItem.images
-      .sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => img.image_url),
-    set: marketItem.lego_set.name,
-    condition: setStates[marketItem.set_state as keyof typeof setStates],
-    series: marketItem.lego_set.series.name,
-    location: marketItem.location,
-    set_number: marketItem.lego_set.number,
-    description: marketItem.description,
-    price: marketItem.price,
-    seller_username: marketItem.seller.username,
-    seller_image: marketItem.seller.images[0]?.downloadURL,
-  };
-}
 
 export const gate = createGate<{
   id: string | null;
@@ -48,6 +31,7 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   id: 0,
   location: '',
   price: 0,
+  seller_id: 0,
   seller_username: '',
   series: '',
   set: '',
@@ -55,15 +39,32 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   seller_image: '',
 });
 
-const $marketItemId = gate.state.map(({ id }) => id);
 const GetMarketItemFx = attach({
-  source: $marketItemId,
+  source: gate.state.map(({ id }) => id),
   effect: (id) => {
     if (!id) throw new Error('No id provided');
-
     return marketItemService.GetMarketItem(id);
   },
 });
+
+function toDetail(marketItem: MarketItem): MarketItemDetail {
+  return {
+    id: marketItem.id,
+    images: marketItem.images
+      .sort((current, next) => Number(current.is_main) - Number(next.is_main))
+      .map((img) => 'https://' + img.image_url),
+    set: marketItem.lego_set.name,
+    condition: setStates[marketItem.set_state as keyof typeof setStates],
+    series: marketItem.lego_set.series.name,
+    location: marketItem.location,
+    set_number: marketItem.lego_set.number,
+    description: marketItem.description,
+    price: marketItem.price,
+    seller_id: marketItem.seller.id,
+    seller_username: marketItem.seller.username,
+    seller_image: 'https://' + marketItem.seller.images[0]?.downloadURL,
+  };
+}
 
 sample({
   clock: gate.open,

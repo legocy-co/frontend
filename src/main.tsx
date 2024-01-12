@@ -1,6 +1,7 @@
 import './app/index.pcss';
 import './assets/styles/reset.scss';
 import './assets/styles/global.scss';
+import './assets/styles/style.scss';
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
 import AppRouter from './routes';

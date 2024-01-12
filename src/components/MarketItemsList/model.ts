@@ -10,20 +10,22 @@ export type MarketItemCell = {
   series: string;
   condition: string;
   set_number: number;
+  seller_id: number;
 };
 
-export function toCells(marketItems: MarketItem[]): MarketItemCell[] {
+export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
     id: marketItem.id,
     location: marketItem.location,
     images: marketItem.images
       .sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((image) => image.image_url),
+      .map((img) => 'https://' + img.image_url),
     set: marketItem.lego_set.name,
     price: marketItem.price,
     series: marketItem.lego_set.series.name,
     condition: setStates[marketItem.set_state as keyof typeof setStates],
     set_number: marketItem.lego_set.number,
+    seller_id: marketItem.seller.id,
   }));
 }
 

@@ -15,6 +15,7 @@ const MarketItemsList = () => {
       series={marketItem.series}
       set={marketItem.set}
       set_number={marketItem.set_number}
+      seller_id={marketItem.seller_id}
     />
   ));
 

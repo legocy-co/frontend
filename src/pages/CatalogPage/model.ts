@@ -4,7 +4,7 @@ import { marketItemService } from '../../services/MarketItemService.ts';
 import { authService } from '../../services/AuthService.ts';
 import {
   $marketItemCells,
-  toCells,
+  toMarketItemCells,
 } from '../../components/MarketItemsList/model.ts';
 
 export const gate = createGate();
@@ -23,12 +23,12 @@ sample({
 
 sample({
   clock: GetMarketItemsFx.doneData,
-  fn: toCells,
+  fn: toMarketItemCells,
   target: $marketItemCells,
 });
 
 sample({
   clock: GetMarketItemsAuthorizedFx.doneData,
-  fn: toCells,
+  fn: toMarketItemCells,
   target: $marketItemCells,
 });
