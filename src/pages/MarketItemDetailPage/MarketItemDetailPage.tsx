@@ -20,7 +20,7 @@ const MarketItemDetailPage = () => {
     .map((image, i) => (
       <img
         key={image}
-        src={'https://' + image}
+        src={image}
         onError={addDefaultSrc}
         onClick={() => setShowGallery(i + 1)}
         alt=""
@@ -37,7 +37,7 @@ const MarketItemDetailPage = () => {
           <div className="relative mb-7">
             <img
               className="w-full h-[470px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
-              src={'https://' + marketItem.images.slice(0, 1)}
+              src={'' + marketItem.images.slice(0, 1)}
               onError={addDefaultSrc}
               onClick={() => setShowGallery(0)}
               alt=""
@@ -78,12 +78,12 @@ const MarketItemDetailPage = () => {
           </div>
         </div>
       </div>
-      <div className="flex gap-4 items-center border border-solid border-black rounded-xl pt-7 pr-11 pb-5 pl-6 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80">
+      <div onClick={() => navigate('/profile/' + marketItem.seller_username)} className="flex gap-4 items-center border border-solid border-black rounded-xl pt-7 pr-11 pb-5 pl-6 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80">
         <div className="h-16 aspect-square relative rounded-full bg-legocy">
           <img
             className="absolute h-full rounded-full object-cover object-center"
             onError={addDefaultSrc}
-            src={'https://' + marketItem.seller_image}
+            src={marketItem.seller_image}
             alt=""
           />
         </div>
@@ -91,11 +91,7 @@ const MarketItemDetailPage = () => {
       </div>
       {showGallery > -1 && (
         <GalleryModal
-          list={
-            marketItem.images
-              ? marketItem.images
-              : Array.from('../assets/pics/404.png')
-          }
+          list={marketItem.images}
           i={showGallery}
           onClose={() => setShowGallery(-1)}
         />

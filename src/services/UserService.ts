@@ -7,14 +7,14 @@ interface UserService {
 }
 
 type UserProfileResponse = {
-  market_items: object | object[];
+  market_items: object[];
   user: object;
-  user_reviews: object | object[];
+  user_reviews: object[];
 };
 
 const GetUserProfilePage = async (id: string): Promise<UserProfile> => {
   const response = await axios.get<UserProfileResponse>('/users/profile/' + id);
-  const result = UserProfileSchema.safeParse(response);
+  const result = UserProfileSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(
       result.error,

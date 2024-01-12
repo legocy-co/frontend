@@ -37,7 +37,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
       <div className="cell--image-wrapper">
         <img
           className="cell--image"
-          src={'https://' + imageSrc}
+          src={imageSrc ? imageSrc : ''}
           onError={addDefaultSrc}
           alt=""
         ></img>

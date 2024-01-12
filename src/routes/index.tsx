@@ -20,6 +20,7 @@ import PrivateRoute from './PrivateRoute.tsx';
 import PrivatePage from '../pages/PrivatePage';
 import MarketItemDetailPage from '../pages/MarketItemDetailPage';
 import CatalogPage from '../pages/CatalogPage';
+import UserProfilePage from '../pages/UserProfilePage';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -47,6 +48,7 @@ const AppRouter = () => {
           <Route index element={<CatalogPage />} />
           <Route path=":id" element={<MarketItemDetailPage />} />
         </Route>
+        <Route path="profile/:id" element={<UserProfilePage />} />
         <Route
           path="private"
           element={

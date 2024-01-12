@@ -24,7 +24,7 @@ const GalleryModal = (props: GalleryModalProps) => {
     <img
       key={img}
       className="gallery_modal--list-member"
-      src={'https://' + img}
+      src={img}
       onError={addDefaultSrc}
       alt=""
       onClick={() => setIndex(list.findIndex((member) => member === img))}
@@ -49,7 +49,7 @@ const GalleryModal = (props: GalleryModalProps) => {
             setIndex((prev) => (prev + list.length - 1) % list.length)
           }
           className="gallery_modal--image"
-          src={'https://' + list[index]}
+          src={list.length ? list[index] : ''}
           alt=""
           onError={addDefaultSrc}
         />
