@@ -14,6 +14,7 @@ type MarketItemDetail = {
   set_number: number;
   description: string;
   price: number;
+  seller_id: number;
   seller_username: string;
   seller_image?: string;
 };
@@ -30,6 +31,7 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   id: 0,
   location: '',
   price: 0,
+  seller_id: 0,
   seller_username: '',
   series: '',
   set: '',
@@ -58,6 +60,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     set_number: marketItem.lego_set.number,
     description: marketItem.description,
     price: marketItem.price,
+    seller_id: marketItem.seller.id,
     seller_username: marketItem.seller.username,
     seller_image: 'https://' + marketItem.seller.images[0]?.downloadURL,
   };

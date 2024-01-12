@@ -1,0 +1,25 @@
+.review {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 20rem;
+  min-height: 10rem;
+  box-shadow: -1px 1px 10px 2px rgba(82, 82, 82, 0.15);
+  border-radius: 11px;
+  font-weight: 500;
+  padding: 11px 16px;
+
+  &--author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &_avatar {
+      width: 2rem;
+      height: 2rem;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { z } from 'zod';
-import { UserSchema } from './User.ts';
+import { UserSchema } from './UserType';
 
+export type UserReview = z.infer<typeof UserReviewSchema>;
 export const UserReviewSchema = z.object({
   id: z.number(),
   rating: z.coerce.number().min(1).max(5).int(),

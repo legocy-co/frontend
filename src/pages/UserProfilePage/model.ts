@@ -2,14 +2,17 @@ import { createGate } from 'effector-react';
 import { attach, createStore, sample } from 'effector';
 import { NavigateFunction } from 'react-router-dom';
 import { userService } from '../../services/UserService.ts';
-import { UserProfile } from '../../types/UserProfileType.ts';
+import {
+  $marketItemCells,
+  toMarketItemCells,
+} from '../../components/MarketItemsList/model.ts';
+import { User } from '../../types/UserType.ts';
+import { $userReviewCells, toUserReviewCells } from '../../components/UserReviewsList/model.ts';
 
-type UserProfilePage = {
+type UserProfile = {
   id: number;
   user_images: string[];
   username: string;
-  uploads: object[];
-  reviews: object[];
 };
 
 export const gate = createGate<{
@@ -17,12 +20,10 @@ export const gate = createGate<{
   navigate: NavigateFunction;
 }>();
 
-export const $userProfilePage = createStore<UserProfilePage>({
+export const $userProfilePage = createStore<UserProfile>({
   id: 0,
   user_images: [],
   username: '',
-  uploads: [],
-  reviews: [],
 });
 
 const GetUserProfilePageFx = attach({
@@ -33,15 +34,11 @@ const GetUserProfilePageFx = attach({
   },
 });
 
-function toPage(userProfile: UserProfile): UserProfilePage {
+function toPage(user: User): UserProfile {
   return {
-    id: userProfile.user.id,
-    user_images: userProfile.user.images.map(
-      (img) => 'https://' + img.downloadURL
-    ),
-    username: userProfile.user.username,
-    uploads: userProfile.market_items,
-    reviews: userProfile.user_reviews,
+    id: user.id,
+    user_images: user.images.map((img) => 'https://' + img.downloadURL),
+    username: user.username,
   };
 }
 
@@ -51,7 +48,19 @@ sample({
 });
 
 sample({
-  clock: GetUserProfilePageFx.doneData,
+  clock: GetUserProfilePageFx.doneData.map((data) => data.user),
   fn: toPage,
   target: $userProfilePage,
+});
+
+sample({
+  clock: GetUserProfilePageFx.doneData.map((data) => data.market_items),
+  fn: toMarketItemCells,
+  target: $marketItemCells,
+});
+
+sample({
+  clock: GetUserProfilePageFx.doneData.map((data) => data.user_reviews),
+  fn: toUserReviewCells,
+  target: $userReviewCells,
 });

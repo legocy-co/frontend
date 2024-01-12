@@ -78,7 +78,10 @@ const MarketItemDetailPage = () => {
           </div>
         </div>
       </div>
-      <div onClick={() => navigate('/profile/' + marketItem.seller_username)} className="flex gap-4 items-center border border-solid border-black rounded-xl pt-7 pr-11 pb-5 pl-6 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80">
+      <div
+        onClick={() => navigate('/profile/' + marketItem.seller_id)}
+        className="flex gap-4 items-center border border-solid border-black rounded-xl pt-7 pr-11 pb-5 pl-6 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+      >
         <div className="h-16 aspect-square relative rounded-full bg-legocy">
           <img
             className="absolute h-full rounded-full object-cover object-center"

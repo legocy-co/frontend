@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { LegoSetSchema } from './LegoSet.ts';
-import { UserSchema } from './User.ts';
+import { UserSchema } from './UserType.ts';
 import { MarketItemImageSchema } from './MarketItemImage.ts';
 import objectKeysToZodEnum from '../shared/lib/zod.ts';
 

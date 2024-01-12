@@ -13,6 +13,7 @@ interface MarketItemCellProps {
   series: string;
   set: string;
   set_number: number;
+  seller_id: number;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
