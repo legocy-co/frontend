@@ -7,19 +7,22 @@ type MenuButtonProps = {
   children?: ReactNode;
   className?: string;
   isCurrency?: boolean;
+  disabled?: boolean;
 };
 
 export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
-  ({ onClick, children, className, isCurrency = false }, ref) => {
+  ({ onClick, children, className, isCurrency = false, disabled }, ref) => {
     return (
       <button
         className={clsx(
           className,
-          'py-3 px-6 rounded-full border border-solid border-graphite text-nowrap font-medium transition-shadow hover:drop-shadow active:drop-shadow-sm',
-          { 'flex justify-between items-center min-w-32 px-4': isCurrency }
+          'py-3 px-6 bg-white rounded-full border border-solid border-graphite text-nowrap font-medium transition-all hover:brightness-95 active:brightness-90',
+          { 'flex justify-between items-center min-w-32 px-4': isCurrency },
+          { 'brightness-75 pointer-events-none': disabled }
         )}
         ref={ref}
         onClick={onClick}
+        disabled={disabled}
       >
         {children}
         {isCurrency && (
