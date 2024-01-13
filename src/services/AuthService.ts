@@ -2,11 +2,11 @@ import { GetConfig, SetConfig } from '../configs';
 import { SignInData } from '../types/SignIn.ts';
 import axios from 'axios';
 import { SignUpData } from '../types/SignUp.ts';
-import { jwtDecode } from 'jwt-decode';
 import { history } from '../routes/history.ts';
 import * as si from '../features/sign-in/model';
 import * as su from '../features/sign-up/model';
 import { handleAuthError } from './ErrorHandlers.ts';
+import { jwtDecode } from 'jwt-decode';
 
 export interface AuthService {
   IsAuthorized: () => boolean;
@@ -14,6 +14,13 @@ export interface AuthService {
   SignUp: (data: SignUpData) => void;
   RefreshToken?: () => void;
   Logout: () => void;
+}
+
+export interface TokenType {
+  id: number;
+  email: string;
+  role: number;
+  exp: number;
 }
 
 type AuthResponse = {
@@ -24,13 +31,6 @@ type AuthResponse = {
 type RefreshTokenResponse = {
   access_token: string;
 };
-
-interface TokenType {
-  id: number;
-  email: string;
-  role: number;
-  exp: number;
-}
 
 const IsAuthorized = () => {
   const config = GetConfig();

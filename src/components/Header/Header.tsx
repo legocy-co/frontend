@@ -4,11 +4,20 @@ import MapIcon from '../../assets/icons/map.svg';
 import ChatIcon from '../../assets/icons/chat.svg';
 import UserIcon from '../../assets/icons/user.svg';
 import { addDefaultSrc } from '../../services/utils';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { GetConfig } from '../../configs';
+import { jwtDecode } from 'jwt-decode';
+import { TokenType } from '../../services/AuthService.ts';
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const messagesCounter = 0;
+
+  const config = GetConfig();
+  const decodedAccess = config.accessToken
+    ? jwtDecode<TokenType>(config.accessToken)
+    : '';
 
   return (
     <header>
@@ -33,7 +42,11 @@ const Header = () => {
         <img
           src={UserIcon}
           onError={addDefaultSrc}
-          onClick={() => navigate('/private')}
+          onClick={() =>
+            decodedAccess
+              ? navigate('/profile/' + decodedAccess.id)
+              : navigate(`auth?from=${location.pathname}`)
+          }
           alt=""
         />
       </div>

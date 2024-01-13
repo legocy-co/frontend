@@ -7,22 +7,41 @@ import MarketItemsList from '../../components/MarketItemsList';
 import UserReviewsList from '../../components/UserReviewsList';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { useState } from 'react';
+import { GetConfig } from '../../configs';
+import { jwtDecode } from 'jwt-decode';
+import { TokenType } from '../../services/AuthService.ts';
 
 const UserProfilePage = () => {
   const params = useParams<'id'>();
   const navigate = useNavigate();
   useGate(model.gate, { id: params.id ?? null, navigate });
 
+  const config = GetConfig();
+  const decodedAccess = config.accessToken
+    ? jwtDecode<TokenType>(config.accessToken)
+    : '';
+
+  const clientId = decodedAccess ? decodedAccess.id : 0;
+
   const userProfile = useUnit(model.$userProfilePage);
   const [showReviews, setShowReviews] = useState(false);
+
   const content = !showReviews ? (
     <>
-      <p className="my-10 text-bh font-bold">{`${userProfile.username}'s uploads`}</p>
+      <p className="my-10 text-bh font-bold">
+        {clientId === userProfile.id
+          ? 'My uploads'
+          : `${userProfile.username}'s uploads`}
+      </p>
       <MarketItemsList />
     </>
   ) : (
     <>
-      <p className="my-10 text-bh font-bold">{`${userProfile.username}'s reviews`}</p>
+      <p className="my-10 text-bh font-bold">
+        {clientId === userProfile.id
+          ? 'My reviews'
+          : `${userProfile.username}'s reviews`}
+      </p>
       <UserReviewsList />
     </>
   );
@@ -42,11 +61,16 @@ const UserProfilePage = () => {
         <MenuButton
           onClick={() => setShowReviews(false)}
           disabled={!showReviews}
-        >{`${userProfile.username}'s uploads`}</MenuButton>
-        <MenuButton
-          onClick={() => setShowReviews(true)}
-          disabled={showReviews}
-        >{`${userProfile.username}'s reviews`}</MenuButton>
+        >
+          {clientId === userProfile.id
+            ? 'My uploads'
+            : `${userProfile.username}'s uploads`}
+        </MenuButton>
+        <MenuButton onClick={() => setShowReviews(true)} disabled={showReviews}>
+          {clientId === userProfile.id
+            ? 'My reviews'
+            : `${userProfile.username}'s reviews`}
+        </MenuButton>
       </div>
       {content}
     </>

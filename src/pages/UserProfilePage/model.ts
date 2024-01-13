@@ -7,7 +7,10 @@ import {
   toMarketItemCells,
 } from '../../components/MarketItemsList/model.ts';
 import { User } from '../../types/UserType.ts';
-import { $userReviewCells, toUserReviewCells } from '../../components/UserReviewsList/model.ts';
+import {
+  $userReviewCells,
+  toUserReviewCells,
+} from '../../components/UserReviewsList/model.ts';
 
 type UserProfile = {
   id: number;
