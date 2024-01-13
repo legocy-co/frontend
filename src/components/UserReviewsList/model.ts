@@ -10,6 +10,7 @@ export type UserReviewCell = {
   date: string;
 };
 
+export const $userReviewCells = createStore<UserReviewCell[]>([]);
 export function toUserReviewCells(userReviews: UserReview[]): UserReviewCell[] {
   return userReviews.map((userReview) => ({
     id: userReview.id,
@@ -20,5 +21,3 @@ export function toUserReviewCells(userReviews: UserReview[]): UserReviewCell[] {
     date: userReview.date,
   }));
 }
-
-export const $userReviewCells = createStore<UserReviewCell[]>([]);

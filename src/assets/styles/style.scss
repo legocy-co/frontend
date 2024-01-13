@@ -15,3 +15,18 @@
     background-color: rgba(0, 0, 0, 0.8);
   }
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D9D9D9;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #cccccc;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #c2c1c1;
+}
