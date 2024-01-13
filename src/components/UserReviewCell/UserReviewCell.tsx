@@ -1,5 +1,6 @@
 import './UserReviewCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
+import Star from '../../assets/icons/star.svg';
 
 interface UserReviewCellProps {
   id: number;
@@ -11,9 +12,13 @@ interface UserReviewCellProps {
 }
 
 const UserReviewCell = (props: UserReviewCellProps) => {
+  const stars = [...Array(props.rating)].map((star, i) => (
+    <img key={`${star} ${i}`} src={Star} alt="" />
+  ));
+
   return (
     <div className="review">
-      <div className="review_section">
+      <div className="review_left">
         <div className="review--author">
           <img
             className="review--author_avatar"
@@ -23,10 +28,10 @@ const UserReviewCell = (props: UserReviewCellProps) => {
           />
           <p className="review--author_username">{props.reviewer_username}</p>
         </div>
-        <p>{props.message}</p>
+        <p className="review--message">{props.message}</p>
       </div>
-      <div className="review_section">
-        <p className="review--rating">{props.rating}</p>
+      <div className="review_right">
+        <p className="review--rating">{stars}</p>
         <p>{props.date}</p>
       </div>
     </div>

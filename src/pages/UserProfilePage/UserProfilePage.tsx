@@ -10,13 +10,11 @@ import { useState } from 'react';
 
 const UserProfilePage = () => {
   const params = useParams<'id'>();
-
-  const userProfile = useUnit(model.$userProfilePage);
-  const [showReviews, setShowReviews] = useState(false);
-
   const navigate = useNavigate();
   useGate(model.gate, { id: params.id ?? null, navigate });
 
+  const userProfile = useUnit(model.$userProfilePage);
+  const [showReviews, setShowReviews] = useState(false);
   const content = !showReviews ? (
     <>
       <p className="my-10 text-bh font-bold">{`${userProfile.username}'s uploads`}</p>

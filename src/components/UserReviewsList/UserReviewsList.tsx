@@ -19,7 +19,7 @@ const UserReviewsList = () => {
     <>
       <div
         style={{ gridTemplate: 'auto auto / repeat(2, 1fr)' }}
-        className="grid gap-6"
+        className="grid gap-6 mt-7"
       >
         {userReviewsElements}
       </div>

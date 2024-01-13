@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const navigate = useNavigate();
-  const messagesCounter = 1;
+  const messagesCounter = 0;
 
   return (
     <header>

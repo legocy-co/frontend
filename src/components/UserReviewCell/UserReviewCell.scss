@@ -3,32 +3,49 @@
   display: flex;
   justify-content: space-between;
   box-shadow: -1px 1px 10px 2px rgba(82, 82, 82, 0.15);
-  border-radius: 11px;
-  font-weight: 500;
-  padding: 1rem;
-  gap: 10rem;
+  border-radius: 13px;
+  max-width: 594px;
+  min-width: 400px;
+  height: 150px;
+  padding: 0.75rem 0.75rem 0.75rem 1.25rem;
+  gap: 1px;
 
-  &_section {
+  &_left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.688rem;
+  }
+  &_right {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 0.5rem
+    align-items: end;
   }
 
   &--author {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.625rem;
 
     &_avatar {
-      width: 2rem;
-      height: 2rem;
+      width: 3rem;
+      height: 3rem;
       object-fit: cover;
       border-radius: 50%;
     }
+    &_username {
+      font-size: 1.25rem;
+    }
+  }
+
+  &--message {
+    height: 100%;
+    overflow: auto;
   }
 
   &--rating {
-    padding-top: 0.5rem;
+    display: flex;
+    justify-content: start;
+    min-height: 40px;
   }
 }
