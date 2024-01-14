@@ -48,7 +48,10 @@ const AppRouter = () => {
           <Route index element={<CatalogPage />} />
           <Route path=":id" element={<MarketItemDetailPage />} />
         </Route>
-        <Route path="profile/:id" element={<UserProfilePage />} />
+        <Route
+          path="profile/:id"
+          element={<UserProfilePage key={history.location.pathname} />}
+        />
         <Route
           path="private"
           element={

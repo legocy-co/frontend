@@ -38,13 +38,14 @@ $gallery-background: #191515cc;
   }
 
   &--index {
-    margin: 10px 0 50px 0;
+    margin-top: 10px;
     padding: 10px;
     background-color: $gallery-background;
     color: white;
   }
 
   &--list {
+    margin-top: 50px;
     display: flex;
     justify-items: center;
     gap: 10px;
