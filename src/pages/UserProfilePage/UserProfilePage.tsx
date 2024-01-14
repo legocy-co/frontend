@@ -14,7 +14,7 @@ const UserProfilePage = () => {
   useGate(model.gate, { id: params.id ?? null, navigate });
 
   const [showReviews, setShowReviews] = useState(false);
-  const content = !showReviews ? (
+  const contentElement = !showReviews ? (
     <>
       <p className="my-10 text-bh font-bold">Uploads</p>
       <MarketItemsList />
@@ -49,7 +49,7 @@ const UserProfilePage = () => {
           Reviews
         </MenuButton>
       </div>
-      {content}
+      {contentElement}
     </>
   );
 };

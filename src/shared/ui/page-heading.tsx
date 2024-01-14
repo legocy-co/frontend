@@ -22,7 +22,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
         <img
           src={BackIcon}
           onError={addDefaultSrc}
-          className="absolute left-0 hover:opacity-90 transition-opacity active:opacity-80 cursor-pointer"
+          className="max-md:hidden md:absolute lg:absolute left-0 hover:opacity-90 transition-opacity active:opacity-80 cursor-pointer"
           onClick={() => navigate(to)}
           alt=""
         />
