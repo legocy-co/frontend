@@ -1,9 +1,9 @@
-import { forwardRef, ReactNode } from 'react';
+import React, { forwardRef, ReactNode } from 'react';
 import clsx from 'clsx';
 
 type ButtonProps = {
   type?: 'button' | 'submit';
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   form?: string;
   children: ReactNode;
   className?: string;

@@ -10,12 +10,9 @@ import { GetConfig } from '../../configs';
 import { jwtDecode } from 'jwt-decode';
 import { TokenType } from '../../services/AuthService.ts';
 import { useState } from 'react';
+import LogoutModal from '../LogoutModal';
 
 const Header = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const messagesCounter = 0;
-
   const config = GetConfig();
   const decodedAccess = config.accessToken
     ? jwtDecode<TokenType>(config.accessToken)
@@ -24,6 +21,15 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
 
+  function handleShowLogout() {
+    setShowLogout(true);
+    setShowMenu(false);
+  }
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const messagesCounter = 0;
   return (
     <header>
       <div className="header--group">
@@ -50,8 +56,7 @@ const Header = () => {
             onError={addDefaultSrc}
             onClick={() =>
               decodedAccess
-                ? //? navigate('/profile/' + decodedAccess.id)
-                  setShowMenu((prev) => !prev)
+                ? setShowMenu((prev) => !prev)
                 : navigate(`auth?from=${location.pathname}`)
             }
             alt=""
@@ -65,12 +70,14 @@ const Header = () => {
               >
                 My profile
               </p>
-              <p onClick={() => setShowLogout(true)}>Log out</p>
+              <p onClick={() => handleShowLogout()}>Log out</p>
             </div>
           )}
         </div>
       </div>
-      {/*{showLogout && <LogoutModal onClose={() => setShowLogout(false)} />}*/}
+      {showLogout && (
+        <LogoutModal show={showLogout} onClose={() => setShowLogout(false)} />
+      )}
     </header>
   );
 };

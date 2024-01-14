@@ -78,6 +78,7 @@ const Logout = () => {
   config.accessToken = '';
   config.refreshToken = '';
   SetConfig(config);
+  history.navigate(`auth?from=${history.location?.pathname}`);
 };
 
 const SetAuthHeaders = (response: AuthResponse) => {
@@ -113,7 +114,6 @@ axios.interceptors.request.use(
 
       if (Math.floor(Date.now() / 1000) > decodedRefresh.exp - 60) {
         Logout();
-        history.navigate(`auth?from=${history.location?.pathname}`);
       }
     }
 
@@ -133,8 +133,6 @@ axios.interceptors.response.use(
         axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
       } catch (e) {
         Logout();
-        history.navigate(`auth?from=${history.location?.pathname}`);
-
         return Promise.reject(err);
       }
 

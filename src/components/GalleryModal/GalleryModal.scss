@@ -1,6 +1,6 @@
 $gallery-background: #191515cc;
 
-.gallery_modal {
+.gallery {
   padding: 2rem 1.4rem;
   background: var(--black);
 
@@ -50,7 +50,7 @@ $gallery-background: #191515cc;
     justify-items: center;
     gap: 10px;
 
-    &-member {
+    &_member {
       width: 50px;
       border-radius: 6px;
       transition: opacity 0.1s;
