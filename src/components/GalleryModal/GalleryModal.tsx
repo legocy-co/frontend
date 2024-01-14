@@ -23,7 +23,7 @@ const GalleryModal = (props: GalleryModalProps) => {
   const listElement = list.map((img) => (
     <img
       key={img}
-      className="gallery_modal--list-member"
+      className="gallery--list_member"
       src={img}
       onError={addDefaultSrc}
       alt=""
@@ -33,8 +33,8 @@ const GalleryModal = (props: GalleryModalProps) => {
 
   if (!modalElement) return null;
   return createPortal(
-    <div className="gallery_modal" onClick={onClose}>
-      <div className="gallery_modal--main" onClick={(e) => e.stopPropagation()}>
+    <div className="gallery" onClick={onClose}>
+      <div className="gallery--main" onClick={(e) => e.stopPropagation()}>
         {list.length > 1 && (
           <button
             onClick={() =>
@@ -48,7 +48,7 @@ const GalleryModal = (props: GalleryModalProps) => {
           onClick={() =>
             setIndex((prev) => (prev + list.length - 1) % list.length)
           }
-          className="gallery_modal--image"
+          className="gallery--image"
           src={list.length ? list[index] : ''}
           alt=""
           onError={addDefaultSrc}
@@ -60,11 +60,11 @@ const GalleryModal = (props: GalleryModalProps) => {
         )}
       </div>
       {list.length > 1 && (
-        <div className="gallery_modal--index">
+        <div className="gallery--index">
           {index + 1}/{list.length}
         </div>
       )}
-      <div className="gallery_modal--list" onClick={(e) => e.stopPropagation()}>
+      <div className="gallery--list" onClick={(e) => e.stopPropagation()}>
         {listElement}
       </div>
     </div>,

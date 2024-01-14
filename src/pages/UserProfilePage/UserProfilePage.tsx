@@ -7,45 +7,26 @@ import MarketItemsList from '../../components/MarketItemsList';
 import UserReviewsList from '../../components/UserReviewsList';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { useState } from 'react';
-import { GetConfig } from '../../configs';
-import { jwtDecode } from 'jwt-decode';
-import { TokenType } from '../../services/AuthService.ts';
 
 const UserProfilePage = () => {
   const params = useParams<'id'>();
   const navigate = useNavigate();
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const config = GetConfig();
-  const decodedAccess = config.accessToken
-    ? jwtDecode<TokenType>(config.accessToken)
-    : '';
-
-  const clientId = decodedAccess ? decodedAccess.id : 0;
-
-  const userProfile = useUnit(model.$userProfilePage);
   const [showReviews, setShowReviews] = useState(false);
-
-  const content = !showReviews ? (
+  const contentElement = !showReviews ? (
     <>
-      <p className="my-10 text-bh font-bold">
-        {clientId === userProfile.id
-          ? 'My uploads'
-          : `${userProfile.username}'s uploads`}
-      </p>
+      <p className="my-10 text-bh font-bold">Uploads</p>
       <MarketItemsList />
     </>
   ) : (
     <>
-      <p className="my-10 text-bh font-bold">
-        {clientId === userProfile.id
-          ? 'My reviews'
-          : `${userProfile.username}'s reviews`}
-      </p>
+      <p className="my-10 text-bh font-bold">Reviews</p>
       <UserReviewsList />
     </>
   );
 
+  const userProfile = useUnit(model.$userProfilePage);
   return (
     <>
       <PageHeading to="/">
@@ -62,17 +43,13 @@ const UserProfilePage = () => {
           onClick={() => setShowReviews(false)}
           disabled={!showReviews}
         >
-          {clientId === userProfile.id
-            ? 'My uploads'
-            : `${userProfile.username}'s uploads`}
+          Uploads
         </MenuButton>
         <MenuButton onClick={() => setShowReviews(true)} disabled={showReviews}>
-          {clientId === userProfile.id
-            ? 'My reviews'
-            : `${userProfile.username}'s reviews`}
+          Reviews
         </MenuButton>
       </div>
-      {content}
+      {contentElement}
     </>
   );
 };

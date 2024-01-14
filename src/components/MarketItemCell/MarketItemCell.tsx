@@ -69,7 +69,9 @@ const MarketItemCell = (props: MarketItemCellProps) => {
           </div>
         )}
 
-        <div className="cell--image-choice">{radioElements}</div>
+        {props.images.length > 1 && (
+          <div className="cell--image-choice">{radioElements}</div>
+        )}
         <img
           className="cell--favorite"
           src={HeartIcon}
