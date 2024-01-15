@@ -7,6 +7,7 @@ import * as si from '../features/sign-in/model';
 import * as su from '../features/sign-up/model';
 import { handleAuthError } from './ErrorHandlers.ts';
 import { jwtDecode } from 'jwt-decode';
+import { legoSetService } from './LegoSetService.ts';
 
 export interface AuthService {
   IsAuthorized: () => boolean;
@@ -87,6 +88,7 @@ const SetAuthHeaders = (response: AuthResponse) => {
   config.refreshToken = response.refresh_token;
   SetConfig(config);
 
+  legoSetService.CacheLegoSets();
   axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
 };
 
