@@ -1,11 +1,10 @@
 import { z } from 'zod';
-import { LegoSetSchema } from './LegoSet.ts';
+import { LegoSetSchema } from './LegoSetType.ts';
 import { UserSchema } from './UserType.ts';
 import { MarketItemImageSchema } from './MarketItemImage.ts';
 import objectKeysToZodEnum from '../shared/lib/zod.ts';
 
 export type MarketItem = z.infer<typeof MarketItemSchema>;
-
 export const setStates = {
   BRAND_NEW: 'Brand New',
   BOX_OPENED: 'Box Opened',
