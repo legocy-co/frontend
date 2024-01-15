@@ -1,6 +1,7 @@
 import { LegoSet, LegoSetSchema } from '../types/LegoSetType.ts';
 import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
+import { GetConfig, SetConfig } from '../configs';
 
 interface LegoSetService {
   GetLegoSets: () => Promise<LegoSet[]>;
@@ -8,6 +9,8 @@ interface LegoSetService {
 }
 
 const GetLegoSets = async (): Promise<LegoSet[]> => {
+  const config = GetConfig();
+
   const response = await axios.get<object[]>('/sets/');
   const result = LegoSetSchema.array().safeParse(response.data);
   if (!result.success)
@@ -16,6 +19,9 @@ const GetLegoSets = async (): Promise<LegoSet[]> => {
       'GetLegoSets',
       "Can't get lego sets"
     );
+
+  if (config.legoSets !== response.data) config.legoSets = response.data;
+  SetConfig(config);
 
   return result.data;
 };
