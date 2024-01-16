@@ -1,4 +1,4 @@
-import { GetConfig, SetConfig } from '../configs';
+import { GetCredentials, SetCredentials } from '../storage/credentials.ts';
 import { SignInData } from '../types/SignIn.ts';
 import axios from 'axios';
 import { SignUpData } from '../types/SignUp.ts';
@@ -33,8 +33,8 @@ type RefreshTokenResponse = {
 };
 
 const IsAuthorized = () => {
-  const config = GetConfig();
-  return config.accessToken !== '';
+  const storage = GetCredentials();
+  return storage.accessToken !== '';
 };
 
 const SignIn = async (data: SignInData) => {
@@ -62,37 +62,39 @@ const SignUp = async (data: SignUpData) => {
 };
 
 const RefreshToken = async () => {
-  const config = GetConfig();
+  const storage = GetCredentials();
   const response = await axios
     .post<RefreshTokenResponse>('/users/auth/refresh', {
-      refresh_token: config.refreshToken,
+      refresh_token: storage.refreshToken,
     })
     .then((response) => response.data);
 
-  config.accessToken = response.access_token;
-  SetConfig(config);
+  storage.accessToken = response.access_token;
+  SetCredentials(storage);
 };
 
 const Logout = () => {
-  const config = GetConfig();
-  config.accessToken = '';
-  config.refreshToken = '';
-  SetConfig(config);
+  const storage = GetCredentials();
+  storage.accessToken = '';
+  storage.refreshToken = '';
+  SetCredentials(storage);
+
+  axios.defaults.headers.common.Authorization = '';
   history.navigate(`auth?from=${history.location?.pathname}`);
 };
 
 const SetAuthHeaders = (response: AuthResponse) => {
-  const config = GetConfig();
-  config.accessToken = response.access_token;
-  config.refreshToken = response.refresh_token;
-  SetConfig(config);
+  const storage = GetCredentials();
+  storage.accessToken = response.access_token;
+  storage.refreshToken = response.refresh_token;
+  SetCredentials(storage);
 
   axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
 };
 
 const GetAccessTokenHeader = () => {
-  const config = GetConfig();
-  return `Bearer ${config.accessToken}`;
+  const storage = GetCredentials();
+  return `Bearer ${storage.accessToken}`;
 };
 
 const GetBaseUrl = () => {
@@ -108,9 +110,9 @@ axios.defaults.headers.common.Authorization = IsAuthorized()
 
 axios.interceptors.request.use(
   async (request) => {
-    const config = GetConfig();
-    if (config.refreshToken) {
-      const decodedRefresh = jwtDecode<TokenType>(config.refreshToken);
+    const storage = GetCredentials();
+    if (storage.refreshToken) {
+      const decodedRefresh = jwtDecode<TokenType>(storage.refreshToken);
 
       if (Math.floor(Date.now() / 1000) > decodedRefresh.exp - 60) {
         Logout();

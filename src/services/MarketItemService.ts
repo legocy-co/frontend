@@ -41,6 +41,7 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
   const response = await axios.get<MarketItemResponse>(
     '/market-items/authorized/'
   );
+
   const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
     return handleIncorrectParse(

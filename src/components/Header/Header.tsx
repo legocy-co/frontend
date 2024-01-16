@@ -6,14 +6,14 @@ import UserIcon from '../../assets/icons/user.svg';
 import ActiveUserIcon from '../../assets/icons/active-user.svg'
 import { addDefaultSrc } from '../../services/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { GetConfig } from '../../configs';
+import { GetCredentials } from '../../storage/credentials.ts';
 import { jwtDecode } from 'jwt-decode';
 import { TokenType } from '../../services/AuthService.ts';
 import { useState } from 'react';
 import LogoutModal from '../LogoutModal';
 
 const Header = () => {
-  const config = GetConfig();
+  const config = GetCredentials();
   const decodedAccess = config.accessToken
     ? jwtDecode<TokenType>(config.accessToken)
     : '';
