@@ -1,19 +1,15 @@
 import { LegoSet, LegoSetSchema } from '../types/LegoSetType.ts';
 import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
-import { GetConfig, SetConfig } from '../configs';
 
 interface LegoSetService {
   GetLegoSets: () => Promise<LegoSet[]>;
-  CacheLegoSets: () => void;
   GetLegoSet: (id: string) => Promise<LegoSet>;
 }
 
 const GetLegoSets = async (): Promise<LegoSet[]> => {
-  const config = GetConfig();
-  !config.legoSets && (await CacheLegoSets());
-
-  const result = LegoSetSchema.array().safeParse(config.legoSets);
+  const response = await axios.get<object[]>('/sets/');
+  const result = LegoSetSchema.array().safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(
       result.error,
@@ -22,14 +18,6 @@ const GetLegoSets = async (): Promise<LegoSet[]> => {
     );
 
   return result.data;
-};
-
-const CacheLegoSets = async () => {
-  const config = GetConfig();
-  const response = await axios.get<object[]>('/sets/');
-  config.legoSets = response.data;
-
-  SetConfig(config);
 };
 
 const GetLegoSet = async (id: string): Promise<LegoSet> => {
@@ -47,6 +35,5 @@ const GetLegoSet = async (id: string): Promise<LegoSet> => {
 
 export const legoSetService: LegoSetService = {
   GetLegoSets: GetLegoSets,
-  CacheLegoSets: CacheLegoSets,
   GetLegoSet: GetLegoSet,
 };
