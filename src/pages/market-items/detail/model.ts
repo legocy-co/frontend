@@ -1,7 +1,7 @@
 import { attach, createStore, sample } from 'effector';
-import { marketItemService } from '../../services/MarketItemService.ts';
+import { marketItemService } from '../../../services/MarketItemService.ts';
 import { createGate } from 'effector-react';
-import { MarketItem, setStates } from '../../types/MarketItemType.ts';
+import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import { NavigateFunction } from 'react-router-dom';
 
 type MarketItemDetail = {

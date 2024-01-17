@@ -1,12 +1,12 @@
 import { useGate, useUnit } from 'effector-react';
-import * as model from './model';
+import * as model from './model.ts';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addDefaultSrc } from '../../services/utils.ts';
-import { PageHeading } from '../../shared/ui/page-heading.tsx';
-import HeartIcon from '../../assets/icons/heart.svg';
-import { Button } from '../../shared/ui/button.tsx';
+import { addDefaultSrc } from '../../../services/utils.ts';
+import { PageHeading } from '../../../shared/ui/page-heading.tsx';
+import HeartIcon from '../../../assets/icons/heart.svg';
+import { Button } from '../../../shared/ui/button.tsx';
 import { useState } from 'react';
-import GalleryModal from '../../components/GalleryModal';
+import GalleryModal from '../../../components/GalleryModal';
 
 const MarketItemDetailPage = () => {
   const params = useParams<'id'>();

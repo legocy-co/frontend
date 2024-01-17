@@ -3,8 +3,8 @@ import { SignInData } from '../types/SignIn.ts';
 import axios from 'axios';
 import { SignUpData } from '../types/SignUp.ts';
 import { history } from '../routes/history.ts';
-import * as si from '../features/sign-in/model';
-import * as su from '../features/sign-up/model';
+import * as si from '../features/auth/sign-in/model';
+import * as su from '../features/auth/sign-up/model';
 import { handleAuthError } from './ErrorHandlers.ts';
 import { jwtDecode } from 'jwt-decode';
 

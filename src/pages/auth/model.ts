@@ -1,7 +1,7 @@
 import { createGate } from 'effector-react';
-import { $location, navigateFx } from '../../shared/lib/react-router';
+import { $location, navigateFx } from '../../shared/lib/react-router.ts';
 import { attach, sample } from 'effector';
-import * as signInModel from '../../features/sign-in/model';
+import * as signInModel from '../../features/auth/sign-in/model.ts';
 import { authService } from '../../services/AuthService.ts';
 
 export const gate = createGate();

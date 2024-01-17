@@ -2,10 +2,12 @@ import { MarketItem, MarketItemSchema } from '../types/MarketItemType.ts';
 import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
 import { navigateFx } from '../shared/lib/react-router.ts';
+import toaster from '../shared/lib/react-toastify.ts';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
   CreateMarketItem: (marketItem: MarketItem) => Promise<boolean>;
+  UploadMarketItemImage: (file: File, id: string) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
   GetMarketItem: (id: string) => Promise<MarketItem>;
   UpdateMarketItem: (id: string, marketItem: MarketItem) => Promise<MarketItem>;
@@ -31,10 +33,28 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
 };
 
 const CreateMarketItem = async (marketItem: MarketItem): Promise<boolean> => {
-  await axios.post('/market-items/', marketItem);
-  console.log(`marketItem created`);
+  try {
+    await axios.post('/market-items/', marketItem);
+    toaster.showToastSuccess('Market item created');
 
-  return Promise.resolve(true);
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+const UploadMarketItemImage = async (
+  file: File,
+  id: string
+): Promise<boolean> => {
+  try {
+    await axios.post('/market-items/images/' + id, file);
+    toaster.showToastSuccess('Image uploaded');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
 };
 
 const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
@@ -70,25 +90,31 @@ const UpdateMarketItem = async (
   id: string,
   marketItem: MarketItem
 ): Promise<MarketItem> => {
-  await axios.patch('/market-items/' + id, marketItem);
-  console.log(`marketItem updated`);
+  try {
+    await axios.patch('/market-items/' + id, marketItem);
+    toaster.showToastSuccess(`Market item updated`);
 
-  return Promise.resolve(marketItem);
+    return Promise.resolve(marketItem);
+  } catch (e) {
+    return Promise.reject(e);
+  }
 };
 
 const DeleteMarketItem = async (id: string): Promise<boolean> => {
-  await axios.delete('/market-items/' + id);
-  console.log('marketItem deleted');
+  try {
+    await axios.delete('/market-items/' + id);
+    toaster.showToastSuccess('Market item deleted');
 
-  return Promise.resolve(true);
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
 };
 
 axios.interceptors.response.use(
   (response) => response,
   async (error) => {
-    error?.response?.status === 404 &&
-      (await navigateFx({ pathname: '/catalog' }));
-
+    error?.response?.status === 404 && (await navigateFx({ pathname: '/' }));
     return Promise.reject(error);
   }
 );
@@ -96,6 +122,7 @@ axios.interceptors.response.use(
 export const marketItemService: MarketItemService = {
   GetMarketItems: GetMarketItems,
   CreateMarketItem: CreateMarketItem,
+  UploadMarketItemImage: UploadMarketItemImage,
   GetMarketItemsAuthorized: GetMarketItemsAuthorized,
   GetMarketItem: GetMarketItem,
   UpdateMarketItem: UpdateMarketItem,
