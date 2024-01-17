@@ -1,6 +1,6 @@
-import { SignUp } from '../../features/sign-up/ui';
+import { SignUp } from '../../../features/auth/sign-up/ui.tsx';
 import { useGate } from 'effector-react';
-import * as model from '../AuthPage/model';
+import * as model from '../model.ts';
 
 const SignUpPage = () => {
   useGate(model.gate);

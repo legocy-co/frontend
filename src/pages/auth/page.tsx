@@ -1,6 +1,6 @@
 import './AuthPage.scss';
 import { useGate } from 'effector-react';
-import * as model from './model';
+import * as model from './model.ts';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '../../shared/ui/button.tsx';
 

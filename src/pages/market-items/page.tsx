@@ -1,4 +1,4 @@
-import * as model from './model';
+import * as model from './model.ts';
 import { useGate } from 'effector-react';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';

@@ -7,8 +7,15 @@ import MarketItemsList from '../../components/MarketItemsList';
 import UserReviewsList from '../../components/UserReviewsList';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { useState } from 'react';
+import { GetCredentials } from '../../storage/credentials.ts';
+import { jwtDecode } from 'jwt-decode';
+import { TokenType } from '../../services/AuthService.ts';
 
 const UserProfilePage = () => {
+  const credentials = GetCredentials();
+  const decodedAccess = credentials.accessToken
+    ? jwtDecode<TokenType>(credentials.accessToken)
+    : '';
   const params = useParams<'id'>();
   const navigate = useNavigate();
   useGate(model.gate, { id: params.id ?? null, navigate });
@@ -17,6 +24,14 @@ const UserProfilePage = () => {
   const contentElement = !showReviews ? (
     <>
       <p className="my-10 text-bh font-bold">Uploads</p>
+      {decodedAccess && decodedAccess.id == Number(params.id) && (
+        <div className="w-full flex items-center justify-center gap-5 mb-7">
+          <MenuButton>Edit</MenuButton>
+          <MenuButton onClick={() => navigate('/catalog/add')}>
+            Add new
+          </MenuButton>
+        </div>
+      )}
       <MarketItemsList />
     </>
   ) : (

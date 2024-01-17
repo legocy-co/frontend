@@ -1,8 +1,8 @@
 import { FormEvent } from 'react';
-import * as model from './model';
-import { TextFieldAdapter } from '../../shared/ui/form-adapters.tsx';
-import { Button } from '../../shared/ui/button.tsx';
-import { FormError } from '../../shared/ui/form-error.tsx';
+import * as model from './model.ts';
+import { TextFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
+import { Button } from '../../../shared/ui/button.tsx';
+import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 
 export const SignIn = () => {

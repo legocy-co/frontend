@@ -3,7 +3,7 @@ import SearchIcon from '../../assets/icons/search.svg';
 import MapIcon from '../../assets/icons/map.svg';
 import ChatIcon from '../../assets/icons/chat.svg';
 import UserIcon from '../../assets/icons/user.svg';
-import ActiveUserIcon from '../../assets/icons/active-user.svg'
+import ActiveUserIcon from '../../assets/icons/active-user.svg';
 import { addDefaultSrc } from '../../services/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GetCredentials } from '../../storage/credentials.ts';
@@ -13,9 +13,9 @@ import { useState } from 'react';
 import LogoutModal from '../LogoutModal';
 
 const Header = () => {
-  const config = GetCredentials();
-  const decodedAccess = config.accessToken
-    ? jwtDecode<TokenType>(config.accessToken)
+  const credentials = GetCredentials();
+  const decodedAccess = credentials.accessToken
+    ? jwtDecode<TokenType>(credentials.accessToken)
     : '';
 
   const [showMenu, setShowMenu] = useState(false);
