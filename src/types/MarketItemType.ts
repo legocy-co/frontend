@@ -22,7 +22,7 @@ export type MarketItemData = {
 };
 
 export type MarketItemForm = Form<{
-  lego_set_id: number;
+  lego_set_id: string;
   set_state:
     | 'BRAND_NEW'
     | 'BOX_OPENED'
