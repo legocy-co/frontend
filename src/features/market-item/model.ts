@@ -10,7 +10,7 @@ export const Gate = createGate<{ id: string | null }>();
 export const form = createForm({
   fields: {
     lego_set_id: {
-      init: null as null | number,
+      init: null as unknown as number,
       rules: [
         createRule({
           name: 'lego_set_id',
@@ -23,7 +23,7 @@ export const form = createForm({
         }),
       ],
     },
-    condition: {
+    set_state: {
       init: '' as
         | 'BRAND_NEW'
         | 'BOX_OPENED'
@@ -42,7 +42,7 @@ export const form = createForm({
       init: '',
     },
     price: {
-      init: null as null | number,
+      init: null as unknown as number,
       rules: [
         createRule({
           name: 'price',
@@ -67,7 +67,7 @@ const addMarketItemFx = attach({
       lego_set_id: values.lego_set_id,
       location: values.location,
       price: values.price,
-      set_state: values.condition,
+      set_state: values.set_state,
       description: values.description,
     }),
 });

@@ -3,6 +3,7 @@ import { Input, InputProps } from './input';
 import React from 'react';
 import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
+import { number } from 'zod';
 
 type FormAdapterProps<T> = {
   field: Field<T>;
@@ -32,7 +33,7 @@ export const TextFieldAdapter = ({
 export const NumberFieldAdapter = ({
   field,
   ...props
-}: FormAdapterProps<number | null>) => {
+}: FormAdapterProps<number>) => {
   const { value, onChange, hasError } = useField(field);
 
   return (
@@ -94,9 +95,11 @@ export const TextareaFieldAdapter = ({
   );
 };
 
-function handleNumberFieldChange(onChange: (value: number | null) => void) {
+function handleNumberFieldChange(onChange: (value: number) => void) {
   return (ev: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = ev.target;
-    value === '' || isNaN(+value) ? onChange(null) : onChange(+value);
+    value === '' || isNaN(+value)
+      ? onChange(null as unknown as number)
+      : onChange(+value);
   };
 }

@@ -26,6 +26,6 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     series: marketItem.lego_set.series.name,
     condition: setStates[marketItem.set_state as keyof typeof setStates],
     set_number: marketItem.lego_set.number,
-    seller_id: marketItem.seller.id,
+    seller_id: marketItem.seller?.id,
   }));
 }

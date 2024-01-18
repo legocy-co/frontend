@@ -31,7 +31,7 @@ export const MarketItemForm = () => {
         labelText="Lego set ID"
       />
       <SelectFieldAdapter
-        field={model.form.fields.condition}
+        field={model.form.fields.set_state}
         options={lib.CONDITIONS}
         defaultOptionValue=""
       />
@@ -48,7 +48,7 @@ export const MarketItemForm = () => {
         {!eachValid && (
           <FormError>
             {fields.lego_set_id.errorText() ||
-              fields.condition.errorText() ||
+              fields.set_state.errorText() ||
               fields.price.errorText()}
           </FormError>
         )}

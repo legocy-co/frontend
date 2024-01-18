@@ -7,9 +7,9 @@ import { Form } from 'effector-forms';
 
 export type MarketItem = z.infer<typeof MarketItemSchema>;
 
-export type MarketItemForm = Form<{
-  lego_set_id: number | null;
-  condition:
+export type MarketItemData = {
+  lego_set_id: number;
+  set_state:
     | 'BRAND_NEW'
     | 'BOX_OPENED'
     | 'BAGS_OPENED'
@@ -17,9 +17,11 @@ export type MarketItemForm = Form<{
     | 'BUILT_WITHOUT_BOX'
     | 'BUILT_PIECES_LOST';
   description: string;
-  price: number | null;
+  price: number;
   location: string;
-}>;
+};
+
+export type MarketItemForm = Form<MarketItemData>;
 
 export const setStates = {
   BRAND_NEW: 'Brand New',
@@ -32,14 +34,14 @@ export const setStates = {
 
 const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
 export const MarketItemSchema = z.object({
-  id: z.number().optional(),
-  price: z.number().nullable(),
+  id: z.number(),
+  price: z.number(),
   location: z.string(),
-  lego_set: LegoSetSchema.optional(),
-  lego_set_id: z.number().nullable().optional(),
-  seller: UserSchema.optional(),
+  lego_set: LegoSetSchema,
+  lego_set_id: z.number().optional(),
+  seller: UserSchema,
   status: z.enum(listingStatus).optional(),
   set_state: objectKeysToZodEnum(setStates),
   description: z.string(),
-  images: z.array(MarketItemImageSchema).optional(),
+  images: z.array(MarketItemImageSchema),
 });

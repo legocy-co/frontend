@@ -1,4 +1,8 @@
-import { MarketItem, MarketItemSchema } from '../types/MarketItemType.ts';
+import {
+  MarketItem,
+  MarketItemData,
+  MarketItemSchema,
+} from '../types/MarketItemType.ts';
 import axios from 'axios';
 import {
   handleIncorrectParse,
@@ -10,7 +14,7 @@ import { mi } from '../features/market-item/index.tsx';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
-  CreateMarketItem: (marketItem: MarketItem) => Promise<boolean>;
+  CreateMarketItem: (marketItem: MarketItemData) => Promise<boolean>;
   UploadMarketItemImage: (file: File, id: string) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
   GetMarketItem: (id: string) => Promise<MarketItem>;
@@ -36,7 +40,9 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
   return result.data;
 };
 
-const CreateMarketItem = async (marketItem: MarketItem): Promise<boolean> => {
+const CreateMarketItem = async (
+  marketItem: MarketItemData
+): Promise<boolean> => {
   try {
     await axios.post('/market-items/', marketItem);
     toaster.showToastSuccess('Market item created');
