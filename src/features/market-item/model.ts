@@ -54,8 +54,23 @@ export const form = createForm({
         }),
       ],
     },
-    location: {
+    country: {
       init: '',
+      rules: [
+        createRule({
+          name: 'country',
+          schema: z.string().min(1, 'Missing country'),
+        }),
+      ],
+    },
+    city: {
+      init: '',
+      rules: [
+        createRule({
+          name: 'city',
+          schema: z.string().min(1, 'Missing city'),
+        }),
+      ],
     },
   },
 });
@@ -65,7 +80,7 @@ const addMarketItemFx = attach({
   effect: (values) =>
     marketItemService.CreateMarketItem({
       lego_set_id: values.lego_set_id,
-      location: values.location,
+      location: `${values.city}, ${values.country}`,
       price: values.price,
       set_state: values.set_state,
       description: values.description,

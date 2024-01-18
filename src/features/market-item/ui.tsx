@@ -6,12 +6,12 @@ import {
   NumberFieldAdapter,
   SelectFieldAdapter,
   TextareaFieldAdapter,
-  TextFieldAdapter,
 } from '../../shared/ui/form-adapters.tsx';
 import * as lib from './lib';
 import { Button } from '../../shared/ui/button.tsx';
 import { FormError } from '../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
+import cities from '../../../data/cities.json';
 
 export const MarketItemForm = () => {
   const params = useParams<'id'>();
@@ -40,16 +40,40 @@ export const MarketItemForm = () => {
         labelText="Description"
       />
       <NumberFieldAdapter field={model.form.fields.price} labelText="Price" />
-      <TextFieldAdapter
-        field={model.form.fields.location}
-        labelText="Location"
+      <SelectFieldAdapter
+        field={model.form.fields.country}
+        options={[
+          {
+            value: '',
+            label: 'Select country',
+          },
+          ...[...new Set(cities.map((city) => city.country))].map(
+            (country) => ({ label: country, value: country })
+          ),
+        ]}
+        defaultOptionValue=""
+      />
+      <SelectFieldAdapter
+        field={model.form.fields.city}
+        options={[
+          { value: '', label: 'Select city' },
+          ...cities
+            .filter((city) => city.country === fields.country.value)
+            .map((city) => city.name)
+            .sort()
+            .map((city) => ({ label: city, value: city })),
+        ]}
+        disabled={fields.country.value === ''}
+        defaultOptionValue=""
       />
       <div className="flex justify-center">
         {!eachValid && (
           <FormError>
             {fields.lego_set_id.errorText() ||
               fields.set_state.errorText() ||
-              fields.price.errorText()}
+              fields.price.errorText() ||
+              fields.country.errorText() ||
+              fields.city.errorText()}
           </FormError>
         )}
         <Button className={'mt-14'} type="submit">

@@ -50,10 +50,12 @@ export const SelectFieldAdapter = ({
   field,
   defaultOptionValue,
   options,
+  disabled,
 }: {
   options: SelectFieldOption[];
   defaultOptionValue: string;
   field: Field<any>;
+  disabled?: boolean;
 }) => {
   const { value, onChange, hasError } = useField(field);
   const isInvalid = hasError();
@@ -61,14 +63,15 @@ export const SelectFieldAdapter = ({
   return (
     <select
       value={value ?? defaultOptionValue}
+      disabled={disabled}
       onChange={(ev) => onChange(ev.currentTarget.value)}
       className={clsx(
         'block w-[343px] h-[44px] border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5',
         { 'bg-rose': isInvalid }
       )}
     >
-      {options.map(({ value, label }) => (
-        <option key={value} value={value} className="">
+      {options.map(({ value, label }, i) => (
+        <option key={value + i} value={value} className="">
           {label}
         </option>
       ))}
