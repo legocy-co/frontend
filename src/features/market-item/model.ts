@@ -2,10 +2,14 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import { createGate } from 'effector-react';
-import { attach, sample } from 'effector';
+import { attach, createEffect, createStore, sample } from 'effector';
 import { marketItemService } from '../../services/MarketItemService.ts';
+import { legoSetService } from '../../services/LegoSetService.ts';
+import { LegoSet } from '../../types/LegoSetType.ts';
 
-export const Gate = createGate<{ id: string | null }>();
+export const gate = createGate<{ id: string | null }>();
+
+export const $legoSetOptions = createStore<LegoSetOption[]>([]);
 
 export const form = createForm({
   fields: {
@@ -75,6 +79,14 @@ export const form = createForm({
   },
 });
 
+type LegoSetOption = {
+  id: number;
+  number: number;
+  name: string;
+};
+
+const GetLegoSetsFx = createEffect(() => legoSetService.GetLegoSets());
+
 const addMarketItemFx = attach({
   source: form.$values,
   effect: (values) =>
@@ -85,6 +97,25 @@ const addMarketItemFx = attach({
       set_state: values.set_state,
       description: values.description,
     }),
+});
+
+function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
+  return legoSets.map((legoSet) => ({
+    id: legoSet.id,
+    number: legoSet.number,
+    name: legoSet.name,
+  }));
+}
+
+sample({
+  clock: gate.open,
+  target: GetLegoSetsFx,
+});
+
+sample({
+  clock: GetLegoSetsFx.doneData,
+  fn: toOptions,
+  target: $legoSetOptions,
 });
 
 sample({

@@ -1,4 +1,4 @@
-import { useGate } from 'effector-react';
+import { useGate, useUnit } from 'effector-react';
 import { useParams } from 'react-router-dom';
 import * as model from './model';
 import { FormEvent } from 'react';
@@ -14,11 +14,13 @@ import { useForm } from 'effector-forms';
 import cities from '../../../data/cities.json';
 
 export const MarketItemForm = () => {
+  const legoSets = useUnit(model.$legoSetOptions);
   const params = useParams<'id'>();
-  useGate(model.Gate, { id: params.id ?? null });
+
+  useGate(model.gate, { id: params.id ?? null });
+  console.log(legoSets);
 
   const { fields, eachValid } = useForm(model.form);
-
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     model.form.submit();
