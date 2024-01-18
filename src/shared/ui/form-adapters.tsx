@@ -1,8 +1,9 @@
 import { Field, useField } from 'effector-forms';
 import { Input, InputProps } from './input';
-import React from 'react';
+import React, { useState } from 'react';
 import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
+import { SelectSearch, SelectSearchOption } from './select-search.tsx';
 
 type FormAdapterProps<T> = {
   field: Field<T>;
@@ -93,6 +94,41 @@ export const TextareaFieldAdapter = ({
       isInvalid={hasError()}
       value={value}
       onChange={(e) => onChange(e.target.value)}
+    />
+  );
+};
+
+export const SelectSearchAdapter = ({
+  field,
+  labelText,
+  options,
+  clientSideSearch,
+  ...props
+}: FormAdapterProps<string> & {
+  options: SelectSearchOption[];
+  clientSideSearch?: boolean;
+}) => {
+  const { onChange, hasError, value: activeValue } = useField(field);
+  const [value, setValue] = useState('');
+
+  const foundValue = options.find((option) => option.value === activeValue);
+  const inputValue = foundValue ? foundValue.label : value;
+
+  return (
+    <SelectSearch
+      {...props}
+      clientSideSearch={clientSideSearch}
+      labelText={labelText}
+      onChange={(option) => {
+        onChange(option.value);
+      }}
+      onInputChange={(search) => setValue(search)}
+      value={inputValue}
+      isInvalid={hasError()}
+      isDisabled={inputValue === foundValue?.label}
+      isLoading={false}
+      options={options}
+      activeValue={activeValue}
     />
   );
 };

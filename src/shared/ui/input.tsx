@@ -8,10 +8,11 @@ type NativeInputProps = InputHTMLAttributes<HTMLInputElement>;
 export type InputProps = NativeInputProps & {
   labelText: string;
   isInvalid?: boolean;
+  isDisabled?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { labelText, isInvalid, type = 'text', ...rest } = props;
+  const { labelText, isInvalid, type = 'text', isDisabled, ...rest } = props;
   const [isPasswordVisible, setPasswordVisible] = useState(false);
 
   const isPassword = type === 'password';
@@ -23,6 +24,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       <label className="mb-0.5">{labelText}</label>
       <div className="relative">
         <input
+          disabled={isDisabled}
           ref={ref}
           className={clsx(
             'block w-[343px] h-[44px] border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5',

@@ -14,16 +14,11 @@ export const $legoSetOptions = createStore<LegoSetOption[]>([]);
 export const form = createForm({
   fields: {
     lego_set_id: {
-      init: null as unknown as number,
+      init: '',
       rules: [
         createRule({
           name: 'lego_set_id',
-          schema: z
-            .number()
-            .int()
-            .nonnegative()
-            .nullable()
-            .refine((value) => value !== null, 'Missing lego set ID'),
+          schema: z.string().min(1, 'Missing Lego set'),
         }),
       ],
     },
@@ -80,7 +75,7 @@ export const form = createForm({
 });
 
 type LegoSetOption = {
-  id: number;
+  id: string;
   number: number;
   name: string;
 };
@@ -91,7 +86,7 @@ const addMarketItemFx = attach({
   source: form.$values,
   effect: (values) =>
     marketItemService.CreateMarketItem({
-      lego_set_id: values.lego_set_id,
+      lego_set_id: Number(values.lego_set_id),
       location: `${values.city}, ${values.country}`,
       price: values.price,
       set_state: values.set_state,
@@ -101,7 +96,7 @@ const addMarketItemFx = attach({
 
 function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
   return legoSets.map((legoSet) => ({
-    id: legoSet.id,
+    id: String(legoSet.id),
     number: legoSet.number,
     name: legoSet.name,
   }));

@@ -5,6 +5,7 @@ import { FormEvent } from 'react';
 import {
   NumberFieldAdapter,
   SelectFieldAdapter,
+  SelectSearchAdapter,
   TextareaFieldAdapter,
 } from '../../shared/ui/form-adapters.tsx';
 import * as lib from './lib';
@@ -16,9 +17,7 @@ import cities from '../../../data/cities.json';
 export const MarketItemForm = () => {
   const legoSets = useUnit(model.$legoSetOptions);
   const params = useParams<'id'>();
-
   useGate(model.gate, { id: params.id ?? null });
-  console.log(legoSets);
 
   const { fields, eachValid } = useForm(model.form);
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -28,9 +27,13 @@ export const MarketItemForm = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <NumberFieldAdapter
+      <SelectSearchAdapter
         field={model.form.fields.lego_set_id}
-        labelText="Lego set ID"
+        labelText="Lego set"
+        options={legoSets.map((legoSet) => ({
+          value: legoSet.id,
+          label: `${legoSet.number} - ${legoSet.name}`,
+        }))}
       />
       <SelectFieldAdapter
         field={model.form.fields.set_state}
