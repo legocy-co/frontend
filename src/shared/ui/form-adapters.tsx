@@ -53,7 +53,7 @@ export const SelectFieldAdapter = ({
 }: {
   options: SelectFieldOption[];
   defaultOptionValue: string;
-  field: Field<string>;
+  field: Field<any>;
 }) => {
   const { value, onChange, hasError } = useField(field);
   const isInvalid = hasError();

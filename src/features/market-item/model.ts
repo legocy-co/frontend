@@ -2,6 +2,8 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import { createGate } from 'effector-react';
+import { attach, sample } from 'effector';
+import { marketItemService } from '../../services/MarketItemService.ts';
 
 export const Gate = createGate<{ id: string | null }>();
 
@@ -22,7 +24,13 @@ export const form = createForm({
       ],
     },
     condition: {
-      init: '',
+      init: '' as
+        | 'BRAND_NEW'
+        | 'BOX_OPENED'
+        | 'BAGS_OPENED'
+        | 'BUILT_WITH_BOX'
+        | 'BUILT_WITHOUT_BOX'
+        | 'BUILT_PIECES_LOST',
       rules: [
         createRule({
           name: 'set_states',
@@ -31,9 +39,6 @@ export const form = createForm({
       ],
     },
     description: {
-      init: '',
-    },
-    location: {
       init: '',
     },
     price: {
@@ -49,5 +54,25 @@ export const form = createForm({
         }),
       ],
     },
+    location: {
+      init: '',
+    },
   },
+});
+
+const addMarketItemFx = attach({
+  source: form.$values,
+  effect: (values) =>
+    marketItemService.CreateMarketItem({
+      lego_set_id: values.lego_set_id,
+      location: values.location,
+      price: values.price,
+      set_state: values.condition,
+      description: values.description,
+    }),
+});
+
+sample({
+  clock: form.formValidated,
+  target: addMarketItemFx,
 });

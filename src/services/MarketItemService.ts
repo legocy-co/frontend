@@ -1,8 +1,12 @@
 import { MarketItem, MarketItemSchema } from '../types/MarketItemType.ts';
 import axios from 'axios';
-import { handleIncorrectParse } from './ErrorHandlers.ts';
+import {
+  handleIncorrectParse,
+  handleMarketItemError,
+} from './ErrorHandlers.ts';
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
+import { mi } from '../features/market-item/index.tsx';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
@@ -39,7 +43,7 @@ const CreateMarketItem = async (marketItem: MarketItem): Promise<boolean> => {
 
     return Promise.resolve(true);
   } catch (e) {
-    return Promise.reject(e);
+    return handleMarketItemError(e, 'MarketItem', mi.form);
   }
 };
 

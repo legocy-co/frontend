@@ -35,15 +35,15 @@ export const MarketItemForm = () => {
         options={lib.CONDITIONS}
         defaultOptionValue=""
       />
-      <TextFieldAdapter
-        field={model.form.fields.location}
-        labelText="Location"
-      />
       <TextareaFieldAdapter
         field={model.form.fields.description}
         labelText="Description"
       />
       <NumberFieldAdapter field={model.form.fields.price} labelText="Price" />
+      <TextFieldAdapter
+        field={model.form.fields.location}
+        labelText="Location"
+      />
       <div className="flex justify-center">
         {!eachValid && (
           <FormError>
