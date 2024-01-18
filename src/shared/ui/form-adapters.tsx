@@ -3,7 +3,6 @@ import { Input, InputProps } from './input';
 import React from 'react';
 import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
-import { number } from 'zod';
 
 type FormAdapterProps<T> = {
   field: Field<T>;
