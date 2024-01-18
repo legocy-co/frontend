@@ -21,7 +21,20 @@ export type MarketItemData = {
   location: string;
 };
 
-export type MarketItemForm = Form<MarketItemData>;
+export type MarketItemForm = Form<{
+  lego_set_id: number;
+  set_state:
+    | 'BRAND_NEW'
+    | 'BOX_OPENED'
+    | 'BAGS_OPENED'
+    | 'BUILT_WITH_BOX'
+    | 'BUILT_WITHOUT_BOX'
+    | 'BUILT_PIECES_LOST';
+  description: string;
+  price: number;
+  country: string;
+  city: string;
+}>;
 
 export const setStates = {
   BRAND_NEW: 'Brand New',
