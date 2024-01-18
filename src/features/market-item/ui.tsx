@@ -8,11 +8,11 @@ import {
   SelectSearchAdapter,
   TextareaFieldAdapter,
 } from '../../shared/ui/form-adapters.tsx';
-import * as lib from './lib';
 import { Button } from '../../shared/ui/button.tsx';
 import { FormError } from '../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 import cities from '../../../data/cities.json';
+import { setStates } from '../../types/MarketItemType.ts';
 
 export const MarketItemForm = () => {
   const legoSets = useUnit(model.$legoSetOptions);
@@ -37,7 +37,16 @@ export const MarketItemForm = () => {
       />
       <SelectFieldAdapter
         field={model.form.fields.set_state}
-        options={lib.CONDITIONS}
+        options={[
+          {
+            value: '',
+            label: 'Select condition',
+          },
+          ...Object.entries(setStates).map((state) => ({
+            label: state[1],
+            value: state[0],
+          })),
+        ]}
         defaultOptionValue=""
       />
       <TextareaFieldAdapter

@@ -110,26 +110,32 @@ export const SelectSearchAdapter = ({
 }) => {
   const { onChange, hasError, value: activeValue } = useField(field);
   const [value, setValue] = useState('');
-
   const foundValue = options.find((option) => option.value === activeValue);
   const inputValue = foundValue ? foundValue.label : value;
 
   return (
-    <SelectSearch
-      {...props}
-      clientSideSearch={clientSideSearch}
-      labelText={labelText}
-      onChange={(option) => {
-        onChange(option.value);
-      }}
-      onInputChange={(search) => setValue(search)}
-      value={inputValue}
-      isInvalid={hasError()}
-      isDisabled={inputValue === foundValue?.label}
-      isLoading={false}
-      options={options}
-      activeValue={activeValue}
-    />
+    <div className="relative">
+      <SelectSearch
+        {...props}
+        clientSideSearch={clientSideSearch}
+        labelText={labelText}
+        onChange={(option) => {
+          onChange(option.value);
+        }}
+        onInputChange={(search) => setValue(search)}
+        value={inputValue}
+        isInvalid={hasError()}
+        isDisabled={inputValue === foundValue?.label}
+        options={options}
+        activeValue={activeValue}
+      />
+      <div
+        className="absolute top-8 right-4 cursor-pointer"
+        onClick={() => field.reset()}
+      >
+        x
+      </div>
+    </div>
   );
 };
 
