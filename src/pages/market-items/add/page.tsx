@@ -1,5 +1,5 @@
 import { PageHeading } from '../../../shared/ui/page-heading.tsx';
-import { MarketItemForm } from '../../../features/market-item';
+import { MarketItemForm } from '../../../features/market-item/publish';
 
 const AddMarketItemPage = () => {
   return (

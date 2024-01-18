@@ -1,18 +1,18 @@
 import { useGate, useUnit } from 'effector-react';
 import { useParams } from 'react-router-dom';
-import * as model from './model';
+import * as model from './model.ts';
 import { FormEvent } from 'react';
 import {
   NumberFieldAdapter,
   SelectFieldAdapter,
   SelectSearchAdapter,
   TextareaFieldAdapter,
-} from '../../shared/ui/form-adapters.tsx';
-import { Button } from '../../shared/ui/button.tsx';
-import { FormError } from '../../shared/ui/form-error.tsx';
+} from '../../../shared/ui/form-adapters.tsx';
+import { Button } from '../../../shared/ui/button.tsx';
+import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
-import cities from '../../../data/cities.json';
-import { setStates } from '../../types/MarketItemType.ts';
+import cities from '../../../../data/cities.json';
+import { setStates } from '../../../types/MarketItemType.ts';
 
 export const MarketItemForm = () => {
   const legoSets = useUnit(model.$legoSetOptions);

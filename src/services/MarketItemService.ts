@@ -10,11 +10,11 @@ import {
 } from './ErrorHandlers.ts';
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import { mi } from '../features/market-item/index.tsx';
+import { mi } from '../features/market-item/publish';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
-  CreateMarketItem: (marketItem: MarketItemData) => Promise<boolean>;
+  CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
   UploadMarketItemImage: (file: File, id: string) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
   GetMarketItem: (id: string) => Promise<MarketItem>;
@@ -42,12 +42,22 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
 
 const CreateMarketItem = async (
   marketItem: MarketItemData
-): Promise<boolean> => {
+): Promise<MarketItem> => {
   try {
-    await axios.post('/market-items/', marketItem);
+    const response = await axios.post('/market-items/', marketItem);
     toaster.showToastSuccess('Market item created');
 
-    return Promise.resolve(true);
+    const result = MarketItemSchema.safeParse(response.data);
+    if (!result.success)
+      return handleIncorrectParse(
+        result.error,
+        'CreateMarketItem',
+        "Can't get market item id"
+      );
+
+    // TODO: parse id to updateImage form
+    console.log(result.data.id);
+    return result.data;
   } catch (e) {
     return handleMarketItemError(e, 'MarketItem', mi.form);
   }

@@ -1,11 +1,13 @@
 import { createForm } from 'effector-forms';
-import { createRule } from '../../services/utils.ts';
+import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { createGate } from 'effector-react';
 import { attach, createEffect, createStore, sample } from 'effector';
-import { marketItemService } from '../../services/MarketItemService.ts';
-import { legoSetService } from '../../services/LegoSetService.ts';
-import { LegoSet } from '../../types/LegoSetType.ts';
+import { marketItemService } from '../../../services/MarketItemService.ts';
+import { legoSetService } from '../../../services/LegoSetService.ts';
+import { LegoSet } from '../../../types/LegoSetType.ts';
+import { navigateFx } from '../../../shared/lib/react-router.ts';
+import { data } from 'autoprefixer';
 
 export const gate = createGate<{ id: string | null }>();
 
@@ -117,3 +119,8 @@ sample({
   clock: form.formValidated,
   target: addMarketItemFx,
 });
+
+// sample({
+//   clock: addMarketItemFx.doneData.map((data) => data.id),
+//   target: imageFormFx,
+// });

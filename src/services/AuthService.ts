@@ -5,8 +5,8 @@ import { SignUpData } from '../types/SignUp.ts';
 import { history } from '../routes/history.ts';
 import { handleAuthError } from './ErrorHandlers.ts';
 import { jwtDecode } from 'jwt-decode';
-import { si } from '../features/auth/sign-up/index.tsx';
-import { su } from '../features/auth/sign-in/index.tsx';
+import { su } from '../features/auth/sign-up/';
+import { si } from '../features/auth/sign-in/';
 
 export interface AuthService {
   IsAuthorized: () => boolean;

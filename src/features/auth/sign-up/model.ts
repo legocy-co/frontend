@@ -41,7 +41,7 @@ export const form = createForm({
             .min(5, 'The password must be at least 5 characters long')
             .max(30, 'The password must be a maximum 30 characters')
             .regex(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[/!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).{5,}$/,
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[/!@#$%^&`*|()_+{}\[\]:;<>',.?~\\-]).{5,}$/,
               'The password must contain a lowercase, uppercase, digit and a special character'
             ),
         }),
@@ -84,9 +84,23 @@ const signUpFx = attach({
     }),
 });
 
+const signInFx = attach({
+  source: form.$values,
+  effect: (values) =>
+    authService.SignIn({
+      email: values.email,
+      password: values.password,
+    }),
+});
+
 sample({
   clock: form.formValidated,
   target: signUpFx,
+});
+
+sample({
+  clock: signUpFx.done,
+  target: signInFx,
 });
 
 sample({

@@ -15,6 +15,7 @@ const GetFrom = (search: string | null) => {
 };
 
 const $from = $location.map((loc) => GetFrom(loc?.search ?? null));
+
 const redirectBackFx = attach({
   source: $from,
   effect: (from) => {

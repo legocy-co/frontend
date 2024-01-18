@@ -18,10 +18,8 @@ type Props = {
   activeValue?: string;
   labelText: string;
   isDisabled?: boolean;
-  isLoading?: boolean;
   isInvalid?: boolean;
   className?: string;
-  autoFocus?: boolean;
   clientSideSearch?: boolean;
 };
 
