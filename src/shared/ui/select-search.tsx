@@ -74,7 +74,7 @@ export const SelectSearch = ({
         <Portal.Root>
           <div
             ref={containerRef}
-            className="absolute bg-white rounded overflow-hidden max-h-60 overflow-y-auto shadow-md border-black border-solid border"
+            className="absolute bg-white rounded overflow-hidden max-h-60 overflow-y-auto w-[343px] shadow-md border-black border-solid border"
             style={coords}
           >
             {isEmptyOptions && (
