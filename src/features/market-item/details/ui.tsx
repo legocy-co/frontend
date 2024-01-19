@@ -8,7 +8,6 @@ import {
   SelectSearchAdapter,
   TextareaFieldAdapter,
 } from '../../../shared/ui/form-adapters.tsx';
-import { Button } from '../../../shared/ui/button.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 import cities from '../../../../data/cities.json';
@@ -90,9 +89,6 @@ export const MarketItemForm = () => {
               fields.city.errorText()}
           </FormError>
         )}
-        <Button className={'mt-14'} type="submit">
-          Submit
-        </Button>
       </div>
     </form>
   );

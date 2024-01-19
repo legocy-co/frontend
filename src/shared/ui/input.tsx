@@ -50,6 +50,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 Input.displayName = 'Input';
 
 function getType(type: string, isPasswordVisible: boolean) {
-  if (type === 'password') return isPasswordVisible ? 'text' : 'password';
-  return type;
+  switch (type) {
+    case 'file':
+      return 'text';
+    case 'password':
+      return isPasswordVisible ? 'text' : 'password';
+    default:
+      return type;
+  }
 }

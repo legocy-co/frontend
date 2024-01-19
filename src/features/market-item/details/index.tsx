@@ -1,2 +1,2 @@
 export { MarketItemForm } from './ui.tsx';
-export * as mi from './model.ts';
+export * as mif from './model.ts';

@@ -10,12 +10,12 @@ import {
 } from './ErrorHandlers.ts';
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import { mi } from '../features/market-item/publish';
+import { mif } from '../features/market-item/details';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
   CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
-  UploadMarketItemImage: (file: File, id: string) => Promise<boolean>;
+  UploadMarketItemImage: (file: string, id: string) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
   GetMarketItem: (id: string) => Promise<MarketItem>;
   UpdateMarketItem: (id: string, marketItem: MarketItem) => Promise<MarketItem>;
@@ -59,12 +59,12 @@ const CreateMarketItem = async (
     console.log(result.data.id);
     return result.data;
   } catch (e) {
-    return handleMarketItemError(e, 'MarketItem', mi.form);
+    return handleMarketItemError(e, 'MarketItem', mif.form);
   }
 };
 
 const UploadMarketItemImage = async (
-  file: File,
+  file: string,
   id: string
 ): Promise<boolean> => {
   try {

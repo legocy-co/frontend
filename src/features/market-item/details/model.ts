@@ -2,12 +2,15 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { createGate } from 'effector-react';
-import { attach, createEffect, createStore, sample } from 'effector';
-import { marketItemService } from '../../../services/MarketItemService.ts';
+import {
+  StoreValue,
+  createEffect,
+  createStore,
+  createDomain,
+  sample,
+} from 'effector';
 import { legoSetService } from '../../../services/LegoSetService.ts';
 import { LegoSet } from '../../../types/LegoSetType.ts';
-import { navigateFx } from '../../../shared/lib/react-router.ts';
-import { data } from 'autoprefixer';
 
 export const gate = createGate<{ id: string | null }>();
 
@@ -84,18 +87,6 @@ type LegoSetOption = {
 
 const GetLegoSetsFx = createEffect(() => legoSetService.GetLegoSets());
 
-const addMarketItemFx = attach({
-  source: form.$values,
-  effect: (values) =>
-    marketItemService.CreateMarketItem({
-      lego_set_id: Number(values.lego_set_id),
-      location: `${values.city}, ${values.country}`,
-      price: values.price,
-      set_state: values.set_state,
-      description: values.description,
-    }),
-});
-
 function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
   return legoSets.map((legoSet) => ({
     id: String(legoSet.id),
@@ -103,6 +94,26 @@ function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
     name: legoSet.name,
   }));
 }
+
+function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
+  return {
+    lego_set_id: Number(values.lego_set_id),
+    location: `${values.city}, ${values.country}`,
+    price: values.price,
+    set_state: values.set_state,
+    description: values.description,
+  };
+}
+
+const domain = createDomain();
+
+export const createFormDetails = domain.createEvent();
+
+export const resetDomain = domain.createEvent();
+
+export const $mappedValues = form.$values.map(mapFormToRequestBody);
+
+domain.onCreateStore((store) => store.reset(resetDomain));
 
 sample({
   clock: gate.open,
@@ -117,10 +128,10 @@ sample({
 
 sample({
   clock: form.formValidated,
-  target: addMarketItemFx,
+  target: createFormDetails,
 });
 
-// sample({
-//   clock: addMarketItemFx.doneData.map((data) => data.id),
-//   target: imageFormFx,
-// });
+sample({
+  clock: resetDomain,
+  target: form.reset,
+});

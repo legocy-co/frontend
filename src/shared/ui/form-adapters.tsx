@@ -1,6 +1,6 @@
 import { Field, useField } from 'effector-forms';
 import { Input, InputProps } from './input';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
 import { SelectSearch, SelectSearchOption } from './select-search.tsx';
@@ -135,6 +135,52 @@ export const SelectSearchAdapter = ({
       >
         x
       </div>
+    </div>
+  );
+};
+
+export const FileFieldAdapter = ({
+  field,
+  labelText,
+  ...props
+}: FormAdapterProps<string>) => {
+  const { value, hasError, onChange } = useField(field);
+  const extensionRef = useRef<null | string>(null);
+  const fileExtension = extensionRef.current ?? value?.split('.').at(-1);
+  const fileName = value
+    ? `${labelText}${fileExtension ? `.${fileExtension}` : ''}`
+    : '';
+
+  const handleUpload = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    const file = ev.currentTarget.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        onChange(reader.result as string);
+        extensionRef.current = file.name.split('.')[1].toLowerCase();
+      };
+    }
+  };
+
+  return (
+    <div className="w-full relative">
+      <Input
+        readOnly
+        type="file"
+        labelText={labelText}
+        value={fileName ? fileName : 'Click to upload'}
+        isInvalid={hasError()}
+        {...props}
+      />
+
+      <input
+        accept={props.accept}
+        className="cursor-pointer opacity-0 z-50 w-full h-full absolute top-0 left-0"
+        type="file"
+        onChange={handleUpload}
+      />
     </div>
   );
 };

@@ -48,7 +48,9 @@ const MarketItemDetailPage = () => {
               alt=""
             />
           </div>
-          <div className="flex justify-center w-full">{subImagesElement}</div>
+          <div className="hidden xl:flex justify-center w-full">
+            {subImagesElement}
+          </div>
         </div>
         <div className="w-[577px] align-top inline-block text-xl">
           <p className="text-3xl font-semibold mb-10">{marketItem.set}</p>
