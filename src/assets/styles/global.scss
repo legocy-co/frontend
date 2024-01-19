@@ -29,7 +29,7 @@ html, body {
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 120px 30px 184px 30px;
+  padding: 120px 30px 500px 30px;
   align-items: center;
 
   background: var(--white);
@@ -37,8 +37,8 @@ html, body {
   min-height: 100vh;
   max-width: 100vw;
 
-  @media only screen and (max-width: 600px) {
-    height: 100%;
-    width: 100%;
-  }
+  //@media only screen and (max-width: 600px) {
+  //  height: 100%;
+  //  width: 100%;
+  //}
 }

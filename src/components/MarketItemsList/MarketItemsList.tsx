@@ -20,10 +20,7 @@ const MarketItemsList = () => {
   ));
 
   return (
-    <div
-      style={{ gridTemplate: 'auto auto / repeat(5, 1fr)' }}
-      className="grid gap-6"
-    >
+    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 transition-all">
       {marketItemsElements}
     </div>
   );

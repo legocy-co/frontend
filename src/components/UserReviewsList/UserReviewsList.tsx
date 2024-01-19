@@ -20,12 +20,7 @@ const UserReviewsList = () => {
   return (
     <>
       <MenuButton>Sort by: Last Added</MenuButton>
-      <div
-        style={{ gridTemplate: 'auto auto / repeat(2, 1fr)' }}
-        className="grid gap-6 mt-7"
-      >
-        {userReviewsElements}
-      </div>
+      <div className="grid gap-6 mt-7 grid-cols-1 lg:grid-cols-2">{userReviewsElements}</div>
     </>
   );
 };

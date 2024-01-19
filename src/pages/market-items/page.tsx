@@ -10,7 +10,7 @@ export const CatalogPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       <PageHeading>Catalog</PageHeading>
-      <div className="w-full flex items-center justify-center gap-5 mb-7">
+      <div className="grid gap-10 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 mb-7">
         <MenuButton>Filter by set</MenuButton>
         <MenuButton>Filter by price</MenuButton>
         <MenuButton>Filter by condition</MenuButton>
