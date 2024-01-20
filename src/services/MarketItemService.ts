@@ -55,7 +55,7 @@ const CreateMarketItem = async (
         "Can't get market item id"
       );
 
-    // TODO: parse id to updateImage form
+    // TODO: parse id to UploadMarketItemImage
     console.log(result.data.id);
     return result.data;
   } catch (e) {
@@ -131,14 +131,6 @@ const DeleteMarketItem = async (id: string): Promise<boolean> => {
   }
 };
 
-axios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    error?.response?.status === 404 && (await navigateFx({ pathname: '/' }));
-    return Promise.reject(error);
-  }
-);
-
 export const marketItemService: MarketItemService = {
   GetMarketItems: GetMarketItems,
   CreateMarketItem: CreateMarketItem,
@@ -148,3 +140,11 @@ export const marketItemService: MarketItemService = {
   UpdateMarketItem: UpdateMarketItem,
   DeleteMarketItem: DeleteMarketItem,
 };
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    error?.response?.status === 404 && (await navigateFx({ pathname: '/' }));
+    return Promise.reject(error);
+  }
+);

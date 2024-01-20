@@ -9,10 +9,11 @@ import {
 
 export const gate = createGate();
 
-const GetMarketItemsFx = createEffect(() => marketItemService.GetMarketItems());
 const GetMarketItemsAuthorizedFx = createEffect(() =>
   marketItemService.GetMarketItemsAuthorized()
 );
+
+const GetMarketItemsFx = createEffect(() => marketItemService.GetMarketItems());
 
 sample({
   clock: gate.open,
@@ -22,13 +23,14 @@ sample({
 });
 
 sample({
-  clock: GetMarketItemsFx.doneData,
+  clock: GetMarketItemsAuthorizedFx.doneData,
   fn: toMarketItemCells,
   target: $marketItemCells,
 });
 
 sample({
-  clock: GetMarketItemsAuthorizedFx.doneData,
+  clock: GetMarketItemsFx.doneData,
   fn: toMarketItemCells,
   target: $marketItemCells,
 });
+

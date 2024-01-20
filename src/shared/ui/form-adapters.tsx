@@ -59,6 +59,7 @@ export const SelectFieldAdapter = ({
   disabled?: boolean;
 }) => {
   const { value, onChange, hasError } = useField(field);
+
   const isInvalid = hasError();
 
   return (
@@ -139,28 +140,26 @@ export const SelectSearchAdapter = ({
   );
 };
 
-export const FileFieldAdapter = ({
+export const FilesFieldAdapter = ({
   field,
   labelText,
   ...props
-}: FormAdapterProps<string>) => {
-  const { value, hasError, onChange } = useField(field);
+}: FormAdapterProps<string[]>) => {
+  const { hasError, onChange } = useField(field);
   const extensionRef = useRef<null | string>(null);
-  const fileExtension = extensionRef.current ?? value?.split('.').at(-1);
-  const fileName = value
-    ? `${labelText}${fileExtension ? `.${fileExtension}` : ''}`
-    : '';
 
   const handleUpload = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const file = ev.currentTarget.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        onChange(reader.result as string);
-        extensionRef.current = file.name.split('.')[1].toLowerCase();
-      };
+    if (ev.currentTarget.files) {
+      const files = [] as string[];
+      Array.from(ev.currentTarget.files).map((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          extensionRef.current = file.name.split('.')[1].toLowerCase();
+          files.push(reader.result as string);
+        };
+      });
+      onChange(files);
     }
   };
 
@@ -169,14 +168,16 @@ export const FileFieldAdapter = ({
       <Input
         readOnly
         type="file"
+        multiple
         labelText={labelText}
-        value={fileName ? fileName : 'Click to upload'}
+        value={'Click to upload'}
         isInvalid={hasError()}
         {...props}
       />
 
       <input
         accept={props.accept}
+        multiple
         className="cursor-pointer opacity-0 z-50 w-full h-full absolute top-0 left-0"
         type="file"
         onChange={handleUpload}

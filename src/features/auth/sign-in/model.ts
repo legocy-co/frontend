@@ -31,6 +31,8 @@ export const form = createForm({
   },
 });
 
+export const signedIn = createEvent();
+
 // AuthService
 const signInFx = attach({
   source: form.$values,
@@ -40,8 +42,6 @@ const signInFx = attach({
       password: values.password,
     }),
 });
-
-export const signedIn = createEvent();
 
 sample({
   clock: form.formValidated,

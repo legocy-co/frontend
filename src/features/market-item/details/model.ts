@@ -12,9 +12,11 @@ import {
 import { legoSetService } from '../../../services/LegoSetService.ts';
 import { LegoSet } from '../../../types/LegoSetType.ts';
 
-export const gate = createGate<{ id: string | null }>();
-
-export const $legoSetOptions = createStore<LegoSetOption[]>([]);
+type LegoSetOption = {
+  id: string;
+  number: number;
+  name: string;
+};
 
 export const form = createForm({
   fields: {
@@ -79,21 +81,19 @@ export const form = createForm({
   },
 });
 
-type LegoSetOption = {
-  id: string;
-  number: number;
-  name: string;
-};
+const domain = createDomain();
+
+export const gate = createGate<{ id: string | null }>();
+
+export const $legoSetOptions = createStore<LegoSetOption[]>([]);
+
+export const createFormDetails = domain.createEvent();
+
+export const resetDomain = domain.createEvent();
+
+export const $mappedValues = form.$values.map(mapFormToRequestBody);
 
 const GetLegoSetsFx = createEffect(() => legoSetService.GetLegoSets());
-
-function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
-  return legoSets.map((legoSet) => ({
-    id: String(legoSet.id),
-    number: legoSet.number,
-    name: legoSet.name,
-  }));
-}
 
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
@@ -105,13 +105,13 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   };
 }
 
-const domain = createDomain();
-
-export const createFormDetails = domain.createEvent();
-
-export const resetDomain = domain.createEvent();
-
-export const $mappedValues = form.$values.map(mapFormToRequestBody);
+function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
+  return legoSets.map((legoSet) => ({
+    id: String(legoSet.id),
+    number: legoSet.number,
+    name: legoSet.name,
+  }));
+}
 
 domain.onCreateStore((store) => store.reset(resetDomain));
 

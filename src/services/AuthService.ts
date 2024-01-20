@@ -103,6 +103,14 @@ const GetBaseUrl = () => {
   return '/api/v1';
 };
 
+export const authService: AuthService = {
+  IsAuthorized: IsAuthorized,
+  SignIn: SignIn,
+  SignUp: SignUp,
+  RefreshToken: RefreshToken,
+  Logout: Logout,
+};
+
 axios.defaults.baseURL = GetBaseUrl();
 axios.defaults.headers.common.Authorization = IsAuthorized()
   ? GetAccessTokenHeader()
@@ -147,11 +155,3 @@ axios.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
-export const authService: AuthService = {
-  IsAuthorized: IsAuthorized,
-  SignIn: SignIn,
-  SignUp: SignUp,
-  RefreshToken: RefreshToken,
-  Logout: Logout,
-};

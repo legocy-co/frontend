@@ -4,21 +4,21 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 
-export const gate = createGate<{ id: string | null }>();
-
 export const form = createForm({
   fields: {
-    image: {
-      init: '',
+    images: {
+      init: [],
       rules: [
         createRule({
           name: 'image',
-          schema: z.string().min(1, 'Missing image'),
+          schema: z.array(z.string()).min(1, 'Missing images'),
         }),
       ],
     },
   },
 });
+
+export const gate = createGate<{ id: string | null }>();
 
 export const uploadFormImage = createEvent();
 
@@ -30,7 +30,7 @@ export const $mappedValues = combine(form.$values, (values) => ({
 
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
-    file: values.image,
+    file: values.images,
   };
 }
 

@@ -14,6 +14,7 @@ export type MarketItemCell = {
 };
 
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
+
 export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
     id: marketItem.id,

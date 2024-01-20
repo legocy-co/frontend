@@ -33,17 +33,15 @@ export const SelectSearch = ({
   isInvalid,
   ...props
 }: Props) => {
-  const [coords, setCoords] = useState({ left: 0, top: 0, right: 0 });
-  const [isOpened, setIsOpened] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(containerRef, handlerClose, isOpened);
-
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(value.toLowerCase())
   );
 
-  const isEmptyOptions = filteredOptions.length === 0;
+  const ref = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState({ left: 0, top: 0, right: 0 });
+
+  const [isOpened, setIsOpened] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleInputClick = () => {
     if (!ref.current) return;
@@ -59,6 +57,9 @@ export const SelectSearch = ({
     setIsOpened(false);
   }
 
+  useOutsideClick(containerRef, handlerClose, isOpened);
+
+  const isEmptyOptions = filteredOptions.length === 0;
   const renderOptions = clientSideSearch ? filteredOptions : options;
 
   return (

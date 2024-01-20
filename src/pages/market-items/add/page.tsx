@@ -2,9 +2,9 @@ import { PageHeading } from '../../../shared/ui/page-heading.tsx';
 import { MarketItemForm, mif } from '../../../features/market-item/details';
 import * as model from './model.ts';
 import {
-  UploadMarketItemImageForm,
+  MarketItemImagesForm,
   umiif,
-} from '../../../features/market-item/upload-image';
+} from '../../../features/market-item/images';
 import { Button } from '../../../shared/ui/button.tsx';
 import { MenuButton } from '../../../shared/ui/menu-button.tsx';
 import { useState } from 'react';
@@ -44,7 +44,7 @@ const AddMarketItemPage = () => {
         <MarketItemForm />
       </div>
       <div className={!imagesTab ? 'hidden' : ''}>
-        <UploadMarketItemImageForm />
+        <MarketItemImagesForm />
       </div>
       <Button className="mt-20" onClick={() => model.submitTriggered()}>
         Add Market item

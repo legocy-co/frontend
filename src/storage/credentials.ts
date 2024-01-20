@@ -1,9 +1,9 @@
+const CREDENTIALS_LOCAL_STORAGE_KEY = 'legocy-credentials';
+
 type CredentialsStorage = {
   accessToken: string;
   refreshToken: string;
 };
-
-const CREDENTIALS_LOCAL_STORAGE_KEY = 'legocy-credentials';
 
 const GetCredentials = (): CredentialsStorage => {
   const strStorage = localStorage.getItem(CREDENTIALS_LOCAL_STORAGE_KEY);

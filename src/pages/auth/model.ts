@@ -6,6 +6,7 @@ import { authService } from '../../services/AuthService.ts';
 
 export const gate = createGate();
 
+// store previous path
 const GetFrom = (search: string | null) => {
   if (!search) return '/';
 

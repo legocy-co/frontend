@@ -9,14 +9,23 @@ export type InputProps = NativeInputProps & {
   labelText: string;
   isInvalid?: boolean;
   isDisabled?: boolean;
+  multiple?: boolean;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { labelText, isInvalid, type = 'text', isDisabled, ...rest } = props;
-  const [isPasswordVisible, setPasswordVisible] = useState(false);
+  const {
+    labelText,
+    isInvalid,
+    type = 'text',
+    isDisabled,
+    ...rest
+  } = props;
 
   const isPassword = type === 'password';
   const isNumber = type === 'number';
+
+  const [isPasswordVisible, setPasswordVisible] = useState(false);
+
   const parsedType = getType(type, isPasswordVisible);
 
   return (
@@ -37,7 +46,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         {isPassword && (
           <img
             className="absolute top-4 right-3 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
-            onClick={() => setPasswordVisible((prevState) => !prevState)}
+            onClick={() => setPasswordVisible((prev) => !prev)}
             src={isPasswordVisible ? HideIcon : ShowIcon}
             alt=""
           />

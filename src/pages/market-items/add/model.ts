@@ -2,17 +2,17 @@ import { NavigateFunction } from 'react-router-dom';
 import { createGate } from 'effector-react';
 import { attach, createEvent, createStore, sample } from 'effector';
 import { mif } from '../../../features/market-item/details';
-import { umiif } from '../../../features/market-item/upload-image';
+import { umiif } from '../../../features/market-item/images';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { and } from 'patronum';
+
+export const submitTriggered = createEvent();
 
 export const gate = createGate<{
   navigateFn: NavigateFunction;
 }>();
 
-export const $marketItemId = createStore<number>(0);
-
-export const submitTriggered = createEvent();
+const $marketItemId = createStore<number>(0);
 
 const addMarketItemFx = attach({
   source: mif.$mappedValues,

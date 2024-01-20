@@ -23,6 +23,7 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
           'py-3 px-6 rounded-full border border-solid border-graphite text-nowrap font-medium transition-all hover:brightness-95 active:brightness-90',
           { 'flex justify-between items-center min-w-32 px-4': isCurrency },
           { 'brightness-75 pointer-events-none': disabled },
+          { 'bg-white': !isInvalid },
           { 'bg-rose': isInvalid }
         )}
         ref={ref}
