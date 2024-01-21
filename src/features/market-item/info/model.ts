@@ -87,7 +87,7 @@ export const gate = createGate<{ id: string | null }>();
 
 export const $legoSetOptions = createStore<LegoSetOption[]>([]);
 
-export const createFormDetails = domain.createEvent();
+export const createFormInfo = domain.createEvent();
 
 export const resetDomain = domain.createEvent();
 
@@ -128,10 +128,10 @@ sample({
 
 sample({
   clock: form.formValidated,
-  target: createFormDetails,
+  target: createFormInfo,
 });
 
 sample({
   clock: resetDomain,
-  target: form.reset,
+  target: [form.reset],
 });

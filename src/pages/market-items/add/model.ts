@@ -1,10 +1,11 @@
 import { NavigateFunction } from 'react-router-dom';
 import { createGate } from 'effector-react';
 import { attach, createEvent, createStore, sample } from 'effector';
-import { mif } from '../../../features/market-item/details';
+import { mif } from '../../../features/market-item/info';
 import { umiif } from '../../../features/market-item/images';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { and } from 'patronum';
+import { sleep } from '../../../services/utils.ts';
 
 export const submitTriggered = createEvent();
 
@@ -22,10 +23,17 @@ const addMarketItemFx = attach({
 const uploadImageFx = attach({
   source: {
     id: $marketItemId,
-    image: umiif.$mappedValues,
+    images: umiif.$mappedValues,
   },
-  effect: ({ id, image }) =>
-    marketItemService.UploadMarketItemImage(image.file, String(id)),
+  effect: async ({ id, images }) => {
+    for (let i = 0; i < images.files.length; i++) {
+      const data = new FormData();
+      data.append('file', images.files[i]);
+
+      marketItemService.UploadMarketItemImage(data, String(id));
+      await sleep(1001);
+    }
+  },
 });
 
 sample({
@@ -34,13 +42,18 @@ sample({
 });
 
 sample({
-  clock: [mif.form.submit, umiif.form.submit],
+  clock: [mif.createFormInfo, umiif.createFormImages],
   filter: and(mif.form.$isValid, umiif.form.$isValid),
   target: addMarketItemFx,
 });
 
 sample({
   clock: addMarketItemFx.doneData.map((data) => data.id),
+  target: $marketItemId,
+});
+
+sample({
+  clock: $marketItemId,
   target: uploadImageFx,
 });
 

@@ -144,20 +144,14 @@ export const FilesFieldAdapter = ({
   field,
   labelText,
   ...props
-}: FormAdapterProps<string[]>) => {
+}: FormAdapterProps<File[]>) => {
   const { hasError, onChange } = useField(field);
-  const extensionRef = useRef<null | string>(null);
 
   const handleUpload = (ev: React.ChangeEvent<HTMLInputElement>) => {
     if (ev.currentTarget.files) {
-      const files = [] as string[];
+      const files = [] as File[];
       Array.from(ev.currentTarget.files).map((file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          extensionRef.current = file.name.split('.')[1].toLowerCase();
-          files.push(reader.result as string);
-        };
+        files.push(file);
       });
       onChange(files);
     }

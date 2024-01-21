@@ -1,7 +1,7 @@
 import { useGate, useUnit } from 'effector-react';
 import { useParams } from 'react-router-dom';
 import * as model from './model.ts';
-import { FormEvent } from 'react';
+import React, { FormEvent } from 'react';
 import {
   NumberFieldAdapter,
   SelectFieldAdapter,
@@ -13,16 +13,16 @@ import { useForm } from 'effector-forms';
 import cities from '../../../../data/cities.json';
 import { setStates } from '../../../types/MarketItemType.ts';
 
-export const MarketItemForm = () => {
+export const MarketItemInfoForm = () => {
   const legoSets = useUnit(model.$legoSetOptions);
   const params = useParams<'id'>();
   useGate(model.gate, { id: params.id ?? null });
 
   const { fields, eachValid } = useForm(model.form);
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  function onSubmit(ev: React.FormEvent) {
+    ev.preventDefault();
     model.form.submit();
-  };
+  }
 
   return (
     <form onSubmit={onSubmit}>

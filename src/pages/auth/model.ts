@@ -1,8 +1,9 @@
 import { createGate } from 'effector-react';
 import { $location, navigateFx } from '../../shared/lib/react-router.ts';
 import { attach, sample } from 'effector';
-import * as signInModel from '../../features/auth/sign-in/model.ts';
 import { authService } from '../../services/AuthService.ts';
+import { su } from '../../features/auth/sign-up/index.tsx';
+import { si } from '../../features/auth/sign-in/index.tsx';
 
 export const gate = createGate();
 
@@ -33,6 +34,11 @@ sample({
 });
 
 sample({
-  clock: signInModel.signedIn,
+  clock: si.signedIn,
   target: redirectBackFx,
+});
+
+sample({
+  clock: gate.close,
+  target: su.form.reset,
 });

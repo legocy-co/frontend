@@ -20,14 +20,14 @@ const GalleryModal = (props: GalleryModalProps) => {
     [i]
   );
 
-  const listElement = list.map((img) => (
+  const listElement = list.map((img, i) => (
     <img
-      key={img}
+      key={'gallery-' + i}
       className="gallery--list_member"
       src={img}
       onError={addDefaultSrc}
       alt=""
-      onClick={() => setIndex(list.findIndex((member) => member === img))}
+      onClick={() => setIndex(i)}
     />
   ));
 

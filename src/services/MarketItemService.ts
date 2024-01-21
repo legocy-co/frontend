@@ -10,12 +10,12 @@ import {
 } from './ErrorHandlers.ts';
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import { mif } from '../features/market-item/details';
+import { mif } from '../features/market-item/info';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
   CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
-  UploadMarketItemImage: (file: string, id: string) => Promise<boolean>;
+  UploadMarketItemImage: (file: FormData, id: string) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
   GetMarketItem: (id: string) => Promise<MarketItem>;
   UpdateMarketItem: (id: string, marketItem: MarketItem) => Promise<MarketItem>;
@@ -52,11 +52,9 @@ const CreateMarketItem = async (
       return handleIncorrectParse(
         result.error,
         'CreateMarketItem',
-        "Can't get market item id"
+        'Incorrect parse'
       );
 
-    // TODO: parse id to UploadMarketItemImage
-    console.log(result.data.id);
     return result.data;
   } catch (e) {
     return handleMarketItemError(e, 'MarketItem', mif.form);
@@ -64,7 +62,7 @@ const CreateMarketItem = async (
 };
 
 const UploadMarketItemImage = async (
-  file: string,
+  file: FormData,
   id: string
 ): Promise<boolean> => {
   try {

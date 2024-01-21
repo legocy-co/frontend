@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 type Props = {
-  images: string[];
+  images: File[];
 };
 
 export const MarketItemPreview = (props: Props) => {
@@ -14,13 +14,25 @@ export const MarketItemPreview = (props: Props) => {
   );
 };
 
-const Preview = ({ images }: { images: string[] }) => {
-  const [preview, setPreview] = useState([] as string[]);
+const Preview = ({ images }: { images: File[] }) => {
+  const [preview, setPreview] = useState([] as File[]);
 
   useEffect(() => {
     const tick = setInterval(() => setPreview(images), 0);
     return () => clearInterval(tick);
   }, [images]);
+
+  for (let i = 0; i < images.length; i++) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const imgElem = document.getElementById(
+        'preview-' + i
+      ) as HTMLImageElement;
+      imgElem.src = reader.result as string;
+    };
+
+    reader.readAsDataURL(images[i]);
+  }
 
   return (
     <div
@@ -28,8 +40,13 @@ const Preview = ({ images }: { images: string[] }) => {
       className="w-96 overflow-hidden bg-neutral-85 flex gap-5 flex-col rounded-lg"
     >
       {preview &&
-        preview.map((img) => (
-          <img key={img} className="rounded-lg" src={img} alt="image" />
+        preview.map((_, i) => (
+          <img
+            key={'preview-' + i}
+            id={'preview-' + i}
+            className="rounded-lg"
+            alt="image"
+          />
         ))}
     </div>
   );

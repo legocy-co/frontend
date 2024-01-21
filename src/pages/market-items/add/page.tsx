@@ -1,5 +1,5 @@
 import { PageHeading } from '../../../shared/ui/page-heading.tsx';
-import { MarketItemForm, mif } from '../../../features/market-item/details';
+import { MarketItemInfoForm, mif } from '../../../features/market-item/info';
 import * as model from './model.ts';
 import {
   MarketItemImagesForm,
@@ -37,11 +37,11 @@ const AddMarketItemPage = () => {
           disabled={imagesTab}
           onClick={() => setImagesTab(true)}
         >
-          Image
+          Images
         </MenuButton>
       </div>
       <div className={imagesTab ? 'hidden' : ''}>
-        <MarketItemForm />
+        <MarketItemInfoForm />
       </div>
       <div className={!imagesTab ? 'hidden' : ''}>
         <MarketItemImagesForm />

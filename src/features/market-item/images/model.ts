@@ -7,11 +7,13 @@ import { z } from 'zod';
 export const form = createForm({
   fields: {
     images: {
-      init: [],
+      init: [] as File[],
       rules: [
         createRule({
           name: 'image',
-          schema: z.array(z.string()).min(1, 'Missing images'),
+          schema: z
+            .array(z.custom<File>((file) => file instanceof File))
+            .min(1),
         }),
       ],
     },
@@ -20,7 +22,7 @@ export const form = createForm({
 
 export const gate = createGate<{ id: string | null }>();
 
-export const uploadFormImage = createEvent();
+export const createFormImages = createEvent();
 
 export const resetDomain = createEvent();
 
@@ -30,13 +32,13 @@ export const $mappedValues = combine(form.$values, (values) => ({
 
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
-    file: values.images,
+    files: values.images,
   };
 }
 
 sample({
   source: form.formValidated,
-  target: uploadFormImage,
+  target: createFormImages,
 });
 
 sample({
