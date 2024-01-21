@@ -6,6 +6,15 @@ import { umiif } from '../../../features/market-item/images';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { and } from 'patronum';
 import { sleep } from '../../../services/utils.ts';
+import { GetCredentials } from '../../../storage/credentials.ts';
+import { jwtDecode } from 'jwt-decode';
+import { TokenType } from '../../../services/AuthService.ts';
+import { navigateFx } from '../../../shared/lib/react-router.ts';
+
+const credentials = GetCredentials();
+const decodedAccess = credentials.accessToken
+  ? jwtDecode<TokenType>(credentials.accessToken)
+  : '';
 
 export const submitTriggered = createEvent();
 
@@ -20,7 +29,7 @@ const addMarketItemFx = attach({
   effect: marketItemService.CreateMarketItem,
 });
 
-const uploadImageFx = attach({
+const uploadImagesFx = attach({
   source: {
     id: $marketItemId,
     images: umiif.$mappedValues,
@@ -31,8 +40,16 @@ const uploadImageFx = attach({
       data.append('file', images.files[i]);
 
       marketItemService.UploadMarketItemImage(data, String(id));
-      await sleep(1001);
+      await sleep(1010);
+
+      const imgElem = document.getElementById(
+        'preview-' + i
+      ) as HTMLImageElement;
+
+      imgElem.width = 0;
     }
+
+    await navigateFx(decodedAccess && '/profile/' + decodedAccess.id);
   },
 });
 
@@ -54,7 +71,7 @@ sample({
 
 sample({
   clock: $marketItemId,
-  target: uploadImageFx,
+  target: uploadImagesFx,
 });
 
 sample({

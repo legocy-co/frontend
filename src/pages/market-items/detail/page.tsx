@@ -16,7 +16,7 @@ const MarketItemDetailPage = () => {
   const [showGallery, setShowGallery] = useState<number>(-1);
 
   const subImagesElement = marketItem.images
-    .slice(1, 3)
+    .slice(1, 4)
     .map((image, i) => (
       <img
         key={image}
@@ -48,7 +48,7 @@ const MarketItemDetailPage = () => {
               alt=""
             />
           </div>
-          <div className="hidden xl:flex justify-center w-full">
+          <div className="hidden xl:flex justify-around w-full">
             {subImagesElement}
           </div>
         </div>
