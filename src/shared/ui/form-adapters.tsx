@@ -5,7 +5,7 @@ import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
 import { SelectSearch, SelectSearchOption } from './select-search.tsx';
 
-type FormAdapterProps<T> = {
+export type FormAdapterProps<T> = {
   field: Field<T>;
 } & Omit<InputProps, 'isInvalid'>;
 
@@ -86,15 +86,14 @@ export const TextareaFieldAdapter = ({
   className,
   labelText,
 }: FormAdapterProps<string>) => {
-  const { value, onChange, hasError } = useField(field);
+  const { value, onChange } = useField(field);
 
   return (
     <Textarea
       labelText={labelText}
       className={className}
-      isInvalid={hasError()}
       value={value}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={(e) => onChange(e.currentTarget.value)}
     />
   );
 };
@@ -147,13 +146,13 @@ export const FilesFieldAdapter = ({
 }: FormAdapterProps<File[]>) => {
   const { hasError, onChange, value } = useField(field);
 
-  const handleUpload = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (ev.currentTarget.files) {
-      Array.from(ev.currentTarget.files).map((file) => value.push(file));
+  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      Array.from(e.target.files).map((file) => value.push(file));
 
       const transfer = new DataTransfer();
       value.map((file) => transfer.items.add(file));
-      ev.currentTarget.files = transfer.files;
+      e.target.files = transfer.files;
 
       const files = [] as File[];
       files.push(...value);
@@ -173,7 +172,6 @@ export const FilesFieldAdapter = ({
         isInvalid={hasError()}
         {...props}
       />
-
       <input
         accept={props.accept}
         multiple

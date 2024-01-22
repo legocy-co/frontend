@@ -1,4 +1,4 @@
-import { createEvent, sample, combine, StoreValue } from 'effector';
+import { sample, combine, StoreValue, createDomain } from 'effector';
 import { createGate } from 'effector-react';
 import { createForm } from 'effector-forms';
 import { createRule } from '../../../services/utils.ts';
@@ -23,9 +23,11 @@ export const form = createForm({
 
 export const gate = createGate<{ id: string | null }>();
 
-export const createFormImages = createEvent();
+const domain = createDomain();
 
-export const resetDomain = createEvent();
+export const createFormImages = domain.createEvent();
+
+export const resetDomain = domain.createEvent();
 
 export const $mappedValues = combine(form.$values, (values) => ({
   ...mapFormToRequestBody(values),
@@ -44,5 +46,5 @@ sample({
 
 sample({
   clock: resetDomain,
-  target: [form.reset],
+  target: form.reset,
 });

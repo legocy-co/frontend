@@ -9,7 +9,6 @@ import { sleep } from '../../../services/utils.ts';
 import { GetCredentials } from '../../../storage/credentials.ts';
 import { jwtDecode } from 'jwt-decode';
 import { TokenType } from '../../../services/AuthService.ts';
-import { navigateFx } from '../../../shared/lib/react-router.ts';
 
 const credentials = GetCredentials();
 const decodedAccess = credentials.accessToken
@@ -48,9 +47,13 @@ const uploadImagesFx = attach({
 
       imgElem.width = 0;
     }
-
-    await navigateFx(decodedAccess && '/profile/' + decodedAccess.id);
   },
+});
+
+const profileRedirectFx = attach({
+  source: gate.state,
+  effect: ({ navigateFn }) =>
+    navigateFn(decodedAccess && '/profile/' + decodedAccess.id),
 });
 
 sample({
@@ -72,6 +75,11 @@ sample({
 sample({
   clock: $marketItemId,
   target: uploadImagesFx,
+});
+
+sample({
+  clock: uploadImagesFx.done,
+  target: profileRedirectFx,
 });
 
 sample({

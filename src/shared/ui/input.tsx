@@ -13,13 +13,7 @@ export type InputProps = NativeInputProps & {
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const {
-    labelText,
-    isInvalid,
-    type = 'text',
-    isDisabled,
-    ...rest
-  } = props;
+  const { labelText, isInvalid, type = 'text', isDisabled, ...rest } = props;
 
   const isPassword = type === 'password';
   const isNumber = type === 'number';
