@@ -133,5 +133,5 @@ sample({
 
 sample({
   clock: resetDomain,
-  target: [form.reset],
+  target: form.reset,
 });
