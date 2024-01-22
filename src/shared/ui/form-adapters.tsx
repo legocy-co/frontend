@@ -1,6 +1,6 @@
 import { Field, useField } from 'effector-forms';
 import { Input, InputProps } from './input';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
 import { SelectSearch, SelectSearchOption } from './select-search.tsx';
@@ -145,14 +145,19 @@ export const FilesFieldAdapter = ({
   labelText,
   ...props
 }: FormAdapterProps<File[]>) => {
-  const { hasError, onChange } = useField(field);
+  const { hasError, onChange, value } = useField(field);
 
   const handleUpload = (ev: React.ChangeEvent<HTMLInputElement>) => {
     if (ev.currentTarget.files) {
+      Array.from(ev.currentTarget.files).map((file) => value.push(file));
+
+      const transfer = new DataTransfer();
+      value.map((file) => transfer.items.add(file));
+      ev.currentTarget.files = transfer.files;
+
       const files = [] as File[];
-      Array.from(ev.currentTarget.files).map((file) => {
-        files.push(file);
-      });
+      files.push(...value);
+
       onChange(files);
     }
   };
