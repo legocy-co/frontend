@@ -1,7 +1,7 @@
 import { useGate, useUnit } from 'effector-react';
 import { useParams } from 'react-router-dom';
 import * as model from './model.ts';
-import React, { FormEvent } from 'react';
+import React from 'react';
 import {
   NumberFieldAdapter,
   SelectFieldAdapter,
