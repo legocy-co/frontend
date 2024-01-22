@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useField } from 'effector-forms';
+import { umiif } from '../../../features/market-item/images';
 
 type Props = {
   images: File[];
@@ -7,7 +9,7 @@ type Props = {
 export const MarketItemPreview = (props: Props) => {
   return (
     <div className="w-fill">
-      <div className="flex flex-col">
+      <div className="flex flex-col items-center">
         <Preview images={props.images} />
       </div>
     </div>
@@ -16,6 +18,7 @@ export const MarketItemPreview = (props: Props) => {
 
 const Preview = ({ images }: { images: File[] }) => {
   const [preview, setPreview] = useState([] as File[]);
+  const { value, onChange } = useField(umiif.form.fields.images);
 
   useEffect(() => {
     const tick = setInterval(() => setPreview(images), 0);
@@ -34,19 +37,29 @@ const Preview = ({ images }: { images: File[] }) => {
     reader.readAsDataURL(images[i]);
   }
 
+  function handleClose(i: number) {
+    const files = value.slice(0, i);
+    files.push(...value.slice(i + 1));
+    onChange(files);
+  }
+
   return (
     <div
       id="preview"
-      className="w-96 overflow-hidden bg-neutral-85 flex gap-5 flex-col rounded-lg"
+      className="w-80 overflow-hidden flex gap-5 flex-col rounded-lg"
     >
       {preview &&
         preview.map((_, i) => (
-          <img
-            key={'preview-' + i}
-            id={'preview-' + i}
-            className="rounded-lg"
-            alt="image"
-          />
+          <div key={'preview-' + i} className="relative">
+            <img id={'preview-' + i} className="rounded-lg" alt="image" />
+            <button
+              className="absolute top-3 right-3"
+              type="button"
+              onClick={() => handleClose(i)}
+            >
+              x
+            </button>
+          </div>
         ))}
     </div>
   );

@@ -13,7 +13,8 @@ export const form = createForm({
           name: 'image',
           schema: z
             .array(z.custom<File>((file) => file instanceof File))
-            .min(1),
+            .min(1, 'Missing images')
+            .max(6, 'Market item must contain no more than 6 images'),
         }),
       ],
     },

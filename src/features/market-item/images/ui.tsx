@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { FilesFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
 import { MarketItemPreview } from '../../../entities/market-item';
 import { FormError } from '../../../shared/ui/form-error.tsx';
