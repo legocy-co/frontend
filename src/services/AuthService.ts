@@ -5,8 +5,8 @@ import { SignUpData } from '../types/SignUp.ts';
 import { history } from '../routes/history.ts';
 import { handleAuthError } from './ErrorHandlers.ts';
 import { jwtDecode } from 'jwt-decode';
-import { si } from '../features/auth/sign-up/index.tsx';
-import { su } from '../features/auth/sign-in/index.tsx';
+import { su } from '../features/auth/sign-up/';
+import { si } from '../features/auth/sign-in/';
 
 export interface AuthService {
   IsAuthorized: () => boolean;
@@ -103,6 +103,14 @@ const GetBaseUrl = () => {
   return '/api/v1';
 };
 
+export const authService: AuthService = {
+  IsAuthorized: IsAuthorized,
+  SignIn: SignIn,
+  SignUp: SignUp,
+  RefreshToken: RefreshToken,
+  Logout: Logout,
+};
+
 axios.defaults.baseURL = GetBaseUrl();
 axios.defaults.headers.common.Authorization = IsAuthorized()
   ? GetAccessTokenHeader()
@@ -147,11 +155,3 @@ axios.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
-export const authService: AuthService = {
-  IsAuthorized: IsAuthorized,
-  SignIn: SignIn,
-  SignUp: SignUp,
-  RefreshToken: RefreshToken,
-  Logout: Logout,
-};

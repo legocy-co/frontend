@@ -26,7 +26,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
           onClick={() => navigate(to)}
           alt=""
         />
-        <div className="flex justify-center gap-5 text-bh font-bold pointer-events-none">
+        <div className="flex justify-center gap-5 text-bh font-bold pointer-events-none text-nowrap">
           {children}
         </div>
         {isMarketItemDetail && (

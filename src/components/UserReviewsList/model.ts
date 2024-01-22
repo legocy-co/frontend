@@ -11,6 +11,7 @@ export type UserReviewCell = {
 };
 
 export const $userReviewCells = createStore<UserReviewCell[]>([]);
+
 export function toUserReviewCells(userReviews: UserReview[]): UserReviewCell[] {
   return userReviews.map((userReview) => ({
     id: userReview.id,

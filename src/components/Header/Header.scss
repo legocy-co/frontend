@@ -53,11 +53,18 @@ header {
     &:active {
       background: #ecc439;
     }
+    @media (max-width: 600px) {
+      height: 64px;
+      margin-left: 0;
+    }
   }
 }
 
 .header--logo {
   margin: 0;
+  @media (max-width: 600px) {
+    display: none;
+  }
 }
 
 .header--searchbar {
@@ -78,16 +85,27 @@ header {
     &::placeholder {
       color: #00000075;
     }
+    @media (max-width: 600px) {
+      height: 64px;
+    }
   }
 
   img {
     position: absolute;
     top: 12px;
     right: 10px;
+    @media (max-width: 600px) {
+      top: 24px;
+    }
   }
 }
 
-.header--map {margin-left: 4%}
+.header--map {
+  margin-left: 4%;
+  @media (max-width: 600px) {
+    display: none;
+  }
+}
 
 .header--chat {
   position: relative;
@@ -105,6 +123,9 @@ header {
     min-width: 17px;
     min-height: 17px;
     font-size: 0.625rem;
+  }
+  @media (max-width: 600px) {
+    display: none;
   }
 }
 
@@ -131,5 +152,11 @@ header {
     transition: opacity 0.2s;
     &:hover {opacity: 0.75}
     &:active {opacity: 0.5}
+  }
+  @media (max-width: 600px) {
+    margin-left: 4%;
+    img {
+      width: 40px;
+    }
   }
 }

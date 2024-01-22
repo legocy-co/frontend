@@ -30,3 +30,7 @@ export function addDefaultSrc(e: SyntheticEvent<HTMLImageElement>) {
   e.currentTarget.height = 19;
   e.currentTarget.src = Image404;
 }
+
+export function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}

@@ -16,7 +16,7 @@ const MarketItemDetailPage = () => {
   const [showGallery, setShowGallery] = useState<number>(-1);
 
   const subImagesElement = marketItem.images
-    .slice(1, 3)
+    .slice(1, 4)
     .map((image, i) => (
       <img
         key={image}
@@ -32,7 +32,7 @@ const MarketItemDetailPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       <PageHeading isMarketItemDetail to="/catalog" />
-      <div className="mt-8 mb-9 whitespace-nowrap">
+      <div className="mt-8 mb-9 whitespace-nowrap grid xl:grid-cols-2 gap-7">
         <div className="inline-block w-[595px]">
           <div className="relative mb-7">
             <img
@@ -48,9 +48,11 @@ const MarketItemDetailPage = () => {
               alt=""
             />
           </div>
-          <div className="flex justify-center w-full">{subImagesElement}</div>
+          <div className="hidden xl:flex justify-around w-full">
+            {subImagesElement}
+          </div>
         </div>
-        <div className="w-[577px] align-top inline-block ml-7 text-xl">
+        <div className="w-[577px] align-top inline-block text-xl">
           <p className="text-3xl font-semibold mb-10">{marketItem.set}</p>
           <div className="flex flex-col justify-between h-24 mb-4">
             <p>

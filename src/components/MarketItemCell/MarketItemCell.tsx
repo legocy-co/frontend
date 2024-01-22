@@ -20,8 +20,8 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(props.images[0]);
 
-  const radioElements = props.images.map((img) => (
-    <div key={img}>
+  const radioElements = props.images.map((img, i) => (
+    <div key={img + i}>
       <input
         type="radio"
         id={img}

@@ -1,15 +1,22 @@
 import { createForm } from 'effector-forms';
-import { createRule } from '../../services/utils.ts';
+import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { createGate } from 'effector-react';
-import { attach, createEffect, createStore, sample } from 'effector';
-import { marketItemService } from '../../services/MarketItemService.ts';
-import { legoSetService } from '../../services/LegoSetService.ts';
-import { LegoSet } from '../../types/LegoSetType.ts';
+import {
+  StoreValue,
+  createEffect,
+  createStore,
+  createDomain,
+  sample,
+} from 'effector';
+import { legoSetService } from '../../../services/LegoSetService.ts';
+import { LegoSet } from '../../../types/LegoSetType.ts';
 
-export const gate = createGate<{ id: string | null }>();
-
-export const $legoSetOptions = createStore<LegoSetOption[]>([]);
+type LegoSetOption = {
+  id: string;
+  number: number;
+  name: string;
+};
 
 export const form = createForm({
   fields: {
@@ -74,25 +81,29 @@ export const form = createForm({
   },
 });
 
-type LegoSetOption = {
-  id: string;
-  number: number;
-  name: string;
-};
+const domain = createDomain();
+
+export const gate = createGate<{ id: string | null }>();
+
+export const $legoSetOptions = createStore<LegoSetOption[]>([]);
+
+export const createFormInfo = domain.createEvent();
+
+export const resetDomain = domain.createEvent();
+
+export const $mappedValues = form.$values.map(mapFormToRequestBody);
 
 const GetLegoSetsFx = createEffect(() => legoSetService.GetLegoSets());
 
-const addMarketItemFx = attach({
-  source: form.$values,
-  effect: (values) =>
-    marketItemService.CreateMarketItem({
-      lego_set_id: Number(values.lego_set_id),
-      location: `${values.city}, ${values.country}`,
-      price: values.price,
-      set_state: values.set_state,
-      description: values.description,
-    }),
-});
+function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
+  return {
+    lego_set_id: Number(values.lego_set_id),
+    location: `${values.city}, ${values.country}`,
+    price: values.price,
+    set_state: values.set_state,
+    description: values.description,
+  };
+}
 
 function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
   return legoSets.map((legoSet) => ({
@@ -101,6 +112,8 @@ function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
     name: legoSet.name,
   }));
 }
+
+domain.onCreateStore((store) => store.reset(resetDomain));
 
 sample({
   clock: gate.open,
@@ -115,5 +128,10 @@ sample({
 
 sample({
   clock: form.formValidated,
-  target: addMarketItemFx,
+  target: createFormInfo,
+});
+
+sample({
+  clock: resetDomain,
+  target: [form.reset],
 });

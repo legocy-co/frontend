@@ -59,6 +59,7 @@ export const SelectFieldAdapter = ({
   disabled?: boolean;
 }) => {
   const { value, onChange, hasError } = useField(field);
+
   const isInvalid = hasError();
 
   return (
@@ -135,6 +136,51 @@ export const SelectSearchAdapter = ({
       >
         x
       </div>
+    </div>
+  );
+};
+
+export const FilesFieldAdapter = ({
+  field,
+  labelText,
+  ...props
+}: FormAdapterProps<File[]>) => {
+  const { hasError, onChange, value } = useField(field);
+
+  const handleUpload = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    if (ev.currentTarget.files) {
+      Array.from(ev.currentTarget.files).map((file) => value.push(file));
+
+      const transfer = new DataTransfer();
+      value.map((file) => transfer.items.add(file));
+      ev.currentTarget.files = transfer.files;
+
+      const files = [] as File[];
+      files.push(...value);
+
+      onChange(files);
+    }
+  };
+
+  return (
+    <div className="w-full relative">
+      <Input
+        readOnly
+        type="file"
+        multiple
+        labelText={labelText}
+        value={'Click to upload'}
+        isInvalid={hasError()}
+        {...props}
+      />
+
+      <input
+        accept={props.accept}
+        multiple
+        className="cursor-pointer opacity-0 z-50 w-full h-full absolute top-0 left-0"
+        type="file"
+        onChange={handleUpload}
+      />
     </div>
   );
 };

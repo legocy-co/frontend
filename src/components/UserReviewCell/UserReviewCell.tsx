@@ -13,7 +13,7 @@ interface UserReviewCellProps {
 
 const UserReviewCell = (props: UserReviewCellProps) => {
   const stars = [...Array(props.rating)].map((star, i) => (
-    <img key={`${star} ${i}`} src={Star} alt="" />
+    <img key={star + i} src={Star} alt="" />
   ));
 
   return (

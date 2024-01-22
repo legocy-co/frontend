@@ -10,12 +10,12 @@ import {
 } from './ErrorHandlers.ts';
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import { mi } from '../features/market-item/index.tsx';
+import { mif } from '../features/market-item/info';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
-  CreateMarketItem: (marketItem: MarketItemData) => Promise<boolean>;
-  UploadMarketItemImage: (file: File, id: string) => Promise<boolean>;
+  CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
+  UploadMarketItemImage: (file: FormData, id: string) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
   GetMarketItem: (id: string) => Promise<MarketItem>;
   UpdateMarketItem: (id: string, marketItem: MarketItem) => Promise<MarketItem>;
@@ -42,19 +42,27 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
 
 const CreateMarketItem = async (
   marketItem: MarketItemData
-): Promise<boolean> => {
+): Promise<MarketItem> => {
   try {
-    await axios.post('/market-items/', marketItem);
+    const response = await axios.post('/market-items/', marketItem);
     toaster.showToastSuccess('Market item created');
 
-    return Promise.resolve(true);
+    const result = MarketItemSchema.safeParse(response.data);
+    if (!result.success)
+      return handleIncorrectParse(
+        result.error,
+        'CreateMarketItem',
+        'Incorrect parse'
+      );
+
+    return result.data;
   } catch (e) {
-    return handleMarketItemError(e, 'MarketItem', mi.form);
+    return handleMarketItemError(e, 'MarketItem', mif.form);
   }
 };
 
 const UploadMarketItemImage = async (
-  file: File,
+  file: FormData,
   id: string
 ): Promise<boolean> => {
   try {
@@ -121,14 +129,6 @@ const DeleteMarketItem = async (id: string): Promise<boolean> => {
   }
 };
 
-axios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    error?.response?.status === 404 && (await navigateFx({ pathname: '/' }));
-    return Promise.reject(error);
-  }
-);
-
 export const marketItemService: MarketItemService = {
   GetMarketItems: GetMarketItems,
   CreateMarketItem: CreateMarketItem,
@@ -138,3 +138,11 @@ export const marketItemService: MarketItemService = {
   UpdateMarketItem: UpdateMarketItem,
   DeleteMarketItem: DeleteMarketItem,
 };
+
+axios.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    error?.response?.status === 404 && (await navigateFx({ pathname: '/' }));
+    return Promise.reject(error);
+  }
+);

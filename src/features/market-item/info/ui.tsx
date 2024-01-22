@@ -1,29 +1,28 @@
 import { useGate, useUnit } from 'effector-react';
 import { useParams } from 'react-router-dom';
-import * as model from './model';
-import { FormEvent } from 'react';
+import * as model from './model.ts';
+import React, { FormEvent } from 'react';
 import {
   NumberFieldAdapter,
   SelectFieldAdapter,
   SelectSearchAdapter,
   TextareaFieldAdapter,
-} from '../../shared/ui/form-adapters.tsx';
-import { Button } from '../../shared/ui/button.tsx';
-import { FormError } from '../../shared/ui/form-error.tsx';
+} from '../../../shared/ui/form-adapters.tsx';
+import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
-import cities from '../../../data/cities.json';
-import { setStates } from '../../types/MarketItemType.ts';
+import cities from '../../../../data/cities.json';
+import { setStates } from '../../../types/MarketItemType.ts';
 
-export const MarketItemForm = () => {
+export const MarketItemInfoForm = () => {
   const legoSets = useUnit(model.$legoSetOptions);
   const params = useParams<'id'>();
   useGate(model.gate, { id: params.id ?? null });
 
   const { fields, eachValid } = useForm(model.form);
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  function onSubmit(ev: React.FormEvent) {
+    ev.preventDefault();
     model.form.submit();
-  };
+  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -90,9 +89,6 @@ export const MarketItemForm = () => {
               fields.city.errorText()}
           </FormError>
         )}
-        <Button className={'mt-14'} type="submit">
-          Submit
-        </Button>
       </div>
     </form>
   );

@@ -22,6 +22,9 @@ $gallery-background: #191515cc;
     transition: opacity 0.1s;
     &:hover {opacity: 0.9}
     &:active {opacity: 0.8}
+    @media (max-width: 600px) {
+      display: none;
+    }
   }
 
   &--image {
