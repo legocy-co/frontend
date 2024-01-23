@@ -12,8 +12,7 @@ $gallery-background: #191515cc;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: fixed;
-    top: 22%;
+
   }
 
   button {
@@ -47,8 +46,6 @@ $gallery-background: #191515cc;
     padding: 10px;
     background-color: $gallery-background;
     color: white;
-    position: fixed;
-    top: 65%;
   }
 
   &--list {
@@ -56,8 +53,6 @@ $gallery-background: #191515cc;
     display: flex;
     justify-items: center;
     gap: 10px;
-    position: fixed;
-    top: 70%;
 
     &_member {
       width: 50px;

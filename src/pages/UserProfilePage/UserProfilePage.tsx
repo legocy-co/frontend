@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { GetCredentials } from '../../storage/credentials.ts';
 import { jwtDecode } from 'jwt-decode';
 import { TokenType } from '../../services/AuthService.ts';
+import GalleryModal from '../../components/GalleryModal';
 
 const UserProfilePage = () => {
   const credentials = GetCredentials();
@@ -42,14 +43,17 @@ const UserProfilePage = () => {
   );
 
   const userProfile = useUnit(model.$userProfilePage);
+  const [showGallery, setShowGallery] = useState<number>(-1);
+
   return (
     <>
       <PageHeading to="/">
         <img
-          className="w-12 aspect-square rounded-full object-cover"
+          className="w-12 aspect-square rounded-full object-cover cursor-pointer transition-all hover:brightness-95 active:brightness-90"
           src={userProfile.user_images[0] ? userProfile.user_images[0] : ''}
           onError={addDefaultSrc}
           alt=""
+          onClick={() => setShowGallery(0)}
         />
         {userProfile.username}
       </PageHeading>
@@ -65,6 +69,13 @@ const UserProfilePage = () => {
         </MenuButton>
       </div>
       {contentElement}
+      {showGallery > -1 && (
+        <GalleryModal
+          list={userProfile.user_images}
+          i={showGallery}
+          onClose={() => setShowGallery(-1)}
+        />
+      )}
     </>
   );
 };
