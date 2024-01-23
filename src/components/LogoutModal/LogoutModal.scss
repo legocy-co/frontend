@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   &--main {
+    position: fixed;
+    top: 20%;
     background: white;
     border-radius: 10px;
     display: flex;
