@@ -11,6 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 import { TokenType } from '../../services/AuthService.ts';
 import { useState } from 'react';
 import LogoutModal from '../LogoutModal';
+import { userService } from '../../services/UserService.ts';
 
 const Header = () => {
   const credentials = GetCredentials();
@@ -21,15 +22,25 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
 
+  const messagesCounter = 0;
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const avatar = decodedAccess
+    ? userService
+        .GetUserImages(String(decodedAccess.id))
+        .then((data) => data[0])
+        .then((img) => {
+          return img.downloadURL;
+        })[Symbol.toStringTag]
+    : '';
+
   function handleShowLogout() {
     setShowLogout(true);
     setShowMenu(false);
   }
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const messagesCounter = 0;
   return (
     <header>
       <div className="header--group">
@@ -52,7 +63,18 @@ const Header = () => {
         </div>
         <div className="header--user">
           <img
-            src={!showMenu ? UserIcon : ActiveUserIcon}
+            src={
+              avatar !== 'Promise' || ''
+                ? avatar
+                : !showMenu
+                  ? UserIcon
+                  : ActiveUserIcon
+            }
+            className={
+              avatar !== 'Promise' || ''
+                ? 'min-h-10 min-w-10 object-cover rounded-full'
+                : ''
+            }
             onError={addDefaultSrc}
             onClick={() =>
               decodedAccess
