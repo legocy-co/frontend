@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { Form } from 'effector-forms';
 
 export type SignUpData = z.infer<typeof SignUpSchema>;
+
 export type SignUpForm = Form<{
   username: string;
   email: string;

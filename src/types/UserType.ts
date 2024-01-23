@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { UserImage } from './UserImage.ts';
+import { UserImage } from './UserImageType.ts';
 
 export type User = z.infer<typeof UserSchema>;
 export const UserSchema = z.object({
