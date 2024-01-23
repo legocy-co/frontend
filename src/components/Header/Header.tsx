@@ -41,6 +41,8 @@ const Header = () => {
     setShowMenu(false);
   }
 
+  console.log(avatar);
+
   return (
     <header>
       <div className="header--group">
@@ -64,14 +66,14 @@ const Header = () => {
         <div className="header--user">
           <img
             src={
-              avatar !== 'Promise' || ''
+              avatar && avatar !== 'Promise'
                 ? avatar
                 : !showMenu
                   ? UserIcon
                   : ActiveUserIcon
             }
             className={
-              avatar !== 'Promise' || ''
+              avatar && avatar !== 'Promise'
                 ? 'min-h-10 min-w-10 object-cover rounded-full'
                 : ''
             }
