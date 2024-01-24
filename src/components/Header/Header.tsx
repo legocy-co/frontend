@@ -6,13 +6,16 @@ import UserIcon from '../../assets/icons/user.svg';
 import ActiveUserIcon from '../../assets/icons/active-user.svg';
 import { addDefaultSrc } from '../../services/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import * as model from './model.ts';
 import { authService } from '../../services/AuthService.ts';
 import { useState } from 'react';
 import LogoutModal from '../LogoutModal';
-import { userService } from '../../services/UserService.ts';
+import { useGate } from 'effector-react';
+import { useUnit } from 'effector-react/compat';
 
 const Header = () => {
+  useGate(model.gate);
+  const userImages = useUnit(model.$userImages);
   const [showMenu, setShowMenu] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
 
@@ -21,21 +24,12 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const avatar = authService.IsAuthorized()
-    ? userService
-        .GetUserImages(String(authService.GetUserId()))
-        .then((data) => data[0])
-        .then((img) => {
-          return img.downloadURL;
-        })[Symbol.toStringTag]
-    : '';
-
   function handleShowLogout() {
     setShowLogout(true);
     setShowMenu(false);
   }
 
-  console.log(avatar);
+  console.log(userImages);
 
   return (
     <header>
@@ -60,16 +54,14 @@ const Header = () => {
         <div className="header--user">
           <img
             src={
-              avatar && avatar !== 'Promise'
-                ? avatar
+              userImages[1]
+                ? 'https://' + userImages[1].downloadURL
                 : !showMenu
                   ? UserIcon
                   : ActiveUserIcon
             }
             className={
-              avatar && avatar !== 'Promise'
-                ? 'min-h-10 min-w-10 object-cover rounded-full'
-                : ''
+              userImages[1] ? 'h-10 w-10 object-cover rounded-full' : ''
             }
             onError={addDefaultSrc}
             onClick={() =>

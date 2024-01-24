@@ -16,6 +16,10 @@ type UserProfileResponse = {
   user_reviews: object[];
 };
 
+type ImagesResponse = {
+  images: object[];
+};
+
 const GetUserProfilePage = async (id: string): Promise<UserProfile> => {
   const response = await axios.get<UserProfileResponse>('/users/profile/' + id);
   const result = UserProfileSchema.safeParse(response.data);
@@ -30,8 +34,8 @@ const GetUserProfilePage = async (id: string): Promise<UserProfile> => {
 };
 
 const GetUserImages = async (id: string): Promise<UserImage[]> => {
-  const response = await axios.get<object[]>('/users/images/' + id);
-  const result = UserImageSchema.array().safeParse(response.data);
+  const response = await axios.get<ImagesResponse>('/users/images/' + id);
+  const result = UserImageSchema.array().safeParse(response.data.images);
   if (!result.success)
     return handleIncorrectParse(
       result.error,

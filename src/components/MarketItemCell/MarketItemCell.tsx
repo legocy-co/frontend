@@ -43,16 +43,17 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   return (
     <div className="cell">
       <h1>{props.location}</h1>
-      {authService.GetUserId() === props.seller_id && (
-        <div
-          className="cell--delete"
-          onClick={() => {
-            handleDelete(props.id);
-          }}
-        >
-          x
-        </div>
-      )}
+      {authService.IsAuthorized() &&
+        authService.GetUserId() === props.seller_id && (
+          <div
+            className="cell--delete"
+            onClick={() => {
+              handleDelete(props.id);
+            }}
+          >
+            x
+          </div>
+        )}
       <div className="cell--image-wrapper">
         <img
           className="cell--image"
