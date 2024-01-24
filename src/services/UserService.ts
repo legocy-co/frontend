@@ -47,8 +47,8 @@ const UploadUserImage = async (
   id: string
 ): Promise<boolean> => {
   try {
-    await axios.post('/users/images/' + id, file);
-    toaster.showToastSuccess('Image uploaded');
+    await axios.post(`/users/images/${id}/avatar`, file);
+    toaster.showToastSuccess('User image uploaded');
 
     return Promise.resolve(true);
   } catch (e) {
