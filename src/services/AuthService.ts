@@ -119,8 +119,6 @@ const GetBaseUrl = () => {
   return '/api/v1';
 };
 
-
-
 axios.defaults.baseURL = GetBaseUrl();
 axios.defaults.headers.common.Authorization = IsAuthorized()
   ? GetAccessTokenHeader()
