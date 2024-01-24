@@ -1,9 +1,12 @@
 import { useUnit } from 'effector-react';
 import * as model from './model.ts';
 import MarketItemCell from '../MarketItemCell';
+import { useState } from 'react';
+import { marketItemService } from '../../services/MarketItemService.ts';
 
 const MarketItemsList = () => {
   const marketItems = useUnit(model.$marketItemCells);
+
   const marketItemsElements = marketItems.map((marketItem) => (
     <MarketItemCell
       key={marketItem.id}

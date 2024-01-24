@@ -46,6 +46,7 @@ export const setStates = {
 };
 
 const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
+
 export const MarketItemSchema = z.object({
   id: z.number(),
   price: z.number(),

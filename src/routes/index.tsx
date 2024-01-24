@@ -22,14 +22,11 @@ import MarketItemDetailPage from '../pages/market-items/detail';
 import CatalogPage from '../pages/market-items';
 import UserProfilePage from '../pages/UserProfilePage';
 import AddMarketItemPage from '../pages/market-items/add';
-import { GetCredentials } from '../storage/credentials.ts';
-import { jwtDecode } from 'jwt-decode';
-import { TokenType } from '../services/AuthService.ts';
+import { authService } from '../services/AuthService.ts';
 
 const AppRouter = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const credentials = GetCredentials();
 
   useEffect(() => {
     navigateChanged(navigate);
@@ -41,10 +38,6 @@ const AppRouter = () => {
 
   history.navigate = navigate;
   history.location = location;
-
-  const decodedAccess = credentials.accessToken
-    ? jwtDecode<TokenType>(credentials.accessToken)
-    : '';
 
   return (
     <Routes>
@@ -66,7 +59,11 @@ const AppRouter = () => {
             index
             element={
               <Navigate
-                to={decodedAccess ? '/profile/' + decodedAccess.id : '/'}
+                to={
+                  authService.IsAuthorized()
+                    ? '/profile/' + authService.GetUserId()
+                    : '/'
+                }
               />
             }
           />
