@@ -14,6 +14,7 @@ export interface AuthService {
   SignUp: (data: SignUpData) => void;
   RefreshToken?: () => void;
   Logout: () => void;
+  GetUserId: () => number;
 }
 
 export interface TokenType {
@@ -83,6 +84,21 @@ const Logout = () => {
   history.navigate(`auth?from=${history.location?.pathname}`);
 };
 
+const GetUserId = () => {
+  const storage = GetCredentials();
+  const decodedAccess = jwtDecode<TokenType>(storage.accessToken);
+  return decodedAccess.id;
+};
+
+export const authService: AuthService = {
+  IsAuthorized: IsAuthorized,
+  SignIn: SignIn,
+  SignUp: SignUp,
+  RefreshToken: RefreshToken,
+  Logout: Logout,
+  GetUserId: GetUserId,
+};
+
 const SetAuthHeaders = (response: AuthResponse) => {
   const storage = GetCredentials();
   storage.accessToken = response.access_token;
@@ -103,13 +119,7 @@ const GetBaseUrl = () => {
   return '/api/v1';
 };
 
-export const authService: AuthService = {
-  IsAuthorized: IsAuthorized,
-  SignIn: SignIn,
-  SignUp: SignUp,
-  RefreshToken: RefreshToken,
-  Logout: Logout,
-};
+
 
 axios.defaults.baseURL = GetBaseUrl();
 axios.defaults.headers.common.Authorization = IsAuthorized()

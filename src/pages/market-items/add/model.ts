@@ -6,14 +6,7 @@ import { umiif } from '../../../features/market-item/images';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { and } from 'patronum';
 import { sleep } from '../../../services/utils.ts';
-import { GetCredentials } from '../../../storage/credentials.ts';
-import { jwtDecode } from 'jwt-decode';
-import { TokenType } from '../../../services/AuthService.ts';
-
-const credentials = GetCredentials();
-const decodedAccess = credentials.accessToken
-  ? jwtDecode<TokenType>(credentials.accessToken)
-  : '';
+import { authService } from '../../../services/AuthService.ts';
 
 export const submitTriggered = createEvent();
 
@@ -52,8 +45,7 @@ const uploadImagesFx = attach({
 
 const profileRedirectFx = attach({
   source: gate.state,
-  effect: ({ navigateFn }) =>
-    navigateFn(decodedAccess && '/profile/' + decodedAccess.id),
+  effect: ({ navigateFn }) => navigateFn('/profile/' + authService.GetUserId()),
 });
 
 sample({

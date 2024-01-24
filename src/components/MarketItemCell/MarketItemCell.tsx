@@ -14,6 +14,7 @@ interface MarketItemCellProps {
   set: string;
   set_number: number;
   seller_id: number;
+  isProfile?: boolean;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
@@ -35,6 +36,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   return (
     <div className="cell">
       <h1>{props.location}</h1>
+      {props.isProfile && <div className="cell--delete">x</div>}
       <div className="cell--image-wrapper">
         <img
           className="cell--image"

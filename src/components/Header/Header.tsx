@@ -6,19 +6,13 @@ import UserIcon from '../../assets/icons/user.svg';
 import ActiveUserIcon from '../../assets/icons/active-user.svg';
 import { addDefaultSrc } from '../../services/utils';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { GetCredentials } from '../../storage/credentials.ts';
-import { jwtDecode } from 'jwt-decode';
-import { TokenType } from '../../services/AuthService.ts';
+
+import { authService } from '../../services/AuthService.ts';
 import { useState } from 'react';
 import LogoutModal from '../LogoutModal';
 import { userService } from '../../services/UserService.ts';
 
 const Header = () => {
-  const credentials = GetCredentials();
-  const decodedAccess = credentials.accessToken
-    ? jwtDecode<TokenType>(credentials.accessToken)
-    : '';
-
   const [showMenu, setShowMenu] = useState(false);
   const [showLogout, setShowLogout] = useState(false);
 
@@ -27,9 +21,9 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const avatar = decodedAccess
+  const avatar = authService.IsAuthorized()
     ? userService
-        .GetUserImages(String(decodedAccess.id))
+        .GetUserImages(String(authService.GetUserId()))
         .then((data) => data[0])
         .then((img) => {
           return img.downloadURL;
@@ -79,7 +73,7 @@ const Header = () => {
             }
             onError={addDefaultSrc}
             onClick={() =>
-              decodedAccess
+              authService.IsAuthorized()
                 ? setShowMenu((prev) => !prev)
                 : navigate(`auth?from=${location.pathname}`)
             }
@@ -88,9 +82,7 @@ const Header = () => {
           {showMenu && (
             <div>
               <p
-                onClick={() =>
-                  decodedAccess && navigate('/profile/' + decodedAccess.id)
-                }
+                onClick={() => navigate('/profile/' + authService.GetUserId())}
               >
                 My profile
               </p>

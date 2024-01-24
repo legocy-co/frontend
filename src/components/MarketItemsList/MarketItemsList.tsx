@@ -2,10 +2,15 @@ import { useUnit } from 'effector-react';
 import * as model from './model.ts';
 import MarketItemCell from '../MarketItemCell';
 
-const MarketItemsList = () => {
+interface Props {
+  isProfile?: boolean;
+}
+
+const MarketItemsList = (props: Props) => {
   const marketItems = useUnit(model.$marketItemCells);
   const marketItemsElements = marketItems.map((marketItem) => (
     <MarketItemCell
+      isProfile={props.isProfile}
       key={marketItem.id}
       id={marketItem.id}
       location={marketItem.location}
