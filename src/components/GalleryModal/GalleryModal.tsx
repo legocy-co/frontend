@@ -45,9 +45,7 @@ const GalleryModal = (props: GalleryModalProps) => {
           </button>
         )}
         <img
-          onClick={() =>
-            setIndex((prev) => (prev + 1) % list.length)
-          }
+          onClick={() => setIndex((prev) => (prev + 1) % list.length)}
           className="gallery--image"
           src={list.length ? list[index] : ''}
           alt=""

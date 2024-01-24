@@ -33,10 +33,10 @@ const MarketItemDetailPage = () => {
     <div className="w-full h-full flex flex-col items-center">
       <PageHeading isMarketItemDetail to="/catalog" />
       <div className="mt-8 mb-9 whitespace-nowrap grid xl:grid-cols-2 gap-7">
-        <div className="inline-block w-[595px]">
+        <div className="inline-block w-[300px] sm:w-[595px]">
           <div className="relative mb-7">
             <img
-              className="w-full h-[470px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+              className="w-full h-[200px] sm:h-[470px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
               src={'' + marketItem.images.slice(0, 1)}
               onError={addDefaultSrc}
               onClick={() => setShowGallery(0)}
@@ -52,7 +52,7 @@ const MarketItemDetailPage = () => {
             {subImagesElement}
           </div>
         </div>
-        <div className="w-[577px] align-top inline-block text-xl">
+        <div className="w-[250px] sm:w-[577px] align-top inline-block text-xl">
           <p className="text-3xl font-semibold mb-10">{marketItem.set}</p>
           <div className="flex flex-col justify-between h-24 mb-4">
             <p>
@@ -71,10 +71,10 @@ const MarketItemDetailPage = () => {
             Set Number:{' '}
             <span className="text-light">{marketItem.set_number}</span>
           </p>
-          <div className="bg-ghost border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-28">
+          <div className="bg-ghost border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-5 sm:mb-28">
             <p>Set description: {marketItem.description}</p>
           </div>
-          <div className="flex justify-between items-center text-3xl">
+          <div className="flex flex-col gap-5 sm:flex-row justify-between items-center text-3xl">
             <p>{marketItem.price} $</p>
             <Button>Message about set</Button>
           </div>
@@ -82,7 +82,7 @@ const MarketItemDetailPage = () => {
       </div>
       <div
         onClick={() => navigate('/profile/' + marketItem.seller_id)}
-        className="flex gap-4 items-center border border-solid border-black rounded-xl pt-7 pr-11 pb-5 pl-6 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+        className="flex mr-14 gap-4 items-center border border-solid border-black rounded-xl pt-7 pr-11 pb-5 pl-6 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
       >
         <div className="h-16 aspect-square relative rounded-full bg-legocy">
           <img
