@@ -29,6 +29,7 @@ const Header = () => {
     setShowMenu(false);
   }
 
+  console.log(authService.GetUserId());
   console.log(userImages);
 
   return (

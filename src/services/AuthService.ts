@@ -83,12 +83,18 @@ const Logout = () => {
 
   axios.defaults.headers.common.Authorization = '';
   history.navigate(`auth?from=${history.location?.pathname}`);
+
+  // TODO: state components update
+  window.location.reload();
 };
 
 const GetUserId = () => {
-  const storage = GetCredentials();
-  const decodedAccess = jwtDecode<TokenType>(storage.accessToken);
-  return decodedAccess.id;
+  if (IsAuthorized()) {
+    const storage = GetCredentials();
+    const decodedAccess = jwtDecode<TokenType>(storage.accessToken);
+    return decodedAccess.id;
+  }
+  return 0;
 };
 
 export const authService: AuthService = {

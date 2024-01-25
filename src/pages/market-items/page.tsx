@@ -11,12 +11,12 @@ export const CatalogPage = () => {
     <div className="w-full h-full flex flex-col items-center">
       <PageHeading>Catalog</PageHeading>
       <div className="hidden sm:grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-7 mb-7">
-        <MenuButton>Filter by set</MenuButton>
-        <MenuButton>Filter by price</MenuButton>
-        <MenuButton>Filter by condition</MenuButton>
-        <MenuButton>Filter by area</MenuButton>
-        <MenuButton>Filter by series</MenuButton>
-        <MenuButton>Filter by rating</MenuButton>
+        {/*<MenuButton>Filter by set</MenuButton>*/}
+        {/*<MenuButton>Filter by price</MenuButton>*/}
+        {/*<MenuButton>Filter by condition</MenuButton>*/}
+        {/*<MenuButton>Filter by area</MenuButton>*/}
+        {/*<MenuButton>Filter by series</MenuButton>*/}
+        {/*<MenuButton>Filter by rating</MenuButton>*/}
         <MenuButton isCurrency />
       </div>
       <MarketItemsList />

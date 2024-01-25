@@ -27,6 +27,7 @@ export default {
       },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',
+        'avatar': '0 4px 7px 0 #00000070',
       }
     },
   },
