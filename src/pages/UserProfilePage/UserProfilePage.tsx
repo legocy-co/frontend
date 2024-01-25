@@ -11,15 +11,22 @@ import { authService } from '../../services/AuthService.ts';
 import GalleryModal from '../../components/GalleryModal';
 import { userService } from '../../services/UserService.ts';
 import PencilIcon from '../../assets/icons/pencil.svg';
+import BatmanPic from '../../assets/pics/batman.png';
+import ChickenPic from '../../assets/pics/chicken.png';
+import IndianajonesPic from '../../assets/pics/indianajones.png';
+import GermionaPic from '../../assets/pics/germiona.png';
+import IronmanPic from '../../assets/pics/ironman.png';
+import JodaPic from '../../assets/pics/joda.png';
+import LeaPic from '../../assets/pics/lea.png';
 
 const AVATARS = [
-  '/src/assets/pics/batman.png',
-  '/src/assets/pics/chicken.png',
-  '/src/assets/pics/germiona.png',
-  '/src/assets/pics/indianajones.png',
-  '/src/assets/pics/ironman.png',
-  '/src/assets/pics/joda.png',
-  '/src/assets/pics/lea.png',
+  BatmanPic,
+  ChickenPic,
+  IndianajonesPic,
+  GermionaPic,
+  IronmanPic,
+  JodaPic,
+  LeaPic,
 ];
 
 console.log(AVATARS[Math.floor(Math.random() * AVATARS.length)]);
