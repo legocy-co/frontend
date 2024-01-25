@@ -86,7 +86,7 @@ const MarketItemDetailPage = () => {
       >
         <div className="h-16 aspect-square relative rounded-full bg-legocy">
           <img
-            className="absolute h-full rounded-full object-cover object-center"
+            className="absolute h-full aspect-square rounded-full object-cover object-center"
             onError={addDefaultSrc}
             src={marketItem.seller_image}
             alt=""

@@ -1,5 +1,5 @@
 import './MarketItemCell.scss';
-import { addDefaultSrc, sleep } from '../../services/utils.ts';
+import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import HeartIcon from '../../assets/icons/heart.svg';
 import { useState } from 'react';
@@ -24,7 +24,8 @@ const MarketItemCell = (props: MarketItemCellProps) => {
 
   async function handleDelete(id: number) {
     await marketItemService.DeleteMarketItem(String(id));
-    await sleep(1000);
+
+    // TODO: state components update
     window.location.reload();
   }
 
