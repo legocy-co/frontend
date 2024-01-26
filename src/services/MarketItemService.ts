@@ -11,16 +11,18 @@ import {
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { mif } from '../features/market-item/info';
-import { PaginationData } from '../types/common.ts';
+import { PaginationData } from '../types/pagination.ts';
 
 interface MarketItemService {
-  GetMarketItems: () => Promise<MarketItem[]>;
+  GetMarketItems: (query: string) => Promise<PaginationData<MarketItem[]>>;
   CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
   UploadMarketItemImage: (
     file: FormData,
     id: number | string
   ) => Promise<boolean>;
-  GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
+  GetMarketItemsAuthorized: (
+    query: string
+  ) => Promise<PaginationData<MarketItem[]>>;
   GetMarketItem: (id: number | string) => Promise<MarketItem>;
   UpdateMarketItem: (
     id: number | string,
@@ -30,10 +32,11 @@ interface MarketItemService {
 }
 
 // TODO: (page num, limit) to (limit, offset)
-const GetMarketItems = async (limit: number, offset: number): Promise<MarketItem[]> => {
-  const response =
-    await axios.get<PaginationData<object | object[]>>('/market-items/');
-  const result = MarketItemSchema.array().safeParse(response.data.data);
+const GetMarketItems = async (
+  query: string
+): Promise<PaginationData<MarketItem[]>> => {
+  const { data } = await axios.get('/market-items/' + query);
+  const result = MarketItemSchema.array().safeParse(data.data);
   if (!result.success)
     return handleIncorrectParse(
       result.error,
@@ -41,7 +44,7 @@ const GetMarketItems = async (limit: number, offset: number): Promise<MarketItem
       "Can't get market items (unauthorized)"
     );
 
-  return result.data;
+  return data;
 };
 
 const CreateMarketItem = async (
@@ -79,12 +82,12 @@ const UploadMarketItemImage = async (
   }
 };
 
-const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
-  const response = await axios.get<MarketItemResponse>(
-    '/market-items/authorized/'
-  );
+const GetMarketItemsAuthorized = async (
+  query: string
+): Promise<PaginationData<MarketItem[]>> => {
+  const { data } = await axios.get('/market-items/authorized/' + query);
 
-  const result = MarketItemSchema.array().safeParse(response.data.data);
+  const result = MarketItemSchema.array().safeParse(data.data);
   if (!result.success)
     return handleIncorrectParse(
       result.error,
@@ -92,11 +95,11 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
       "Can't get market items (authorized)"
     );
 
-  return result.data;
+  return data;
 };
 
 const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
-  const response = await axios.get<MarketItemResponse>('/market-items/' + id);
+  const response = await axios.get<object>('/market-items/' + id);
   const result = MarketItemSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(
