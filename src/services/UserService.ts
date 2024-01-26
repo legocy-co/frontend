@@ -5,9 +5,9 @@ import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 
 interface UserService {
-  GetUserProfilePage: (id: string) => Promise<UserProfile>;
-  GetUserImages: (id: string) => Promise<UserImage[]>;
-  UploadUserImage: (file: FormData, id: string) => Promise<boolean>;
+  GetUserProfilePage: (id: number | string) => Promise<UserProfile>;
+  GetUserImages: (id: number | string) => Promise<UserImage[]>;
+  UploadUserImage: (file: FormData, id: number | string) => Promise<boolean>;
 }
 
 type UserProfileResponse = {
@@ -20,7 +20,7 @@ type ImagesResponse = {
   images: object[];
 };
 
-const GetUserProfilePage = async (id: string): Promise<UserProfile> => {
+const GetUserProfilePage = async (id: number | string): Promise<UserProfile> => {
   const response = await axios.get<UserProfileResponse>('/users/profile/' + id);
   const result = UserProfileSchema.safeParse(response.data);
   if (!result.success)
@@ -33,7 +33,7 @@ const GetUserProfilePage = async (id: string): Promise<UserProfile> => {
   return result.data;
 };
 
-const GetUserImages = async (id: string): Promise<UserImage[]> => {
+const GetUserImages = async (id: number | string): Promise<UserImage[]> => {
   const response = await axios.get<ImagesResponse>('/users/images/' + id);
   const result = UserImageSchema.array().safeParse(response.data.images);
   if (!result.success)
@@ -48,7 +48,7 @@ const GetUserImages = async (id: string): Promise<UserImage[]> => {
 
 const UploadUserImage = async (
   file: FormData,
-  id: string
+  id: number | string
 ): Promise<boolean> => {
   try {
     await axios.post(`/users/images/${id}/avatar`, file);

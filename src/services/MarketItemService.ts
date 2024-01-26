@@ -11,24 +11,28 @@ import {
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { mif } from '../features/market-item/info';
+import { PaginationData } from '../types/common.ts';
 
 interface MarketItemService {
   GetMarketItems: () => Promise<MarketItem[]>;
   CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
-  UploadMarketItemImage: (file: FormData, id: string) => Promise<boolean>;
+  UploadMarketItemImage: (
+    file: FormData,
+    id: number | string
+  ) => Promise<boolean>;
   GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
-  GetMarketItem: (id: string) => Promise<MarketItem>;
-  UpdateMarketItem: (id: string, marketItem: MarketItem) => Promise<MarketItem>;
-  DeleteMarketItem: (id: string) => Promise<boolean>;
+  GetMarketItem: (id: number | string) => Promise<MarketItem>;
+  UpdateMarketItem: (
+    id: number | string,
+    marketItem: MarketItem
+  ) => Promise<MarketItem>;
+  DeleteMarketItem: (id: number | string) => Promise<boolean>;
 }
 
-type MarketItemResponse = {
-  data: object | object[];
-  meta: object;
-};
-
-const GetMarketItems = async (): Promise<MarketItem[]> => {
-  const response = await axios.get<MarketItemResponse>('/market-items/');
+// TODO: (page num, limit) to (limit, offset)
+const GetMarketItems = async (limit: number, offset: number): Promise<MarketItem[]> => {
+  const response =
+    await axios.get<PaginationData<object | object[]>>('/market-items/');
   const result = MarketItemSchema.array().safeParse(response.data.data);
   if (!result.success)
     return handleIncorrectParse(
@@ -63,7 +67,7 @@ const CreateMarketItem = async (
 
 const UploadMarketItemImage = async (
   file: FormData,
-  id: string
+  id: number | string
 ): Promise<boolean> => {
   try {
     await axios.post('/market-items/images/' + id, file);
@@ -91,7 +95,7 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
   return result.data;
 };
 
-const GetMarketItem = async (id: string): Promise<MarketItem> => {
+const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
   const response = await axios.get<MarketItemResponse>('/market-items/' + id);
   const result = MarketItemSchema.safeParse(response.data);
   if (!result.success)
@@ -105,7 +109,7 @@ const GetMarketItem = async (id: string): Promise<MarketItem> => {
 };
 
 const UpdateMarketItem = async (
-  id: string,
+  id: number | string,
   marketItem: MarketItem
 ): Promise<MarketItem> => {
   try {
@@ -118,7 +122,7 @@ const UpdateMarketItem = async (
   }
 };
 
-const DeleteMarketItem = async (id: string): Promise<boolean> => {
+const DeleteMarketItem = async (id: number | string): Promise<boolean> => {
   try {
     await axios.delete('/market-items/' + id);
     toaster.showToastSuccess('Market item deleted');
