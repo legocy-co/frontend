@@ -5,6 +5,7 @@
   width: max-content;
   max-width: none !important;
   justify-content: flex-end;
+  margin-bottom: 10px;
 }
 
 .pagination-prev-btn {
@@ -14,7 +15,6 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
   flex-shrink: 0;
   a {
-    color: #fff;
     height: 40px;
     width: 40px;
     display: flex;
@@ -38,12 +38,11 @@
   background-color: transparent;
   height: 40px;
   width: 40px !important;
-  color: white;
 
   transition: 200ms all;
   overflow: hidden;
   &:hover {
-    color: #f4ff58;
+    color: #FFD540;
   }
   a {
     height: 100% !important;
@@ -59,8 +58,8 @@
 }
 
 .pagination-active-btn {
-  background-color: #f4ff58;
-  border-color: #f4ff58;
+  background-color: #FFD540;
+  border-color: #FFD540;
   color: #151517 !important;
   &:hover {
     color: #151517 !important;
