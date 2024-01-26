@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
 import { authService } from '../../services/AuthService.ts';
 import { useState } from 'react';
-import LogoutModal from '../LogoutModal';
+import ConfirmationModal from '../ConfirmationModal';
 import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
 
@@ -29,8 +29,10 @@ const Header = () => {
     setShowMenu(false);
   }
 
-  console.log(authService.GetUserId());
-  console.log(userImages);
+  function handleLogout() {
+    setShowLogout(false);
+    authService.Logout();
+  }
 
   return (
     <header>
@@ -85,7 +87,13 @@ const Header = () => {
         </div>
       </div>
       {showLogout && (
-        <LogoutModal show={showLogout} onClose={() => setShowLogout(false)} />
+        <ConfirmationModal
+          show={showLogout}
+          onClose={() => setShowLogout(false)}
+          onYes={handleLogout}
+        >
+          Are you sure you want to log out?
+        </ConfirmationModal>
       )}
     </header>
   );

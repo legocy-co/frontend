@@ -5,6 +5,7 @@ import HeartIcon from '../../assets/icons/heart.svg';
 import { useState } from 'react';
 import { authService } from '../../services/AuthService.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
+import ConfirmationModal from '../ConfirmationModal';
 
 interface MarketItemCellProps {
   id: number;
@@ -22,8 +23,8 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(props.images[0]);
 
-  async function handleDelete(id: number) {
-    await marketItemService.DeleteMarketItem(String(id));
+  async function handleDelete() {
+    await marketItemService.DeleteMarketItem(String(props.id));
 
     // TODO: state components update
     window.location.reload();
@@ -41,6 +42,8 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     </div>
   ));
 
+  const [showDelete, setShowDelete] = useState(false);
+
   return (
     <div className="cell">
       <h1>{props.location}</h1>
@@ -49,7 +52,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
           <div
             className="cell--delete"
             onClick={() => {
-              handleDelete(props.id);
+              setShowDelete(true);
             }}
           >
             x
@@ -115,6 +118,15 @@ const MarketItemCell = (props: MarketItemCellProps) => {
       >
         <h1>More Info</h1>
       </div>
+      {showDelete && (
+        <ConfirmationModal
+          show={showDelete}
+          onClose={() => setShowDelete(false)}
+          onYes={handleDelete}
+        >
+          Are you sure you want to delete a market item?
+        </ConfirmationModal>
+      )}
     </div>
   );
 };

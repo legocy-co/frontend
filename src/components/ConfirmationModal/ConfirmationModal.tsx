@@ -1,16 +1,17 @@
-import './LogoutModal.scss';
-import React, { useMemo } from 'react';
+import './ConfirmationModal.scss';
+import React, { ReactNode, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Button } from '../../shared/ui/button.tsx';
-import { authService } from '../../services/AuthService.ts';
 
-interface Props {
+interface ConfirmationModalProps {
+  children: ReactNode;
   show: boolean;
   onClose: (e: React.MouseEvent) => void;
+  onYes: () => void;
 }
 
-const LogoutModal = (props: Props) => {
-  const { show, onClose }: Props = {
+const ConfirmationModal = (props: ConfirmationModalProps) => {
+  const { show, onClose, onYes, children }: ConfirmationModalProps = {
     ...props,
   };
 
@@ -19,17 +20,12 @@ const LogoutModal = (props: Props) => {
     [show]
   );
 
-  function handleYes(e: React.MouseEvent) {
-    onClose(e);
-    authService.Logout();
-  }
-
   if (!modalElement) return null;
   return createPortal(
     <div className="logout" onClick={onClose}>
       <div className="logout--main" onClick={(e) => e.stopPropagation()}>
-        <p>Are you sure you want to log out?</p>
-        <Button className="text-dark font-medium" onClick={(e) => handleYes(e)}>
+        <p>{children}</p>
+        <Button className="text-dark font-medium" onClick={onYes}>
           Yes
         </Button>
       </div>
@@ -38,4 +34,4 @@ const LogoutModal = (props: Props) => {
   );
 };
 
-export default LogoutModal;
+export default ConfirmationModal;
