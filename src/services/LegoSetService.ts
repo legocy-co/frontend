@@ -4,7 +4,7 @@ import { handleIncorrectParse } from './ErrorHandlers.ts';
 
 interface LegoSetService {
   GetLegoSets: () => Promise<LegoSet[]>;
-  GetLegoSet: (id: string) => Promise<LegoSet>;
+  GetLegoSet: (id: number | string) => Promise<LegoSet>;
 }
 
 const GetLegoSets = async (): Promise<LegoSet[]> => {
@@ -20,7 +20,7 @@ const GetLegoSets = async (): Promise<LegoSet[]> => {
   return result.data;
 };
 
-const GetLegoSet = async (id: string): Promise<LegoSet> => {
+const GetLegoSet = async (id: number | string): Promise<LegoSet> => {
   const response = await axios.get<object>('/sets/' + id);
   const result = LegoSetSchema.safeParse(response.data);
   if (!result.success)

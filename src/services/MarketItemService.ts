@@ -11,25 +11,32 @@ import {
 import { navigateFx } from '../shared/lib/react-router.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { mif } from '../features/market-item/info';
+import { PaginationData } from '../types/pagination.ts';
 
 interface MarketItemService {
-  GetMarketItems: () => Promise<MarketItem[]>;
+  GetMarketItems: (query: string) => Promise<PaginationData<MarketItem[]>>;
   CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
-  UploadMarketItemImage: (file: FormData, id: string) => Promise<boolean>;
-  GetMarketItemsAuthorized: () => Promise<MarketItem[]>;
-  GetMarketItem: (id: string) => Promise<MarketItem>;
-  UpdateMarketItem: (id: string, marketItem: MarketItem) => Promise<MarketItem>;
-  DeleteMarketItem: (id: string) => Promise<boolean>;
+  UploadMarketItemImage: (
+    file: FormData,
+    id: number | string
+  ) => Promise<boolean>;
+  GetMarketItemsAuthorized: (
+    query: string
+  ) => Promise<PaginationData<MarketItem[]>>;
+  GetMarketItem: (id: number | string) => Promise<MarketItem>;
+  UpdateMarketItem: (
+    id: number | string,
+    marketItem: MarketItem
+  ) => Promise<MarketItem>;
+  DeleteMarketItem: (id: number | string) => Promise<boolean>;
 }
 
-type MarketItemResponse = {
-  data: object | object[];
-  meta: object;
-};
-
-const GetMarketItems = async (): Promise<MarketItem[]> => {
-  const response = await axios.get<MarketItemResponse>('/market-items/');
-  const result = MarketItemSchema.array().safeParse(response.data.data);
+// TODO: (page num, limit) to (limit, offset)
+const GetMarketItems = async (
+  query: string
+): Promise<PaginationData<MarketItem[]>> => {
+  const { data } = await axios.get('/market-items/' + query);
+  const result = MarketItemSchema.array().safeParse(data.data);
   if (!result.success)
     return handleIncorrectParse(
       result.error,
@@ -37,7 +44,7 @@ const GetMarketItems = async (): Promise<MarketItem[]> => {
       "Can't get market items (unauthorized)"
     );
 
-  return result.data;
+  return data;
 };
 
 const CreateMarketItem = async (
@@ -63,7 +70,7 @@ const CreateMarketItem = async (
 
 const UploadMarketItemImage = async (
   file: FormData,
-  id: string
+  id: number | string
 ): Promise<boolean> => {
   try {
     await axios.post('/market-items/images/' + id, file);
@@ -75,12 +82,12 @@ const UploadMarketItemImage = async (
   }
 };
 
-const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
-  const response = await axios.get<MarketItemResponse>(
-    '/market-items/authorized/'
-  );
+const GetMarketItemsAuthorized = async (
+  query: string
+): Promise<PaginationData<MarketItem[]>> => {
+  const { data } = await axios.get('/market-items/authorized/' + query);
 
-  const result = MarketItemSchema.array().safeParse(response.data.data);
+  const result = MarketItemSchema.array().safeParse(data.data);
   if (!result.success)
     return handleIncorrectParse(
       result.error,
@@ -88,11 +95,11 @@ const GetMarketItemsAuthorized = async (): Promise<MarketItem[]> => {
       "Can't get market items (authorized)"
     );
 
-  return result.data;
+  return data;
 };
 
-const GetMarketItem = async (id: string): Promise<MarketItem> => {
-  const response = await axios.get<MarketItemResponse>('/market-items/' + id);
+const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
+  const response = await axios.get<object>('/market-items/' + id);
   const result = MarketItemSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(
@@ -105,7 +112,7 @@ const GetMarketItem = async (id: string): Promise<MarketItem> => {
 };
 
 const UpdateMarketItem = async (
-  id: string,
+  id: number | string,
   marketItem: MarketItem
 ): Promise<MarketItem> => {
   try {
@@ -118,7 +125,7 @@ const UpdateMarketItem = async (
   }
 };
 
-const DeleteMarketItem = async (id: string): Promise<boolean> => {
+const DeleteMarketItem = async (id: number | string): Promise<boolean> => {
   try {
     await axios.delete('/market-items/' + id);
     toaster.showToastSuccess('Market item deleted');

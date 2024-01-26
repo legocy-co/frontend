@@ -24,7 +24,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   const [imageSrc, setImageSrc] = useState(props.images[0]);
 
   async function handleDelete() {
-    await marketItemService.DeleteMarketItem(String(props.id));
+    await marketItemService.DeleteMarketItem(props.id);
 
     // TODO: state components update
     window.location.reload();

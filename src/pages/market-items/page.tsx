@@ -3,6 +3,7 @@ import { useGate } from 'effector-react';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
 import MarketItemsList from '../../components/MarketItemsList';
+import { Pagination } from '../../shared/lib/pagination/index.ts';
 // import { Button } from '../../shared/ui/button.tsx';
 
 export const CatalogPage = () => {
@@ -19,6 +20,7 @@ export const CatalogPage = () => {
         {/*<MenuButton>Filter by rating</MenuButton>*/}
         <MenuButton isCurrency />
       </div>
+      <Pagination.View model={model.paginationModel} />
       <MarketItemsList />
       {/*<Button className="mt-11">Show More</Button>*/}
     </div>

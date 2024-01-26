@@ -99,7 +99,7 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
     lego_set_id: Number(values.lego_set_id),
     location: `${values.city}, ${values.country}`,
-    price: values.price,
+    price: Math.floor(values.price * 100) / 100,
     set_state: values.set_state,
     description: values.description,
   };
