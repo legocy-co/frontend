@@ -63,6 +63,7 @@ const Header = () => {
                   ? UserIcon
                   : ActiveUserIcon
             }
+            id="header-avatar"
             className={
               userImages[1] ? 'h-10 w-10 object-cover rounded-full' : ''
             }

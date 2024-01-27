@@ -60,15 +60,21 @@ const UserProfilePage = () => {
 
   const userProfile = useUnit(model.$userProfilePage);
   const [showGallery, setShowGallery] = useState<number>(-1);
+  const [uploadedAvatar, setUserAvatar] = useState('');
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files?.[0]) {
+      setUserAvatar(URL.createObjectURL(e.currentTarget.files?.[0]));
+
+      const headerAvatar = document.getElementById(
+        'header-avatar'
+      ) as HTMLImageElement;
+
+      headerAvatar.src = URL.createObjectURL(e.currentTarget.files?.[0]);
       const data = new FormData();
       data.append('file', e.currentTarget.files?.[0]);
-      await userService.UploadUserImage(data, String(authService.GetUserId()));
 
-      // TODO: state components update
-      window.location.reload();
+      await userService.UploadUserImage(data, authService.GetUserId());
     }
   };
 
@@ -81,9 +87,11 @@ const UserProfilePage = () => {
               <img
                 className="w-12  aspect-square rounded-full drop-shadow-avatar object-cover object-bottom cursor-pointer transition-all hover:brightness-95 active:brightness-90"
                 src={
-                  userProfile.user_images[0]
-                    ? userProfile.user_images[0]
-                    : AVATARS[Math.floor(Math.random() * AVATARS.length)]
+                  uploadedAvatar
+                    ? uploadedAvatar
+                    : userProfile.user_images[0]
+                      ? userProfile.user_images[0]
+                      : AVATARS[Math.floor(Math.random() * AVATARS.length)]
                 }
                 onError={addDefaultSrc}
                 alt=""

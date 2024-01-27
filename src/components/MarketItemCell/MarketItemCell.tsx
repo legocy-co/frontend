@@ -27,7 +27,9 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     await marketItemService.DeleteMarketItem(props.id);
 
     // TODO: state components update
-    window.location.reload();
+    const cell = document.getElementById(`cell${props.id}`) as HTMLElement;
+    cell.style.display = 'none';
+    setShowDelete(false);
   }
 
   const radioElements = props.images.map((img, i) => (

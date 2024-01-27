@@ -25,7 +25,6 @@ const redirectBackFx = attach({
       pathname: from,
     });
 
-    // TODO: state components update
     window.location.reload();
   },
 });

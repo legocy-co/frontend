@@ -20,14 +20,12 @@ const GetMarketItemsAuthorizedFx = createEffect(
 
 const GetMarketItemsFx = createEffect(marketItemService.GetMarketItems);
 
-const chooseFx = authService.IsAuthorized()
-  ? GetMarketItemsAuthorizedFx
-  : GetMarketItemsFx;
-
 export const paginationModel = Pagination.factory({
   entities: $marketItemCells,
   domain,
-  requestFx: chooseFx,
+  requestFx: authService.IsAuthorized()
+    ? GetMarketItemsAuthorizedFx
+    : GetMarketItemsFx,
   mapRequestResult: (done) => ({
     totalCount: done.meta.total ?? 0,
   }),
@@ -40,9 +38,13 @@ const GetMarketItemsPageFx = attach({
     pageSize: paginationModel.$pageSize,
   },
   effect: ({ page, pageSize }) =>
-    chooseFx(
-      stringifyParams({ limit: pageSize, offset: page * pageSize }, true)
-    ),
+    authService.IsAuthorized()
+      ? GetMarketItemsAuthorizedFx(
+          stringifyParams({ limit: pageSize, offset: page * pageSize }, true)
+        )
+      : GetMarketItemsFx(
+          stringifyParams({ limit: pageSize, offset: page * pageSize }, true)
+        ),
 });
 
 sample({

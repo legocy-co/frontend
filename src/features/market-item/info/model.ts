@@ -54,6 +54,7 @@ export const form = createForm({
           name: 'price',
           schema: z
             .number()
+            .max(999999)
             .nonnegative()
             .nullable()
             .refine((value) => value !== null, 'Missing price'),

@@ -25,7 +25,7 @@ export const MarketItemImagesForm = () => {
         labelText="Market item images"
         accept=".jpg, .jpeg, .png"
       />
-      <div className="max-w-sm w-full">
+      <div className="max-w-sm w-full mb-5">
         <Preview />
       </div>
       {!eachValid && <FormError>{fields.images.errorText()}</FormError>}
