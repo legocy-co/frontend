@@ -85,7 +85,6 @@ const GetMarketItemsAuthorized = async (
   query: string
 ): Promise<PaginationData<MarketItem[]>> => {
   const { data } = await axios.get('/market-items/authorized/' + query);
-
   const result = MarketItemSchema.array().safeParse(data.data);
   if (!result.success)
     return handleIncorrectParse(

@@ -4,7 +4,6 @@ import axios from 'axios';
 import { SignUpData } from '../types/SignUp.ts';
 import { history } from '../routes/history.ts';
 import { handleAuthError } from './ErrorHandlers.ts';
-
 import { su } from '../features/auth/sign-up/';
 import { si } from '../features/auth/sign-in/';
 import { jwtDecode } from 'jwt-decode';
@@ -84,7 +83,7 @@ const Logout = () => {
   axios.defaults.headers.common.Authorization = '';
   history.navigate(`auth?from=${history.location?.pathname}`);
 
-  // TODO: state components update
+  window.location.reload();
 };
 
 const GetUserId = () => {
