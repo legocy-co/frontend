@@ -85,7 +85,6 @@ const Logout = () => {
   history.navigate(`auth?from=${history.location?.pathname}`);
 
   // TODO: state components update
-  window.location.reload();
 };
 
 const GetUserId = () => {

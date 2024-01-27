@@ -6,18 +6,19 @@ const MarketItemsList = () => {
   const marketItems = useUnit(model.$marketItemCells);
 
   const marketItemsElements = marketItems.map((marketItem) => (
-    <MarketItemCell
-      key={marketItem.id}
-      id={marketItem.id}
-      location={marketItem.location}
-      condition={marketItem.condition}
-      images={marketItem.images}
-      price={marketItem.price}
-      series={marketItem.series}
-      set={marketItem.set}
-      set_number={marketItem.set_number}
-      seller_id={marketItem.seller_id}
-    />
+    <div id={`cell${marketItem.id}`} key={`cell${marketItem.id}`}>
+      <MarketItemCell
+        id={marketItem.id}
+        location={marketItem.location}
+        condition={marketItem.condition}
+        images={marketItem.images}
+        price={marketItem.price}
+        series={marketItem.series}
+        set={marketItem.set}
+        set_number={marketItem.set_number}
+        seller_id={marketItem.seller_id}
+      />
+    </div>
   ));
 
   return (

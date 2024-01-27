@@ -31,7 +31,6 @@ interface MarketItemService {
   DeleteMarketItem: (id: number | string) => Promise<boolean>;
 }
 
-// TODO: (page num, limit) to (limit, offset)
 const GetMarketItems = async (
   query: string
 ): Promise<PaginationData<MarketItem[]>> => {
