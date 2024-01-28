@@ -7,7 +7,7 @@ const UserReviewsList = () => {
   const userReviews = useUnit(model.$userReviewCells);
   const userReviewsElements = userReviews.map((userReview) => (
     <UserReviewCell
-      key={userReview.id}
+      key={`review-${userReview.id}`}
       id={userReview.id}
       reviewer_image={userReview.reviewer_image}
       reviewer_username={userReview.reviewer_username}
@@ -20,7 +20,9 @@ const UserReviewsList = () => {
   return (
     <>
       <MenuButton>Sort by: Last Added</MenuButton>
-      <div className="grid gap-6 mt-7 grid-cols-1 lg:grid-cols-2">{userReviewsElements}</div>
+      <div className="grid gap-6 mt-7 grid-cols-1 lg:grid-cols-2">
+        {userReviewsElements}
+      </div>
     </>
   );
 };
