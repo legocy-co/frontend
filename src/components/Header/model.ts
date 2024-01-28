@@ -22,13 +22,3 @@ sample({
   clock: GetUserImagesFX.doneData,
   target: $userImages,
 });
-
-sample({
-  clock: $userImages,
-  target: gate.close,
-});
-
-sample({
-  clock: gate.close,
-  target: gate.open,
-});
