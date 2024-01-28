@@ -4,7 +4,6 @@ import { MenuButton } from '../../shared/ui/menu-button.tsx';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
 import MarketItemsList from '../../components/MarketItemsList';
 import { Pagination } from '../../shared/lib/pagination';
-// import { Button } from '../../shared/ui/button.tsx';
 
 export const CatalogPage = () => {
   useGate(model.gate);
@@ -24,10 +23,7 @@ export const CatalogPage = () => {
         <Pagination.View model={model.paginationModel} />
       </div>
       <MarketItemsList />
-      <div className="w-full block sm:hidden">
-        <Pagination.View model={model.paginationModel} />
-      </div>
-      {/*<Button className="mt-11">Show More</Button>*/}
+      <Pagination.View model={model.paginationModel} />
     </div>
   );
 };
