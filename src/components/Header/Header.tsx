@@ -5,7 +5,7 @@ import ChatIcon from '../../assets/icons/chat.svg';
 import UserIcon from '../../assets/icons/user.svg';
 import ActiveUserIcon from '../../assets/icons/active-user.svg';
 import { addDefaultSrc } from '../../services/utils';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
 import { authService } from '../../services/AuthService.ts';
 import { useState } from 'react';
@@ -15,14 +15,13 @@ import { useUnit } from 'effector-react/compat';
 
 const Header = () => {
   useGate(model.gate);
-  const userImages = useUnit(model.$userImages);
-  const [showMenu, setShowMenu] = useState(false);
-  const [showLogout, setShowLogout] = useState(false);
 
   const messagesCounter = 0;
+  const userImages = useUnit(model.$userImages);
+  const [showMenu, setShowMenu] = useState(false);
 
   const navigate = useNavigate();
-  const location = useLocation();
+  const [showLogout, setShowLogout] = useState(false);
 
   function handleShowLogout() {
     setShowLogout(true);
