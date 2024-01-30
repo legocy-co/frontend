@@ -1,8 +1,11 @@
 import './Footer.scss';
 import SocialIcon from '../../assets/icons/social.svg';
 import { addDefaultSrc } from '../../services/utils.ts';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+  const navigate = useNavigate();
+
   return (
     <footer>
       <div className="footer--group">
@@ -14,13 +17,13 @@ const Footer = () => {
         <div className="footer--policy">
           <img src="/logo-dark.svg" onError={addDefaultSrc} alt="" />
           <div>
-            <p>&copy; 2022 Legocy </p>
+            <p>&copy; 2024 Legocy </p>
             <p>Privacy Policy</p>
           </div>
         </div>
         <div className="footer--right">
           <p>SUPPORT</p>
-          <p>CATALOG</p>
+          <p onClick={() => navigate('/catalog/')}>CATALOG</p>
           <p>FAQ</p>
           <p>CONTACT US</p>
         </div>
