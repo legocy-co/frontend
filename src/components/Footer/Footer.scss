@@ -19,7 +19,6 @@ footer {
   align-items: center;
   width: 100%;
   height: 67px;
-  //column-gap: 136px;
   font-size: 12px;
   //background: lightblue;
 }
@@ -29,7 +28,6 @@ footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  //column-gap: 27px;
   @media (max-width: 1000px) {
     display: none;
   }
@@ -55,7 +53,6 @@ footer {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  //column-gap: 57px;
   @media (max-width: 600px) {
     display: none;
   }
