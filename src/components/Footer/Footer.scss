@@ -15,11 +15,11 @@ footer {
 
 .footer--group {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  width: 1222px;
+  width: 100%;
   height: 67px;
-  column-gap: 136px;
+  //column-gap: 136px;
   font-size: 12px;
   //background: lightblue;
 }
@@ -27,22 +27,24 @@ footer {
 .footer--contacts {
   width: 349px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  column-gap: 27px;
+  //column-gap: 27px;
+  @media (max-width: 1000px) {
+    display: none;
+  }
 }
 
 .footer--policy {
-  width: 223px;
   height: 67px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   div {
     width: 223px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     font-size: 16px;
   }
@@ -51,7 +53,16 @@ footer {
 .footer--right {
   width: 376px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  column-gap: 57px;
+  //column-gap: 57px;
+  @media (max-width: 600px) {
+    display: none;
+  }
+  p {
+    cursor: pointer;
+    transition: opacity 0.1s;
+    &:hover {opacity: 0.9;}
+    &:active {opacity: 0.8;}
+  }
 }
