@@ -1,7 +1,11 @@
 import { ColumnControl } from '../../shared/lib/column-control';
 import { Pagination } from '../../shared/lib/pagination';
-import { useGate } from 'effector-react';
+import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
+import { mapSetState } from '../../shared/lib/react.ts';
+import { Table } from '../../shared/ui/table';
+import { useNavigate } from 'react-router-dom';
+import { useColumns } from './columns.tsx';
 
 export const LegoSetsPage = () => {
   useGate(model.gate);
@@ -14,8 +18,59 @@ export const LegoSetsPage = () => {
         </div>
         <ColumnControl model={model.columnControlModel} />
       </div>
-      <div className="flex-grow w-full overflow-y-auto">{/*<Content />*/}</div>
+      <div className="flex-grow w-full overflow-y-auto">
+        <Content />
+      </div>
       <Pagination.View model={model.paginationModel} />
     </div>
+  );
+};
+
+const Content = () => {
+  const [sets, columnOrder, columnVisibility, columnsSizing, columnSorting] =
+    useUnit([
+      model.$sets,
+      model.columnControlModel.$columnOrder,
+      model.columnControlModel.$visibility,
+      model.columnControlModel.$columnsSizing,
+      model.columnControlModel.$columnSorting,
+    ]);
+  const navigate = useNavigate();
+  const columns = useColumns();
+
+  return (
+    <Table
+      onRowClick={(row) => navigate(`${row.id}`)}
+      columns={columns}
+      data={sets}
+      columnVisibility={columnVisibility}
+      setColumnVisibility={(updater) =>
+        mapSetState(updater)({
+          prevState: columnVisibility,
+          update: model.columnControlModel.allColumnsVisibilityChanged,
+        })
+      }
+      columnOrder={columnOrder}
+      setColumnOrder={(updater) =>
+        mapSetState(updater)({
+          prevState: columnOrder,
+          update: model.columnControlModel.columnOrderChanged,
+        })
+      }
+      columnSizing={columnsSizing}
+      setColumnSizing={(updater) =>
+        mapSetState(updater)({
+          prevState: columnsSizing,
+          update: model.columnControlModel.columnSizeChanged,
+        })
+      }
+      sorting={columnSorting}
+      setSorting={(updater) =>
+        mapSetState(updater)({
+          prevState: columnSorting,
+          update: model.columnControlModel.columnSortingChanged,
+        })
+      }
+    />
   );
 };

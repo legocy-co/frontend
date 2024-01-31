@@ -1,7 +1,7 @@
 import * as Popover from '@radix-ui/react-popover';
 import { ColumnControlModel } from './model';
-import IconColumns from '../../icons/columns.svg';
-import IconDrag from '../../icons/drag.svg';
+import ColumnsIcon from '../../icons/columns.svg';
+import DragIcon from '../../icons/drag.svg';
 import { useList, useStoreMap, useUnit } from 'effector-react';
 import { Toggle } from '../../ui/toggle';
 import { useDrag, useDrop } from 'react-dnd';
@@ -16,7 +16,7 @@ export const ColumnControl = ({ model }: Props) => {
     <Popover.Root>
       <Popover.Trigger asChild>
         <button type="button" className={'btn btn-sm btn-ghost'}>
-          <IconColumns />
+          <img src={ColumnsIcon} className="-translate-y-0.5" alt="" />
           Columns
         </button>
       </Popover.Trigger>
@@ -99,11 +99,10 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
             'cursor-grabbing': isDragging,
           })}
         >
-          <IconDrag />
+          <img src={DragIcon} alt="" />
         </button>
         <div className="flex-1 py-4 pr-4 flex items-center justify-between">
           <span className="text-base">{title}</span>
-
           <Toggle
             checked={checked}
             onChange={() => model.visibilityChanged(id)}

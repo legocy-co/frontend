@@ -23,7 +23,7 @@ export const columns = [
   },
 
   {
-    id: 'n_pieces',
+    id: 'pieces',
     size: 200,
     title: 'Pieces',
   },
