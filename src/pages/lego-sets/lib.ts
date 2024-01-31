@@ -12,35 +12,24 @@ export type SetRow = {
 
 export const columns = [
   {
-    id: 'checkbox',
-    size: 50,
-    title: 'Checkbox',
+    id: 'number',
+    size: 200,
+    title: 'Set number',
   },
   {
-    id: 'id',
-    size: 50,
-    title: 'ID',
+    id: 'name',
+    size: 400,
+    title: 'Set',
   },
-
   {
     id: 'pieces',
     size: 200,
     title: 'Pieces',
   },
   {
-    id: 'number',
-    size: 200,
-    title: 'Set number',
-  },
-  {
     id: 'image',
     size: 200,
     title: 'Image',
-  },
-  {
-    id: 'name',
-    size: 400,
-    title: 'Set',
   },
   {
     id: 'series',

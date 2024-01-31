@@ -1,6 +1,6 @@
 import './Header.scss';
 import SearchIcon from '../../assets/icons/search.svg';
-import MapIcon from '../../assets/icons/map.svg';
+import WikiIcon from '../../assets/icons/wiki.svg';
 import ChatIcon from '../../assets/icons/chat.svg';
 import UserIcon from '../../assets/icons/user.svg';
 import ActiveUserIcon from '../../assets/icons/active-user.svg';
@@ -31,6 +31,7 @@ const Header = () => {
   function handleLogout() {
     setShowLogout(false);
     authService.Logout();
+    window.location.reload();
   }
 
   return (
@@ -48,7 +49,12 @@ const Header = () => {
           <input type="text" placeholder="Search" />
           <img src={SearchIcon} onError={addDefaultSrc} alt="" />
         </div>
-        <img className="header--map" src={MapIcon} alt="" />
+        <img
+          className="header--wiki"
+          src={WikiIcon}
+          onClick={() => navigate('/wiki/sets/')}
+          alt=""
+        />
         <div className="header--chat">
           <img src={ChatIcon} onError={addDefaultSrc} alt="" />
           {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}

@@ -15,7 +15,12 @@ export const ColumnControl = ({ model }: Props) => {
   return (
     <Popover.Root>
       <Popover.Trigger asChild>
-        <button type="button" className={'btn btn-sm btn-ghost'}>
+        <button
+          type="button"
+          className={
+            'w-10 h-10 transition-opacity hover:opacity-90 active:opacity-80 '
+          }
+        >
           <img src={ColumnsIcon} className="-translate-y-0.5" alt="" />
           Columns
         </button>
@@ -23,7 +28,7 @@ export const ColumnControl = ({ model }: Props) => {
       <Popover.Portal>
         <Popover.Content
           align="end"
-          className="w-96 bg-neutral-85 rounded-lg will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-50"
+          className="w-96 bg-neutral-85 rounded-lg will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
           sideOffset={5}
         >
           {useList(model.$columnOrder, (id) => (
@@ -83,7 +88,7 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
       <div
         ref={dropRef}
         className={clsx(
-          'w-full flex items-center space-x-2 pl-2 border-b border-solid border-b-neutral-75 last:border-0 transition-all',
+          'w-full bg-legocy flex items-center space-x-2 pl-2 border-b border-solid border-b-black last:border-0 transition-all',
           {
             'bg-neutral-60': isOver,
           }
@@ -94,7 +99,7 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
       >
         <button
           ref={dragRef}
-          className={clsx('btn btn-square btn-ghost btn-xs flex-shrink-0', {
+          className={clsx('w-5 h-5', {
             'cursor-grab': !isDragging,
             'cursor-grabbing': isDragging,
           })}
@@ -102,7 +107,7 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
           <img src={DragIcon} alt="" />
         </button>
         <div className="flex-1 py-4 pr-4 flex items-center justify-between">
-          <span className="text-base">{title}</span>
+          <span>{title}</span>
           <Toggle
             checked={checked}
             onChange={() => model.visibilityChanged(id)}

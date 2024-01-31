@@ -104,8 +104,8 @@ export const Table = <T,>({
               onClick={() =>
                 onRowClick ? onRowClick(row.original) : undefined
               }
-              className={clsx('odd:bg-white odd:bg-opacity-5', {
-                'cursor-pointer hover:bg-white hover:bg-opacity-20 transition-colors':
+              className={clsx('odd:bg-black odd:bg-opacity-5', {
+                'cursor-pointer hover:bg-black hover:bg-opacity-10':
                   !!onRowClick,
               })}
             >
@@ -117,7 +117,7 @@ export const Table = <T,>({
                       width: cell.column.getSize(),
                     },
                   }}
-                  className="text-white px-4 py-3 text-left font-mazzard-h text-base align-middle overflow-hidden"
+                  className="px-4 py-3 text-left overflow-hidden"
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
@@ -197,7 +197,7 @@ const DraggableColumnHeader = <T,>({
         <div
           ref={dragRef}
           className={clsx(
-            'text-left px-4 py-3 transition-all text-sm font-medium font-mazzard-h select-none space-x-1 flex items-baseline text-neutral-15 hover:bg-white hover:bg-opacity-5',
+            'text-left px-4 py-3 transition-all text-sm font-medium select-none space-x-1 flex items-baseline hover:bg-black hover:bg-opacity-10',
             {
               'bg-neutral-60': isOver,
             }
@@ -213,26 +213,29 @@ const DraggableColumnHeader = <T,>({
                     onClick: header.column.getToggleSortingHandler(),
                   }
                 : {})}
-              className="btn btn-square btn-xs btn-ghost"
+              className="w-5 h-5"
             >
               <img
                 src={ArrowDownIcon}
                 alt=""
-                className={clsx('flex-shrink-0 transition-all', {
-                  'rotate-180 [&>path]:stroke-primary-default':
-                    header.column.getIsSorted() === 'asc',
-                  'rotate-0 [&>path]:stroke-primary-default':
-                    header.column.getIsSorted() === 'desc',
-                  '[&>path]:stroke-neutral-50 opacity-0 group-hover/sort:opacity-100':
-                    !header.column.getIsSorted(),
-                })}
+                className={clsx(
+                  'flex-shrink-0 transition-all hover:opacity-90 active:opacity-80',
+                  {
+                    'rotate-180 [&>path]:stroke-primary-default':
+                      header.column.getIsSorted() === 'asc',
+                    'rotate-0 [&>path]:stroke-primary-default':
+                      header.column.getIsSorted() === 'desc',
+                    '[&>path]:stroke-neutral-50 opacity-0 group-hover/sort:opacity-100':
+                      !header.column.getIsSorted(),
+                  }
+                )}
               />
             </button>
           )}
           {meta.onClickFilter && (
             <button
               onClick={meta.onClickFilter}
-              className="btn btn-square btn-xs btn-ghost opacity-0 group-hover/sort:opacity-100"
+              className="w-5 h-5 bg-legocy opacity-0 group-hover/sort:opacity-100"
             >
               <img src={FilterIcon} alt="" />
             </button>
