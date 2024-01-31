@@ -41,7 +41,9 @@ export const columns = [
 export function toSetRows(response: PaginationData<LegoSet[]>): SetRow[] {
   return response.data.map((set) => ({
     id: set.id,
-    image: set.images?.map((img) => img.image_url)[0],
+    image: set.images
+      ?.sort((current, next) => Number(current.is_main) - Number(next.is_main))
+      .map((img) => 'https://' + img.image_url)[0],
     name: set.name,
     number: set.number,
     pieces: set.n_pieces,
