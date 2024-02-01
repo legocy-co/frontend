@@ -28,7 +28,7 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
   return (
     <div className="flex items-center space-x-8">
       <div className="flex items-center space-x-3">
-        <p className="hidden sm:block">Market items per page</p>
+        <p className="hidden sm:block">Items per page</p>
         <Popover.Root open={open} onOpenChange={setOpen}>
           <Popover.Trigger className="hidden sm:flex p-1 rounded-md hover:bg-legocy transition-colors items-center space-x-2 disabled:hover:!bg-transparent disabled:cursor-not-allowed">
             {pageSize}

@@ -23,6 +23,8 @@ import CatalogPage from '../pages/market-items';
 import UserProfilePage from '../pages/UserProfilePage';
 import AddMarketItemPage from '../pages/market-items/add';
 import { authService } from '../services/AuthService.ts';
+import LegoSetsPage from '../pages/lego-sets';
+import LegoSetDetailPage from '../pages/lego-sets/detail';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -71,6 +73,11 @@ const AppRouter = () => {
             path=":id"
             element={<UserProfilePage key={history.location.pathname} />}
           />
+        </Route>
+
+        <Route path="wiki/sets" element={<Outlet />}>
+          <Route index element={<LegoSetsPage />} />
+          <Route path=":id" element={<LegoSetDetailPage />} />
         </Route>
 
         <Route

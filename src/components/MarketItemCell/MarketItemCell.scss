@@ -18,6 +18,12 @@
     font-weight: 400;
     margin-bottom: 7px;
   }
+  u {
+    cursor: pointer;
+    transition: opacity;
+    &:hover {opacity: 0.9;}
+    &:active {opacity: 0.8;}
+  }
   &--image-wrapper {
     position: relative;
     width: 250px;

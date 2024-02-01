@@ -54,7 +54,7 @@ header {
       background: #ecc439;
     }
     @media (max-width: 600px) {
-      height: 64px;
+      height: 50px;
       margin-left: 0;
     }
   }
@@ -86,7 +86,7 @@ header {
       color: #00000075;
     }
     @media (max-width: 600px) {
-      height: 64px;
+      height: 50px;
     }
   }
 
@@ -95,15 +95,16 @@ header {
     top: 12px;
     right: 10px;
     @media (max-width: 600px) {
-      top: 24px;
+      top: 17px;
     }
   }
 }
 
-.header--map {
+.header--wiki {
+  width: 40px;
   margin-left: 4%;
   @media (max-width: 600px) {
-    display: none;
+    min-width: 50px;
   }
 }
 
@@ -161,6 +162,6 @@ header {
   }
   @media (max-width: 600px) {
     margin-left: 4%;
-    min-width: 64px;
+    min-width: 50px;
   }
 }

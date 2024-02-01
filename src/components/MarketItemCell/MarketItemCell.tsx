@@ -17,6 +17,7 @@ interface MarketItemCellProps {
   set: string;
   set_number: number;
   seller_id: number;
+  set_id: number;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
@@ -26,9 +27,9 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   async function handleDelete() {
     await marketItemService.DeleteMarketItem(props.id);
 
-    // TODO: state components update
-    const cell = document.getElementById(`cell${props.id}`) as HTMLElement;
+    const cell = document.getElementById('cell-' + props.id) as HTMLElement;
     cell.style.display = 'none';
+
     setShowDelete(false);
   }
 
@@ -112,7 +113,9 @@ const MarketItemCell = (props: MarketItemCellProps) => {
         <p>Condition: {props.condition}</p>
       </div>
       <p>
-        <u>Set number: {props.set_number}</u>
+        <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>
+          Set number: {props.set_number}
+        </u>
       </p>
       <div
         className="cell--link"

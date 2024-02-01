@@ -12,6 +12,8 @@ const MarketItemDetailPage = () => {
   const params = useParams<'id'>();
   const navigate = useNavigate();
 
+  useGate(model.gate, { id: params.id ?? null, navigate });
+
   const marketItem = useUnit(model.$marketItemDetail);
   const [showGallery, setShowGallery] = useState<number>(-1);
 
@@ -28,7 +30,6 @@ const MarketItemDetailPage = () => {
       ></img>
     ));
 
-  useGate(model.gate, { id: params.id ?? null, navigate });
   return (
     <div className="w-full h-full flex flex-col items-center">
       <PageHeading isMarketItemDetail to="/catalog" />
