@@ -1,14 +1,14 @@
 import { lazy, Suspense } from 'react';
 import Loader from '../../../shared/ui/loader.tsx';
 
-export { LegoSetInfo } from './page.tsx';
+export { LegoSetDetailInfo } from './page.tsx';
 export * as lsf from './model.ts';
 
 const LegoSetInfo = lazy(() =>
-  import('./page.tsx').then((page) => ({ default: page.LegoSetInfo }))
+  import('./page.tsx').then((page) => ({ default: page.LegoSetDetailInfo }))
 );
 
-export const LegoSetInfoRoute = () => (
+export const LegoSetDetailInfoRoute = () => (
   <Suspense fallback={<Loader />}>
     <LegoSetInfo />
   </Suspense>

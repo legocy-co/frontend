@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { addDefaultSrc } from '../../../services/utils.ts';
 import GalleryModal from '../../../components/GalleryModal';
 
-export const LegoSetInfo = () => {
+export const LegoSetDetailInfo = () => {
   const params = useParams<'id'>();
   const navigate = useNavigate();
 

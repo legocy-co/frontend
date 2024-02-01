@@ -8,6 +8,6 @@ export type Valuation = z.infer<typeof ValuationSchema>;
 export const ValuationSchema = z.object({
   calculator: z.number(),
   id: z.number(),
-  lego_set: z.array(LegoSetSchema),
+  lego_set: LegoSetSchema,
   state: objectKeysToZodEnum(setStates),
 });

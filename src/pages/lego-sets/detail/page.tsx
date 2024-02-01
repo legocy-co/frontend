@@ -1,7 +1,8 @@
-import { LegoSetInfoRoute } from '../../../features/lego-set/info';
+import { LegoSetDetailInfoRoute } from '../../../features/lego-set/info';
 import { PageHeading } from '../../../shared/ui/page-heading.tsx';
 import { MenuButton } from '../../../shared/ui/menu-button.tsx';
 import { useState } from 'react';
+import { LegoSetDetailValuationsRoute } from '../../../features/lego-set/valuations';
 
 export const LegoSetDetailPage = () => {
   const [valuationsTab, setValuationsTab] = useState(false);
@@ -23,7 +24,11 @@ export const LegoSetDetailPage = () => {
           Valuations
         </MenuButton>
       </div>
-      {valuationsTab ? null : <LegoSetInfoRoute />}
+      {valuationsTab ? (
+        <LegoSetDetailValuationsRoute />
+      ) : (
+        <LegoSetDetailInfoRoute />
+      )}
     </div>
   );
 };
