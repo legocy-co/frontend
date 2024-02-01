@@ -27,6 +27,7 @@ export const MarketItemInfoForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <SelectSearchAdapter
+        clientSideSearch
         field={model.form.fields.lego_set_id}
         labelText="Lego set"
         options={legoSets.map((legoSet) => ({

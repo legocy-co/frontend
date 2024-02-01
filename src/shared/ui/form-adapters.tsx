@@ -113,6 +113,11 @@ export const SelectSearchAdapter = ({
   const foundValue = options.find((option) => option.value === activeValue);
   const inputValue = foundValue ? foundValue.label : value;
 
+  function handleReset() {
+    field.reset();
+    setValue('');
+  }
+
   return (
     <div className="relative">
       <SelectSearch
@@ -131,7 +136,7 @@ export const SelectSearchAdapter = ({
       />
       <div
         className="absolute top-8 right-4 cursor-pointer"
-        onClick={() => field.reset()}
+        onClick={handleReset}
       >
         x
       </div>

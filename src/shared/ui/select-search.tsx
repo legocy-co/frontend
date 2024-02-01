@@ -90,7 +90,7 @@ export const SelectSearch = ({
                   key={option.value}
                   type="button"
                   className={clsx(
-                    'text-left w-full px-3 py-2 text-base bg-white font-medium hover:bg-black hover:bg-opacity-5 transition-all',
+                    'text-left w-full px-3 py-2 text-base bg-white font-medium hover:bg-black hover:bg-opacity-10 transition-all',
                     {
                       '!bg-primary-default !text-neutral-900':
                         activeValue === option.value,
