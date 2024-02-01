@@ -11,6 +11,7 @@ export type MarketItemCell = {
   condition: string;
   set_number: number;
   seller_id: number;
+  set_id: number;
 };
 
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
@@ -28,5 +29,6 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     condition: setStates[marketItem.set_state as keyof typeof setStates],
     set_number: marketItem.lego_set.number,
     seller_id: marketItem.seller?.id,
+    set_id: marketItem.lego_set.id,
   }));
 }

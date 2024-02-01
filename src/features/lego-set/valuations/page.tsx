@@ -11,7 +11,7 @@ export const LegoSetDetailValuations = () => {
 
   const detailValuationsElement = detailValuations.length ? (
     detailValuations.map((valuation) => (
-      <p className="my-10">
+      <p className="my-10" key={'valuation-' + valuation.id}>
         {valuation.state}: {valuation.calculator}$
       </p>
     ))
