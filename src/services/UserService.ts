@@ -5,9 +5,12 @@ import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 
 interface UserService {
-  GetUserProfilePage: (id: number | string) => Promise<UserProfile>;
-  GetUserImages: (id: number | string) => Promise<UserImage[]>;
-  UploadUserImage: (file: FormData, id: number | string) => Promise<boolean>;
+  GetUserProfilePage: (userID: number | string) => Promise<UserProfile>;
+  GetUserImages: (userID: number | string) => Promise<UserImage[]>;
+  UploadUserImage: (
+    file: FormData,
+    userID: number | string
+  ) => Promise<boolean>;
 }
 
 type UserProfileResponse = {
@@ -20,8 +23,12 @@ type ImagesResponse = {
   images: object[];
 };
 
-const GetUserProfilePage = async (id: number | string): Promise<UserProfile> => {
-  const response = await axios.get<UserProfileResponse>('/users/profile/' + id);
+const GetUserProfilePage = async (
+  userID: number | string
+): Promise<UserProfile> => {
+  const response = await axios.get<UserProfileResponse>(
+    '/users/profile/' + userID
+  );
   const result = UserProfileSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(
@@ -33,8 +40,8 @@ const GetUserProfilePage = async (id: number | string): Promise<UserProfile> => 
   return result.data;
 };
 
-const GetUserImages = async (id: number | string): Promise<UserImage[]> => {
-  const response = await axios.get<ImagesResponse>('/users/images/' + id);
+const GetUserImages = async (userID: number | string): Promise<UserImage[]> => {
+  const response = await axios.get<ImagesResponse>('/users/images/' + userID);
   const result = UserImageSchema.array().safeParse(response.data.images);
   if (!result.success)
     return handleIncorrectParse(
@@ -48,10 +55,10 @@ const GetUserImages = async (id: number | string): Promise<UserImage[]> => {
 
 const UploadUserImage = async (
   file: FormData,
-  id: number | string
+  userID: number | string
 ): Promise<boolean> => {
   try {
-    await axios.post(`/users/images/${id}/avatar`, file);
+    await axios.post(`/users/images/${userID}/avatar`, file);
     toaster.showToastSuccess('User image uploaded');
 
     return Promise.resolve(true);
