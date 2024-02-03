@@ -4,8 +4,11 @@ import { TextFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
 import { Button } from '../../../shared/ui/button.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
+import { useGate } from 'effector-react';
 
 export const SignIn = () => {
+  useGate(model.gate);
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     model.form.submit();

@@ -73,8 +73,6 @@ const RefreshToken = async () => {
 
   storage.accessToken = response.access_token;
   SetCredentials(storage);
-
-  auth.tokenRefreshed();
 };
 
 const Logout = () => {
@@ -156,7 +154,9 @@ axios.interceptors.response.use(
     if (err?.response?.status === 401) {
       try {
         await RefreshToken();
+
         axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
+        auth.tokenRefreshed();
       } catch (e) {
         Logout();
         return Promise.reject(err);

@@ -3,7 +3,10 @@ import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { attach, sample } from 'effector';
 import { authService } from '../../../services/AuthService.ts';
-import { gate, signedIn } from '../../../pages/auth/model.ts';
+import { si } from '../sign-in/index.tsx';
+import { createGate } from 'effector-react';
+
+export const gate = createGate();
 
 export const form = createForm({
   fields: {
@@ -105,7 +108,7 @@ sample({
 
 sample({
   clock: signInFx.done,
-  target: signedIn,
+  target: si.signedIn,
 });
 
 sample({

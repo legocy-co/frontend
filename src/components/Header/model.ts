@@ -3,7 +3,8 @@ import { createGate } from 'effector-react';
 import { authService } from '../../services/AuthService.ts';
 import { userService } from '../../services/UserService.ts';
 import { UserImage } from '../../types/UserImageType.ts';
-import { loggedOut, signedIn, tokenRefreshed } from '../../pages/auth/model.ts';
+import { auth } from '../../pages/auth/';
+import { si } from '../../features/auth/sign-in/index.tsx';
 
 export const gate = createGate();
 
@@ -16,13 +17,13 @@ const GetUserImagesFx = createEffect(() =>
 );
 
 sample({
-  clock: [gate.open, signedIn, tokenRefreshed],
+  clock: [gate.open, si.signedIn, auth.tokenRefreshed],
   filter: () => authService.IsAuthorized(),
   target: GetUserImagesFx,
 });
 
 sample({
-  clock: loggedOut,
+  clock: auth.loggedOut,
   target: clearUserImagesFx,
 });
 

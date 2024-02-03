@@ -4,8 +4,10 @@ import { TextFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
 import { Button } from '../../../shared/ui/button.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
+import { useGate } from 'effector-react';
 
 export const SignUp = () => {
+  useGate(model.gate);
   const { fields, eachValid } = useForm(model.form);
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
