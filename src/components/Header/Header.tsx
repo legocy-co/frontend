@@ -31,7 +31,6 @@ const Header = () => {
   function handleLogout() {
     setShowLogout(false);
     authService.Logout();
-    window.location.reload();
   }
 
   return (

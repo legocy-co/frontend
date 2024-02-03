@@ -7,6 +7,7 @@ import { handleAuthError } from './ErrorHandlers.ts';
 import { su } from '../features/auth/sign-up/';
 import { si } from '../features/auth/sign-in/';
 import { jwtDecode } from 'jwt-decode';
+import { auth } from '../pages/auth/';
 
 export interface AuthService {
   IsAuthorized: () => boolean;
@@ -72,6 +73,8 @@ const RefreshToken = async () => {
 
   storage.accessToken = response.access_token;
   SetCredentials(storage);
+
+  auth.tokenRefreshed();
 };
 
 const Logout = () => {
@@ -81,6 +84,8 @@ const Logout = () => {
   SetCredentials(storage);
 
   axios.defaults.headers.common.Authorization = '';
+  auth.loggedOut();
+
   history.navigate(`auth?from=${history.location?.pathname}`);
 };
 

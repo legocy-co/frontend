@@ -25,9 +25,10 @@ $font: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cant
   p {
     font-size: 1.25rem;
   }
-  a {
+  u {
     color: white;
-    text-decoration: underline;
+    text-decoration-line: underline;
+    cursor: pointer;
     &:hover {
       color: #f5f4f4;
     }

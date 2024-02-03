@@ -3,22 +3,30 @@ import { createGate } from 'effector-react';
 import { authService } from '../../services/AuthService.ts';
 import { userService } from '../../services/UserService.ts';
 import { UserImage } from '../../types/UserImageType.ts';
+import { loggedOut, signedIn, tokenRefreshed } from '../../pages/auth/model.ts';
 
 export const gate = createGate();
 
 export const $userImages = createStore<UserImage[]>([]);
 
-const GetUserImagesFX = createEffect(() =>
-  userService.GetUserImages(String(authService.GetUserId()))
+const clearUserImagesFx = createEffect(() => []);
+
+const GetUserImagesFx = createEffect(() =>
+  userService.GetUserImages(authService.GetUserId())
 );
 
 sample({
-  clock: gate.open,
+  clock: [gate.open, signedIn, tokenRefreshed],
   filter: () => authService.IsAuthorized(),
-  target: GetUserImagesFX,
+  target: GetUserImagesFx,
 });
 
 sample({
-  clock: GetUserImagesFX.doneData,
+  clock: loggedOut,
+  target: clearUserImagesFx,
+});
+
+sample({
+  clock: [GetUserImagesFx.doneData, clearUserImagesFx.doneData],
   target: $userImages,
 });

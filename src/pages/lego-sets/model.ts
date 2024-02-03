@@ -1,5 +1,5 @@
 import { createGate } from 'effector-react';
-import { attach, combine, createDomain, sample } from 'effector';
+import { attach, createDomain, sample } from 'effector';
 import { createColumnControlModel } from '../../shared/lib/column-control';
 import { columns, SetRow, toSetRows } from './lib.ts';
 import { createEffect } from 'effector/compat';
@@ -10,10 +10,6 @@ import { stringifyParams } from '../../services/utils.ts';
 export const gate = createGate();
 
 const domain = createDomain();
-
-export const setToggled = domain.createEvent<number>();
-
-export const toggleAll = domain.createEvent();
 
 export const columnControlModel = createColumnControlModel({
   key: 'sets',
@@ -26,14 +22,6 @@ export const columnControlModel = createColumnControlModel({
 
 export const $sets = domain.createStore<SetRow[]>([]);
 
-export const $selectedSets = domain.createStore<number[]>([]);
-
-export const $allSelected = combine(
-  $sets,
-  $selectedSets,
-  (sets, selected) => sets.length === selected.length
-);
-
 const GetLegoSetsPageBaseFx = createEffect(legoSetService.GetLegoSetsPage);
 
 export const paginationModel = Pagination.factory({
@@ -43,8 +31,6 @@ export const paginationModel = Pagination.factory({
   mapRequestResult: (data) => ({ totalCount: data.meta?.total ?? 0 }),
   key: 'sets',
 });
-
-export const $isEmpty = combine($sets, (sets) => sets.length === 0);
 
 const GetLegoSetsPageFx = attach({
   source: {
@@ -64,24 +50,7 @@ sample({
 });
 
 sample({
-  clock: setToggled,
-  source: $selectedSets,
-  fn: (selected, id) =>
-    selected.includes(id)
-      ? selected.filter((set) => set !== id)
-      : [...selected, id],
-  target: $selectedSets,
-});
-
-sample({
   clock: GetLegoSetsPageFx.doneData,
   fn: toSetRows,
   target: $sets,
-});
-
-sample({
-  clock: toggleAll,
-  source: { allSelected: $allSelected, sets: $sets },
-  fn: ({ allSelected, sets }) => (allSelected ? [] : sets.map((set) => set.id)),
-  target: $selectedSets,
 });
