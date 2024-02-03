@@ -3,7 +3,6 @@ import { NavigateFunction } from 'react-router-dom';
 import { Valuation } from '../../../types/ValuationType.ts';
 import { attach, createStore, sample } from 'effector';
 import { valuationService } from '../../../services/ValuationService.ts';
-import { setStates } from '../../../types/MarketItemType.ts';
 
 type DetailValuation = {
   calculator: number;
@@ -30,7 +29,7 @@ function toDetailValuations(valuations: Valuation[]): DetailValuation[] {
   return valuations.map((valuation) => ({
     calculator: valuation.calculator,
     id: valuation.id,
-    state: setStates[valuation.state as keyof typeof setStates],
+    state: valuation.state,
   }));
 }
 

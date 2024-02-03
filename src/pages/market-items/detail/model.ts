@@ -17,6 +17,7 @@ type MarketItemDetail = {
   seller_id: number;
   seller_username: string;
   seller_image?: string;
+  set_id: number;
 };
 
 export const gate = createGate<{
@@ -37,6 +38,7 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   set: '',
   set_number: 0,
   seller_image: '',
+  set_id: 0,
 });
 
 const GetMarketItemFx = attach({
@@ -63,6 +65,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     seller_id: marketItem.seller.id,
     seller_username: marketItem.seller.username,
     seller_image: 'https://' + marketItem.seller.images[0]?.downloadURL,
+    set_id: marketItem.lego_set.id,
   };
 }
 

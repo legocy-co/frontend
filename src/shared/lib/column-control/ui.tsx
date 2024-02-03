@@ -28,7 +28,7 @@ export const ColumnControl = ({ model }: Props) => {
       <Popover.Portal>
         <Popover.Content
           align="end"
-          className="w-96 bg-neutral-85 rounded-lg will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade"
+          className="w-96 bg-neutral-85 rounded-lg will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-10"
           sideOffset={5}
         >
           {useList(model.$columnOrder, (id) => (
