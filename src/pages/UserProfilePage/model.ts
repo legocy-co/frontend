@@ -48,7 +48,7 @@ function toPage(user: User): UserProfile {
 }
 
 sample({
-  clock: gate.open,
+  clock: [gate.open, avatarChanged],
   target: GetUserProfilePageFx,
 });
 
