@@ -70,7 +70,12 @@ const MarketItemDetailPage = () => {
           </div>
           <p className="mb-9">
             Set Number:{' '}
-            <span className="text-light">{marketItem.set_number}</span>
+            <span
+              className="text-light underline transition-opacity cursor-pointer hover:opacity-90 active:opacity-80"
+              onClick={() => navigate('/wiki/sets/' + marketItem.set_id)}
+            >
+              {marketItem.set_number}
+            </span>
           </p>
           <div className="bg-ghost border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-5 sm:mb-28">
             <p>Set description: {marketItem.description}</p>
