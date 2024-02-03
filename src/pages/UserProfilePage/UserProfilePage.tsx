@@ -62,12 +62,18 @@ const UserProfilePage = () => {
   const [showGallery, setShowGallery] = useState<number>(-1);
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.currentTarget.files?.[0]) {
+    const file = e.currentTarget.files?.[0];
+    if (file) {
       const data = new FormData();
-      data.append('file', e.currentTarget.files?.[0]);
-
+      data.append('file', file);
       await userService.UploadUserImage(data, authService.GetUserId());
-      window.location.reload();
+
+      const profileAvatarElement = document.getElementById(
+        'profile-avatar'
+      ) as HTMLImageElement;
+
+      profileAvatarElement.src = URL.createObjectURL(file);
+      model.avatarChanged();
     }
   }
 
@@ -78,6 +84,7 @@ const UserProfilePage = () => {
           <div className="w-12 aspect-square rounded-full bg-legocy">
             {
               <img
+                id="profile-avatar"
                 className="w-12  aspect-square rounded-full drop-shadow-avatar object-cover object-bottom cursor-pointer transition-all hover:brightness-95 active:brightness-90"
                 src={
                   userProfile.user_images[0]
