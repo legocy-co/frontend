@@ -68,11 +68,6 @@ const UserProfilePage = () => {
       data.append('file', file);
       await userService.UploadUserImage(data, authService.GetUserId());
 
-      const profileAvatarElement = document.getElementById(
-        'profile-avatar'
-      ) as HTMLImageElement;
-
-      profileAvatarElement.src = URL.createObjectURL(file);
       model.avatarChanged();
     }
   }
