@@ -1,8 +1,9 @@
 import { createForm } from 'effector-forms';
-import { attach, sample, createEvent } from 'effector';
+import { attach, sample } from 'effector';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { authService } from '../../../services/AuthService.ts';
+import { gate, signedIn } from '../../../pages/auth/model.ts';
 
 export const form = createForm({
   fields: {
@@ -31,8 +32,6 @@ export const form = createForm({
   },
 });
 
-export const signedIn = createEvent();
-
 // AuthService
 const signInFx = attach({
   source: form.$values,
@@ -51,4 +50,9 @@ sample({
 sample({
   clock: signInFx.done,
   target: signedIn,
+});
+
+sample({
+  clock: gate.close,
+  target: form.reset,
 });

@@ -23,9 +23,13 @@ export const AuthPage = () => {
       </Button>
       <p>
         Already have an account?{' '}
-        <a href={`/auth/sign-in?from=${location.search.split('=')[1]}`}>
+        <u
+          onClick={() =>
+            navigate(`/auth/sign-in?from=${location.search.split('=')[1]}`)
+          }
+        >
           Sign in here
-        </a>
+        </u>
       </p>
     </div>
   );
