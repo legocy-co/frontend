@@ -1,9 +1,13 @@
 import { createForm } from 'effector-forms';
-import { attach, sample } from 'effector';
+import { attach, createEvent, sample } from 'effector';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { authService } from '../../../services/AuthService.ts';
-import { gate, signedIn } from '../../../pages/auth/model.ts';
+import { createGate } from 'effector-react';
+
+export const gate = createGate();
+
+export const signedIn = createEvent();
 
 export const form = createForm({
   fields: {
