@@ -1,5 +1,5 @@
 import { createGate } from 'effector-react';
-import { attach, createStore, sample } from 'effector';
+import { attach, createEvent, createStore, sample } from 'effector';
 import { NavigateFunction } from 'react-router-dom';
 import { userService } from '../../services/UserService.ts';
 import {
@@ -17,6 +17,8 @@ type UserProfile = {
   user_images: string[];
   username: string;
 };
+
+export const avatarChanged = createEvent();
 
 export const gate = createGate<{
   id: string | null;
