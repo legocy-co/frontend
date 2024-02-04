@@ -6,6 +6,7 @@ export default {
       backgroundImage: {
         'sign-in': 'url("/src/assets/pics/mixed-lego.png")',
         'sign-up': 'url("/src/assets/pics/red-lego.png")',
+        'collections-intro': 'url("/src/assets/pics/lego-museum.webp")',
       },
       fontSize: {
         'bh': '2.5rem',

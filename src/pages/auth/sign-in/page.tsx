@@ -1,4 +1,4 @@
-import { SignIn } from '../../../features/auth/sign-in/ui.tsx';
+import { SignIn } from '../../../features/auth/sign-in';
 import { useGate } from 'effector-react';
 import * as model from '../model.ts';
 

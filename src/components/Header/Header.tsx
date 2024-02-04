@@ -4,6 +4,7 @@ import WikiIcon from '../../assets/icons/wiki.svg';
 import ChatIcon from '../../assets/icons/chat.svg';
 import UserIcon from '../../assets/icons/user.svg';
 import ActiveUserIcon from '../../assets/icons/active-user.svg';
+import CollectionIcon from '../../assets/icons/collection.svg';
 import { addDefaultSrc } from '../../services/utils';
 import { useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
@@ -48,47 +49,51 @@ const Header = () => {
           <input type="text" placeholder="Search" />
           <img src={SearchIcon} onError={addDefaultSrc} alt="" />
         </div>
-        <img
-          className="header--wiki"
-          src={WikiIcon}
-          onClick={() => navigate('/wiki/sets/')}
-          alt=""
-        />
-        <div className="header--chat">
-          <img src={ChatIcon} onError={addDefaultSrc} alt="" />
-          {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
-        </div>
-        <div className="header--user">
+        <div className="header--right">
           <img
-            src={
-              userImages[1]
-                ? 'https://' + userImages[1].downloadURL
-                : !showMenu
-                  ? UserIcon
-                  : ActiveUserIcon
-            }
-            id="header-avatar"
-            className={
-              userImages[1] ? 'h-10 w-10 object-cover rounded-full' : ''
-            }
-            onError={addDefaultSrc}
-            onClick={() =>
-              authService.IsAuthorized()
-                ? setShowMenu((prev) => !prev)
-                : navigate(`auth?from=${location.pathname}`)
-            }
+            className="header--wiki"
+            src={WikiIcon}
+            onClick={() => navigate('/wiki/sets/')}
             alt=""
           />
-          {showMenu && (
-            <div>
-              <p
-                onClick={() => navigate('/profile/' + authService.GetUserId())}
-              >
-                My profile
-              </p>
-              <p onClick={() => handleShowLogout()}>Log out</p>
-            </div>
-          )}
+          <div className="header--chat">
+            <img src={ChatIcon} onError={addDefaultSrc} alt="" />
+            {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
+          </div>
+          <img className="header--collection" src={CollectionIcon} alt="" onClick={() => navigate('/collections/')}/>
+          <div className="header--user">
+            <img
+              src={
+                userImages[1]
+                  ? 'https://' + userImages[1].downloadURL
+                  : !showMenu
+                    ? UserIcon
+                    : ActiveUserIcon
+              }
+              className={
+                userImages[1] ? 'h-10 w-10 object-cover rounded-full' : ''
+              }
+              onError={addDefaultSrc}
+              onClick={() =>
+                authService.IsAuthorized()
+                  ? setShowMenu((prev) => !prev)
+                  : navigate(`auth?from=${location.pathname}`)
+              }
+              alt=""
+            />
+            {showMenu && (
+              <div>
+                <p
+                  onClick={() =>
+                    navigate('/profile/' + authService.GetUserId())
+                  }
+                >
+                  My profile
+                </p>
+                <p onClick={() => handleShowLogout()}>Log out</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       {showLogout && (
