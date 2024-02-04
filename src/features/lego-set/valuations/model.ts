@@ -5,7 +5,7 @@ import { attach, createStore, sample } from 'effector';
 import { valuationService } from '../../../services/ValuationService.ts';
 
 type DetailValuation = {
-  calculator: number;
+  valuation: number;
   id: number;
   state: string;
 };
@@ -27,7 +27,7 @@ const GetValuationsFx = attach({
 
 function toDetailValuations(valuations: Valuation[]): DetailValuation[] {
   return valuations.map((valuation) => ({
-    calculator: valuation.calculator,
+    valuation: valuation.valuation,
     id: valuation.id,
     state: valuation.state,
   }));

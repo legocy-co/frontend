@@ -30,7 +30,7 @@ export const LegoSetDetailValuations = () => {
       <p className="text-2xl">
         {detailValuations.find((valuation) => valuation.state === state)
           ? detailValuations.find((valuation) => valuation.state === state)
-              ?.calculator + ' $'
+              ?.valuation + ' $'
           : 'Not estimated'}
       </p>
     </div>
