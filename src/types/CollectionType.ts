@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CollectionSetSchema } from './CollectionSet.ts';
+import { CollectionSetSchema } from './CollectionSetType.ts';
 import { UserSchema } from './UserType.ts';
 
 export type CollectionType = z.infer<typeof CollectionSchema>;

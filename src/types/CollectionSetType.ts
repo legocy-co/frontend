@@ -3,6 +3,8 @@ import { LegoSetSchema } from './LegoSetType.ts';
 import objectKeysToZodEnum from '../shared/lib/zod.ts';
 import { setStates } from './MarketItemType.ts';
 
+export type CollectionSet = z.infer<typeof CollectionSetSchema>;
+
 export const CollectionSetSchema = z.object({
   id: z.number(),
   buy_price: z.number(),
