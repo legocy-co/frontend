@@ -11,14 +11,13 @@ export const CollectionsIntroPage = () => {
         Greetings, LEGO aficionado! Step into your very own LEGO-sets Collection
         – the heart of brick excitement. ✨
       </p>
-      <p className="text-xl w-96 mb-8">
-        For those of you starting with an empty canvas, fear not! These empty
-        spaces are your battlegrounds, waiting to be adorned with the treasures
-        of the LEGO world.
-      </p>
       <Button className={'mt-0 mb-7 h-14'} onClick={() => navigate('/')}>
         Start Collecting
       </Button>
+      <p className="text-xl w-96">
+        These empty spaces are waiting to be adorned with the treasures of the
+        LEGO world.
+      </p>
     </div>
   );
 };
