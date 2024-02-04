@@ -25,6 +25,7 @@ import AddMarketItemPage from '../pages/market-items/add';
 import { authService } from '../services/AuthService.ts';
 import LegoSetsPage from '../pages/lego-sets';
 import LegoSetDetailPage from '../pages/lego-sets/detail';
+import CollectionPage from '../pages/collections';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const AppRouter = () => {
       <Route path="/" element={<RootPage />}>
         <Route index element={<Navigate to="/catalog" />} />
 
-        <Route path="auth/" element={<AuthRoute />} />
+        <Route path="auth" element={<AuthRoute />} />
         <Route path="auth/sign-up" element={<SignUpPage />} />
         <Route path="auth/sign-in" element={<SignInPage />} />
 
@@ -79,6 +80,8 @@ const AppRouter = () => {
           <Route index element={<LegoSetsPage />} />
           <Route path=":id" element={<LegoSetDetailPage />} />
         </Route>
+
+        <Route path="collections" element={<CollectionPage />} />
 
         <Route
           path="private"
