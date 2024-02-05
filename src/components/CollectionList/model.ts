@@ -6,9 +6,12 @@ import { Valuation } from '../../types/ValuationType.ts';
 export type CollectionCell = {
   id: number;
   buy_price: number;
-  lego_set: object;
-  state: string;
-  valuation_price?: number;
+  series: string,
+  set: string;
+  set_number: number;
+  set_id: number;
+  condition: string;
+  valuation?: number;
 };
 
 export const $collectionCells = createStore<CollectionCell[]>([]);
@@ -20,9 +23,12 @@ export function toCollectionCells(
   return collectionSets.map((set) => ({
     id: set.id,
     buy_price: set.buy_price,
-    lego_set: set.lego_set,
-    state: setStates[set.state as keyof typeof setStates],
-    valuation_price: valuations.find(
+    series: set.lego_set.series.name,
+    set: set.lego_set.name,
+    set_number: set.lego_set.number,
+    set_id: set.lego_set.number,
+    condition: setStates[set.state as keyof typeof setStates],
+    valuation: valuations.find(
       (valuation) =>
         valuation.lego_set.id === set.lego_set.id &&
         valuation.state === set.state
