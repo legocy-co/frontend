@@ -1,4 +1,4 @@
-import { CollectionType, CollectionSchema } from '../types/CollectionType.ts';
+import { Collection, CollectionSchema } from '../types/CollectionType.ts';
 import {
   CollectionValuation,
   CollectionValuationSchema,
@@ -7,11 +7,11 @@ import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
 
 interface CollectionService {
-  GetCollection: () => Promise<CollectionType>;
+  GetCollection: () => Promise<Collection>;
   GetCollectionValuation: () => Promise<CollectionValuation>;
 }
 
-const GetCollection = async (): Promise<CollectionType> => {
+const GetCollection = async (): Promise<Collection> => {
   const response = await axios.get('/collections/');
   const result = CollectionSchema.safeParse(response.data);
   if (!result.success)

@@ -1,14 +1,12 @@
 import CollectionsIntroPage from './intro';
 import CollectionList from '../../components/CollectionList';
+import { useUnit } from 'effector-react';
+import * as model from './model.ts';
 
 export const CollectionPage = () => {
-  const collection = 0;
+  const collection = useUnit(model.$collectionCells);
 
-  return collection ? (
-    <div>
-      <CollectionList />
-    </div>
-  ) : (
-    <CollectionsIntroPage />
-  );
+  console.log(collection);
+
+  return collection ? <CollectionList /> : <CollectionsIntroPage />;
 };

@@ -1,4 +1,3 @@
-import { createStore } from 'effector';
 import { CollectionSet } from '../../types/CollectionSetType.ts';
 import { setStates } from '../../types/MarketItemType.ts';
 import { Valuation } from '../../types/ValuationType.ts';
@@ -6,15 +5,13 @@ import { Valuation } from '../../types/ValuationType.ts';
 export type CollectionCell = {
   id: number;
   buy_price: number;
-  series: string,
+  series: string;
   set: string;
   set_number: number;
   set_id: number;
   condition: string;
   valuation?: number;
 };
-
-export const $collectionCells = createStore<CollectionCell[]>([]);
 
 export function toCollectionCells(
   collectionSets: CollectionSet[],

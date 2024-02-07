@@ -1,9 +1,9 @@
 import { useUnit } from 'effector-react';
-import * as model from './model.ts';
 import CollectionCell from '../CollectionCell/CollectionCell.tsx';
+import { collectionsModel } from '../../pages/collections/index.tsx';
 
 const CollectionList = () => {
-  const collectionSets = useUnit(model.$collectionCells);
+  const collectionSets = useUnit(collectionsModel.$collectionCells);
 
   const marketItemsElements = collectionSets.map((set) => (
     <div id={'collection-cell-' + set.id} key={'collection-cell-' + set.id}>

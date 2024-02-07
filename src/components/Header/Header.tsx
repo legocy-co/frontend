@@ -17,7 +17,7 @@ import { useUnit } from 'effector-react/compat';
 const Header = () => {
   useGate(model.gate);
 
-  const messagesCounter = 0;
+  const messagesCounter = 1;
   const userImages = useUnit(model.$userImages);
   const [showMenu, setShowMenu] = useState(false);
 
