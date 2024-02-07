@@ -4,6 +4,7 @@ import { SignUpForm } from '../types/SignUp';
 import { ZodError } from 'zod';
 import toaster from '../shared/lib/react-toastify';
 import { MarketItemForm } from '../types/MarketItemType.ts';
+import { CollectionSetForm } from '../types/CollectionSetType.ts';
 
 const handleIncorrectParse = (
   e: ZodError,
@@ -68,4 +69,33 @@ const handleMarketItemError = (
   return Promise.reject(e);
 };
 
-export { handleIncorrectParse, handleAuthError, handleMarketItemError };
+const handleCollectionError = (
+  e: unknown,
+  consolePrefix: string,
+  form: CollectionSetForm
+): Promise<never> => {
+  if (axios.isAxiosError(e)) {
+    const err = e as AxiosError;
+    const errorMessage = (err.response?.data as any)?.error ?? err.message;
+    console.error(
+      `${consolePrefix}: code = ${err.response?.status}, msg = ${errorMessage}`
+    );
+
+    form.fields.lego_set_id.addError({
+      rule: '',
+      errorText: errorMessage,
+    });
+
+    return Promise.reject(err.message);
+  }
+
+  console.error(`${consolePrefix}: undefined error: `, e);
+  return Promise.reject(e);
+};
+
+export {
+  handleIncorrectParse,
+  handleAuthError,
+  handleMarketItemError,
+  handleCollectionError,
+};

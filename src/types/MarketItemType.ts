@@ -9,13 +9,7 @@ export type MarketItem = z.infer<typeof MarketItemSchema>;
 
 export type MarketItemData = {
   lego_set_id: number;
-  set_state:
-    | 'BRAND_NEW'
-    | 'BOX_OPENED'
-    | 'BAGS_OPENED'
-    | 'BUILT_WITH_BOX'
-    | 'BUILT_WITHOUT_BOX'
-    | 'BUILT_PIECES_LOST';
+  set_state: keyof typeof setStates;
   description: string;
   price: number;
   location: string;
@@ -23,13 +17,7 @@ export type MarketItemData = {
 
 export type MarketItemForm = Form<{
   lego_set_id: string;
-  set_state:
-    | 'BRAND_NEW'
-    | 'BOX_OPENED'
-    | 'BAGS_OPENED'
-    | 'BUILT_WITH_BOX'
-    | 'BUILT_WITHOUT_BOX'
-    | 'BUILT_PIECES_LOST';
+  set_state: keyof typeof setStates;
   description: string;
   price: number;
   country: string;
