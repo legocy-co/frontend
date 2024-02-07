@@ -60,7 +60,12 @@ const Header = () => {
             <img src={ChatIcon} onError={addDefaultSrc} alt="" />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
-          <img className="header--collection" src={CollectionIcon} alt="" onClick={() => navigate('/collections/')}/>
+          <img
+            className="header--collection"
+            src={CollectionIcon}
+            alt=""
+            onClick={() => navigate('/collection/')}
+          />
           <div className="header--user">
             <img
               src={
