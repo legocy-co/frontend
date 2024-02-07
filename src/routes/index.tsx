@@ -26,6 +26,7 @@ import { authService } from '../services/AuthService.ts';
 import LegoSetsPage from '../pages/lego-sets';
 import LegoSetDetailPage from '../pages/lego-sets/detail';
 import CollectionPage from '../pages/collections';
+import CollectionsIntroPage from '../pages/collections/intro';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -81,7 +82,10 @@ const AppRouter = () => {
           <Route path=":id" element={<LegoSetDetailPage />} />
         </Route>
 
-        <Route path="collections" element={<CollectionPage />} />
+        <Route path="collection" element={<Outlet />}>
+          <Route index element={<CollectionPage />} />
+          <Route path=":intro" element={<CollectionsIntroPage />} />
+        </Route>
 
         <Route
           path="private"

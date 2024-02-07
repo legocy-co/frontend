@@ -8,7 +8,7 @@ import {
   handleIncorrectParse,
   handleMarketItemError,
 } from './ErrorHandlers.ts';
-import { navigateFx } from '../shared/lib/react-router.ts';
+import { history } from '../routes/history.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { mif } from '../features/market-item/info';
 import { PaginationData } from '../types/pagination.ts';
@@ -146,8 +146,8 @@ export const marketItemService: MarketItemService = {
 
 axios.interceptors.response.use(
   (response) => response,
-  async (error) => {
-    error?.response?.status === 404 && (await navigateFx({ pathname: '/' }));
+  (error) => {
+    error?.response?.status === 404 && history.navigate('/');
     return Promise.reject(error);
   }
 );

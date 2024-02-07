@@ -1,12 +1,19 @@
-import CollectionsIntroPage from './intro';
 import CollectionList from '../../components/CollectionList';
-import { useUnit } from 'effector-react';
+import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
+import { PageHeading } from '../../shared/ui/page-heading.tsx';
 
 export const CollectionPage = () => {
-  const collection = useUnit(model.$collectionCells);
+  useGate(model.gate);
 
-  console.log(collection);
+  const totalValuation = useUnit(model.$totalValuation);
 
-  return collection ? <CollectionList /> : <CollectionsIntroPage />;
+  return (
+    <>
+      <PageHeading>
+        Total: {totalValuation ? `${totalValuation} $` : 'Not estimated'}
+      </PageHeading>
+      <CollectionList />
+    </>
+  );
 };

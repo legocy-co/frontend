@@ -17,6 +17,8 @@ export const $collectionCells = combine(
   toCollectionCells
 );
 
+export const $totalValuation = createStore(0);
+
 const GetCollectionFx = createEffect(collectionService.GetCollection);
 
 const GetCollectionValuationsFx = createEffect(
@@ -38,4 +40,10 @@ sample({
   clock: GetCollectionValuationsFx.doneData,
   fn: (data) => data.valuations,
   target: $valuations,
+});
+
+sample({
+  clock: GetCollectionValuationsFx.doneData,
+  fn: (data) => data.total,
+  target: $totalValuation,
 });

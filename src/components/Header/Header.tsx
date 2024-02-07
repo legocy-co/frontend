@@ -17,7 +17,7 @@ import { useUnit } from 'effector-react/compat';
 const Header = () => {
   useGate(model.gate);
 
-  const messagesCounter = 1;
+  const messagesCounter = 0;
   const userImages = useUnit(model.$userImages);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -60,7 +60,12 @@ const Header = () => {
             <img src={ChatIcon} onError={addDefaultSrc} alt="" />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
-          <img className="header--collection" src={CollectionIcon} alt="" onClick={() => navigate('/collections/')}/>
+          <img
+            className="header--collection"
+            src={CollectionIcon}
+            alt=""
+            onClick={() => navigate('/collection/')}
+          />
           <div className="header--user">
             <img
               src={

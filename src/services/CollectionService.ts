@@ -5,6 +5,7 @@ import {
 } from '../types/CollectionValuationType.ts';
 import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
+import { history } from '../routes/history.ts';
 
 interface CollectionService {
   GetCollection: () => Promise<Collection>;
@@ -41,3 +42,11 @@ export const collectionService: CollectionService = {
   GetCollection: GetCollection,
   GetCollectionValuation: GetCollectionValuation,
 };
+
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    error?.response?.status === 404 && history.navigate('/collection/intro/');
+    return Promise.reject(error);
+  }
+);
