@@ -4,10 +4,7 @@ import {
   MarketItemSchema,
 } from '../types/MarketItemType.ts';
 import axios from 'axios';
-import {
-  handleIncorrectParse,
-  handleMarketItemError,
-} from './ErrorHandlers.ts';
+import { handleIncorrectParse, handleSetError } from './ErrorHandlers.ts';
 import { history } from '../routes/history.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { mif } from '../features/market-item/info';
@@ -63,7 +60,7 @@ const CreateMarketItem = async (
 
     return result.data;
   } catch (e) {
-    return handleMarketItemError(e, 'MarketItem', mif.form);
+    return handleSetError(e, 'MarketItem', mif.form);
   }
 };
 

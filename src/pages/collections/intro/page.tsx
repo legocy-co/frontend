@@ -11,7 +11,10 @@ export const CollectionsIntroPage = () => {
         Greetings, LEGO aficionado! Step into your very own LEGO-sets Collection
         – the heart of brick excitement. ✨
       </p>
-      <Button className={'mt-0 mb-7 h-14'} onClick={() => navigate('/')}>
+      <Button
+        className={'mt-0 mb-7 h-14'}
+        onClick={() => navigate('/collection/add/')}
+      >
         Start Collecting
       </Button>
       <p className="text-xl w-96">
