@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './CollectionCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useState } from 'react';
+import PencilIcon from '../../assets/icons/pencil.svg';
 
 interface CollectionCellProps {
   id: number;
@@ -35,6 +36,12 @@ const CollectionCell = (props: CollectionCellProps) => {
   return (
     <div className="collection-cell">
       <h1>Buy price: {props.buy_price} $</h1>
+      <img
+        className="collection-cell--edit"
+        onClick={() => navigate('/collection/' + props.id)}
+        alt=""
+        src={PencilIcon}
+      />
       {props.images.length > 0 && (
         <div className="collection-cell--image-wrapper">
           <img

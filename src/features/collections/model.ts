@@ -3,7 +3,16 @@ import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import { setStates } from '../../types/MarketItemType.ts';
 import { createGate } from 'effector-react';
-import { attach, sample } from 'effector';
+import {
+  attach,
+  createDomain,
+  createEffect,
+  createEvent,
+  createStore,
+  EventPayload,
+  sample,
+  split,
+} from 'effector';
 import {
   $legoSetOptions,
   GetLegoSetsFx,
@@ -11,8 +20,10 @@ import {
 } from '../lego-set/options/model.ts';
 import { collectionService } from '../../services/CollectionService.ts';
 import { NavigateFunction } from 'react-router-dom';
+import { CollectionSet } from '../../types/CollectionSetType.ts';
 
 export const gate = createGate<{
+  id: string | null;
   navigateFn: NavigateFunction;
 }>();
 
@@ -53,7 +64,30 @@ export const form = createForm({
   },
 });
 
-const AddCollectionSetFx = attach({
+const domain = createDomain();
+
+export const setForm = domain.createEvent<CollectionSet>();
+
+const $collectionSets = createStore<CollectionSet[]>([]);
+
+const $setId = gate.state.map(({ id }) => id);
+const $isEditing = $setId.map((id) => id !== null);
+
+const setCollectionSet = createEvent<CollectionSet>();
+
+const GetCollectionFx = createEffect(collectionService.GetCollection);
+
+const fetchCollectionSetFx = attach({
+  source: [$collectionSets, $setId],
+  effect: ([collectionSets, setId]) => {
+    const set = collectionSets.find((set) => String(set.id) === setId);
+    if (!set) throw new Error('No id provided');
+
+    return set;
+  },
+});
+
+const addCollectionSetFx = attach({
   source: form.$values,
   effect: (values) =>
     collectionService.AddCollectionSet({
@@ -63,14 +97,34 @@ const AddCollectionSetFx = attach({
     }),
 });
 
+// TODO: PUT Collection Service
+
+const updateCollectionSetFx = attach({
+  source: form.$values,
+  effect: (values) => values,
+  // collectionService.AddCollectionSet({
+  //   buy_price: values.buy_price,
+  //   lego_set_id: Number(values.lego_set_id),
+  //   state: values.state,
+  // }),
+});
+
 const collectionRedirectFx = attach({
   source: gate.state,
   effect: ({ navigateFn }) => navigateFn('/collection/'),
 });
 
+function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
+  return {
+    buy_price: values.buy_price,
+    state: values.state,
+    lego_set_id: String(values.lego_set.id),
+  };
+}
+
 sample({
   clock: gate.open,
-  target: GetLegoSetsFx,
+  target: [GetLegoSetsFx, GetCollectionFx],
 });
 
 sample({
@@ -80,12 +134,43 @@ sample({
 });
 
 sample({
-  clock: form.formValidated,
-  target: AddCollectionSetFx,
+  clock: GetCollectionFx.doneData,
+  fn: (data) => data.collection_sets,
+  target: $collectionSets,
 });
 
 sample({
-  clock: AddCollectionSetFx.done,
+  clock: $collectionSets,
+  target: fetchCollectionSetFx,
+});
+
+sample({
+  clock: fetchCollectionSetFx.doneData,
+  target: setCollectionSet,
+});
+
+sample({
+  clock: setCollectionSet,
+  target: setForm,
+});
+
+sample({
+  clock: setForm,
+  fn: toForm,
+  target: form.setForm,
+});
+
+split({
+  source: form.formValidated,
+  match: $isEditing.map(String),
+  cases: {
+    true: updateCollectionSetFx,
+    false: addCollectionSetFx,
+  },
+});
+
+sample({
+  clock: [addCollectionSetFx.done, updateCollectionSetFx.done],
   target: collectionRedirectFx,
 });
 
