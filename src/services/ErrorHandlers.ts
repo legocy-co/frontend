@@ -4,6 +4,7 @@ import { SignUpForm } from '../types/SignUp';
 import { ZodError } from 'zod';
 import toaster from '../shared/lib/react-toastify';
 import { MarketItemForm } from '../types/MarketItemType.ts';
+import { CollectionSetForm } from '../types/CollectionSetType.ts';
 
 const handleIncorrectParse = (
   e: ZodError,
@@ -44,10 +45,10 @@ const handleAuthError = (
   return Promise.reject(e);
 };
 
-const handleMarketItemError = (
+const handleSetError = (
   e: unknown,
   consolePrefix: string,
-  form: MarketItemForm
+  form: MarketItemForm | CollectionSetForm
 ): Promise<never> => {
   if (axios.isAxiosError(e)) {
     const err = e as AxiosError;
@@ -68,4 +69,4 @@ const handleMarketItemError = (
   return Promise.reject(e);
 };
 
-export { handleIncorrectParse, handleAuthError, handleMarketItemError };
+export { handleIncorrectParse, handleAuthError, handleSetError };

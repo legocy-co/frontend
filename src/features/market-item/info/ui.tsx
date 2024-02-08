@@ -12,9 +12,10 @@ import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 import cities from '../../../../data/cities.json';
 import { setStates } from '../../../types/MarketItemType.ts';
+import { lso } from '../../lego-set/options/index.ts';
 
 export const MarketItemInfoForm = () => {
-  const legoSets = useUnit(model.$legoSetOptions);
+  const legoSets = useUnit(lso.$legoSetOptions);
   const params = useParams<'id'>();
   useGate(model.gate, { id: params.id ?? null });
 

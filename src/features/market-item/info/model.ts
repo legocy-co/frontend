@@ -2,21 +2,13 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { createGate } from 'effector-react';
+import { StoreValue, createDomain, sample } from 'effector';
+import { setStates } from '../../../types/MarketItemType.ts';
 import {
-  StoreValue,
-  createEffect,
-  createStore,
-  createDomain,
-  sample,
-} from 'effector';
-import { legoSetService } from '../../../services/LegoSetService.ts';
-import { LegoSet } from '../../../types/LegoSetType.ts';
-
-type LegoSetOption = {
-  id: string;
-  number: number;
-  name: string;
-};
+  $legoSetOptions,
+  GetLegoSetsFx,
+  toOptions,
+} from '../../lego-set/options/model.ts';
 
 export const form = createForm({
   fields: {
@@ -30,13 +22,7 @@ export const form = createForm({
       ],
     },
     set_state: {
-      init: '' as
-        | 'BRAND_NEW'
-        | 'BOX_OPENED'
-        | 'BAGS_OPENED'
-        | 'BUILT_WITH_BOX'
-        | 'BUILT_WITHOUT_BOX'
-        | 'BUILT_PIECES_LOST',
+      init: '' as keyof typeof setStates,
       rules: [
         createRule({
           name: 'set_states',
@@ -86,15 +72,11 @@ const domain = createDomain();
 
 export const gate = createGate<{ id: string | null }>();
 
-export const $legoSetOptions = createStore<LegoSetOption[]>([]);
-
 export const createFormInfo = domain.createEvent();
 
 export const resetDomain = domain.createEvent();
 
 export const $mappedValues = form.$values.map(mapFormToRequestBody);
-
-const GetLegoSetsFx = createEffect(() => legoSetService.GetLegoSets());
 
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
@@ -104,14 +86,6 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
     set_state: values.set_state,
     description: values.description,
   };
-}
-
-function toOptions(legoSets: LegoSet[]): LegoSetOption[] {
-  return legoSets.map((legoSet) => ({
-    id: String(legoSet.id),
-    number: legoSet.number,
-    name: legoSet.name,
-  }));
 }
 
 domain.onCreateStore((store) => store.reset(resetDomain));
