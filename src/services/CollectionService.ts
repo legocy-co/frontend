@@ -4,16 +4,10 @@ import {
   CollectionValuationSchema,
 } from '../types/CollectionValuationType.ts';
 import axios from 'axios';
-import {
-  handleCollectionError,
-  handleIncorrectParse,
-} from './ErrorHandlers.ts';
+import { handleSetError, handleIncorrectParse } from './ErrorHandlers.ts';
 import { history } from '../routes/history.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import {
-  CollectionSetData,
-  CollectionSetSchema,
-} from '../types/CollectionSetType.ts';
+import { CollectionSetData } from '../types/CollectionSetType.ts';
 import { csf } from '../features/collections/index.tsx';
 
 interface CollectionService {
@@ -52,20 +46,12 @@ const AddCollectionSet = async (
   collectionSet: CollectionSetData
 ): Promise<boolean> => {
   try {
-    const response = await axios.post('/collections/', collectionSet);
+    await axios.post('/collections/', collectionSet);
     toaster.showToastSuccess('Collection set created');
-
-    const result = CollectionSetSchema.safeParse(response.data);
-    if (!result.success)
-      return handleIncorrectParse(
-        result.error,
-        'Add Collection Set',
-        'Incorrect parse'
-      );
 
     return Promise.resolve(true);
   } catch (e) {
-    return handleCollectionError(e, 'CollectionSet', csf.form);
+    return handleSetError(e, 'CollectionSet', csf.form);
   }
 };
 

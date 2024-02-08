@@ -8,7 +8,7 @@ import {
   $legoSetOptions,
   GetLegoSetsFx,
   toOptions,
-} from '../../common/legoset-options/model.ts';
+} from '../../lego-set/options/model.ts';
 
 export const form = createForm({
   fields: {

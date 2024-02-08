@@ -5,8 +5,6 @@ import { collectionsModel } from '../../pages/collections/index.tsx';
 const CollectionList = () => {
   const collectionSets = useUnit(collectionsModel.$collectionCells);
 
-  console.log(collectionSets);
-
   const collectionCellsElement = collectionSets.map((set) => (
     <div id={'collection-cell-' + set.id} key={'collection-cell-' + set.id}>
       <CollectionCell

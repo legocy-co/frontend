@@ -3,14 +3,18 @@ import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import { setStates } from '../../types/MarketItemType.ts';
 import { createGate } from 'effector-react';
-import { sample } from 'effector';
+import { attach, sample } from 'effector';
 import {
   $legoSetOptions,
   GetLegoSetsFx,
   toOptions,
-} from '../common/legoset-options/model.ts';
+} from '../lego-set/options/model.ts';
+import { collectionService } from '../../services/CollectionService.ts';
+import { NavigateFunction } from 'react-router-dom';
 
-export const gate = createGate<{ id: string | null }>();
+export const gate = createGate<{
+  navigateFn: NavigateFunction;
+}>();
 
 export const form = createForm({
   fields: {
@@ -49,6 +53,21 @@ export const form = createForm({
   },
 });
 
+const AddCollectionSetFx = attach({
+  source: form.$values,
+  effect: (values) =>
+    collectionService.AddCollectionSet({
+      buy_price: values.buy_price,
+      lego_set_id: Number(values.lego_set_id),
+      state: values.state,
+    }),
+});
+
+const collectionRedirectFx = attach({
+  source: gate.state,
+  effect: ({ navigateFn }) => navigateFn('/collection/'),
+});
+
 sample({
   clock: gate.open,
   target: GetLegoSetsFx,
@@ -60,12 +79,15 @@ sample({
   target: $legoSetOptions,
 });
 
-// TODO: AddCollectionSetFx
+sample({
+  clock: form.formValidated,
+  target: AddCollectionSetFx,
+});
 
-// sample({
-//   clock: form.formValidated,
-//   target: ,
-// });
+sample({
+  clock: AddCollectionSetFx.done,
+  target: collectionRedirectFx,
+});
 
 sample({
   clock: gate.close,

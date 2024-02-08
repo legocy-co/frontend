@@ -1,6 +1,6 @@
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'effector-forms';
 import React from 'react';
 import {
@@ -9,14 +9,14 @@ import {
   SelectSearchAdapter,
 } from '../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../shared/ui/form-error.tsx';
-import { lso } from '../common/legoset-options/index.ts';
+import { lso } from '../lego-set/options/index.ts';
 import { setStates } from '../../types/MarketItemType.ts';
 import { Button } from '../../shared/ui/button.tsx';
 
 export const CollectionSetForm = () => {
   const legoSets = useUnit(lso.$legoSetOptions);
-  const params = useParams<'id'>();
-  useGate(model.gate, { id: params.id ?? null });
+  const navigateFn = useNavigate();
+  useGate(model.gate, { navigateFn });
 
   const { fields, eachValid } = useForm(model.form);
   function onSubmit(ev: React.FormEvent) {

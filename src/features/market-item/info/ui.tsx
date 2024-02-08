@@ -12,7 +12,7 @@ import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 import cities from '../../../../data/cities.json';
 import { setStates } from '../../../types/MarketItemType.ts';
-import { lso } from '../../common/legoset-options/index.ts';
+import { lso } from '../../lego-set/options/index.ts';
 
 export const MarketItemInfoForm = () => {
   const legoSets = useUnit(lso.$legoSetOptions);

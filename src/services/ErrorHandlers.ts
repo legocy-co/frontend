@@ -45,10 +45,10 @@ const handleAuthError = (
   return Promise.reject(e);
 };
 
-const handleMarketItemError = (
+const handleSetError = (
   e: unknown,
   consolePrefix: string,
-  form: MarketItemForm
+  form: MarketItemForm | CollectionSetForm
 ): Promise<never> => {
   if (axios.isAxiosError(e)) {
     const err = e as AxiosError;
@@ -69,33 +69,4 @@ const handleMarketItemError = (
   return Promise.reject(e);
 };
 
-const handleCollectionError = (
-  e: unknown,
-  consolePrefix: string,
-  form: CollectionSetForm
-): Promise<never> => {
-  if (axios.isAxiosError(e)) {
-    const err = e as AxiosError;
-    const errorMessage = (err.response?.data as any)?.error ?? err.message;
-    console.error(
-      `${consolePrefix}: code = ${err.response?.status}, msg = ${errorMessage}`
-    );
-
-    form.fields.lego_set_id.addError({
-      rule: '',
-      errorText: errorMessage,
-    });
-
-    return Promise.reject(err.message);
-  }
-
-  console.error(`${consolePrefix}: undefined error: `, e);
-  return Promise.reject(e);
-};
-
-export {
-  handleIncorrectParse,
-  handleAuthError,
-  handleMarketItemError,
-  handleCollectionError,
-};
+export { handleIncorrectParse, handleAuthError, handleSetError };
