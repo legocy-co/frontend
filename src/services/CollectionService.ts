@@ -14,6 +14,10 @@ interface CollectionService {
   GetCollection: () => Promise<Collection>;
   GetCollectionValuation: () => Promise<CollectionValuation>;
   AddCollectionSet: (collectionSet: CollectionSetData) => Promise<boolean>;
+  UpdateCollectionSet: (
+    id: number | string,
+    collectionSet: CollectionSetData
+  ) => Promise<boolean>;
 }
 
 const GetCollection = async (): Promise<Collection> => {
@@ -55,10 +59,25 @@ const AddCollectionSet = async (
   }
 };
 
+const UpdateCollectionSet = async (
+  id: number | string,
+  collectionSet: CollectionSetData
+): Promise<boolean> => {
+  try {
+    await axios.patch('/collections/' + id, collectionSet);
+    toaster.showToastSuccess('Collection set created');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return handleSetError(e, 'CollectionSet', csf.form);
+  }
+};
+
 export const collectionService: CollectionService = {
   GetCollection: GetCollection,
   GetCollectionValuation: GetCollectionValuation,
   AddCollectionSet: AddCollectionSet,
+  UpdateCollectionSet: UpdateCollectionSet,
 };
 
 axios.interceptors.response.use(

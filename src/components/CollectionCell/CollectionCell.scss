@@ -108,4 +108,14 @@
       background: rgba(196, 195, 195, 0.68);
     }
   }
+  &--edit {
+    position: absolute;
+    width: 10px;
+    top: 10px;
+    right: 10px;
+    transition: opacity 0.1s;
+    cursor: pointer;
+    &:hover {opacity: 0.9}
+    &:active {opacity: 0.8}
+  }
 }

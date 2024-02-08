@@ -28,6 +28,7 @@ import LegoSetDetailPage from '../pages/lego-sets/detail';
 import CollectionPage from '../pages/collections';
 import CollectionsIntroPage from '../pages/collections/intro';
 import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
+import UpdateCollectionSetPage from '../pages/collections/update';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -87,6 +88,7 @@ const AppRouter = () => {
           <Route index element={<CollectionPage />} />
           <Route path="intro" element={<CollectionsIntroPage />} />
           <Route path="add" element={<AddCollectionSetPage />} />
+          <Route path=":id" element={<UpdateCollectionSetPage />} />
         </Route>
 
         <Route
