@@ -75,15 +75,20 @@ const $isEditing = $setId.map((id) => id !== null);
 
 const setCollectionSet = createEvent<CollectionSet>();
 
-const GetCollectionFx = createEffect(collectionService.GetCollection);
+const GetCollectionFx = createEffect(() => collectionService.GetCollection());
 
 const fetchCollectionSetFx = attach({
-  source: [$collectionSets, $setId],
-  effect: ([collectionSets, setId]) => {
-    const set = collectionSets.find((set) => String(set.id) === setId);
-    if (!set) throw new Error('No id provided');
+  source: {
+    collectionSets: $collectionSets,
+    setId: $setId,
+  },
+  effect: ({ collectionSets, setId }) => {
+    const collectionSet = collectionSets.find(
+      (set) => String(set.id) === setId
+    );
+    if (!collectionSet) throw new Error('Collection set not found');
 
-    return set;
+    return collectionSet;
   },
 });
 
@@ -97,16 +102,17 @@ const addCollectionSetFx = attach({
     }),
 });
 
-// TODO: PUT Collection Service
-
 const updateCollectionSetFx = attach({
-  source: form.$values,
-  effect: (values) => values,
-  // collectionService.AddCollectionSet({
-  //   buy_price: values.buy_price,
-  //   lego_set_id: Number(values.lego_set_id),
-  //   state: values.state,
-  // }),
+  source: {
+    id: $setId,
+    data: form.$values,
+  },
+  effect: ({ id, data }) =>
+    collectionService.UpdateCollectionSet(id!, {
+      buy_price: data.buy_price,
+      state: data.state,
+      lego_set_id: Number(data.lego_set_id),
+    }),
 });
 
 const collectionRedirectFx = attach({

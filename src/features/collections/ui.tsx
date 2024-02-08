@@ -1,6 +1,6 @@
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'effector-forms';
 import React from 'react';
 import {
@@ -14,9 +14,10 @@ import { setStates } from '../../types/MarketItemType.ts';
 import { Button } from '../../shared/ui/button.tsx';
 
 export const CollectionSetForm = () => {
+  const params = useParams<'id'>();
   const legoSets = useUnit(lso.$legoSetOptions);
   const navigateFn = useNavigate();
-  useGate(model.gate, { navigateFn });
+  useGate(model.gate, { id: params.id ?? null, navigateFn });
 
   const { fields, eachValid } = useForm(model.form);
   function onSubmit(ev: React.FormEvent) {
@@ -63,7 +64,7 @@ export const CollectionSetForm = () => {
         )}
       </div>
       <Button type="submit" className="mt-14">
-        Add collection set
+        Submit
       </Button>
     </form>
   );
