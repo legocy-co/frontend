@@ -80,6 +80,10 @@
   &--props {
     display: flex;
     justify-content: space-between;
+    h1 {
+      max-width: 75%;
+      text-align: left;
+    }
   }
   &--link {
     position: absolute;

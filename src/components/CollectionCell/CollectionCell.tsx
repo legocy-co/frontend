@@ -77,7 +77,7 @@ const CollectionCell = (props: CollectionCellProps) => {
       )}
       <div className="collection-cell--props">
         <h1>{props.set}</h1>
-        {props.valuation !== 0 && <h1>{props.valuation}$</h1>}
+        <h2>{props.valuation ? `${props.valuation}$` : '---'}</h2>
       </div>
       <div className="collection-cell--props">
         <p>Series: {props.series}</p>

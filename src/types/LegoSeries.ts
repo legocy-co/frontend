@@ -2,5 +2,5 @@ import { z } from 'zod';
 
 export const LegoSeriesSchema = z.object({
   id: z.number(),
-  name: z.string().min(1),
+  name: z.string(),
 });
