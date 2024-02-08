@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { authService } from '../../services/AuthService.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import ConfirmationModal from '../ConfirmationModal';
+import { up } from '../../pages/UserProfilePage/index.tsx';
 
 interface MarketItemCellProps {
   id: number;
@@ -26,9 +27,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
 
   async function handleDelete() {
     await marketItemService.DeleteMarketItem(props.id);
-
-    const cell = document.getElementById('cell-' + props.id) as HTMLElement;
-    cell.style.display = 'none';
+    up.marketItemDeleted();
 
     setShowDelete(false);
   }

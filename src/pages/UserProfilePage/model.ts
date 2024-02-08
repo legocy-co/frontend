@@ -20,6 +20,8 @@ type UserProfile = {
 
 export const avatarChanged = createEvent();
 
+export const marketItemDeleted = createEvent();
+
 export const gate = createGate<{
   id: string | null;
   navigate: NavigateFunction;
@@ -48,7 +50,7 @@ function toPage(user: User): UserProfile {
 }
 
 sample({
-  clock: [gate.open, avatarChanged],
+  clock: [gate.open, avatarChanged, marketItemDeleted],
   target: GetUserProfilePageFx,
 });
 
