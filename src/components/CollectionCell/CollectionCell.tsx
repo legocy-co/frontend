@@ -3,6 +3,9 @@ import './CollectionCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useState } from 'react';
 import PencilIcon from '../../assets/icons/pencil.svg';
+import ConfirmationModal from '../ConfirmationModal';
+import { collectionService } from '../../services/CollectionService.ts';
+import { collectionsModel } from '../../pages/collections/index.tsx';
 
 interface CollectionCellProps {
   id: number;
@@ -21,6 +24,13 @@ const CollectionCell = (props: CollectionCellProps) => {
 
   const [imageSrc, setImageSrc] = useState(props.images[0]);
 
+  async function handleDelete() {
+    await collectionService.DeleteCollectionSet(props.id);
+    collectionsModel.collectionSetDeleted();
+
+    setShowDelete(false);
+  }
+
   const radioElements = props.images.map((img, i) => (
     <div key={img + i}>
       <input
@@ -33,6 +43,8 @@ const CollectionCell = (props: CollectionCellProps) => {
     </div>
   ));
 
+  const [showDelete, setShowDelete] = useState(false);
+
   return (
     <div className="collection-cell">
       <h1>Buy price: {props.buy_price} $</h1>
@@ -42,6 +54,14 @@ const CollectionCell = (props: CollectionCellProps) => {
         alt=""
         src={PencilIcon}
       />
+      <div
+        className="collection-cell--delete"
+        onClick={() => {
+          setShowDelete(true);
+        }}
+      >
+        x
+      </div>
       {props.images.length > 0 && (
         <div className="collection-cell--image-wrapper">
           <img
@@ -95,6 +115,15 @@ const CollectionCell = (props: CollectionCellProps) => {
           Set number: {props.set_number}
         </u>
       </p>
+      {showDelete && (
+        <ConfirmationModal
+          show={showDelete}
+          onClose={() => setShowDelete(false)}
+          onYes={handleDelete}
+        >
+          Are you sure you want to delete a collection set?
+        </ConfirmationModal>
+      )}
     </div>
   );
 };

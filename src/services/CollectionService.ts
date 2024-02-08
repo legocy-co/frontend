@@ -18,6 +18,7 @@ interface CollectionService {
     id: number | string,
     collectionSet: CollectionSetData
   ) => Promise<boolean>;
+  DeleteCollectionSet: (id: number | string) => Promise<boolean>;
 }
 
 const GetCollection = async (): Promise<Collection> => {
@@ -73,11 +74,23 @@ const UpdateCollectionSet = async (
   }
 };
 
+const DeleteCollectionSet = async (id: number | string): Promise<boolean> => {
+  try {
+    await axios.delete('/collections/' + id);
+    toaster.showToastSuccess('Collection set deleted');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
 export const collectionService: CollectionService = {
   GetCollection: GetCollection,
   GetCollectionValuation: GetCollectionValuation,
   AddCollectionSet: AddCollectionSet,
   UpdateCollectionSet: UpdateCollectionSet,
+  DeleteCollectionSet: DeleteCollectionSet,
 };
 
 axios.interceptors.response.use(
