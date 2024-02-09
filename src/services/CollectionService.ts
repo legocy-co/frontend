@@ -65,8 +65,8 @@ const UpdateCollectionSet = async (
   collectionSet: CollectionSetData
 ): Promise<boolean> => {
   try {
-    await axios.patch('/collections/' + id, collectionSet);
-    toaster.showToastSuccess('Collection set created');
+    await axios.put('/collections/' + id, collectionSet);
+    toaster.showToastSuccess('Collection set updated');
 
     return Promise.resolve(true);
   } catch (e) {
