@@ -22,7 +22,7 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     location: marketItem.location,
     images: marketItem.images
       .sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => 'https://' + img.image_url),
+      .map((img) => img.image_url),
     set: marketItem.lego_set.name,
     price: marketItem.price,
     series: marketItem.lego_set.series.name,
