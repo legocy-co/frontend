@@ -54,7 +54,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     id: marketItem.id,
     images: marketItem.images
       .sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => 'https://' + img.image_url),
+      .map((img) => img.image_url),
     set: marketItem.lego_set.name,
     condition: setStates[marketItem.set_state as keyof typeof setStates],
     series: marketItem.lego_set.series.name,

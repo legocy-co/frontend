@@ -40,7 +40,7 @@ function toDetail(set: LegoSet): LegoSetDetail {
     id: set.id,
     images: set.images
       ?.sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => 'https://' + img.image_url),
+      .map((img) => img.image_url),
     name: set.name,
     number: set.number,
     pieces: set.n_pieces,
