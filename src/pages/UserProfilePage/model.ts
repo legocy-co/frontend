@@ -44,7 +44,9 @@ const GetUserProfilePageFx = attach({
 function toPage(user: User): UserProfile {
   return {
     id: user.id,
-    user_images: user.images.map((img) => 'https://' + img.downloadURL),
+    user_images: user.images.map((img) =>
+      img.downloadURL ? img.downloadURL : ''
+    ),
     username: user.username,
   };
 }

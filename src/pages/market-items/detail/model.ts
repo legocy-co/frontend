@@ -64,7 +64,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     price: marketItem.price,
     seller_id: marketItem.seller.id,
     seller_username: marketItem.seller.username,
-    seller_image: 'https://' + marketItem.seller.images[0]?.downloadURL,
+    seller_image: marketItem.seller.images[0]?.downloadURL,
     set_id: marketItem.lego_set.id,
   };
 }

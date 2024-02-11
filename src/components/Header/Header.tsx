@@ -69,14 +69,14 @@ const Header = () => {
           <div className="header--user">
             <img
               src={
-                userImages[1]
-                  ? 'https://' + userImages[1].downloadURL
+                userImages[0]
+                  ? userImages[0].downloadURL
                   : !showMenu
                     ? UserIcon
                     : ActiveUserIcon
               }
               className={
-                userImages[1] ? 'h-10 w-10 object-cover rounded-full' : ''
+                userImages[0] ? 'h-10 w-10 object-cover rounded-full' : ''
               }
               onError={addDefaultSrc}
               onClick={() =>
