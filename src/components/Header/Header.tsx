@@ -5,11 +5,13 @@ import ChatIcon from '../../assets/icons/chat.svg';
 import UserIcon from '../../assets/icons/user.svg';
 import ActiveUserIcon from '../../assets/icons/active-user.svg';
 import CollectionIcon from '../../assets/icons/collection.svg';
+import DarkIcon from '../../assets/icons/dark.svg';
+import LightIcon from '../../assets/icons/light.svg';
 import { addDefaultSrc } from '../../services/utils';
 import { useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
 import { authService } from '../../services/AuthService.ts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConfirmationModal from '../ConfirmationModal';
 import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
@@ -34,8 +36,19 @@ const Header = () => {
     authService.Logout();
   }
 
+  const [darkTheme, setDarkTheme] = useState(
+    localStorage.getItem('color-theme') === 'dark'
+  );
+
+  useEffect(() => {
+    darkTheme
+      ? document.documentElement.classList.add('dark')
+      : document.documentElement.classList.remove('dark');
+    localStorage.setItem('color-theme', darkTheme ? 'dark' : 'light');
+  }, [darkTheme]);
+
   return (
-    <header>
+    <header className="dark:bg-headerdark">
       <div className="header--group">
         <img
           className="header--logo"
@@ -87,7 +100,13 @@ const Header = () => {
               alt=""
             />
             {showMenu && (
-              <div>
+              <div className="header--user-menu bg-white dark:bg-dark dark:text-white">
+                <img
+                  src={darkTheme ? DarkIcon : LightIcon}
+                  alt=""
+                  onError={addDefaultSrc}
+                  onClick={() => setDarkTheme((prev) => !prev)}
+                />
                 <p
                   onClick={() =>
                     navigate('/profile/' + authService.GetUserId())

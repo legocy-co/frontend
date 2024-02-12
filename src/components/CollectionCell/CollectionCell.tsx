@@ -46,7 +46,7 @@ const CollectionCell = (props: CollectionCellProps) => {
   const [showDelete, setShowDelete] = useState(false);
 
   return (
-    <div className="collection-cell">
+    <div className="collection-cell dark:bg-dark">
       <h1>Buy price: {props.buy_price} $</h1>
       <img
         className="collection-cell--edit"

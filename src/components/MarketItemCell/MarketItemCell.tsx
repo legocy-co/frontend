@@ -47,7 +47,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   const [showDelete, setShowDelete] = useState(false);
 
   return (
-    <div className="cell">
+    <div className="cell dark:bg-dark">
       <h1>{props.location}</h1>
       {authService.IsAuthorized() &&
         authService.GetUserId() === props.seller_id && (

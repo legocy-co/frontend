@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{html,ts,tsx,js,jsx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       backgroundImage: {
@@ -25,6 +26,7 @@ export default {
         'light': '#5F5F5F',
         'ghost': '#F8F8F8',
         'dark': '#241D1D',
+        'headerdark': '#241d1dfc',
       },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',

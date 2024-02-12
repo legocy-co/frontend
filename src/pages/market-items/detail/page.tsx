@@ -58,26 +58,33 @@ const MarketItemDetailPage = () => {
           <div className="flex flex-col justify-between h-24 mb-4">
             <p>
               Condition:{' '}
-              <span className="text-light">{marketItem.condition}</span>
+              <span className="text-light dark:text-yellow-100">
+                {marketItem.condition}
+              </span>
             </p>
             <p>
-              Series: <span className="text-light">{marketItem.series}</span>
+              Series:{' '}
+              <span className="text-light dark:text-yellow-100">
+                {marketItem.series}
+              </span>
             </p>
             <p>
               Location:{' '}
-              <span className="text-light">{marketItem.location}</span>
+              <span className="text-light dark:text-yellow-100">
+                {marketItem.location}
+              </span>
             </p>
           </div>
           <p className="mb-9">
             Set Number:{' '}
             <span
-              className="text-light underline transition-opacity cursor-pointer hover:opacity-90 active:opacity-80"
+              className="text-light dark:text-yellow-100 underline transition-opacity cursor-pointer hover:opacity-90 active:opacity-80"
               onClick={() => navigate('/wiki/sets/' + marketItem.set_id)}
             >
               {marketItem.set_number}
             </span>
           </p>
-          <div className="bg-ghost border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-5 sm:mb-28">
+          <div className="bg-ghost dark:bg-dark border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-5 sm:mb-28">
             <p>Set description: {marketItem.description}</p>
           </div>
           <div className="flex flex-col gap-5 sm:flex-row justify-between items-center text-3xl">

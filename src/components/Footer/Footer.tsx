@@ -7,7 +7,7 @@ const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <footer>
+    <footer className="dark:bg-light">
       <div className="footer--group">
         <div className="footer--contacts">
           <p>legocycorp@gmail.com</p>
