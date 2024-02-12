@@ -86,8 +86,8 @@ const fetchCollectionSetFx = attach({
     const collectionSet = collectionSets.find(
       (set) => String(set.id) === setId
     );
-    if (!collectionSet) throw new Error('Collection set not found');
 
+    if (!collectionSet) throw new Error('Collection set not found');
     return collectionSet;
   },
 });

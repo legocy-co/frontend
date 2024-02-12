@@ -7,6 +7,7 @@ import { authService } from '../../services/AuthService.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import ConfirmationModal from '../ConfirmationModal';
 import { up } from '../../pages/UserProfilePage/index.tsx';
+import PencilIcon from '../../assets/icons/pencil.svg';
 
 interface MarketItemCellProps {
   id: number;
@@ -51,14 +52,22 @@ const MarketItemCell = (props: MarketItemCellProps) => {
       <h1>{props.location}</h1>
       {authService.IsAuthorized() &&
         authService.GetUserId() === props.seller_id && (
-          <div
-            className="cell--delete"
-            onClick={() => {
-              setShowDelete(true);
-            }}
-          >
-            x
-          </div>
+          <>
+            <img
+              className="collection-cell--edit"
+              onClick={() => navigate('/catalog/update/' + props.id)}
+              alt=""
+              src={PencilIcon}
+            />
+            <div
+              className="cell--delete"
+              onClick={() => {
+                setShowDelete(true);
+              }}
+            >
+              x
+            </div>
+          </>
         )}
       <div className="cell--image-wrapper">
         <img
