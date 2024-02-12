@@ -1,5 +1,5 @@
 import { useGate, useUnit } from 'effector-react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as model from './model.ts';
 import React from 'react';
 import {
@@ -13,11 +13,13 @@ import { useForm } from 'effector-forms';
 import cities from '../../../../data/cities.json';
 import { setStates } from '../../../types/MarketItemType.ts';
 import { lso } from '../../lego-set/options/index.ts';
+import { Button } from '../../../shared/ui/button.tsx';
 
 export const MarketItemInfoForm = () => {
   const legoSets = useUnit(lso.$legoSetOptions);
+  const navigate = useNavigate();
   const params = useParams<'id'>();
-  useGate(model.gate, { id: params.id ?? null });
+  useGate(model.gate, { navigateFn: navigate, id: params.id ?? null });
 
   const { fields, eachValid } = useForm(model.form);
   function onSubmit(ev: React.FormEvent) {
@@ -92,6 +94,11 @@ export const MarketItemInfoForm = () => {
           </FormError>
         )}
       </div>
+      {params.id && (
+        <Button type="submit" className="mt-20">
+          Update Market Item
+        </Button>
+      )}
     </form>
   );
 };

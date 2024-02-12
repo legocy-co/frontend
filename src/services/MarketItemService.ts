@@ -23,8 +23,8 @@ interface MarketItemService {
   GetMarketItem: (id: number | string) => Promise<MarketItem>;
   UpdateMarketItem: (
     id: number | string,
-    marketItem: MarketItem
-  ) => Promise<MarketItem>;
+    marketItem: MarketItemData
+  ) => Promise<MarketItemData>;
   DeleteMarketItem: (id: number | string) => Promise<boolean>;
 }
 
@@ -108,15 +108,15 @@ const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
 
 const UpdateMarketItem = async (
   id: number | string,
-  marketItem: MarketItem
-): Promise<MarketItem> => {
+  marketItem: MarketItemData
+): Promise<MarketItemData> => {
   try {
-    await axios.patch('/market-items/' + id, marketItem);
+    await axios.put('/market-items/' + id, marketItem);
     toaster.showToastSuccess(`Market item updated`);
 
     return Promise.resolve(marketItem);
   } catch (e) {
-    return Promise.reject(e);
+    return handleSetError(e, 'MarketItem', mif.form);
   }
 };
 
