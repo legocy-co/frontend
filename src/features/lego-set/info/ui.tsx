@@ -48,14 +48,23 @@ export const LegoSetDetailInfo = () => {
           <p className="text-3xl font-semibold mb-10">{legoSet.name}</p>
           <div className="flex flex-col justify-between h-24 mb-4">
             <p>
-              Pieces: <span className="text-light">{legoSet.pieces}</span>
+              Pieces:{' '}
+              <span className="text-light dark:text-yellow-100">
+                {legoSet.pieces}
+              </span>
             </p>
             <p>
-              Series: <span className="text-light">{legoSet.series}</span>
+              Series:{' '}
+              <span className="text-light dark:text-yellow-100">
+                {legoSet.series}
+              </span>
             </p>
           </div>
           <p className="mb-9">
-            Set Number: <span className="text-light">{legoSet.number}</span>
+            Set Number:{' '}
+            <span className="text-light dark:text-yellow-100">
+              {legoSet.number}
+            </span>
           </p>
         </div>
       </div>

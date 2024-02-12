@@ -17,7 +17,7 @@ const UserReviewCell = (props: UserReviewCellProps) => {
   ));
 
   return (
-    <div className="review">
+    <div className="review dark:bg-dark">
       <div className="review_left">
         <div className="review--author">
           <img

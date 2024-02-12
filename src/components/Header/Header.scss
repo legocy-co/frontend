@@ -47,6 +47,7 @@ header {
     cursor: pointer;
     transition: background 0.1s;
     font: 500 1.25rem $font;
+    color: black;
     &:hover {
       background: #f5cc3c;
     }
@@ -140,8 +141,7 @@ header {
   width: 29px;
   min-width: 29px;
   aspect-ratio: 1;
-  div {
-    background: white;
+  &-menu {
     position: absolute;
     top: 50px;
     right: 0;
@@ -151,6 +151,9 @@ header {
     gap: 12px;
     padding: 18px 29px;
     box-shadow: -4px 3px 10px 0px #00000073;
+    img {
+      max-width: 40px;
+    }
   }
   p {
     font-size: 1.5rem;
