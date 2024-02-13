@@ -38,8 +38,7 @@ const Header = () => {
   }
 
   const [darkTheme, setDarkTheme] = useState(
-    localStorage.getItem('color-theme') === 'dark' ||
-      localStorage.getItem('color-theme') === ''
+    localStorage.getItem('color-theme') !== 'light'
   );
 
   useEffect(() => {
