@@ -100,20 +100,19 @@
     align-items: center;
     height: 47px;
     border-radius: 0 0 11px 11px;
-    background: rgba(217, 217, 217, 0.68);
     bottom: 0;
     left: 0;
     right: 0;
     cursor: pointer;
-    transition: background-color 0.1s;
+    transition: filter 0.1s;
     h1 {
       margin-bottom: 0; color: #252121;
     }
     &:hover {
-      background: rgba(206, 205, 205, 0.68);
+      filter: brightness(0.9);
     }
     &:active {
-      background: rgba(196, 195, 195, 0.68);
+      filter: brightness(0.8);
     }
   }
   &--edit {
