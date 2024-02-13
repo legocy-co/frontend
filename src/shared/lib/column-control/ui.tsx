@@ -88,7 +88,7 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
       <div
         ref={dropRef}
         className={clsx(
-          'w-full bg-legocy flex items-center space-x-2 pl-2 border-b border-solid border-b-black last:border-0 transition-all',
+          'w-full bg-legocy text-black flex items-center space-x-2 pl-2 border-b border-solid border-b-black last:border-0 transition-all',
           {
             'bg-neutral-60': isOver,
           }
