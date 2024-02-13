@@ -86,8 +86,8 @@ const fetchCollectionSetFx = attach({
     const collectionSet = collectionSets.find(
       (set) => String(set.id) === setId
     );
-    if (!collectionSet) throw new Error('Collection set not found');
 
+    if (!collectionSet) throw new Error('Collection set not found');
     return collectionSet;
   },
 });
@@ -130,13 +130,19 @@ function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
 
 sample({
   clock: gate.open,
-  target: [GetLegoSetsFx, GetCollectionFx],
+  target: GetLegoSetsFx,
 });
 
 sample({
   clock: GetLegoSetsFx.doneData,
   fn: toOptions,
   target: $legoSetOptions,
+});
+
+sample({
+  clock: $legoSetOptions,
+  filter: $isEditing,
+  target: GetCollectionFx,
 });
 
 sample({

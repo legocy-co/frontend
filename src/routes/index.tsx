@@ -28,7 +28,8 @@ import LegoSetDetailPage from '../pages/lego-sets/detail';
 import CollectionPage from '../pages/collections';
 import CollectionsIntroPage from '../pages/collections/intro';
 import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
-import UpdateCollectionSetPage from '../pages/collections/update';
+import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
+import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ const AppRouter = () => {
           <Route index element={<CatalogPage />} />
           <Route path=":id" element={<MarketItemDetailPage />} />
           <Route path="add" element={<AddMarketItemPage />} />
+          <Route path="update/:id" element={<UpdateMarketItemPage />} />
         </Route>
 
         <Route path="/profile" element={<Outlet />}>
@@ -88,7 +90,7 @@ const AppRouter = () => {
           <Route index element={<CollectionPage />} />
           <Route path="intro" element={<CollectionsIntroPage />} />
           <Route path="add" element={<AddCollectionSetPage />} />
-          <Route path=":id" element={<UpdateCollectionSetPage />} />
+          <Route path="update/:id" element={<UpdateCollectionSetPage />} />
         </Route>
 
         <Route

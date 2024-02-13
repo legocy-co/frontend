@@ -1,14 +1,31 @@
 import { createForm } from 'effector-forms';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
-import { createGate } from 'effector-react';
-import { StoreValue, createDomain, sample } from 'effector';
-import { setStates } from '../../../types/MarketItemType.ts';
+
+import {
+  StoreValue,
+  createDomain,
+  sample,
+  attach,
+  createEvent,
+  EventPayload,
+  split,
+} from 'effector';
+import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import {
   $legoSetOptions,
   GetLegoSetsFx,
   toOptions,
 } from '../../lego-set/options/model.ts';
+import { createGate } from 'effector-react';
+import { NavigateFunction } from 'react-router-dom';
+import { marketItemService } from '../../../services/MarketItemService.ts';
+import { authService } from '../../../services/AuthService.ts';
+
+export const gate = createGate<{
+  id: string | null;
+  navigateFn: NavigateFunction;
+}>();
 
 export const form = createForm({
   fields: {
@@ -70,13 +87,38 @@ export const form = createForm({
 
 const domain = createDomain();
 
-export const gate = createGate<{ id: string | null }>();
+const $itemId = gate.state.map(({ id }) => id);
+const $isEditing = $itemId.map((id) => id !== null);
+
+const fetchMarketItemFx = attach({
+  source: {
+    id: $itemId,
+  },
+  effect: ({ id }) => {
+    if (!id) throw new Error('Market item not found');
+    return marketItemService.GetMarketItem(id!);
+  },
+});
+
+export const setForm = domain.createEvent<MarketItem>();
 
 export const createFormInfo = domain.createEvent();
+
+const updateFormInfo = domain.createEvent();
 
 export const resetDomain = domain.createEvent();
 
 export const $mappedValues = form.$values.map(mapFormToRequestBody);
+
+const setMarketItem = createEvent<MarketItem>();
+
+const updateMarketItemFx = attach({
+  source: {
+    id: $itemId,
+    data: $mappedValues,
+  },
+  effect: ({ id, data }) => marketItemService.UpdateMarketItem(id!, data),
+});
 
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
@@ -88,6 +130,22 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   };
 }
 
+function toForm(values: MarketItem): EventPayload<typeof form.setForm> {
+  return {
+    lego_set_id: String(values.lego_set.id),
+    country: values.location.split(', ')[1],
+    city: values.location.split(', ')[0],
+    price: values.price,
+    set_state: values.set_state,
+    description: values.description,
+  };
+}
+
+const profileRedirectFx = attach({
+  source: gate.state,
+  effect: ({ navigateFn }) => navigateFn('/profile/' + authService.GetUserId()),
+});
+
 domain.onCreateStore((store) => store.reset(resetDomain));
 
 sample({
@@ -96,14 +154,49 @@ sample({
 });
 
 sample({
+  clock: $itemId,
+  target: fetchMarketItemFx,
+});
+
+sample({
+  clock: fetchMarketItemFx.doneData,
+  target: setMarketItem,
+});
+
+sample({
+  clock: setMarketItem,
+  target: setForm,
+});
+
+sample({
+  clock: setForm,
+  fn: toForm,
+  target: form.setForm,
+});
+
+sample({
   clock: GetLegoSetsFx.doneData,
   fn: toOptions,
   target: $legoSetOptions,
 });
 
+split({
+  source: form.formValidated,
+  match: $isEditing.map(String),
+  cases: {
+    true: updateFormInfo,
+    false: createFormInfo,
+  },
+});
+
 sample({
-  clock: form.formValidated,
-  target: createFormInfo,
+  clock: updateFormInfo,
+  target: updateMarketItemFx,
+});
+
+sample({
+  clock: updateMarketItemFx.done,
+  target: profileRedirectFx,
 });
 
 sample({

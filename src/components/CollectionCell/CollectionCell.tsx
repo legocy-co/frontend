@@ -50,7 +50,7 @@ const CollectionCell = (props: CollectionCellProps) => {
       <h1>Buy price: {props.buy_price} $</h1>
       <img
         className="collection-cell--edit"
-        onClick={() => navigate('/collection/' + props.id)}
+        onClick={() => navigate('/collection/update/' + props.id)}
         alt=""
         src={PencilIcon}
       />
