@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import ConfirmationModal from '../ConfirmationModal';
 import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
+import { Toggle } from '../../shared/ui/toggle';
 
 const Header = () => {
   useGate(model.gate);
@@ -57,7 +58,12 @@ const Header = () => {
           alt=""
           onClick={() => navigate('/')}
         />
-        <button onClick={() => navigate('/catalog')}>Catalog</button>
+        <button
+          className="header--catalog"
+          onClick={() => navigate('/catalog')}
+        >
+          Catalog
+        </button>
         <div className="header--searchbar">
           <input type="text" placeholder="Search" />
           <img src={SearchIcon} onError={addDefaultSrc} alt="" />
@@ -101,12 +107,6 @@ const Header = () => {
             />
             {showMenu && (
               <div className="header--user-menu bg-white dark:bg-dark dark:text-white">
-                <img
-                  src={darkTheme ? DarkIcon : LightIcon}
-                  alt=""
-                  onError={addDefaultSrc}
-                  onClick={() => setDarkTheme((prev) => !prev)}
-                />
                 <p
                   onClick={() =>
                     navigate('/profile/' + authService.GetUserId())
@@ -114,6 +114,14 @@ const Header = () => {
                 >
                   My profile
                 </p>
+                <div className="header--user-menu_theme">
+                  <img src={LightIcon} alt="" onError={addDefaultSrc} />
+                  <Toggle
+                    checked={darkTheme}
+                    onChange={() => setDarkTheme((prev) => !prev)}
+                  />
+                  <img src={DarkIcon} alt="" onError={addDefaultSrc} />
+                </div>
                 <p onClick={() => handleShowLogout()}>Log out</p>
               </div>
             )}
