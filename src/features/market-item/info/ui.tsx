@@ -17,9 +17,9 @@ import { Button } from '../../../shared/ui/button.tsx';
 
 export const MarketItemInfoForm = () => {
   const legoSets = useUnit(lso.$legoSetOptions);
-  const navigate = useNavigate();
+  const navigateFn = useNavigate();
   const params = useParams<'id'>();
-  useGate(model.gate, { navigateFn: navigate, id: params.id ?? null });
+  useGate(model.gate, { id: params.id ?? null, navigateFn });
 
   const { fields, eachValid } = useForm(model.form);
   function onSubmit(ev: React.FormEvent) {
