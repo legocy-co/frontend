@@ -20,7 +20,7 @@ import PrivateRoute from './PrivateRoute.tsx';
 import PrivatePage from '../pages/PrivatePage';
 import MarketItemDetailPage from '../pages/market-items/detail';
 import CatalogPage from '../pages/market-items';
-import UserProfilePage from '../pages/UserProfilePage';
+import UserProfilePage from '../pages/user-profiles';
 import AddMarketItemPage from '../pages/market-items/add';
 import { authService } from '../services/AuthService.ts';
 import LegoSetsPage from '../pages/lego-sets';

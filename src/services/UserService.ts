@@ -1,4 +1,8 @@
-import { UserProfile, UserProfileSchema } from '../types/UserProfileType';
+import {
+  UserProfile,
+  UserProfileData,
+  UserProfileSchema,
+} from '../types/UserProfileType';
 import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
 import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
@@ -6,6 +10,10 @@ import toaster from '../shared/lib/react-toastify.ts';
 
 interface UserService {
   GetUserProfilePage: (userID: number | string) => Promise<UserProfile>;
+  UpdateUserProfilePage: (
+    userID: number | string,
+    userProfileData: UserProfileData
+  ) => Promise<boolean>;
   GetUserImages: (userID: number | string) => Promise<UserImage[]>;
   UploadUserImage: (
     file: FormData,
@@ -40,6 +48,21 @@ const GetUserProfilePage = async (
   return result.data;
 };
 
+const UpdateUserProfilePage = async (
+  userID: number | string,
+  userProfileData: UserProfileData
+): Promise<boolean> => {
+  try {
+    await axios.put('/collections/' + userID, userProfileData);
+    toaster.showToastSuccess('User profile updated');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject();
+    // return handleUserError(e, 'UserProfile', up.form);
+  }
+};
+
 const GetUserImages = async (userID: number | string): Promise<UserImage[]> => {
   const response = await axios.get<ImagesResponse>('/users/images/' + userID);
   const result = UserImageSchema.array().safeParse(response.data.images);
@@ -69,6 +92,7 @@ const UploadUserImage = async (
 
 export const userService: UserService = {
   GetUserProfilePage: GetUserProfilePage,
+  UpdateUserProfilePage: UpdateUserProfilePage,
   GetUserImages: GetUserImages,
   UploadUserImage: UploadUserImage,
 };

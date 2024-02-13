@@ -2,6 +2,14 @@ import { z } from 'zod';
 import { UserSchema } from './UserType.ts';
 import { UserReviewSchema } from './UserReviewType.ts';
 import { MarketItemSchema } from './MarketItemType.ts';
+import { Form } from 'effector-forms';
+
+export type UserProfileForm = Form<UserProfileData>;
+
+export type UserProfileData = {
+  email: string;
+  username: string;
+};
 
 export type UserProfile = z.infer<typeof UserProfileSchema>;
 export const UserProfileSchema = z.object({

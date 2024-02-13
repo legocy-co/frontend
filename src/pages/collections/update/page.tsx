@@ -1,5 +1,5 @@
 import { PageHeading } from '../../../shared/ui/page-heading.tsx';
-import { CollectionSetForm } from '../../../features/collections';
+import { CollectionSetForm } from '../../../features/collection';
 
 export const UpdateCollectionSetPage = () => {
   return (

@@ -5,6 +5,7 @@ import { ZodError } from 'zod';
 import toaster from '../shared/lib/react-toastify';
 import { MarketItemForm } from '../types/MarketItemType.ts';
 import { CollectionSetForm } from '../types/CollectionSetType.ts';
+import { UserProfile, UserProfileForm } from '../types/UserProfileType.ts';
 
 const handleIncorrectParse = (
   e: ZodError,
@@ -16,10 +17,10 @@ const handleIncorrectParse = (
   return Promise.reject(e.format());
 };
 
-const handleAuthError = (
+const handleUserError = (
   e: unknown,
   consolePrefix: string,
-  form: SignInForm | SignUpForm
+  form: SignInForm | SignUpForm | UserProfileForm
 ): Promise<never> => {
   if (axios.isAxiosError(e)) {
     const err = e as AxiosError;
@@ -29,11 +30,6 @@ const handleAuthError = (
     );
 
     form.fields.email.addError({
-      rule: '',
-      errorText: errorMessage,
-    });
-
-    form.fields.password.addError({
       rule: '',
       errorText: errorMessage,
     });
@@ -69,4 +65,4 @@ const handleSetError = (
   return Promise.reject(e);
 };
 
-export { handleIncorrectParse, handleAuthError, handleSetError };
+export { handleIncorrectParse, handleUserError, handleSetError };
