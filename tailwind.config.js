@@ -25,8 +25,9 @@ export default {
         'silver': '#C4C4C4',
         'light': '#5F5F5F',
         'ghost': '#F8F8F8',
-        'dark': '#241D1D',
-        'headerdark': '#241d1dfc',
+        'dark': '#2f2f2f',
+        'headerdark': '#2A2A2AFC',
+        'celllink': '#d9d9d9ad',
       },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',
