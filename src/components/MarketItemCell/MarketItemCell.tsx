@@ -113,18 +113,20 @@ const MarketItemCell = (props: MarketItemCellProps) => {
           alt=""
         />
       </div>
-      <div className="cell--props">
-        <h1>{props.set}</h1> <h1>{props.price}$</h1>
+      <div className="cell--info">
+        <div className="cell--info-props">
+          <h1>{props.set}</h1> <h1>{props.price}$</h1>
+        </div>
+        <div className="cell--info-props">
+          <p>Series: {props.series}</p>
+          <p>Condition: {props.condition}</p>
+        </div>
+        <p>
+          <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>
+            Set number: {props.set_number}
+          </u>
+        </p>
       </div>
-      <div className="cell--props">
-        <p>Series: {props.series}</p>
-        <p>Condition: {props.condition}</p>
-      </div>
-      <p>
-        <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>
-          Set number: {props.set_number}
-        </u>
-      </p>
       <div
         className="cell--link bg-celllink dark:bg-legocy"
         onClick={() => navigate(`/catalog/${props.id}`)}

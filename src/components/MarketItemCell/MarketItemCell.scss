@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   width: 283px;
+  height: 385px;
   box-shadow: -1px 1px 10px 2px rgba(82, 82, 82, 0.15);
   border-radius: 11px;
   font-weight: 500;
@@ -89,9 +90,17 @@
       &:checked {background: #F0EDED;}
     }
   }
-  &--props {
+  &--info {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: space-around;
+    h1 {text-align: start;}
+    &-props {
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+    }
   }
   &--link {
     position: absolute;
