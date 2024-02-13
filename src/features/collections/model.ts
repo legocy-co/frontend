@@ -130,13 +130,19 @@ function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
 
 sample({
   clock: gate.open,
-  target: [GetLegoSetsFx, GetCollectionFx],
+  target: GetLegoSetsFx,
 });
 
 sample({
   clock: GetLegoSetsFx.doneData,
   fn: toOptions,
   target: $legoSetOptions,
+});
+
+sample({
+  clock: $legoSetOptions,
+  filter: $isEditing,
+  target: GetCollectionFx,
 });
 
 sample({
