@@ -34,10 +34,10 @@ export const UserProfileForm = () => {
             {fields.username.errorText() || fields.email.errorText()}
           </FormError>
         )}
+        <Button type="submit" className="mt-14">
+          Save
+        </Button>
       </div>
-      <Button type="submit" className="mt-14">
-        Save
-      </Button>
     </form>
   );
 };
