@@ -4,9 +4,10 @@ import {
   UserProfileSchema,
 } from '../types/UserProfileType';
 import axios from 'axios';
-import { handleIncorrectParse } from './ErrorHandlers.ts';
+import { handleIncorrectParse, handleUserError } from './ErrorHandlers.ts';
 import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
 import toaster from '../shared/lib/react-toastify.ts';
+import { upf } from '../features/user-profile/index.tsx';
 
 interface UserService {
   GetUserProfilePage: (userID: number | string) => Promise<UserProfile>;
@@ -53,13 +54,12 @@ const UpdateUserProfilePage = async (
   userProfileData: UserProfileData
 ): Promise<boolean> => {
   try {
-    await axios.put('/collections/' + userID, userProfileData);
+    await axios.put('/users/profile/' + userID, userProfileData);
     toaster.showToastSuccess('User profile updated');
 
     return Promise.resolve(true);
   } catch (e) {
-    return Promise.reject();
-    // return handleUserError(e, 'UserProfile', up.form);
+    return handleUserError(e, 'UserProfile', upf.form);
   }
 };
 

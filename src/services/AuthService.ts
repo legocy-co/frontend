@@ -13,7 +13,7 @@ export interface AuthService {
   IsAuthorized: () => boolean;
   SignIn: (data: SignInData) => void;
   SignUp: (data: SignUpData) => void;
-  RefreshToken?: () => void;
+  RefreshToken: () => void;
   Logout: () => void;
   GetUserId: () => number;
   GetUserEmail: () => string;
