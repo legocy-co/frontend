@@ -96,7 +96,8 @@ export const collectionService: CollectionService = {
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    error?.response?.status === 404 && history.navigate('/collection/intro/');
+    error?.response?.data.error === 'No sets found for user' &&
+      history.navigate('/collection/intro/');
     return Promise.reject(error);
   }
 );
