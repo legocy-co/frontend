@@ -62,10 +62,10 @@ export const CollectionSetForm = () => {
               fields.state.errorText()}
           </FormError>
         )}
+        <Button type="submit" className="mt-14 w-64">
+          {params.id ? 'Update collection set' : 'Add collection set'}
+        </Button>
       </div>
-      <Button type="submit" className="mt-14">
-        Submit
-      </Button>
     </form>
   );
 };

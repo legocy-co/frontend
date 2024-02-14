@@ -8,7 +8,7 @@ import { handleSetError, handleIncorrectParse } from './ErrorHandlers.ts';
 import { history } from '../routes/history.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { CollectionSetData } from '../types/CollectionSetType.ts';
-import { csf } from '../features/collections/index.tsx';
+import { csf } from '../features/collection/index.tsx';
 
 interface CollectionService {
   GetCollection: () => Promise<Collection>;

@@ -71,6 +71,7 @@ export const setForm = domain.createEvent<CollectionSet>();
 const $collectionSets = createStore<CollectionSet[]>([]);
 
 const $setId = gate.state.map(({ id }) => id);
+
 const $isEditing = $setId.map((id) => id !== null);
 
 const setCollectionSet = createEvent<CollectionSet>();

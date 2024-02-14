@@ -20,7 +20,7 @@ import PrivateRoute from './PrivateRoute.tsx';
 import PrivatePage from '../pages/PrivatePage';
 import MarketItemDetailPage from '../pages/market-items/detail';
 import CatalogPage from '../pages/market-items';
-import UserProfilePage from '../pages/UserProfilePage';
+import UserProfilePage from '../pages/user-profiles';
 import AddMarketItemPage from '../pages/market-items/add';
 import { authService } from '../services/AuthService.ts';
 import LegoSetsPage from '../pages/lego-sets';
@@ -30,6 +30,7 @@ import CollectionsIntroPage from '../pages/collections/intro';
 import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
 import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
 import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
+import UpdateUserProfilePage from '../pages/user-profiles/update';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -75,6 +76,7 @@ const AppRouter = () => {
               />
             }
           />
+          <Route path="update" element={<UpdateUserProfilePage />} />
           <Route
             path=":id"
             element={<UserProfilePage key={history.location.pathname} />}

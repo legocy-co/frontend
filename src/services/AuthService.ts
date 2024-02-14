@@ -3,7 +3,7 @@ import { SignInData } from '../types/SignIn.ts';
 import axios from 'axios';
 import { SignUpData } from '../types/SignUp.ts';
 import { history } from '../routes/history.ts';
-import { handleAuthError } from './ErrorHandlers.ts';
+import { handleUserError } from './ErrorHandlers.ts';
 import { su } from '../features/auth/sign-up/';
 import { si } from '../features/auth/sign-in/';
 import { jwtDecode } from 'jwt-decode';
@@ -13,9 +13,10 @@ export interface AuthService {
   IsAuthorized: () => boolean;
   SignIn: (data: SignInData) => void;
   SignUp: (data: SignUpData) => void;
-  RefreshToken?: () => void;
+  RefreshToken: () => void;
   Logout: () => void;
   GetUserId: () => number;
+  GetUserEmail: () => string;
 }
 
 export interface TokenType {
@@ -47,7 +48,7 @@ const SignIn = async (data: SignInData) => {
 
     SetAuthHeaders(response);
   } catch (e) {
-    return handleAuthError(e, 'SignIn', si.form);
+    return handleUserError(e, 'SignIn', si.form);
   }
 };
 
@@ -59,7 +60,7 @@ const SignUp = async (data: SignUpData) => {
 
     SetAuthHeaders(response);
   } catch (e) {
-    return handleAuthError(e, 'SignUp', su.form);
+    return handleUserError(e, 'SignUp', su.form);
   }
 };
 
@@ -89,11 +90,18 @@ const Logout = () => {
 
 const GetUserId = () => {
   if (IsAuthorized()) {
-    const storage = GetCredentials();
-    const decodedAccess = jwtDecode<TokenType>(storage.accessToken);
+    const decodedAccess = decodeAccess();
     return decodedAccess.id;
   }
   return 0;
+};
+
+const GetUserEmail = () => {
+  if (IsAuthorized()) {
+    const decodedAccess = decodeAccess();
+    return decodedAccess.email;
+  }
+  return '';
 };
 
 export const authService: AuthService = {
@@ -103,6 +111,12 @@ export const authService: AuthService = {
   RefreshToken: RefreshToken,
   Logout: Logout,
   GetUserId: GetUserId,
+  GetUserEmail: GetUserEmail,
+};
+
+const decodeAccess = () => {
+  const storage = GetCredentials();
+  return jwtDecode<TokenType>(storage.accessToken);
 };
 
 const SetAuthHeaders = (response: AuthResponse) => {

@@ -93,12 +93,12 @@ export const MarketItemInfoForm = () => {
               fields.city.errorText()}
           </FormError>
         )}
+        {params.id && (
+          <Button type="submit" className="mt-20">
+            Update Market Item
+          </Button>
+        )}
       </div>
-      {params.id && (
-        <Button type="submit" className="mt-20">
-          Update Market Item
-        </Button>
-      )}
     </form>
   );
 };
