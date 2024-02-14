@@ -4,7 +4,6 @@ import { createForm } from 'effector-forms';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
 import {
-  attach,
   combine,
   createDomain,
   createEffect,
@@ -17,12 +16,20 @@ import { userService } from '../../services/UserService.ts';
 import { authService } from '../../services/AuthService.ts';
 
 export const gate = createGate<{
-  id?: string;
   navigateFn: NavigateFunction;
 }>();
 
 export const form = createForm({
   fields: {
+    username: {
+      init: '',
+      rules: [
+        createRule({
+          name: 'username',
+          schema: z.string().trim().min(1, 'Missing Username'),
+        }),
+      ],
+    },
     email: {
       init: '',
       rules: [
@@ -36,23 +43,12 @@ export const form = createForm({
         }),
       ],
     },
-    username: {
-      init: '',
-      rules: [
-        createRule({
-          name: 'username',
-          schema: z.string().trim().min(1, 'Missing username'),
-        }),
-      ],
-    },
   },
 });
 
 const domain = createDomain();
 
 export const setForm = domain.createEvent<UserProfileData>();
-
-const $userId = gate.state.map(({ id }) => id);
 
 const $email = createStore<string>('');
 
@@ -62,10 +58,9 @@ const $userProfileData = combine($email, $username, toData);
 
 const GetUserEmailFx = createEffect(() => authService.GetUserEmail());
 
-const GetUserProfilePageFx = attach({
-  source: $userId,
-  effect: (userId) => userService.GetUserProfilePage(Number(userId)),
-});
+const GetUserProfilePageFx = createEffect(() =>
+  userService.GetUserProfilePage(authService.GetUserId())
+);
 
 function toData(email: string, username: string): UserProfileData {
   return {
