@@ -4,7 +4,7 @@ import { CollectionSetForm } from '../../../features/collection';
 export const UpdateCollectionSetPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <PageHeading to={'/collection'}>Update collection set</PageHeading>
+      <PageHeading to={'/collection'}>Edit collection set</PageHeading>
       <CollectionSetForm />
     </div>
   );

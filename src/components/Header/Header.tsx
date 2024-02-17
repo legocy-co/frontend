@@ -114,9 +114,6 @@ const Header = () => {
                 >
                   My profile
                 </p>
-                <p onClick={() => navigate('/profile/update/')}>
-                  Update profile
-                </p>
                 <div className="header--user-menu_theme">
                   <img src={LightIcon} alt="" onError={addDefaultSrc} />
                   <Toggle

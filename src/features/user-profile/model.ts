@@ -1,5 +1,4 @@
 import { createGate } from 'effector-react';
-import { NavigateFunction } from 'react-router-dom';
 import { createForm } from 'effector-forms';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
@@ -8,6 +7,7 @@ import {
   combine,
   createDomain,
   createEffect,
+  createEvent,
   createStore,
   EventPayload,
   sample,
@@ -16,9 +16,7 @@ import { UserProfileData } from '../../types/UserProfileType.ts';
 import { userService } from '../../services/UserService.ts';
 import { authService } from '../../services/AuthService.ts';
 
-export const gate = createGate<{
-  navigateFn: NavigateFunction;
-}>();
+export const gate = createGate();
 
 export const form = createForm({
   fields: {
@@ -51,6 +49,8 @@ const domain = createDomain();
 
 export const setForm = domain.createEvent<UserProfileData>();
 
+export const profileUpdated = createEvent();
+
 const $userId = createStore<number>(0);
 
 const $email = createStore<string>('');
@@ -80,11 +80,6 @@ const updateUserProfilePageFx = attach({
       email: data.email,
       username: data.username,
     }),
-});
-
-const profileRedirectFx = attach({
-  source: gate.state,
-  effect: ({ navigateFn }) => navigateFn('/profile/'),
 });
 
 const refreshTokenFx = createEffect(() => authService.RefreshToken());
@@ -147,5 +142,5 @@ sample({
 
 sample({
   clock: updateUserProfilePageFx.done,
-  target: [refreshTokenFx, profileRedirectFx],
+  target: [refreshTokenFx, profileUpdated],
 });
