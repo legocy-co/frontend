@@ -33,30 +33,62 @@ const UserProfilePage = () => {
   const params = useParams<'id'>();
 
   const navigate = useNavigate();
-  const [showReviews, setShowReviews] = useState(false);
+  const [section, setSection] = useState('');
+
+  let contentElement;
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const contentElement = !showReviews ? (
-    <>
-      <p className="my-10 text-bh font-bold">Uploads</p>
-      {authService.IsAuthorized() &&
-        authService.GetUserId() === Number(params.id) && (
-          <div className="w-full flex items-center justify-center gap-5 mb-7">
-            <MenuButton>Edit</MenuButton>
-            <MenuButton onClick={() => navigate('/catalog/add')}>
-              Add new
-            </MenuButton>
-          </div>
-        )}
-      <MarketItemsList />
-    </>
-  ) : (
-    <>
-      <p className="my-10 text-bh font-bold">Reviews</p>
-      <UserReviewsList />
-    </>
-  );
+  switch (section) {
+    case 'uploads': {
+      contentElement = (
+        <>
+          <p className="my-10 text-bh font-bold">Uploads</p>
+          {authService.GetUserId() === Number(params.id) && (
+            <div className="w-full flex items-center justify-center gap-5 mb-7">
+              <MenuButton onClick={() => navigate('/catalog/add')}>
+                Add new
+              </MenuButton>
+            </div>
+          )}
+          <MarketItemsList />
+        </>
+      );
+      break;
+    }
+    case 'reviews': {
+      contentElement = (
+        <>
+          <p className="my-10 text-bh font-bold">Reviews</p>
+          <UserReviewsList />
+        </>
+      );
+      break;
+    }
+    default: {
+      contentElement = <></>;
+    }
+  }
+
+  // const contentElement = !showReviews ? (
+  //   <>
+  //     <p className="my-10 text-bh font-bold">Uploads</p>
+  //     {authService.IsAuthorized() &&
+  //       authService.GetUserId() === Number(params.id) && (
+  //         <div className="w-full flex items-center justify-center gap-5 mb-7">
+  //           <MenuButton onClick={() => navigate('/catalog/add')}>
+  //             Add new
+  //           </MenuButton>
+  //         </div>
+  //       )}
+  //     <MarketItemsList />
+  //   </>
+  // ) : (
+  //   <>
+  //     <p className="my-10 text-bh font-bold">Reviews</p>
+  //     <UserReviewsList />
+  //   </>
+  // );
 
   const userProfile = useUnit(model.$userProfilePage);
   const [showGallery, setShowGallery] = useState<number>(-1);
@@ -123,13 +155,19 @@ const UserProfilePage = () => {
         {userProfile.username}
       </PageHeading>
       <div className="w-full flex items-center justify-center gap-5 mb-7">
+        <MenuButton onClick={() => setSection('')} disabled={!section}>
+          General info
+        </MenuButton>
         <MenuButton
-          onClick={() => setShowReviews(false)}
-          disabled={!showReviews}
+          onClick={() => setSection('uploads')}
+          disabled={section === 'uploads'}
         >
           Uploads
         </MenuButton>
-        <MenuButton onClick={() => setShowReviews(true)} disabled={showReviews}>
+        <MenuButton
+          onClick={() => setSection('reviews')}
+          disabled={section === 'reviews'}
+        >
           Reviews
         </MenuButton>
       </div>
