@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useGate } from 'effector-react';
 import * as model from './model.ts';
 import React from 'react';
@@ -8,8 +7,7 @@ import { Button } from '../../shared/ui/button.tsx';
 import { useForm } from 'effector-forms';
 
 export const UserProfileForm = () => {
-  const navigateFn = useNavigate();
-  useGate(model.gate, { navigateFn });
+  useGate(model.gate);
 
   const { fields, eachValid } = useForm(model.form);
 
@@ -19,7 +17,7 @@ export const UserProfileForm = () => {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="mt-10">
       <TextFieldAdapter
         field={model.form.fields.username}
         labelText="Username"

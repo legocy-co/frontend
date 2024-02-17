@@ -4,7 +4,7 @@ import { MarketItemInfoForm } from '../../../features/market-item/info';
 export const UpdateMarketItemPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <PageHeading to={'/profile'}>Update market item</PageHeading>
+      <PageHeading to={'/profile'}>Edit market item</PageHeading>
       <MarketItemInfoForm />
     </div>
   );

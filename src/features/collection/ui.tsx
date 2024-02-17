@@ -15,8 +15,10 @@ import { Button } from '../../shared/ui/button.tsx';
 
 export const CollectionSetForm = () => {
   const params = useParams<'id'>();
+
   const legoSets = useUnit(lso.$legoSetOptions);
   const navigateFn = useNavigate();
+
   useGate(model.gate, { id: params.id ?? null, navigateFn });
 
   const { fields, eachValid } = useForm(model.form);

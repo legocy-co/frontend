@@ -30,7 +30,6 @@ import CollectionsIntroPage from '../pages/collections/intro';
 import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
 import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
 import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
-import UpdateUserProfilePage from '../pages/user-profiles/update';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -76,7 +75,6 @@ const AppRouter = () => {
               />
             }
           />
-          <Route path="update" element={<UpdateUserProfilePage />} />
           <Route
             path=":id"
             element={<UserProfilePage key={history.location.pathname} />}

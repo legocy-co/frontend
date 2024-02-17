@@ -11,6 +11,7 @@ import {
   $userReviewCells,
   toUserReviewCells,
 } from '../../components/UserReviewsList/model.ts';
+import { profileUpdated } from '../../features/user-profile/model.ts';
 
 type UserProfile = {
   id: number;
@@ -52,7 +53,7 @@ function toPage(user: User): UserProfile {
 }
 
 sample({
-  clock: [gate.open, avatarChanged, marketItemDeleted],
+  clock: [gate.open, avatarChanged, marketItemDeleted, profileUpdated],
   target: GetUserProfilePageFx,
 });
 

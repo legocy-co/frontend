@@ -18,6 +18,7 @@ import GermionaPic from '../../assets/pics/germiona.png';
 import IronmanPic from '../../assets/pics/ironman.png';
 import JodaPic from '../../assets/pics/joda.png';
 import LeaPic from '../../assets/pics/lea.png';
+import { UserProfileForm } from '../../features/user-profile';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -31,20 +32,35 @@ const DEFAULT_AVATARS = [
 
 const UserProfilePage = () => {
   const params = useParams<'id'>();
+  const isPersonal = authService.GetUserId() === Number(params.id);
 
+  const [section, setSection] = useState(isPersonal ? '' : 'uploads');
   const navigate = useNavigate();
-  const [section, setSection] = useState('');
+  const userProfile = useUnit(model.$userProfilePage);
 
   let contentElement;
 
   useGate(model.gate, { id: params.id ?? null, navigate });
+
+  const [showGallery, setShowGallery] = useState<number>(-1);
+
+  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.currentTarget.files?.[0];
+    if (file) {
+      const data = new FormData();
+      data.append('file', file);
+      await userService.UploadUserImage(data, authService.GetUserId());
+
+      model.avatarChanged();
+    }
+  }
 
   switch (section) {
     case 'uploads': {
       contentElement = (
         <>
           <p className="my-10 text-bh font-bold">Uploads</p>
-          {authService.GetUserId() === Number(params.id) && (
+          {isPersonal && (
             <div className="w-full flex items-center justify-center gap-5 mb-7">
               <MenuButton onClick={() => navigate('/catalog/add')}>
                 Add new
@@ -65,42 +81,25 @@ const UserProfilePage = () => {
       );
       break;
     }
-    default: {
-      contentElement = <></>;
+    case 'edit-profile': {
+      contentElement = <UserProfileForm />;
+      break;
     }
-  }
-
-  // const contentElement = !showReviews ? (
-  //   <>
-  //     <p className="my-10 text-bh font-bold">Uploads</p>
-  //     {authService.IsAuthorized() &&
-  //       authService.GetUserId() === Number(params.id) && (
-  //         <div className="w-full flex items-center justify-center gap-5 mb-7">
-  //           <MenuButton onClick={() => navigate('/catalog/add')}>
-  //             Add new
-  //           </MenuButton>
-  //         </div>
-  //       )}
-  //     <MarketItemsList />
-  //   </>
-  // ) : (
-  //   <>
-  //     <p className="my-10 text-bh font-bold">Reviews</p>
-  //     <UserReviewsList />
-  //   </>
-  // );
-
-  const userProfile = useUnit(model.$userProfilePage);
-  const [showGallery, setShowGallery] = useState<number>(-1);
-
-  async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.currentTarget.files?.[0];
-    if (file) {
-      const data = new FormData();
-      data.append('file', file);
-      await userService.UploadUserImage(data, authService.GetUserId());
-
-      model.avatarChanged();
+    default: {
+      contentElement = (
+        <>
+          <p className="my-10 text-bh font-bold">General info</p>
+          <div className="w-full flex items-center justify-center gap-5 mb-7">
+            <MenuButton onClick={() => setSection('edit-profile')}>
+              Edit
+            </MenuButton>
+          </div>
+          <div className="w-1/4 flex flex-col gap-10 font-normal text-start">
+            <p>{userProfile.username}</p>
+            <p>{authService.GetUserEmail()}</p>
+          </div>
+        </>
+      );
     }
   }
 
@@ -155,9 +154,11 @@ const UserProfilePage = () => {
         {userProfile.username}
       </PageHeading>
       <div className="w-full flex items-center justify-center gap-5 mb-7">
-        <MenuButton onClick={() => setSection('')} disabled={!section}>
-          General info
-        </MenuButton>
+        {isPersonal && (
+          <MenuButton onClick={() => setSection('')} disabled={!section}>
+            General info
+          </MenuButton>
+        )}
         <MenuButton
           onClick={() => setSection('uploads')}
           disabled={section === 'uploads'}
