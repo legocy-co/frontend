@@ -17,7 +17,7 @@ export const UserProfileForm = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-10">
+    <form onSubmit={onSubmit}>
       <TextFieldAdapter
         field={model.form.fields.username}
         labelText="Username"
