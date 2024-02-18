@@ -68,8 +68,8 @@ export const SelectFieldAdapter = ({
       disabled={disabled}
       onChange={(ev) => onChange(ev.currentTarget.value)}
       className={clsx(
-        'block w-[343px] h-[44px] border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5',
-        { 'bg-rose': isInvalid }
+        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl !dark:text-charcoal indent-3 pr-10 outline-0 mb-3.5',
+        { 'bg-rose dark:bg-rose dark:text-charcoal': isInvalid }
       )}
     >
       {options.map(({ value, label }, i) => (
@@ -135,7 +135,7 @@ export const SelectSearchAdapter = ({
         activeValue={activeValue}
       />
       <div
-        className="absolute top-8 right-4 cursor-pointer text-black"
+        className="absolute top-8 right-4 cursor-pointer"
         onClick={handleReset}
       >
         x

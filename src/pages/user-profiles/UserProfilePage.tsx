@@ -81,23 +81,11 @@ const UserProfilePage = () => {
       );
       break;
     }
-    case 'edit-profile': {
-      contentElement = <UserProfileForm />;
-      break;
-    }
     default: {
       contentElement = (
         <>
           <p className="my-10 text-bh font-bold">General info</p>
-          <div className="w-full flex items-center justify-center gap-5 mb-7">
-            <MenuButton onClick={() => setSection('edit-profile')}>
-              Edit
-            </MenuButton>
-          </div>
-          <div className="w-1/4 flex flex-col gap-10 font-normal text-start">
-            <p>{userProfile.username}</p>
-            <p>{authService.GetUserEmail()}</p>
-          </div>
+          <UserProfileForm />
         </>
       );
     }
