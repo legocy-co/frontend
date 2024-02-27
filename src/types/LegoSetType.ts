@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { LegoSeriesSchema } from './LegoSeries.ts';
+import { LegoSeriesSchema } from './LegoSeriesType.ts';
 import { LegoSetImageSchema } from './LegoSetImage.ts';
 
 export type LegoSet = z.infer<typeof LegoSetSchema>;

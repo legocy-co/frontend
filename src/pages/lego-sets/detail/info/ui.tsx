@@ -2,8 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useState } from 'react';
-import { addDefaultSrc } from '../../../services/utils.ts';
-import GalleryModal from '../../../components/GalleryModal';
+import { addDefaultSrc } from '../../../../services/utils.ts';
+import GalleryModal from '../../../../components/GalleryModal';
 
 export const LegoSetDetailInfo = () => {
   const params = useParams<'id'>();
