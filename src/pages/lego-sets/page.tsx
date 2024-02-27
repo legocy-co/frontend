@@ -6,6 +6,7 @@ import { mapSetState } from '../../shared/lib/react.ts';
 import { Table } from '../../shared/ui/table';
 import { useNavigate } from 'react-router-dom';
 import { useColumns } from './columns.tsx';
+import { LegoSetsFilter } from '../../features/lego-set/filter/';
 
 export const LegoSetsPage = () => {
   useGate(model.gate);
@@ -18,6 +19,10 @@ export const LegoSetsPage = () => {
         </div>
         <ColumnControl model={model.columnControlModel} />
       </div>
+      <div className="flex justify-end pb-4">
+        <LegoSetsFilter.View model={model.legoSetsFilterModel} />
+      </div>
+      <LegoSetsFilter.ActiveFilters model={model.legoSetsFilterModel} />
       <div className="flex-grow w-full overflow-y-auto">
         <Content />
       </div>

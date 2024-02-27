@@ -1,8 +1,8 @@
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
-import { Valuation } from '../../../types/ValuationType.ts';
+import { Valuation } from '../../../../types/ValuationType.ts';
 import { attach, createStore, sample } from 'effector';
-import { valuationService } from '../../../services/ValuationService.ts';
+import { valuationService } from '../../../../services/ValuationService.ts';
 
 type DetailValuation = {
   valuation: number;
