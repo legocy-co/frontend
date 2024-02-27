@@ -3,6 +3,8 @@ import { LegoSetSchema } from './LegoSetType.ts';
 import objectKeysToZodEnum from '../shared/lib/zod.ts';
 import { setStates } from './MarketItemType.ts';
 import { Form } from 'effector-forms';
+import { ValuationSchema } from './ValuationType.ts';
+import { ProfitsSchema } from './Profits.ts';
 
 export type CollectionSetData = {
   buy_price: number;
@@ -23,4 +25,6 @@ export const CollectionSetSchema = z.object({
   buy_price: z.number(),
   lego_set: LegoSetSchema,
   state: objectKeysToZodEnum(setStates),
+  valuation: ValuationSchema.nullable(),
+  set_profits: ProfitsSchema,
 });

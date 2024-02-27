@@ -6,17 +6,20 @@ import PencilIcon from '../../assets/icons/pencil.svg';
 import ConfirmationModal from '../ConfirmationModal';
 import { collectionService } from '../../services/CollectionService.ts';
 import { collectionsModel } from '../../pages/collections/index.tsx';
+import clsx from 'clsx';
 
 interface CollectionCellProps {
   id: number;
   buy_price: number;
-  valuation: number;
+  valuation?: number;
   series: string;
   set: string;
   set_number: number;
   set_id: number;
   condition: string;
   images: string[];
+  total_return_percentage?: number;
+  total_return_usd?: number;
 }
 
 const CollectionCell = (props: CollectionCellProps) => {
@@ -44,6 +47,7 @@ const CollectionCell = (props: CollectionCellProps) => {
   ));
 
   const [showDelete, setShowDelete] = useState(false);
+  const [roiUsd, setRoiUsd] = useState(false);
 
   return (
     <div className="collection-cell dark:bg-dark">
@@ -115,6 +119,22 @@ const CollectionCell = (props: CollectionCellProps) => {
           Set number: {props.set_number}
         </u>
       </p>
+      {props.valuation! > 0 && (
+        <div className="collection-cell--roi">
+          <h1>ROI</h1>
+          <h2
+            className={clsx(
+              { 'text-green-400': props.total_return_usd! > 0 },
+              { 'text-red-400': props.total_return_usd! < 0 }
+            )}
+            onClick={() => setRoiUsd((prev) => !prev)}
+          >
+            {roiUsd
+              ? `${props.total_return_usd} USD`
+              : props.total_return_percentage + '%'}
+          </h2>
+        </div>
+      )}
       {showDelete && (
         <ConfirmationModal
           show={showDelete}

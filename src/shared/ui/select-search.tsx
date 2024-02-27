@@ -75,7 +75,7 @@ export const SelectSearch = ({
         <Portal.Root>
           <div
             ref={containerRef}
-            className="absolute bg-white rounded overflow-hidden max-h-60 overflow-y-auto w-[343px] shadow-md border-black border-solid border"
+            className="absolute bg-white dark:bg-dark rounded overflow-hidden max-h-60 overflow-y-auto w-[343px] shadow-md border-black border-solid border"
             style={coords}
           >
             {isEmptyOptions &&
@@ -95,7 +95,7 @@ export const SelectSearch = ({
                   key={option.value}
                   type="button"
                   className={clsx(
-                    'text-left dark:bg-dark w-full px-3 py-2 text-base bg-white font-medium hover:bg-black hover:bg-opacity-10 dark:hover:bg-opacity-90 transition-all',
+                    'text-left dark:bg-dark w-full px-3 py-2 text-base bg-white font-medium hover:bg-black hover:bg-opacity-20 transition-all',
                     {
                       '!bg-primary-default !text-neutral-900':
                         activeValue === option.value,

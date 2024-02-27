@@ -25,33 +25,15 @@ export const $collectionCells = combine(
   toCollectionCells
 );
 
-export const $totalValuation = createStore(0);
-
 const GetCollectionFx = createEffect(collectionService.GetCollection);
-
-const GetCollectionValuationsFx = createEffect(
-  collectionService.GetCollectionValuation
-);
 
 sample({
   clock: [gate.open, collectionSetDeleted],
-  target: [GetCollectionFx, GetCollectionValuationsFx],
+  target: GetCollectionFx,
 });
 
 sample({
   clock: GetCollectionFx.doneData,
   fn: (data) => data.collection_sets,
   target: $collectionSets,
-});
-
-sample({
-  clock: GetCollectionValuationsFx.doneData,
-  fn: (data) => data.valuations,
-  target: $valuations,
-});
-
-sample({
-  clock: GetCollectionValuationsFx.doneData,
-  fn: (data) => data.total,
-  target: $totalValuation,
 });

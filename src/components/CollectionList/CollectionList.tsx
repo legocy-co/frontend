@@ -17,6 +17,8 @@ const CollectionList = () => {
         set_id={set.set_id}
         condition={set.condition}
         images={set.images}
+        total_return_percentage={set.total_return_percentage}
+        total_return_usd={set.total_return_usd}
       />
     </div>
   ));

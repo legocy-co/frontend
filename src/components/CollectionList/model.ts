@@ -1,6 +1,5 @@
 import { CollectionSet } from '../../types/CollectionSetType.ts';
 import { setStates } from '../../types/MarketItemType.ts';
-import { Valuation } from '../../types/ValuationType.ts';
 
 export type CollectionCell = {
   id: number;
@@ -12,11 +11,12 @@ export type CollectionCell = {
   condition: string;
   valuation?: number;
   images: string[];
+  total_return_percentage: number;
+  total_return_usd: number;
 };
 
 export function toCollectionCells(
-  collectionSets: CollectionSet[],
-  valuations: Valuation[]
+  collectionSets: CollectionSet[]
 ): CollectionCell[] {
   return collectionSets.map((set) => ({
     id: set.id,
@@ -26,17 +26,16 @@ export function toCollectionCells(
     set_number: set.lego_set.number,
     set_id: set.lego_set.id,
     condition: setStates[set.state as keyof typeof setStates],
-    valuation: valuations.find(
-      (valuation) =>
-        valuation.lego_set.id === set.lego_set.id &&
-        valuation.state === set.state
-    )?.valuation,
+    valuation: set.valuation?.valuation,
     images: set.lego_set.images
       ? set.lego_set.images
           .sort(
             (current, next) => Number(current.is_main) - Number(next.is_main)
           )
-          .map((img) => 'https://' + img.image_url)
+          .map((img) => img.image_url)
       : [],
+    total_return_percentage:
+      Math.round(set.set_profits.total_return_percentage * 100) / 100,
+    total_return_usd: set.set_profits.total_return_usd,
   }));
 }
