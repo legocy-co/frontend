@@ -1,57 +1,41 @@
 import { createGate } from 'effector-react';
-import {
-  combine,
-  createEffect,
-  createEvent,
-  createStore,
-  sample,
-} from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { collectionService } from '../../services/CollectionService.ts';
-import { toCollectionCells } from '../../components/CollectionList/model.ts';
-import { CollectionSet } from '../../types/CollectionSetType.ts';
-import { Valuation } from '../../types/ValuationType.ts';
+import {
+  CollectionCell,
+  toCollectionCells,
+} from '../../components/CollectionList/model.ts';
+import { Totals } from '../../types/TotalsType.ts';
 
 export const gate = createGate();
 
 export const collectionSetDeleted = createEvent();
+export const $collectionCells = createStore<CollectionCell[]>([]);
 
-const $collectionSets = createStore<CollectionSet[]>([]);
-
-const $valuations = createStore<Valuation[]>([]);
-
-export const $collectionCells = combine(
-  $collectionSets,
-  $valuations,
-  toCollectionCells
-);
-
-export const $totalValuation = createStore(0);
+export const $collectionTotals = createStore<Totals>({
+  sets_valuated: 0,
+  total: 0,
+  total_profits: {
+    total_return_usd: 0,
+    total_return_percentage: 0,
+  },
+  total_sets: 0,
+});
 
 const GetCollectionFx = createEffect(collectionService.GetCollection);
 
-const GetCollectionValuationsFx = createEffect(
-  collectionService.GetCollectionValuation
-);
-
 sample({
   clock: [gate.open, collectionSetDeleted],
-  target: [GetCollectionFx, GetCollectionValuationsFx],
+  target: GetCollectionFx,
 });
 
 sample({
-  clock: GetCollectionFx.doneData,
-  fn: (data) => data.collection_sets,
-  target: $collectionSets,
+  clock: GetCollectionFx.doneData.map((data) => data.collection_sets),
+  fn: toCollectionCells,
+  target: $collectionCells,
 });
 
 sample({
-  clock: GetCollectionValuationsFx.doneData,
-  fn: (data) => data.valuations,
-  target: $valuations,
-});
-
-sample({
-  clock: GetCollectionValuationsFx.doneData,
-  fn: (data) => data.total,
-  target: $totalValuation,
+  clock: GetCollectionFx.doneData.map((data) => data.totals),
+  target: $collectionTotals,
 });

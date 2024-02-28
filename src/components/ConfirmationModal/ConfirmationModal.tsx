@@ -22,8 +22,11 @@ const ConfirmationModal = (props: ConfirmationModalProps) => {
 
   if (!modalElement) return null;
   return createPortal(
-    <div className="logout" onClick={onClose}>
-      <div className="logout--main" onClick={(e) => e.stopPropagation()}>
+    <div className="logout " onClick={onClose}>
+      <div
+        className="logout--main text-charcoal bg-white dark:text-white dark:bg-charcoal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <p>{children}</p>
         <Button className="text-dark font-medium" onClick={onYes}>
           Yes

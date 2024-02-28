@@ -1,8 +1,4 @@
 import { Collection, CollectionSchema } from '../types/CollectionType.ts';
-import {
-  CollectionValuation,
-  CollectionValuationSchema,
-} from '../types/CollectionValuationType.ts';
 import axios from 'axios';
 import { handleSetError, handleIncorrectParse } from './ErrorHandlers.ts';
 import { history } from '../routes/history.ts';
@@ -12,7 +8,6 @@ import { csf } from '../features/collection/index.tsx';
 
 interface CollectionService {
   GetCollection: () => Promise<Collection>;
-  GetCollectionValuation: () => Promise<CollectionValuation>;
   AddCollectionSet: (collectionSet: CollectionSetData) => Promise<boolean>;
   UpdateCollectionSet: (
     id: number | string,
@@ -29,19 +24,6 @@ const GetCollection = async (): Promise<Collection> => {
       result.error,
       'GetCollection',
       "Can't get collection"
-    );
-
-  return result.data;
-};
-
-const GetCollectionValuation = async (): Promise<CollectionValuation> => {
-  const response = await axios.get('/collections/calculator/');
-  const result = CollectionValuationSchema.safeParse(response.data);
-  if (!result.success)
-    return handleIncorrectParse(
-      result.error,
-      'GetCollectionValuation',
-      "Can't get collection valuation"
     );
 
   return result.data;
@@ -87,7 +69,6 @@ const DeleteCollectionSet = async (id: number | string): Promise<boolean> => {
 
 export const collectionService: CollectionService = {
   GetCollection: GetCollection,
-  GetCollectionValuation: GetCollectionValuation,
   AddCollectionSet: AddCollectionSet,
   UpdateCollectionSet: UpdateCollectionSet,
   DeleteCollectionSet: DeleteCollectionSet,
