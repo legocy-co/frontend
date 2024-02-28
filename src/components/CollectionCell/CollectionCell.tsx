@@ -47,11 +47,10 @@ const CollectionCell = (props: CollectionCellProps) => {
   ));
 
   const [showDelete, setShowDelete] = useState(false);
-  const [roiUsd, setRoiUsd] = useState(false);
 
   return (
     <div className="collection-cell dark:bg-dark">
-      <h1>Buy price: {props.buy_price} $</h1>
+      <h1>{props.set}</h1>
       <img
         className="collection-cell--edit"
         onClick={() => navigate('/collection/update/' + props.id)}
@@ -107,10 +106,6 @@ const CollectionCell = (props: CollectionCellProps) => {
         </div>
       )}
       <div className="collection-cell--props">
-        <h1>{props.set}</h1>
-        <h2>{props.valuation ? `${props.valuation}$` : '---'}</h2>
-      </div>
-      <div className="collection-cell--props">
         <p>Series: {props.series}</p>
         <p>Condition: {props.condition}</p>
       </div>
@@ -119,22 +114,24 @@ const CollectionCell = (props: CollectionCellProps) => {
           Set number: {props.set_number}
         </u>
       </p>
-      {props.valuation! > 0 && (
-        <div className="collection-cell--roi">
-          <h1>ROI</h1>
-          <h2
-            className={clsx(
-              { 'text-green-400': props.total_return_usd! > 0 },
-              { 'text-red-400': props.total_return_usd! < 0 }
-            )}
-            onClick={() => setRoiUsd((prev) => !prev)}
-          >
-            {roiUsd
-              ? `${props.total_return_usd} USD`
-              : props.total_return_percentage + '%'}
-          </h2>
-        </div>
-      )}
+      <div className="collection-cell--props">
+        <h1>Buy price: {props.buy_price} $</h1>
+        ---&gt;
+        <h2>{props.valuation ? `${props.valuation}$` : '---'}</h2>
+      </div>
+      <div className="collection-cell--roi">
+        <h1>ROI</h1>
+        <h1
+          className={clsx(
+            { 'text-green-400': props.total_return_usd! > 0 },
+            { 'text-red-400': props.total_return_usd! < 0 }
+          )}
+        >
+          {props.valuation! !== 0
+            ? `${props.total_return_usd}$(${props.total_return_percentage}%)`
+            : 'Not estimated'}
+        </h1>
+      </div>
       {showDelete && (
         <ConfirmationModal
           show={showDelete}
