@@ -41,6 +41,10 @@ const Header = () => {
     localStorage.getItem('color-theme') !== 'light'
   );
 
+  window.addEventListener('click', function () {
+    setShowMenu(false);
+  });
+
   useEffect(() => {
     darkTheme
       ? document.documentElement.classList.add('dark')
@@ -98,15 +102,19 @@ const Header = () => {
                 userImages[0] ? 'h-10 w-10 object-cover rounded-full' : ''
               }
               onError={addDefaultSrc}
-              onClick={() =>
+              onClick={(e) => {
+                e.stopPropagation();
                 authService.IsAuthorized()
                   ? setShowMenu((prev) => !prev)
-                  : navigate(`auth?from=${location.pathname}`)
-              }
+                  : navigate(`auth?from=${location.pathname}`);
+              }}
               alt=""
             />
             {showMenu && (
-              <div className="header--user-menu bg-white dark:bg-dark dark:text-white">
+              <div
+                className="header--user-menu bg-white dark:bg-dark dark:text-white"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <p
                   onClick={() =>
                     navigate('/profile/' + authService.GetUserId())
