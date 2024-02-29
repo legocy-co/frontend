@@ -19,6 +19,7 @@ import IronmanPic from '../../assets/pics/ironman.png';
 import JodaPic from '../../assets/pics/joda.png';
 import LeaPic from '../../assets/pics/lea.png';
 import { UserProfileForm } from '../../features/user-profile';
+import toaster from '../../shared/lib/react-toastify.ts';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -47,6 +48,10 @@ const UserProfilePage = () => {
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.currentTarget.files?.[0];
     if (file) {
+      if (file.size > 20000000) {
+        toaster.showToastError('Maximum file size is 20MB');
+        return;
+      }
       const data = new FormData();
       data.append('file', file);
       await userService.UploadUserImage(data, authService.GetUserId());
@@ -118,7 +123,7 @@ const UserProfilePage = () => {
             authService.GetUserId() == Number(params.id) && (
               <div>
                 <input
-                  accept=".jpg, .jpeg, .png"
+                  accept=".jpg, .jpeg, .png, .heic"
                   className="hidden"
                   type="file"
                   id="input_avatar"

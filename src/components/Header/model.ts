@@ -5,7 +5,7 @@ import { userService } from '../../services/UserService.ts';
 import { UserImage } from '../../types/UserImageType.ts';
 import { auth } from '../../pages/auth/';
 import { si } from '../../features/auth/sign-in/index.tsx';
-import { up } from '../../pages/user-profiles/index.tsx';
+import { up } from '../../pages/UserProfilePage/index.tsx';
 
 export const gate = createGate();
 
