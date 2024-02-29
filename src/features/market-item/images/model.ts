@@ -9,6 +9,7 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
   'image/jpg',
   'image/png',
   'image/webp',
+  'image/heic',
 ];
 
 export const form = createForm({
@@ -23,11 +24,11 @@ export const form = createForm({
               z
                 .custom<File>((file) => file instanceof File)
                 .refine((file) => {
-                  return file.size <= 1048576;
-                }, `Max image size is 1MB.`)
+                  return file.size <= 20000000;
+                }, `Maximum image size is 20MB.`)
                 .refine(
                   (file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file.type),
-                  'Only .jpg, .jpeg, .png and .webp formats are supported.'
+                  'Only .jpg, .jpeg, .png, .heic and .webp formats are supported.'
                 )
             )
             .min(1, 'Missing images')

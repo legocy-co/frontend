@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { authService } from '../../services/AuthService.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import ConfirmationModal from '../ConfirmationModal';
-import { up } from '../../pages/user-profiles/index.tsx';
+import { up } from '../../pages/UserProfilePage/index.tsx';
 import PencilIcon from '../../assets/icons/pencil.svg';
 
 interface MarketItemCellProps {
