@@ -132,7 +132,7 @@ const UserProfilePage = () => {
                 />
                 <label
                   htmlFor="input_avatar"
-                  className="absolute w-8 h-8 p-1 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80 text-xs text-center"
+                  className="absolute flex items-center justify-center w-8 h-8 p-1 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80 text-lg text-black text-center"
                 >
                   {userProfile.user_images[0] ? (
                     <img src={PencilIcon} alt="" />
