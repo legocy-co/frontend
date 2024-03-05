@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           ref={ref}
           className={clsx(
             'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl text-charcoal dark:text-white indent-3 pr-10 outline-0 mb-3.5',
-            { 'bg-rose dark:bg-rose dark:text-charcoal': isInvalid },
+            { 'bg-rose dark:bg-rose text-charcoal': isInvalid },
             { 'no-scroll': isNumber },
             className
           )}
