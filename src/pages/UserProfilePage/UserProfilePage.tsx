@@ -98,13 +98,13 @@ const UserProfilePage = () => {
 
   return (
     <>
-      <PageHeading to="/">
+      <PageHeading to="/" className="py-12">
         <div className="relative">
-          <div className="w-12 aspect-square rounded-full bg-legocy">
+          <div className="w-24 aspect-square rounded-full bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80">
             {
               <img
                 id="profile-avatar"
-                className="w-12  aspect-square rounded-full drop-shadow-avatar object-cover object-bottom cursor-pointer transition-all hover:brightness-95 active:brightness-90"
+                className="w-24 aspect-square rounded-full drop-shadow-avatar object-cover object-bottom "
                 src={
                   userProfile.user_images[0]
                     ? userProfile.user_images[0]
@@ -132,7 +132,7 @@ const UserProfilePage = () => {
                 />
                 <label
                   htmlFor="input_avatar"
-                  className="absolute w-4 h-4 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-opacity hover:opacity-90 active:opacity-80 text-xs text-center"
+                  className="absolute w-8 h-8 p-1 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80 text-xs text-center"
                 >
                   {userProfile.user_images[0] ? (
                     <img src={PencilIcon} alt="" />

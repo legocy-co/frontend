@@ -3,20 +3,25 @@ import BackIcon from '../../assets/icons/back.svg';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import { MenuButton } from './menu-button.tsx';
+import clsx from 'clsx';
 
 type PageHeadingProps = {
   children?: ReactNode;
   to?: string;
   isMarketItemDetail?: boolean;
+  className?: string;
 };
 
 export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
-  ({ children, to = '/', isMarketItemDetail = false }, ref) => {
+  ({ children, to = '/', isMarketItemDetail = false, className }, ref) => {
     const navigate = useNavigate();
 
     return (
       <div
-        className="relative w-2/3 h-12 flex justify-center items-center mb-7"
+        className={clsx(
+          'relative w-2/3 h-12 flex justify-center items-center mb-7',
+          className
+        )}
         ref={ref}
       >
         <img
@@ -26,7 +31,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
           onClick={() => navigate(to)}
           alt=""
         />
-        <div className="flex justify-center gap-5 text-bh font-bold text-nowrap">
+        <div className="flex justify-center items-center gap-5 text-bh font-bold text-nowrap">
           {children}
         </div>
         {isMarketItemDetail && (
