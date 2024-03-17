@@ -16,8 +16,8 @@ const MessengerPage = () => {
   useGate(model.gate);
 
   const currentUser: LoginData = {
-    login: 'tkozlov',
-    password: import.meta.env.QB_REGISTERED_USER_PASSWORD,
+    login: 'wjojf',
+    password: import.meta.env.VITE_QB_REGISTERED_USER_PASSWORD,
   };
 
   const qbUIKitContext: QBDataContextType = React.useContext(qbDataContext);
@@ -31,7 +31,9 @@ const MessengerPage = () => {
       if (QB !== undefined) {
         (window as any).QB = QB;
       } else {
-        (window as any).QB = require('quickblox/quickblox.min');
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const QBLib = require('quickblox/quickblox.min');
+        (window as any).QB = QBLib;
       }
     }
 
@@ -58,6 +60,7 @@ const MessengerPage = () => {
                 );
               } else {
                 const userId: number = session.user_id;
+
                 const password: string = session.token;
                 const paramsConnect = { userId, password };
 
@@ -76,8 +79,10 @@ const MessengerPage = () => {
                         userName: currentUser.login,
                         sessionToken: session.token,
                       };
+
                       await qbUIKitContext.authorize(authData);
                       setSDKInitialized(true);
+
                       setUserAuthorized(true);
                     }
                   }
@@ -95,7 +100,7 @@ const MessengerPage = () => {
   return (
     <div>
       <QuickBloxUIKitProvider
-        qbConfig={QBConfig}
+        qbConfig={{ ...QBConfig }}
         maxFileSize={100 * 1000000}
         accountData={{ ...QBConfig.credentials }}
         loginData={{
@@ -107,7 +112,7 @@ const MessengerPage = () => {
           {
             // React states indicating the ability to render UI
             isSDKInitialized && isUserAuthorized ? (
-              <QuickBloxUIKitDesktopLayout />
+              <QuickBloxUIKitDesktopLayout uikitHeightOffset="32px" />
             ) : (
               <div>wait while SDK is initializing...</div>
             )
