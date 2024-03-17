@@ -20,7 +20,7 @@ import { Toggle } from '../../shared/ui/toggle';
 const Header = () => {
   useGate(model.gate);
 
-  const messagesCounter = 0;
+  const messagesCounter = 1;
   const userImages = useUnit(model.$userImages);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -44,6 +44,11 @@ const Header = () => {
   window.addEventListener('click', function () {
     setShowMenu(false);
   });
+
+  document.documentElement.setAttribute(
+    'data-theme',
+    darkTheme ? 'dark' : 'light'
+  );
 
   useEffect(() => {
     darkTheme
@@ -80,7 +85,12 @@ const Header = () => {
             alt=""
           />
           <div className="header--chat">
-            <img src={ChatIcon} onError={addDefaultSrc} alt="" />
+            <img
+              src={ChatIcon}
+              onError={addDefaultSrc}
+              alt=""
+              onClick={() => navigate('/messenger/')}
+            />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
           <img

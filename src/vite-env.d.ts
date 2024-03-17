@@ -5,7 +5,7 @@ interface ImportMetaEnv {
   readonly QB_AUTH_KEY: string;
   readonly QB_AUTH_SECRET: string;
   readonly QB_ACCOUNT_KEY: string;
-  readonly QB_LOGIN_PASSWORD: string;
+  readonly QB_REGISTERED_USER_PASSWORD: string;
 }
 
 interface ImportMeta {
