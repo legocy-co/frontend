@@ -1,13 +1,12 @@
 import {
   AuthorizationData,
-  LoginData,
   qbDataContext,
   QBDataContextType,
   QuickBloxUIKitDesktopLayout,
   QuickBloxUIKitProvider,
 } from 'quickblox-react-ui-kit';
 import { QBConfig } from '../../QBconfig';
-import { useGate } from 'effector-react';
+import { useGate, useUnit } from 'effector-react';
 import * as model from './model';
 import React, { useEffect } from 'react';
 import QB from 'quickblox/quickblox';
@@ -15,11 +14,7 @@ import QB from 'quickblox/quickblox';
 const MessengerPage = () => {
   useGate(model.gate);
 
-  const currentUser: LoginData = {
-    login: 'wjojf',
-    password: import.meta.env.VITE_QB_REGISTERED_USER_PASSWORD,
-  };
-
+  const currentUser = useUnit(model.$currentUser);
   const qbUIKitContext: QBDataContextType = React.useContext(qbDataContext);
 
   const [isUserAuthorized, setUserAuthorized] = React.useState(false);
@@ -47,7 +42,7 @@ const MessengerPage = () => {
   };
 
   useEffect(() => {
-    if (!isSDKInitialized) {
+    if (!isSDKInitialized && currentUser.login) {
       prepareSDK()
         .then(() => {
           QB.createSession(
@@ -60,7 +55,6 @@ const MessengerPage = () => {
                 );
               } else {
                 const userId: number = session.user_id;
-
                 const password: string = session.token;
                 const paramsConnect = { userId, password };
 
@@ -81,8 +75,8 @@ const MessengerPage = () => {
                       };
 
                       await qbUIKitContext.authorize(authData);
-                      setSDKInitialized(true);
 
+                      setSDKInitialized(true);
                       setUserAuthorized(true);
                     }
                   }
@@ -95,10 +89,10 @@ const MessengerPage = () => {
           console.log('init SDK has error: ', e);
         });
     }
-  }, []);
+  }, [currentUser.login]);
 
   return (
-    <div>
+    <div className="w-screen flex flex-col justify-between">
       <QuickBloxUIKitProvider
         qbConfig={{ ...QBConfig }}
         maxFileSize={100 * 1000000}
@@ -108,13 +102,13 @@ const MessengerPage = () => {
           password: currentUser.password,
         }}
       >
-        <div className="w-full h-full flex flex-col justify-center">
+        <div className="absolute top-[90px] w-full">
           {
             // React states indicating the ability to render UI
             isSDKInitialized && isUserAuthorized ? (
-              <QuickBloxUIKitDesktopLayout uikitHeightOffset="32px" />
+              <QuickBloxUIKitDesktopLayout uikitHeightOffset={`155px`} />
             ) : (
-              <div>wait while SDK is initializing...</div>
+              <div className="text-center">initializing messenger...</div>
             )
           }
         </div>
