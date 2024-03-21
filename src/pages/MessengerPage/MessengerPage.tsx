@@ -10,7 +10,7 @@ import { useGate, useUnit } from 'effector-react';
 import * as model from './model';
 import React, { useEffect } from 'react';
 import QB from 'quickblox/quickblox';
-import CustomTheme from '../../assets/styles/messenger/CustomTheme.ts';
+import CustomTheme from './CustomTheme.ts';
 
 const MessengerPage = () => {
   useGate(model.gate);
@@ -116,6 +116,7 @@ const MessengerPage = () => {
             )
           }
         </div>
+        <div className="h-[155px]"></div>
       </QuickBloxUIKitProvider>
     </div>
   );
