@@ -10,6 +10,7 @@ import { useGate, useUnit } from 'effector-react';
 import * as model from './model';
 import React, { useEffect } from 'react';
 import QB from 'quickblox/quickblox';
+import CustomTheme from '../../assets/styles/messenger/CustomTheme.ts';
 
 const MessengerPage = () => {
   useGate(model.gate);
@@ -106,7 +107,10 @@ const MessengerPage = () => {
           {
             // React states indicating the ability to render UI
             isSDKInitialized && isUserAuthorized ? (
-              <QuickBloxUIKitDesktopLayout uikitHeightOffset={`155px`} />
+              <QuickBloxUIKitDesktopLayout
+                uikitHeightOffset={`155px`}
+                theme={new CustomTheme()}
+              />
             ) : (
               <div className="text-center">initializing messenger...</div>
             )

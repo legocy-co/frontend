@@ -20,11 +20,12 @@ import { Toggle } from '../../shared/ui/toggle';
 const Header = () => {
   useGate(model.gate);
 
-  const messagesCounter = 1;
+  const messagesCounter = 0;
   const userImages = useUnit(model.$userImages);
-  const [showMenu, setShowMenu] = useState(false);
 
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+
   const [showLogout, setShowLogout] = useState(false);
 
   function handleShowLogout() {
@@ -49,6 +50,8 @@ const Header = () => {
     'data-theme',
     darkTheme ? 'dark' : 'light'
   );
+
+  document.body.style.background = darkTheme ? '#191919' : '#FFFFFF';
 
   useEffect(() => {
     darkTheme
