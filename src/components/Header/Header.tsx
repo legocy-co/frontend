@@ -1,23 +1,21 @@
-import './Header.scss';
-import SearchIcon from '../../assets/icons/search.svg';
+import '../../components/Header/Header.scss';
 import WikiIcon from '../../assets/icons/wiki.svg';
 import ChatIcon from '../../assets/icons/chat.svg';
 import UserIcon from '../../assets/icons/user.svg';
-import ActiveUserIcon from '../../assets/icons/active-user.svg';
 import CollectionIcon from '../../assets/icons/collection.svg';
 import DarkIcon from '../../assets/icons/dark.svg';
 import LightIcon from '../../assets/icons/light.svg';
-import { addDefaultSrc } from '../../services/utils';
+import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
-import * as model from './model.ts';
+import * as model from '../../components/Header/model.ts';
 import { authService } from '../../services/AuthService.ts';
 import { useEffect, useState } from 'react';
-import ConfirmationModal from '../ConfirmationModal';
+import ConfirmationModal from '../../components/ConfirmationModal';
 import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
-import { Toggle } from '../../shared/ui/toggle';
+import { Toggle } from './toggle.tsx';
 
-const Header = () => {
+const Navbar = () => {
   useGate(model.gate);
 
   const messagesCounter = 0;
@@ -60,18 +58,8 @@ const Header = () => {
           src="/logo.svg"
           onError={addDefaultSrc}
           alt=""
-          onClick={() => navigate('/')}
+          onClick={() => navigate('')}
         />
-        <button
-          className="header--catalog"
-          onClick={() => navigate('/catalog')}
-        >
-          Catalog
-        </button>
-        <div className="header--searchbar">
-          <input type="text" placeholder="Search" />
-          <img src={SearchIcon} onError={addDefaultSrc} alt="" />
-        </div>
         <div className="header--right">
           <img
             className="header--wiki"
@@ -91,13 +79,7 @@ const Header = () => {
           />
           <div className="header--user">
             <img
-              src={
-                userImages[0]
-                  ? userImages[0].downloadURL
-                  : !showMenu
-                    ? UserIcon
-                    : ActiveUserIcon
-              }
+              src={userImages[0] ? userImages[0].downloadURL : UserIcon}
               className={
                 userImages[0] ? 'h-10 w-10 object-cover rounded-full' : ''
               }
@@ -149,4 +131,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Navbar;
