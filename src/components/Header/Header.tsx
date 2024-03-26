@@ -1,21 +1,22 @@
-import '../../components/Header/Header.scss';
-import WikiIcon from '../../assets/icons/wiki.svg';
-import ChatIcon from '../../assets/icons/chat.svg';
-import UserIcon from '../../assets/icons/user.svg';
-import CollectionIcon from '../../assets/icons/collection.svg';
+import './Header.scss';
+import WikiIcon from '../../assets/icons/wiki.svg?react';
+import ChatIcon from '../../assets/icons/chat.svg?react';
+import UserIcon from '../../assets/icons/user.svg?react';
+import CollectionIcon from '../../assets/icons/collection.svg?react';
 import DarkIcon from '../../assets/icons/dark.svg';
 import LightIcon from '../../assets/icons/light.svg';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
-import * as model from '../../components/Header/model.ts';
+import * as model from './model.ts';
 import { authService } from '../../services/AuthService.ts';
 import { useEffect, useState } from 'react';
-import ConfirmationModal from '../../components/ConfirmationModal';
+import ConfirmationModal from '../ConfirmationModal';
 import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
-import { Toggle } from './toggle.tsx';
+import { Toggle } from '../../shared/ui/toggle.tsx';
+import clsx from 'clsx';
 
-const Navbar = () => {
+const Header = () => {
   useGate(model.gate);
 
   const messagesCounter = 0;
@@ -33,6 +34,13 @@ const Navbar = () => {
   function handleLogout() {
     setShowLogout(false);
     authService.Logout();
+  }
+
+  function handleAvatarClick(e: any) {
+    e.stopPropagation();
+    authService.IsAuthorized()
+      ? setShowMenu((prev) => !prev)
+      : navigate(`auth?from=${location.pathname}`);
   }
 
   const [darkTheme, setDarkTheme] = useState(
@@ -61,37 +69,41 @@ const Navbar = () => {
           onClick={() => navigate('')}
         />
         <div className="header--right">
-          <img
-            className="header--wiki"
-            src={WikiIcon}
+          <WikiIcon
+            className={clsx('header--wiki', {
+              'fill-strokes': location.pathname.split('/')[1] === 'wiki',
+            })}
             onClick={() => navigate('/wiki/sets/')}
-            alt=""
           />
           <div className="header--chat">
-            <img src={ChatIcon} onError={addDefaultSrc} alt="" />
+            <ChatIcon />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
-          <img
-            className="header--collection"
-            src={CollectionIcon}
-            alt=""
+          <CollectionIcon
+            className={clsx('header--collection', {
+              'fill-paths fill-strokes':
+                location.pathname.split('/')[1] === 'collection',
+            })}
             onClick={() => navigate('/collection/')}
           />
           <div className="header--user">
-            <img
-              src={userImages[0] ? userImages[0].downloadURL : UserIcon}
-              className={
-                userImages[0] ? 'h-10 w-10 object-cover rounded-full' : ''
-              }
-              onError={addDefaultSrc}
-              onClick={(e) => {
-                e.stopPropagation();
-                authService.IsAuthorized()
-                  ? setShowMenu((prev) => !prev)
-                  : navigate(`auth?from=${location.pathname}`);
-              }}
-              alt=""
-            />
+            {userImages[0] ? (
+              <img
+                src={userImages[0].downloadURL}
+                className="header--avatar"
+                onError={addDefaultSrc}
+                onClick={handleAvatarClick}
+              />
+            ) : (
+              <UserIcon
+                className={
+                  location.pathname.split('/')[1] === 'profile' || showMenu
+                    ? 'fill-strokes'
+                    : ''
+                }
+                onClick={handleAvatarClick}
+              />
+            )}
             {showMenu && (
               <div
                 className="header--user-menu bg-white dark:bg-dark dark:text-white"
@@ -131,4 +143,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Header;
