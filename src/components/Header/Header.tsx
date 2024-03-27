@@ -9,7 +9,7 @@ import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
 import { authService } from '../../services/AuthService.ts';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ConfirmationModal from '../ConfirmationModal';
 import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
@@ -36,7 +36,9 @@ const Header = () => {
     authService.Logout();
   }
 
-  function handleAvatarClick(e: any) {
+  function handleAvatarClick(
+    e: React.MouseEvent<HTMLImageElement | SVGSVGElement>
+  ) {
     e.stopPropagation();
     authService.IsAuthorized()
       ? setShowMenu((prev) => !prev)
@@ -70,17 +72,17 @@ const Header = () => {
         />
         <div className="header--right">
           <WikiIcon
-            className={clsx('header--wiki', {
+            className={clsx('header--wiki white-strokes', {
               'fill-strokes': location.pathname.split('/')[1] === 'wiki',
             })}
             onClick={() => navigate('/wiki/sets/')}
           />
-          <div className="header--chat">
+          <div className="header--chat white-paths">
             <ChatIcon />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
           <CollectionIcon
-            className={clsx('header--collection', {
+            className={clsx('header--collection white-strokes white-paths', {
               'fill-paths fill-strokes':
                 location.pathname.split('/')[1] === 'collection',
             })}
@@ -99,7 +101,7 @@ const Header = () => {
                 className={
                   location.pathname.split('/')[1] === 'profile' || showMenu
                     ? 'fill-strokes'
-                    : ''
+                    : 'white-strokes'
                 }
                 onClick={handleAvatarClick}
               />
