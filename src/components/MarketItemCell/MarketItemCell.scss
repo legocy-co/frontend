@@ -44,15 +44,25 @@
     top: 0;
     width: 100%;
     height: 100%;
+    svg {
+      margin-left: 7px;
+      position: absolute;
+      top: 47%;
+      z-index: 20;
+      cursor: pointer;
+    }
     button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border-radius: 6px;
       height: 100%;
-      width: 50px;
-      background: #252121;
+      width: 28px;
+      background: #D9D9D91A;
       opacity: 0;
       transition: opacity 0.1s;
-      &:hover {opacity: 0.1}
-      &:active {opacity: 0.2}
+      &:hover {opacity: 0.9}
+      &:active {opacity: 1}
     }
   }
   &--favorite {
@@ -95,11 +105,31 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    h1 {text-align: start;}
-    &-props {
+    h1 {text-align: start}
+    &-set {
       display: flex;
       gap: 1rem;
       justify-content: space-between;
+      &-props {
+        white-space: nowrap;
+        height: 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      &-condition {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+        div {
+          width: 35px;
+          aspect-ratio: 1;
+          border-radius: 50%;
+          background: #EAE8E8;
+        }
+      }
     }
   }
   &--link {
@@ -143,5 +173,15 @@
     color: #D44D5C;
     &:hover {opacity: 0.9}
     &:active {opacity: 0.8}
+  }
+}
+
+html[class='dark'] {
+  .cell {
+    &--favorite {
+      path {
+        fill: #979797;
+      }
+    }
   }
 }

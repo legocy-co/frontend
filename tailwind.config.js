@@ -26,7 +26,7 @@ export default {
         'light': '#5F5F5F',
         'ghost': '#F8F8F8',
         'dark': '#2f2f2f',
-        'headerdark': '#2A2A2AFC',
+        'headerdark': '#2F2F2FFC',
         'celllink': '#d9d9d9ad',
       },
       dropShadow: {
