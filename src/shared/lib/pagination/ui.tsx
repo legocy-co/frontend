@@ -7,9 +7,9 @@ import './style.scss';
 
 export const Pagination = ({ model }: { model: PaginationModel }) => {
   return (
-    <div className="w-full flex items-center justify-between pt-2">
-      <PageCountToggler model={model} />
+    <div className="px-28 w-full flex items-center justify-between pt-2">
       <PaginateController model={model} />
+      <PageCountToggler model={model} />
     </div>
   );
 };
@@ -28,9 +28,9 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
   return (
     <div className="flex items-center space-x-8">
       <div className="flex items-center space-x-3">
-        <p className="hidden sm:block">Items per page</p>
+        <p className="hidden lg:block">Items per page</p>
         <Popover.Root open={open} onOpenChange={setOpen}>
-          <Popover.Trigger className="hidden sm:flex p-1 rounded-md hover:bg-legocy transition-colors items-center space-x-2 disabled:hover:!bg-transparent disabled:cursor-not-allowed">
+          <Popover.Trigger className="hidden lg:flex p-1 rounded-md hover:bg-legocy transition-colors items-center space-x-2 disabled:hover:!bg-transparent disabled:cursor-not-allowed">
             {pageSize}
           </Popover.Trigger>
           <Popover.Portal>
@@ -43,7 +43,7 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
                   key={index}
                   onClick={() => pageSizeChanged((index + 1) * 10)}
                   type="button"
-                  className="text-sm leading-4 w-10 hover:bg-legocy-hover transition-colors px-1 py-1.5"
+                  className="text-sm leading-4 w-10 hover:bg-legocy-hover transition-colors pl-1.5"
                 >
                   {(index + 1) * 10}
                 </button>
@@ -67,10 +67,10 @@ const PaginateController = ({ model }: { model: PaginationModel }) => {
       nextLabel={<p>&gt;</p>}
       previousLabel={<p>&lt;</p>}
       containerClassName="pagination-container"
-      previousClassName="pagination-prev-btn"
-      nextClassName="pagination-prev-btn"
-      pageClassName="pagination-page mx-[1px]"
-      breakClassName="pagination-page"
+      previousClassName={page ? 'pagination-prev-btn' : 'hidden'}
+      nextClassName={page + 1 === pagesCount ? 'hidden' : 'pagination-prev-btn'}
+      pageClassName="pagination-page mx-[3px]"
+      breakClassName="pagination-page-break"
       activeClassName="pagination-active-btn"
       onPageChange={({ selected }) => model.pageChanged(selected)}
       forcePage={page}
