@@ -61,7 +61,7 @@ export const paginationFactory = <T, V, K>({
     (totalCount, page, entities, pageSize) => {
       return `${page * pageSize + 1}-${
         page * pageSize + entities.length
-      } of ${totalCount}`;
+      } items of ${totalCount}`;
     }
   );
 
