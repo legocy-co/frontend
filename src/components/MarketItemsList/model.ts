@@ -28,7 +28,7 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     price: marketItem.price,
     series: marketItem.lego_set.series.name,
     condition: setStates[marketItem.set_state as keyof typeof setStates],
-    condition_icon_src: `../../assets/pics/${marketItem.set_state.toLowerCase()}?react`,
+    condition_icon_src: `/src/assets/icons/${marketItem.set_state.toLowerCase()}.svg`,
     set_number: marketItem.lego_set.number,
     seller_id: marketItem.seller?.id,
     set_id: marketItem.lego_set.id,

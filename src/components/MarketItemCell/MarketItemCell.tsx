@@ -13,7 +13,7 @@ import SliderIcon from '../../assets/icons/slider-back.svg?react';
 interface MarketItemCellProps {
   id: number;
   condition: string;
-  condition_icon_src: string;
+  condition_icon: string;
   images: string[];
   location: string;
   price: number;
@@ -27,8 +27,6 @@ interface MarketItemCellProps {
 const MarketItemCell = (props: MarketItemCellProps) => {
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(props.images[0]);
-  // const Icon = await import(props.condition_icon_src);
-  // TODO: set condition icons
 
   async function handleDelete() {
     await marketItemService.DeleteMarketItem(props.id);
@@ -116,13 +114,15 @@ const MarketItemCell = (props: MarketItemCellProps) => {
             </u>
           </div>
           <div className="cell--info-set-condition">
-            <div>{/*<Icon />*/}</div>
+            <div className="bg-condition dark:bg-conditiondark">
+              <img src={props.condition_icon} alt="" onError={addDefaultSrc} />
+            </div>
             <p>{props.condition}</p>
           </div>
         </div>
       </div>
       <div
-        className="cell--link bg-celllink dark:bg-legocy"
+        className="cell--link bg-celllink dark:bg-legocy text-white dark:text-celllinkdarktext"
         onClick={() => navigate(`/catalog/${props.id}`)}
       >
         <h1>More Info</h1>
