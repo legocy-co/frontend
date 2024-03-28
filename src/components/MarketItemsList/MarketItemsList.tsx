@@ -11,7 +11,6 @@ const MarketItemsList = () => {
         id={marketItem.id}
         location={marketItem.location}
         condition={marketItem.condition}
-        condition_icon={marketItem.condition_icon}
         images={marketItem.images}
         price={marketItem.price}
         series={marketItem.series}
