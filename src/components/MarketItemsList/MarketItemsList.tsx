@@ -10,6 +10,7 @@ const MarketItemsList = () => {
       <MarketItemCell
         id={marketItem.id}
         location={marketItem.location}
+        condition_icon={marketItem.condition_icon}
         condition={marketItem.condition}
         images={marketItem.images}
         price={marketItem.price}

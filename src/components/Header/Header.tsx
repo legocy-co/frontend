@@ -1,4 +1,5 @@
 import './Header.scss';
+import CatalogIcon from '../../assets/icons/catalog.svg?react';
 import WikiIcon from '../../assets/icons/wiki.svg?react';
 import ChatIcon from '../../assets/icons/chat.svg?react';
 import UserIcon from '../../assets/icons/user.svg?react';
@@ -71,28 +72,34 @@ const Header = () => {
           onClick={() => navigate('')}
         />
         <div className="header--right">
-          <WikiIcon
-            className={clsx('header--wiki white-strokes', {
-              'fill-strokes': location.pathname.split('/')[1] === 'wiki',
+          <CatalogIcon
+            className={clsx('header--member fills', {
+              'legocy-fills': location.pathname.split('/')[1] === 'catalog',
             })}
-            onClick={() => navigate('/wiki/sets/')}
+            onClick={() => navigate('/catalog')}
           />
-          <div className="header--chat white-paths">
+          <WikiIcon
+            className={clsx('header--member strokes', {
+              'legocy-strokes': location.pathname.split('/')[1] === 'wiki',
+            })}
+            onClick={() => navigate('/wiki/sets')}
+          />
+          <div className="header--chat fills">
             <ChatIcon />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
           <CollectionIcon
-            className={clsx('header--collection white-strokes white-paths', {
-              'fill-paths fill-strokes':
+            className={clsx('header--collection fills strokes', {
+              'legocy-fills legocy-strokes':
                 location.pathname.split('/')[1] === 'collection',
             })}
-            onClick={() => navigate('/collection/')}
+            onClick={() => navigate('/collection')}
           />
           <div className="header--user">
             {userImages[0] ? (
               <img
+                alt=""
                 src={userImages[0].downloadURL}
-                className="header--avatar"
                 onError={addDefaultSrc}
                 onClick={handleAvatarClick}
               />
@@ -100,8 +107,8 @@ const Header = () => {
               <UserIcon
                 className={
                   location.pathname.split('/')[1] === 'profile' || showMenu
-                    ? 'fill-strokes'
-                    : 'white-strokes'
+                    ? 'legocy-strokes'
+                    : 'strokes'
                 }
                 onClick={handleAvatarClick}
               />
