@@ -9,11 +9,16 @@ import ConfirmationModal from '../ConfirmationModal';
 import { up } from '../../pages/UserProfilePage/index.tsx';
 import PencilIcon from '../../assets/icons/pencil.svg';
 import SliderIcon from '../../assets/icons/slider-back.svg?react';
+import BrandNewIcon from '../../assets/icons/brand_new.svg?react';
+import BoxOpenedIcon from '../../assets/icons/box_opened.svg?react';
+import BagsOpenedIcon from '../../assets/icons/bags_opened.svg?react';
+import BuiltWithBoxIcon from '../../assets/icons/built_with_box.svg?react';
+import BuiltWithoutBoxIcon from '../../assets/icons/built_without_box.svg?react';
+import BuiltPiecesLostIcon from '../../assets/icons/built_pieces_lost.svg?react';
 
 interface MarketItemCellProps {
   id: number;
   condition: string;
-  condition_icon: string;
   images: string[];
   location: string;
   price: number;
@@ -36,6 +41,24 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   }
 
   const [showDelete, setShowDelete] = useState(false);
+
+  // try conditional import
+  const showConditionIcon = (condition: string) => {
+    switch (condition) {
+      case 'Brand New':
+        return <BrandNewIcon />;
+      case 'Box Opened':
+        return <BoxOpenedIcon />;
+      case 'Bags Opened':
+        return <BagsOpenedIcon />;
+      case 'Built With Box':
+        return <BuiltWithBoxIcon />;
+      case 'Built Without Box':
+        return <BuiltWithoutBoxIcon />;
+      default:
+        return <BuiltPiecesLostIcon />;
+    }
+  };
 
   return (
     <div className="cell dark:bg-dark">
@@ -115,7 +138,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
           </div>
           <div className="cell--info-set-condition">
             <div className="bg-condition dark:bg-conditiondark">
-              <img src={props.condition_icon} alt="" onError={addDefaultSrc} />
+              {showConditionIcon(props.condition)}
             </div>
             <p>{props.condition}</p>
           </div>
