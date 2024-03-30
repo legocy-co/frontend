@@ -8,6 +8,7 @@ export type MarketItemCell = {
   set: string;
   price: number;
   series: string;
+  condition_icon: string;
   condition: string;
   set_number: number;
   seller_id: number;
@@ -26,6 +27,7 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     set: marketItem.lego_set.name,
     price: marketItem.price,
     series: marketItem.lego_set.series.name,
+    condition_icon: marketItem.set_state,
     condition: setStates[marketItem.set_state as keyof typeof setStates],
     set_number: marketItem.lego_set.number,
     seller_id: marketItem.seller?.id,

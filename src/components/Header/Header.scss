@@ -27,9 +27,11 @@ header {
   }
 
   svg {
+    transition: filter 0.1s;
     cursor: pointer;
+    path {transition: fill 0.1s, stroke 0.1s}
     &:active {
-      opacity: 0.9;
+      filter: brightness(0.9);
     }
   }
 }
@@ -61,12 +63,9 @@ header {
   margin-left: 4%;
 }
 
-.header--wiki {
+.header--member {
   width: 24px;
   min-width: 24px;
-  &:hover path {
-    stroke: #FFD540;
-  }
 }
 
 .header--chat {
@@ -95,12 +94,8 @@ header {
 }
 
 .header--collection {
-  width: 30px;
-  min-width: 30px;
-  &:hover path {
-    fill: #FFD540;
-    stroke: #FFD540;
-  }
+  width: 32px;
+  min-width: 32px;
 }
 
 .header--user {
@@ -108,9 +103,6 @@ header {
   width: 22px;
   min-width: 22px;
   aspect-ratio: 1;
-  &:hover path {
-    stroke: #FFD540;
-  }
   &-menu {
     position: absolute;
     top: 50px;
@@ -142,41 +134,25 @@ header {
     &:active {opacity: 0.5}
   }
   img {
-    width: 100%;
-    height: 100%;
+    min-width: 24px;
+    min-height: 24px;
     border-radius: 50%;
   }
 }
 
-.fill-paths {
-  path {
-    fill: #FFD540 !important;
-  }
+.legocy-fills path {fill: #FFD540 !important;}
+
+.legocy-strokes path {stroke: #FFD540 !important;}
+
+.fills {
+  &:hover path {fill: #FFD540 !important;}
 }
 
-.fill-strokes {
-  path {
-    stroke: #FFD540 !important;
-  }
+.strokes {
+  &:hover path {stroke: #FFD540 !important;}
 }
-
 
 html[class='dark'] {
-  .white-paths {
-    path {
-      fill: white;
-    }
-    &:hover path {
-      fill: #FFD540;
-    }
-  }
-
-  .white-strokes {
-    path {
-      stroke: white;
-    }
-    &:hover path {
-      stroke: #FFD540;
-    }
-  }
+  .fills path {fill: white;}
+  .strokes path {stroke: white;}
 }

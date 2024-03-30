@@ -126,10 +126,13 @@
     left: 0;
     right: 0;
     cursor: pointer;
-    transition: filter 0.1s;
+    transition: filter 0.1s, background 0.1s, color 0.1s;
     h1 {margin-bottom: 0;}
-    &:hover {filter: brightness(0.9);}
-    &:active {filter: brightness(0.8);}
+    &:hover {
+      background: #FFD540;
+      color: #2F2929;
+    }
+    &:active {filter: brightness(0.9);}
   }
   &--edit {
     position: absolute;
@@ -160,6 +163,10 @@ html[class='dark'] {
       path {
         fill: #979797;
       }
+    }
+    &--link {
+      &:hover {filter: brightness(0.9);}
+      &:active {filter: brightness(0.8);}
     }
   }
 }
