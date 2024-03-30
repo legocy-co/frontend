@@ -38,14 +38,16 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
               className="rounded bg-legocy"
               onClick={() => setOpen(false)}
             >
-              {Array.from({ length: 10 }, (_, index) => (
+              {Array.from({ length: 4 }, (_, index) => (
                 <button
                   key={index}
-                  onClick={() => pageSizeChanged((index + 1) * 10)}
+                  onClick={() =>
+                    pageSizeChanged(!index ? 10 : 25 * (2 * (index - 1) || 1))
+                  }
                   type="button"
                   className="text-sm leading-4 w-10 hover:bg-legocy-hover transition-colors pl-1.5"
                 >
-                  {(index + 1) * 10}
+                  {!index ? 10 : 25 * (2 * (index - 1) || 1)}
                 </button>
               ))}
             </Popover.Content>
