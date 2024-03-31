@@ -31,6 +31,9 @@ export default {
         'headerdark': '#2F2F2FFC',
         'celllink': '#151414',
         'celllinkdarktext': '#2F2929',
+        'pagesize': '#EAEAEA',
+        'pagesizehover': '#C9C9C9',
+        'pagesizetext': '#373434'
       },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',
