@@ -23,9 +23,10 @@ const Header = () => {
 
   const messagesCounter = 0;
   const userImages = useUnit(model.$userImages);
-  const [showMenu, setShowMenu] = useState(false);
 
+  const [showMenu, setShowMenu] = useState(false);
   const navigate = useNavigate();
+
   const [showLogout, setShowLogout] = useState(false);
 
   function handleShowLogout() {
@@ -54,6 +55,13 @@ const Header = () => {
   window.addEventListener('click', function () {
     setShowMenu(false);
   });
+
+  document.documentElement.setAttribute(
+    'data-theme',
+    darkTheme ? 'dark' : 'light'
+  );
+
+  document.body.style.background = darkTheme ? '#191919' : '#FFFFFF';
 
   useEffect(() => {
     darkTheme
