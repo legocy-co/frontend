@@ -4,7 +4,7 @@
   flex-direction: column;
   width: 283px;
   height: 385px;
-  box-shadow: -1px 1px 10px 2px rgba(82, 82, 82, 0.15);
+  border: 1px solid #15141459;
   border-radius: 11px;
   font-weight: 500;
   padding: 11px 16px 47px 16px;
@@ -44,15 +44,25 @@
     top: 0;
     width: 100%;
     height: 100%;
+    svg {
+      margin-left: 7px;
+      position: absolute;
+      top: 47%;
+      z-index: 20;
+      cursor: pointer;
+    }
     button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       border-radius: 6px;
       height: 100%;
-      width: 50px;
-      background: #252121;
+      width: 28px;
+      background: #D9D9D91A;
       opacity: 0;
       transition: opacity 0.1s;
-      &:hover {opacity: 0.1}
-      &:active {opacity: 0.2}
+      &:hover {opacity: 0.9}
+      &:active {opacity: 1}
     }
   }
   &--favorite {
@@ -68,38 +78,41 @@
       filter: brightness(0.8);
     }
   }
-  &--image-choice {
-    width: 100%;
-    overflow: hidden;
-    position: absolute;
-    bottom: 6px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3px;
-    input {
-      -webkit-appearance:none;
-      width: 7px;
-      height: 7px;
-      background: #D9D9D9;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: opacity 0.1s;
-      &:hover {opacity: 0.9;}
-      &:active {opacity: 0.8;}
-      &:checked {background: #F0EDED;}
-    }
-  }
   &--info {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    h1 {text-align: start;}
-    &-props {
+    h1 {text-align: start}
+    &-set {
       display: flex;
       gap: 1rem;
       justify-content: space-between;
+      &-props {
+        height: 52px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      &-condition {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.5rem;
+        white-space: nowrap;
+        div {
+          margin-top: -8px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 35px;
+          aspect-ratio: 1;
+          border-radius: 50%;
+          svg {
+            width: 23px;
+          }
+        }
+      }
     }
   }
   &--link {
@@ -113,16 +126,13 @@
     left: 0;
     right: 0;
     cursor: pointer;
-    transition: filter 0.1s;
-    h1 {
-      margin-bottom: 0; color: #252121;
-    }
+    transition: filter 0.1s, background 0.1s, color 0.1s;
+    h1 {margin-bottom: 0;}
     &:hover {
-      filter: brightness(0.9);
+      background: #FFD540;
+      color: #2F2929;
     }
-    &:active {
-      filter: brightness(0.8);
-    }
+    &:active {filter: brightness(0.9);}
   }
   &--edit {
     position: absolute;
@@ -143,5 +153,20 @@
     color: #D44D5C;
     &:hover {opacity: 0.9}
     &:active {opacity: 0.8}
+  }
+}
+
+html[class='dark'] {
+  .cell {
+    border: none;
+    &--favorite {
+      path {
+        fill: #979797;
+      }
+    }
+    &--link {
+      &:hover {filter: brightness(0.9);}
+      &:active {filter: brightness(0.8);}
+    }
   }
 }

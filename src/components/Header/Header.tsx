@@ -1,21 +1,22 @@
 import './Header.scss';
-import SearchIcon from '../../assets/icons/search.svg';
-import WikiIcon from '../../assets/icons/wiki.svg';
-import ChatIcon from '../../assets/icons/chat.svg';
-import UserIcon from '../../assets/icons/user.svg';
-import ActiveUserIcon from '../../assets/icons/active-user.svg';
-import CollectionIcon from '../../assets/icons/collection.svg';
+import CatalogIcon from '../../assets/icons/catalog.svg?react';
+import WikiIcon from '../../assets/icons/wiki.svg?react';
+import ChatIcon from '../../assets/icons/chat.svg?react';
+import UserIcon from '../../assets/icons/user.svg?react';
+import CollectionIcon from '../../assets/icons/collection.svg?react';
 import DarkIcon from '../../assets/icons/dark.svg';
 import LightIcon from '../../assets/icons/light.svg';
-import { addDefaultSrc } from '../../services/utils';
+import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
 import { authService } from '../../services/AuthService.ts';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ConfirmationModal from '../ConfirmationModal';
 import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
-import { Toggle } from '../../shared/ui/toggle';
+import { Toggle } from '../../shared/ui/toggle.tsx';
+import clsx from 'clsx';
+import { chatService } from '../../services/ChatService.ts';
 
 const Header = () => {
   useGate(model.gate);
@@ -36,6 +37,15 @@ const Header = () => {
   function handleLogout() {
     setShowLogout(false);
     authService.Logout();
+  }
+
+  function handleAvatarClick(
+    e: React.MouseEvent<HTMLImageElement | SVGSVGElement>
+  ) {
+    e.stopPropagation();
+    authService.IsAuthorized()
+      ? setShowMenu((prev) => !prev)
+      : navigate(`auth?from=${location.pathname}`);
   }
 
   const [darkTheme, setDarkTheme] = useState(
@@ -68,61 +78,56 @@ const Header = () => {
           src="/logo.svg"
           onError={addDefaultSrc}
           alt=""
-          onClick={() => navigate('/')}
+          onClick={() => navigate('')}
         />
-        <button
-          className="header--catalog"
-          onClick={() => navigate('/catalog')}
-        >
-          Catalog
-        </button>
-        <div className="header--searchbar">
-          <input type="text" placeholder="Search" />
-          <img src={SearchIcon} onError={addDefaultSrc} alt="" />
-        </div>
         <div className="header--right">
-          <img
-            className="header--wiki"
-            src={WikiIcon}
-            onClick={() => navigate('/wiki/sets/')}
-            alt=""
+          <CatalogIcon
+            className={clsx('header--member fills', {
+              'legocy-fills': location.pathname.split('/')[1] === 'catalog',
+            })}
+            onClick={() => navigate('/catalog')}
           />
-          <div className="header--chat">
-            <img
-              src={ChatIcon}
-              onError={addDefaultSrc}
-              alt=""
-              onClick={() => navigate('/messenger/')}
+          <WikiIcon
+            className={clsx('header--member strokes', {
+              'legocy-strokes': location.pathname.split('/')[1] === 'wiki',
+            })}
+            onClick={() => navigate('/wiki/sets')}
+          />
+          <div className="header--chat fills">
+            <ChatIcon
+              onClick={() =>
+                console.log(
+                  chatService.CreateChatSession(authService.GetUserId())
+                )
+              }
             />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
-          <img
-            className="header--collection"
-            src={CollectionIcon}
-            alt=""
-            onClick={() => navigate('/collection/')}
+          <CollectionIcon
+            className={clsx('header--collection fills strokes', {
+              'legocy-fills legocy-strokes':
+                location.pathname.split('/')[1] === 'collection',
+            })}
+            onClick={() => navigate('/collection')}
           />
           <div className="header--user">
-            <img
-              src={
-                userImages[0]
-                  ? userImages[0].downloadURL
-                  : !showMenu
-                    ? UserIcon
-                    : ActiveUserIcon
-              }
-              className={
-                userImages[0] ? 'h-10 w-10 object-cover rounded-full' : ''
-              }
-              onError={addDefaultSrc}
-              onClick={(e) => {
-                e.stopPropagation();
-                authService.IsAuthorized()
-                  ? setShowMenu((prev) => !prev)
-                  : navigate(`auth?from=${location.pathname}`);
-              }}
-              alt=""
-            />
+            {userImages[0] ? (
+              <img
+                alt=""
+                src={userImages[0].downloadURL}
+                onError={addDefaultSrc}
+                onClick={handleAvatarClick}
+              />
+            ) : (
+              <UserIcon
+                className={
+                  location.pathname.split('/')[1] === 'profile' || showMenu
+                    ? 'legocy-strokes'
+                    : 'strokes'
+                }
+                onClick={handleAvatarClick}
+              />
+            )}
             {showMenu && (
               <div
                 className="header--user-menu bg-white dark:bg-dark dark:text-white"

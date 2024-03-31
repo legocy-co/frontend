@@ -26,8 +26,14 @@ export default {
         'light': '#5F5F5F',
         'ghost': '#F8F8F8',
         'dark': '#2f2f2f',
-        'headerdark': '#2A2A2AFC',
-        'celllink': '#d9d9d9ad',
+        "condition": "#EAE8E8",
+        "conditiondark": "#484747",
+        'headerdark': '#2F2F2FFC',
+        'celllink': '#151414',
+        'celllinkdarktext': '#2F2929',
+        'pagesize': '#EAEAEA',
+        'pagesizehover': '#C9C9C9',
+        'pagesizetext': '#373434'
       },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',
