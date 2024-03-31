@@ -7,6 +7,8 @@ import HeartIcon from '../../../assets/icons/heart.svg';
 import { Button } from '../../../shared/ui/button.tsx';
 import { useState } from 'react';
 import GalleryModal from '../../../components/GalleryModal';
+import { chatService } from '../../../services/ChatService.ts';
+import { authService } from '../../../services/AuthService.ts';
 
 const MarketItemDetailPage = () => {
   const params = useParams<'id'>();
@@ -89,7 +91,18 @@ const MarketItemDetailPage = () => {
           </div>
           <div className="flex flex-col gap-5 sm:flex-row justify-between items-center text-3xl">
             <p>{marketItem.price} $</p>
-            <Button>Message about set</Button>
+            <Button
+              onClick={() =>
+                console.log(
+                  chatService.GetDialogData(
+                    authService.GetUserId(),
+                    marketItem.seller_id
+                  )
+                )
+              }
+            >
+              Message about set
+            </Button>
           </div>
         </div>
       </div>
