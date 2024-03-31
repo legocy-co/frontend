@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useUnit } from 'effector-react';
 import ReactPaginate from 'react-paginate';
 import './style.scss';
+import clsx from 'clsx';
+import { BsChevronDown } from 'react-icons/bs';
 
 export const Pagination = ({ model }: { model: PaginationModel }) => {
   return (
@@ -26,16 +28,30 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
 
   if (totalCount === 0) return null;
   return (
-    <div className="flex items-center space-x-8">
+    <div className="flex items-center space-x-8 rounded-md">
       <div className="flex items-center space-x-3">
         <p className="hidden lg:block">Items per page</p>
         <Popover.Root open={open} onOpenChange={setOpen}>
-          <Popover.Trigger className="hidden lg:flex p-1 rounded-md hover:bg-legocy transition-colors items-center space-x-2 disabled:hover:!bg-transparent disabled:cursor-not-allowed">
+          <Popover.Trigger
+            className={clsx(
+              'hidden lg:flex w-12 py-1 px-1.5 justify-between gap-1 rounded-md hover:bg-pagesize hover:text-pagesizetext  transition-colors items-center space-x-2 disabled:hover:!bg-transparent disabled:cursor-not-allowed',
+              { 'rounded-b-none bg-pagesize text-pagesizetext': open },
+              { 'w-14': pageSize === 100 }
+            )}
+          >
             {pageSize}
+            <BsChevronDown
+              className={clsx(
+                'transition-all mt-px -translate-y-[2px] rotate-180',
+                {
+                  'rotate-[]': open,
+                }
+              )}
+            />
           </Popover.Trigger>
           <Popover.Portal>
             <Popover.Content
-              className="rounded bg-legocy"
+              className="bg-pagesize flex flex-col rounded-b-md text-pagesizetext"
               onClick={() => setOpen(false)}
             >
               {Array.from({ length: 4 }, (_, index) => (
@@ -45,7 +61,16 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
                     pageSizeChanged(!index ? 10 : 25 * (2 * (index - 1) || 1))
                   }
                   type="button"
-                  className="text-sm leading-4 w-10 hover:bg-legocy-hover transition-colors pl-1.5"
+                  className={clsx(
+                    ' leading-4 w-12 hover:bg-pagesizehover transition-colors pl-1.5 text-start py-1 px-1.5 rounded-b-md',
+                    {
+                      hidden:
+                        pageSize ===
+                        (!index ? 10 : 25 * (2 * (index - 1) || 1)),
+                    },
+                    { 'w-14': pageSize === 100 },
+                    { 'hover:rounded-none': index < 3 }
+                  )}
                 >
                   {!index ? 10 : 25 * (2 * (index - 1) || 1)}
                 </button>
