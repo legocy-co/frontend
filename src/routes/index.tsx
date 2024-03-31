@@ -30,7 +30,7 @@ import CollectionsIntroPage from '../pages/collections/intro';
 import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
 import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
 import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
-import MessengerPage from '../pages/MessengerPage';
+import ChatPage from '../pages/ChatPage';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -94,7 +94,7 @@ const AppRouter = () => {
           <Route path="update/:id" element={<UpdateCollectionSetPage />} />
         </Route>
 
-        <Route path="messenger" element={<MessengerPage />} />
+        <Route path="chat" element={<ChatPage />} />
 
         <Route
           path="private"

@@ -16,7 +16,6 @@ import { useGate } from 'effector-react';
 import { useUnit } from 'effector-react/compat';
 import { Toggle } from '../../shared/ui/toggle.tsx';
 import clsx from 'clsx';
-import { chatService } from '../../services/ChatService.ts';
 
 const Header = () => {
   useGate(model.gate);
@@ -94,13 +93,7 @@ const Header = () => {
             onClick={() => navigate('/wiki/sets')}
           />
           <div className="header--chat fills">
-            <ChatIcon
-              onClick={() =>
-                console.log(
-                  chatService.CreateChatSession(authService.GetUserId())
-                )
-              }
-            />
+            <ChatIcon onClick={() => navigate('/chat')} />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>
           <CollectionIcon

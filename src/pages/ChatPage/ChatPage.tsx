@@ -12,10 +12,12 @@ import React, { useEffect } from 'react';
 import QB from 'quickblox/quickblox';
 import CustomTheme from './CustomTheme.ts';
 
-const MessengerPage = () => {
+const ChatPage = () => {
   useGate(model.gate);
 
   const currentUser = useUnit(model.$currentUser);
+  const authChatData = useUnit(model.$authChatData);
+
   const qbUIKitContext: QBDataContextType = React.useContext(qbDataContext);
 
   const [isUserAuthorized, setUserAuthorized] = React.useState(false);
@@ -46,17 +48,17 @@ const MessengerPage = () => {
     if (!isSDKInitialized && currentUser.login) {
       prepareSDK()
         .then(() => {
-          QB.createSession(
-            currentUser,
-            async function (errorCreateSession: any, session: any) {
-              if (errorCreateSession) {
+          QB.startSessionWithToken(
+            authChatData.session_token,
+            async function (errorStartSession: any) {
+              if (errorStartSession) {
                 console.log(
-                  'Create User Session has error:',
-                  JSON.stringify(errorCreateSession)
+                  'Start User Session has error:',
+                  JSON.stringify(errorStartSession)
                 );
               } else {
-                const userId: number = session.user_id;
-                const password: string = session.token;
+                const userId: number = authChatData.chat_user_id;
+                const password: string = authChatData.session_token;
                 const paramsConnect = { userId, password };
 
                 QB.chat.connect(
@@ -72,7 +74,7 @@ const MessengerPage = () => {
                         userId: userId,
                         password: password,
                         userName: currentUser.login,
-                        sessionToken: session.token,
+                        sessionToken: password,
                       };
 
                       await qbUIKitContext.authorize(authData);
@@ -122,4 +124,4 @@ const MessengerPage = () => {
   );
 };
 
-export default MessengerPage;
+export default ChatPage;
