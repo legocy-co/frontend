@@ -9,10 +9,15 @@ import {
 import { Pagination } from '../../shared/lib/pagination';
 import { attach } from 'effector/compat';
 import { stringifyParams } from '../../services/utils.ts';
+import { MarketItemsFilter } from '../../features/market-item/filter';
 
 export const gate = createGate();
 
 const domain = createDomain();
+
+export const marketItemsFilterModel = MarketItemsFilter.factory({
+  domain,
+});
 
 const GetMarketItemsAuthorizedFx = createEffect(
   marketItemService.GetMarketItemsAuthorized
@@ -36,19 +41,33 @@ const GetMarketItemsPageFx = attach({
   source: {
     page: paginationModel.$page,
     pageSize: paginationModel.$pageSize,
+    query: marketItemsFilterModel.$query,
   },
-  effect: ({ page, pageSize }) =>
+  effect: ({ page, pageSize, query }) =>
     authService.IsAuthorized()
       ? GetMarketItemsAuthorizedFx(
-          stringifyParams({ limit: pageSize, offset: page * pageSize }, true)
+          stringifyParams(
+            { limit: pageSize, offset: page * pageSize },
+            true,
+            query.split('%2C').join('&series_id__in=')
+          )
         )
       : GetMarketItemsFx(
-          stringifyParams({ limit: pageSize, offset: page * pageSize }, true)
+          stringifyParams(
+            { limit: pageSize, offset: page * pageSize },
+            true,
+            query.split('%2C').join('&series_id__in=')
+          )
         ),
 });
 
 sample({
-  clock: [gate.open, paginationModel.$pageSize, paginationModel.$page],
+  clock: [
+    gate.open,
+    paginationModel.$pageSize,
+    paginationModel.$page,
+    marketItemsFilterModel.filtersApplied,
+  ],
   filter: gate.status,
   target: GetMarketItemsPageFx,
 });

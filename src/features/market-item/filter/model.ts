@@ -16,9 +16,9 @@ import { legoSeriesService } from '../../../services/LegoSeriesService.ts';
 import { SelectSearchOption } from '../../../shared/ui/select-search.tsx';
 import { searchFactory } from '../../../shared/lib/filter/model.ts';
 
-export type LegoSetFilterModel = ReturnType<typeof legoSetFilterFactory>;
+export type MarketItemFilterModel = ReturnType<typeof marketItemFilterFactory>;
 
-export const legoSetFilterFactory = (options: { domain?: Domain }) => {
+export const marketItemFilterFactory = (options: { domain?: Domain }) => {
   const domain = options.domain ?? createDomain();
 
   const gate = createGate();
@@ -184,7 +184,7 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
 
   persist({
     store: $filtersSnapshot,
-    key: 'sets_filters',
+    key: 'market-items_filters',
   });
 
   return {

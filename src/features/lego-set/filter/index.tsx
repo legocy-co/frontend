@@ -1,5 +1,6 @@
 import { legoSetFilterFactory } from './model.ts';
-import { ActiveFilters, LegoSetsFilter as View } from './ui';
+import { LegoSetsFilter as View } from './ui';
+import { ActiveFilters } from '../../../shared/lib/filter/active-filters.tsx';
 
 export const LegoSetsFilter = {
   factory: legoSetFilterFactory,
