@@ -46,7 +46,7 @@ export const MarketItemsFilter = ({
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded w-96 bg-white dark:text-white p-4 mt-2 dark:bg-slate shadow-md">
+        <Popover.Content className="rounded w-96 bg-white dark:text-white p-4 mt-2 dark:bg-slate shadow-md z-20">
           <p className="text-xl">Filters</p>
           <form onSubmit={onSubmit} className="flex flex-col mt-5">
             <TextFieldAdapter
