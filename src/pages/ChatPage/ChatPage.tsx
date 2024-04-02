@@ -94,6 +94,56 @@ const ChatPage = () => {
     }
   }, [currentUser.login]);
 
+  // useEffect(() => {
+  //   if (!isSDKInitialized && currentUser.login) {
+  //     prepareSDK()
+  //       .then(() => {
+  //         QB.createSession(
+  //           currentUser,
+  //           async function (errorCreateSession: any, session: any) {
+  //             if (errorCreateSession) {
+  //               console.log(
+  //                 'Create User Session has error:',
+  //                 JSON.stringify(errorCreateSession)
+  //               );
+  //             } else {
+  //               const userId: number = session.user_id;
+  //               const password: string = session.token;
+  //               const paramsConnect = { userId, password };
+  //
+  //               QB.chat.connect(
+  //                 paramsConnect,
+  //                 async function (errorConnect: any) {
+  //                   if (errorConnect) {
+  //                     console.log(
+  //                       'Can not connect to chat server: ',
+  //                       errorConnect
+  //                     );
+  //                   } else {
+  //                     const authData: AuthorizationData = {
+  //                       userId: userId,
+  //                       password: password,
+  //                       userName: currentUser.login,
+  //                       sessionToken: session.token,
+  //                     };
+  //
+  //                     await qbUIKitContext.authorize(authData);
+  //
+  //                     setSDKInitialized(true);
+  //                     setUserAuthorized(true);
+  //                   }
+  //                 }
+  //               );
+  //             }
+  //           }
+  //         );
+  //       })
+  //       .catch((e) => {
+  //         console.log('init SDK has error: ', e);
+  //       });
+  //   }
+  // }, [currentUser.login]);
+
   return (
     <div className="w-screen flex flex-col justify-between">
       <QuickBloxUIKitProvider
