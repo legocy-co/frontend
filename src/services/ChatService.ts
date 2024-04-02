@@ -10,6 +10,7 @@ interface ChatService {
 }
 
 const CreateChatSession = async (userId: number | string) => {
+  console.log(`User ID: ${userId}`);
   return {
     chat_user_id: 139585004,
     session_token:
@@ -21,6 +22,7 @@ const GetDialogData = async (
   userId: number | string,
   sellerId: number | string
 ) => {
+  console.log(`User ID: ${userId}, Seller ID: ${sellerId}`);
   return { chat_user_id: 139585004, chat_seller_id: 139585025 };
 };
 
