@@ -49,14 +49,22 @@ const GetMarketItemsPageFx = attach({
           stringifyParams(
             { limit: pageSize, offset: page * pageSize },
             true,
-            query.split('%2C').join('&series_id__in=')
+            query
+              .split('%2Cloc')
+              .join('&location__in=')
+              .split('%2Cstate')
+              .join('&set_state__in=')
           )
         )
       : GetMarketItemsFx(
           stringifyParams(
             { limit: pageSize, offset: page * pageSize },
             true,
-            query.split('%2C').join('&series_id__in=')
+            query
+              .split('%2Cloc')
+              .join('&location__in=')
+              .split('%2Cstate')
+              .join('&set_state__in=')
           )
         ),
 });

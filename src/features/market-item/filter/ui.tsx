@@ -8,8 +8,6 @@ import {
 } from '../../../shared/ui/form-adapters.tsx';
 import { BsChevronDown } from 'react-icons/bs';
 import clsx from 'clsx';
-import { SelectSearch } from '../../../shared/ui/select-search.tsx';
-import { SearchModel } from '../../../shared/lib/filter/model.ts';
 import { MarketItemFilterModel } from './model.ts';
 
 export const MarketItemsFilter = ({
@@ -52,25 +50,20 @@ export const MarketItemsFilter = ({
           <p className="text-xl">Filters</p>
           <form onSubmit={onSubmit} className="flex flex-col mt-5">
             <TextFieldAdapter
-              field={form.fields.name}
-              labelText="Lego set name"
+              labelText="Location"
+              field={form.fields.locations}
             />
             <NumberFieldAdapter
-              field={form.fields.min_pieces}
-              labelText="Min pieces"
+              field={form.fields.min_price}
+              labelText="Min price"
             />
             <NumberFieldAdapter
-              field={form.fields.max_pieces}
-              labelText="Max pieces"
+              field={form.fields.max_price}
+              labelText="Max price"
             />
-            <LegoSeriesSearch
-              label="Lego series"
-              model={model.seriesListSearch}
-            />
-            <NumberFieldAdapter
-              placeholder="76240"
-              field={model.form.fields.set_number}
-              labelText="Set number"
+            <TextFieldAdapter
+              labelText="Condition"
+              field={form.fields.set_states}
             />
             <div className="flex gap-5 justify-center">
               <Button onClick={() => model.cancelTriggered()}>Cancel</Button>
@@ -80,50 +73,5 @@ export const MarketItemsFilter = ({
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>
-  );
-};
-
-const LegoSeriesSearch = ({
-  model,
-  label,
-}: {
-  model: SearchModel;
-  label: string;
-}) => {
-  const [options, value, selectedWithNames] = useUnit([
-    model.$filteredOptions,
-    model.$search,
-    model.$selectedWithNames,
-  ]);
-
-  return (
-    <div className="border-black border border-solid dark:bg-dark dark:border-none rounded-xl pt-2 pl-2 mb-5 flex flex-col justify-end">
-      <div className="flex flex-wrap gap-1 top-0">
-        {selectedWithNames.map((selected) => (
-          <div
-            key={selected.id}
-            aria-hidden
-            onClick={() => model.removed(selected.id)}
-            className="bg-silver dark:bg-slate dark:text-white w-max rounded-full px-1.5 mb-1 py-0.5 cursor-pointer hover:brightness-90 active:brightness-80 transition-colors"
-          >
-            <span className="text-sm">{selected.name}</span>
-          </div>
-        ))}
-      </div>
-      <SelectSearch
-        clientSideSearch
-        labelText=""
-        onChange={(option) => {
-          model.selected(option);
-        }}
-        onInputChange={(search) => {
-          model.searchChanged(search);
-        }}
-        value={value}
-        options={options}
-        placeholder={label}
-        className="border-none max-w-80 w-80"
-      />
-    </div>
   );
 };

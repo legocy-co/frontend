@@ -24,7 +24,6 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
   const gate = createGate();
 
   const disclosure = createDisclosure();
-
   const form = createForm({
     fields: {
       name: {

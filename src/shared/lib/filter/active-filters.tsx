@@ -1,8 +1,13 @@
 import { LegoSetFilterModel } from '../../../features/lego-set/filter/model.ts';
 import { useUnit } from 'effector-react';
 import { EventPayload } from 'effector';
+import { MarketItemFilterModel } from '../../../features/market-item/filter/model.ts';
 
-export const ActiveFilters = ({ model }: { model: LegoSetFilterModel }) => {
+export const ActiveFilters = ({
+  model,
+}: {
+  model: LegoSetFilterModel | MarketItemFilterModel;
+}) => {
   const { $activeFilters, resetExactFilterTriggered, resetTriggered } = model;
   const activeFilters = useUnit($activeFilters);
 
@@ -28,7 +33,9 @@ export const ActiveFilters = ({ model }: { model: LegoSetFilterModel }) => {
                   type="button"
                   onClick={() =>
                     resetExactFilterTriggered(
-                      name as EventPayload<typeof resetExactFilterTriggered>
+                      name as EventPayload<
+                        typeof resetExactFilterTriggered
+                      > as never
                     )
                   }
                   className="rounded-full py-1 px-2 bg-ghost dark:bg-slate hover:brightness-90 active:brightness-80 transition-all"
