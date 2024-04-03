@@ -2,6 +2,7 @@ import { LegoSetFilterModel } from '../../../features/lego-set/filter/model.ts';
 import { useUnit } from 'effector-react';
 import { EventPayload } from 'effector';
 import { MarketItemFilterModel } from '../../../features/market-item/filter/model.ts';
+import { setStates } from '../../../types/MarketItemType.ts';
 
 export const ActiveFilters = ({
   model,
@@ -46,7 +47,9 @@ export const ActiveFilters = ({
                   <span className="capitalize">{value.label}</span>
                   <span>|</span>
                   <span className="!text-slate dark:!text-white">
-                    {value.value}
+                    {value.value in setStates
+                      ? setStates[value.value as keyof typeof setStates]
+                      : value.value}
                   </span>
                 </div>
               </div>

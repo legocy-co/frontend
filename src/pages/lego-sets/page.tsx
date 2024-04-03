@@ -7,7 +7,7 @@ import { Table } from '../../shared/ui/table';
 import { useNavigate } from 'react-router-dom';
 import { useColumns } from './columns.tsx';
 import { LegoSetsFilter } from '../../features/lego-set/filter/';
-import { ActiveFilters } from '../../shared/lib/filter/active-filters.tsx';
+import { ActiveFilters } from '../../shared/lib/filters/active-filters.tsx';
 
 export const LegoSetsPage = () => {
   useGate(model.gate);

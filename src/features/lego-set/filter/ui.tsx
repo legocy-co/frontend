@@ -6,11 +6,10 @@ import {
   NumberFieldAdapter,
   TextFieldAdapter,
 } from '../../../shared/ui/form-adapters.tsx';
-import { LegoSetFilterModel } from './model.ts';
+import { LegoSetFilterModel, SearchModel } from './model.ts';
 import { BsChevronDown } from 'react-icons/bs';
 import clsx from 'clsx';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
-import { SearchModel } from '../../../shared/lib/filter/model.ts';
 
 export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   const { gate, disclosure, form } = model;

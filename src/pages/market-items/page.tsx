@@ -4,7 +4,7 @@ import { PageHeading } from '../../shared/ui/page-heading.tsx';
 import MarketItemsList from '../../components/MarketItemsList';
 import { Pagination } from '../../shared/lib/pagination';
 import { MarketItemsFilter } from '../../features/market-item/filter';
-import { ActiveFilters } from '../../shared/lib/filter/active-filters.tsx';
+import { ActiveFilters } from '../../shared/lib/filters/active-filters.tsx';
 
 export const CatalogPage = () => {
   useGate(model.gate);
