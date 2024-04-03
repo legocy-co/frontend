@@ -1,4 +1,7 @@
 /// <reference types="vite/client" />
+
+declare module 'react-range-slider-input';
+
 interface ImportMetaEnv {
   readonly VITE_API_ENDPOINT: string;
   readonly VITE_QB_APPLICATION_ID: number;

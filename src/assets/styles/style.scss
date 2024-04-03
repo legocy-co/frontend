@@ -38,4 +38,12 @@ input[type="number"]::-webkit-outer-spin-button {
 html[class="dark"] {
   color: #E6E6E6;
   background-color: #191919;
+  .iconfills path {fill: #F9F9F9;;}
+  .iconstrokes path {stroke: #F9F9F9;}
+}
+
+.styled-select select {
+  -moz-appearance:none; /* Firefox */
+  -webkit-appearance:none; /* Safari and Chrome */
+  appearance:none;
 }

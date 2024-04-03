@@ -11,8 +11,35 @@ import { createDisclosure } from '../../../shared/lib/disclosure.ts';
 import { createForm } from 'effector-forms';
 import { stringifyParams } from '../../../services/utils.ts';
 import { persist } from 'effector-storage/local';
+import { SelectFieldOption } from '../../../shared/ui/form-adapters.tsx';
+import { setStates } from '../../../types/MarketItemType.ts';
+import cities from '../../../../data/cities.json';
 
 export type MarketItemFilterModel = ReturnType<typeof marketItemFilterFactory>;
+
+const setStateOptions: SelectFieldOption[] = [
+  {
+    label: '',
+    value: '',
+  },
+].concat(
+  ...Object.entries(setStates).map((state) => ({
+    label: state[1],
+    value: state[0],
+  }))
+);
+
+const countryOptions: SelectFieldOption[] = [
+  {
+    label: 'Country',
+    value: '',
+  },
+].concat(
+  ...[...new Set(cities.map((city) => city.country))].map((country) => ({
+    label: country,
+    value: country,
+  }))
+);
 
 export const marketItemFilterFactory = (options: { domain?: Domain }) => {
   const domain = options.domain ?? createDomain();
@@ -27,10 +54,10 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
         init: '',
       },
       min_price: {
-        init: null as unknown as number,
+        init: 10,
       },
       max_price: {
-        init: null as unknown as number,
+        init: 3200,
       },
       set_states: {
         init: '',
@@ -138,9 +165,10 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
     $query,
 
     disclosure,
-
     gate,
 
+    setStateOptions,
+    countryOptions,
     $activeFilters,
 
     resetExactFilterTriggered,
