@@ -42,6 +42,9 @@ export default {
         'darkfiltersprice': '#F9F9F959',
         'darkfiltersbg': '#191919',
         'darkbuttondisabled': '#3B3B3B',
+        'activefilterstext': '#757575',
+        'clearfilters': '#FFFFFF59',
+        'darkactivefilterstext': '#A2A2A2',
 },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',
