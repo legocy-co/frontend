@@ -19,7 +19,7 @@ export type MarketItemFilterModel = ReturnType<typeof marketItemFilterFactory>;
 
 const setStateOptions: SelectFieldOption[] = [
   {
-    label: 'Set state',
+    label: '',
     value: '',
   },
 ].concat(

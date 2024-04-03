@@ -11,7 +11,7 @@ export const CatalogPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       <PageHeading>Catalog</PageHeading>
-      <div className="flex justify-end pb-4">
+      <div className="flex justify-end self-end pb-4">
         <MarketItemsFilter.View model={model.marketItemsFilterModel} />
       </div>
       <ActiveFilters model={model.marketItemsFilterModel} />

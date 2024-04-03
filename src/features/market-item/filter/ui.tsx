@@ -2,13 +2,14 @@ import * as Popover from '@radix-ui/react-popover';
 import { useGate, useStoreMap, useUnit } from 'effector-react';
 import React, { useState } from 'react';
 import { Button } from '../../../shared/ui/button.tsx';
-import { BsChevronDown } from 'react-icons/bs';
 import clsx from 'clsx';
 import { MarketItemFilterModel } from './model.ts';
 import { setStates } from '../../../types/MarketItemType.ts';
 import cities from '../../../../data/cities.json';
 import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
+import './price-slider.scss';
+import SlidersIcon from '../../../assets/icons/sliders.svg?react';
+import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 
 export const MarketItemsFilter = ({
   model,
@@ -26,6 +27,8 @@ export const MarketItemsFilter = ({
   };
 
   const [priceRange, setPriceRange] = useState([10, 3200]);
+
+  const touched = useUnit(model.form.$touched);
 
   function handlePriceChange() {
     model.form.fields.min_price.onChange(priceRange[0]);
@@ -45,34 +48,57 @@ export const MarketItemsFilter = ({
       }}
     >
       <Popover.Trigger asChild>
-        <Button className="w-32 max-w-32 h-9 flex items-center justify-around">
+        <Button className="!bg-pagesize dark:!bg-darkfilters dark:!text-darkfilterstext rounded-md !text-sm w-36 max-w-32 h-9 flex items-center justify-around">
+          <SlidersIcon className="iconstrokes" />
           <span className="text-primary text-base">Filters</span>
-          <BsChevronDown
-            className={clsx('transition-all mt-px -translate-y-[2px]', {
-              'rotate-180': isOpen,
-            })}
+          <ChevronUpIcon
+            className={clsx(
+              'transition-all mt-px -translate-y-[2px] iconstrokes',
+              {
+                'rotate-180': !isOpen,
+              }
+            )}
           />
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded w-96 bg-white dark:text-white p-4 mt-2 dark:bg-slate shadow-md z-20">
-          <p className="text-xl">Filters</p>
-          <form onSubmit={onSubmit} className="flex flex-col mt-5">
+        <Popover.Content className="rounded-md w-[378px] styled-select bg-pagesize text-filterstext dark:text-darkfilterstext p-4 mt-4 dark:bg-darkfiltersbg z-20 border dark:border-solid dark:border-px dark:border-darkfiltersborder">
+          <form
+            onSubmit={onSubmit}
+            className="flex flex-col gap-5 justify-between w-[340px]"
+          >
             <SetState model={model} />
             <Location model={model} />
-            <RangeSlider
-              min={10}
-              max={3200}
-              value={priceRange}
-              onInput={setPriceRange}
-              onThumbDragEnd={handlePriceChange}
-              onRangeDragEnd={handlePriceChange}
-              className="my-5"
-            />
-            {priceRange.join(', ')}
-            <div className="flex gap-5 justify-center mt-3.5">
-              <Button type="submit">Apply</Button>
-              <Button onClick={() => model.cancelTriggered()}>Cancel</Button>
+            <div>
+              <p>Price, $</p>
+              <RangeSlider
+                min={10}
+                max={3200}
+                value={priceRange}
+                onInput={setPriceRange}
+                onThumbDragEnd={handlePriceChange}
+                onRangeDragEnd={handlePriceChange}
+                className="my-5"
+              />
+              <div className="flex w-full justify-between text-xs text-filtersprice dark:text-darkfiltersprice">
+                <p>{priceRange[0]}$</p> <p>{priceRange[1]}$</p>
+              </div>
+            </div>
+            <div className="flex gap-5 justify-center">
+              <Button
+                className="!h-[39px] !w-40 text-[16px]"
+                type="submit"
+                disabled={!touched}
+              >
+                Apply
+              </Button>
+              <Button
+                className="!h-[39px] !w-40 text-[16px] bg-white hover:!bg-gray-300"
+                disabled={!touched}
+                onClick={() => model.cancelTriggered()}
+              >
+                Cancel
+              </Button>
             </div>
           </form>
         </Popover.Content>
@@ -91,24 +117,28 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
   const options = setStateOptions.filter(
     (state) => !value.includes(state.value)
   );
+
   return (
     <div className="flex flex-col space-y-2">
-      <select
-        value=""
-        onChange={(ev) =>
-          form.fields.set_states.onChange(
-            value.concat(ev.currentTarget.value).join(',')
-          )
-        }
-        className="h-[44px] dark:bg-dark border border-solid border-slate rounded-xl !dark:text-charcoal indent-3 pr-10 outline-0 mb-1"
-      >
-        {options.map(({ value, label }) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
-
+      <p>Set state</p>
+      <div className="relative">
+        <select
+          value=""
+          onChange={(ev) =>
+            form.fields.set_states.onChange(
+              value.concat(ev.currentTarget.value).join(',')
+            )
+          }
+          className="h-[35px] w-[340px] bg-white dark:bg-darkfilters rounded-md !dark:text-charcoal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
+        >
+          {options.map(({ value, label }) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+        <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
+      </div>
       {value.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap cursor-pointer">
           {value.map((state) => (
@@ -120,7 +150,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
                   value.filter((s) => s !== state).join(',')
                 )
               }
-              className="bg-white bg-opacity-5 hover:bg-opacity-10 px-1.5 py-0.5 rounded-full"
+              className="bg-black dark:bg-white bg-opacity-5 dark:bg-opacity-5 hover:bg-opacity-10 px-1.5 py-0.5 rounded-full"
             >
               <span className="text-xs font-medium">
                 {setStates[state as keyof typeof setStates]}
@@ -148,47 +178,57 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className="flex space-x-2">
-        <select
-          value={country}
-          onChange={(ev) => setCountry(ev.currentTarget.value)}
-          className="h-[44px] w-40 mt-3.5 dark:bg-dark border border-solid border-slate rounded-xl !dark:text-charcoal indent-3 pr-10 outline-0 mb-1"
-        >
-          {options.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <select
-          value=""
-          onChange={(ev) =>
-            form.fields.locations.onChange(
-              value.concat(`${ev.currentTarget.value} - ${country}`).join(',')
-            )
-          }
-          disabled={!country}
-          className="h-[44px] w-40 mt-3.5 dark:bg-dark border border-solid border-slate rounded-xl !dark:text-charcoal indent-3 pr-10 outline-0 mb-1"
-        >
-          {[
-            {
-              label: 'City',
-              value: '',
-            },
-          ]
-            .concat(
-              ...cities
-                .filter((city) => city.country === country)
-                .map((city) => city.name)
-                .sort()
-                .map((city) => ({ label: city, value: city }))
-            )
-            .map(({ value, label }) => (
+      <p>Location</p>
+      <div className="flex justify-between space-x-3">
+        <div className="relative">
+          <select
+            value={country}
+            onChange={(ev) => setCountry(ev.currentTarget.value)}
+            className="h-[35px] w-[160px] rounded-md bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters cursor-pointer"
+          >
+            {options.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
             ))}
-        </select>
+          </select>
+          <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
+        </div>
+        <div className="relative">
+          <select
+            value=""
+            onChange={(ev) =>
+              form.fields.locations.onChange(
+                value.concat(`${ev.currentTarget.value} - ${country}`).join(',')
+              )
+            }
+            disabled={!country}
+            className={clsx(
+              'h-[35px] w-[160px] rounded-md bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters cursor-pointer',
+              { 'cursor-default': !country }
+            )}
+          >
+            {[
+              {
+                label: 'City',
+                value: '',
+              },
+            ]
+              .concat(
+                ...cities
+                  .filter((city) => city.country === country)
+                  .map((city) => city.name)
+                  .sort()
+                  .map((city) => ({ label: city, value: city }))
+              )
+              .map(({ value, label }) => (
+                <option key={value} value={value}>
+                  {label}
+                </option>
+              ))}
+          </select>
+          <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
+        </div>
       </div>
       {value.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap cursor-pointer">

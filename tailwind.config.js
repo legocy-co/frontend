@@ -33,8 +33,16 @@ export default {
         'celllinkdarktext': '#2F2929',
         'pagesize': '#EAEAEA',
         'pagesizehover': '#C9C9C9',
-        'pagesizetext': '#373434'
-      },
+        'pagesizetext': '#373434',
+        'darkfilters': '#2F2F2F',
+        'filterstext': '#222020',
+        'darkfilterstext': '#F9F9F9',
+        'darkfiltersborder': '#727272',
+        'filtersprice': '#5A5959',
+        'darkfiltersprice': '#F9F9F959',
+        'darkfiltersbg': '#191919',
+        'darkbuttondisabled': '#3B3B3B',
+},
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',
         'avatar': '0 4px 7px 0 #00000070',

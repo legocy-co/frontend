@@ -50,8 +50,10 @@ const GetMarketItemsPageFx = attach({
             { limit: pageSize, offset: page * pageSize },
             true,
             query
-              .split('+-+')
-              .join(',%2C%20')
+              .split('+-')
+              .join(',')
+              .split('+')
+              .join('%20')
               .split('%2Cloc')
               .join('&location__in=')
               .split('%2Cstate')
