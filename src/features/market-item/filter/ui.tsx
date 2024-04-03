@@ -7,6 +7,8 @@ import clsx from 'clsx';
 import { MarketItemFilterModel } from './model.ts';
 import { setStates } from '../../../types/MarketItemType.ts';
 import cities from '../../../../data/cities.json';
+import RangeSlider from 'react-range-slider-input';
+import 'react-range-slider-input/dist/style.css';
 
 export const MarketItemsFilter = ({
   model,
@@ -17,10 +19,18 @@ export const MarketItemsFilter = ({
   useGate(gate);
 
   const [isOpen] = useUnit([disclosure.$isOpen]);
+
   const onSubmit = (ev: React.FormEvent) => {
     ev.preventDefault();
     form.submit();
   };
+
+  const [priceRange, setPriceRange] = useState([10, 3200]);
+
+  function handlePriceChange() {
+    model.form.fields.min_price.onChange(priceRange[0]);
+    model.form.fields.max_price.onChange(priceRange[1]);
+  }
 
   return (
     <Popover.Root
@@ -30,6 +40,7 @@ export const MarketItemsFilter = ({
           model.cancelTriggered();
         } else {
           model.disclosure.open();
+          setPriceRange([10, 3200]);
         }
       }}
     >
@@ -49,6 +60,16 @@ export const MarketItemsFilter = ({
           <form onSubmit={onSubmit} className="flex flex-col mt-5">
             <SetState model={model} />
             <Location model={model} />
+            <RangeSlider
+              min={10}
+              max={3200}
+              value={priceRange}
+              onInput={setPriceRange}
+              onThumbDragEnd={handlePriceChange}
+              onRangeDragEnd={handlePriceChange}
+              className="my-5"
+            />
+            {priceRange.join(', ')}
             <div className="flex gap-5 justify-center mt-3.5">
               <Button type="submit">Apply</Button>
               <Button onClick={() => model.cancelTriggered()}>Cancel</Button>
@@ -143,7 +164,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
           value=""
           onChange={(ev) =>
             form.fields.locations.onChange(
-              value.concat(`${country} - ${ev.currentTarget.value}`).join(',')
+              value.concat(`${ev.currentTarget.value} - ${country}`).join(',')
             )
           }
           disabled={!country}

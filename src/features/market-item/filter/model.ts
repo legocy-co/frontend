@@ -54,10 +54,10 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
         init: '',
       },
       min_price: {
-        init: null as unknown as number,
+        init: 10,
       },
       max_price: {
-        init: null as unknown as number,
+        init: 3200,
       },
       set_states: {
         init: '',
