@@ -10,10 +10,8 @@ import RangeSlider from 'react-range-slider-input';
 import './price-slider.scss';
 import SlidersIcon from '../../../assets/icons/sliders.svg?react';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
-import { EventPayload } from 'effector';
-import CloseIcon from '../../../assets/icons/close.svg?react';
-import TrashIcon from '../../../assets/icons/trash.svg?react';
-import { current } from 'immer';
+import { SelectSearch } from '../../../shared/ui/select-search.tsx';
+import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
 
 export const MarketItemsFilter = ({
   model,
@@ -31,6 +29,7 @@ export const MarketItemsFilter = ({
   };
 
   const [priceRange, setPriceRange] = useState([10, 6000]);
+  const seriesDirty = useUnit(model.form.fields.series_ids.$isDirty);
   const touched = useUnit(model.form.$touched);
 
   function handlePriceChange() {
@@ -70,6 +69,7 @@ export const MarketItemsFilter = ({
             onSubmit={onSubmit}
             className="flex flex-col gap-5 justify-between w-[340px]"
           >
+            <LegoSeriesSearch model={model.seriesListSearch} />
             <SetState model={model} />
             <Location model={model} />
             <div>
@@ -91,7 +91,7 @@ export const MarketItemsFilter = ({
               <Button
                 className="!h-[39px] !w-40 text-[16px]"
                 type="submit"
-                disabled={!touched}
+                disabled={!touched && !seriesDirty}
               >
                 Apply
               </Button>
@@ -253,54 +253,45 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
   );
 };
 
-export const ActiveFilters = ({ model }: { model: MarketItemFilterModel }) => {
-  const { $activeFilters, resetExactFilterTriggered, resetTriggered } = model;
-  const activeFilters = useUnit($activeFilters);
-
-  let count = 0;
-  for (let i = 0; i < activeFilters.length; i++)
-    activeFilters[i][1]['value'] && count++;
-
-  if (!count) {
-    return null;
-  }
+const LegoSeriesSearch = ({ model }: { model: SearchModel }) => {
+  const [options, value, selectedWithNames] = useUnit([
+    model.$filteredOptions,
+    model.$search,
+    model.$selectedWithNames,
+  ]);
 
   return (
-    <div className="w-full flex items-center justify-between space-x-5 mb-5 py-2">
-      <div className="grid md:flex items-center gap-2">
-        {activeFilters.map(
-          ([name, value]) =>
-            value.value && (
-              <div
-                key={name}
-                className="w-max h-[37px] flex rounded-md items-center space-x-2 px-2 bg-pagesize text-activefilterstext dark:bg-darkfilters dark:text-darkactivefilterstext"
-              >
-                <div className="flex space-x-1">
-                  <span className="capitalize">{value.label}: </span>
-                  <span className="capitalize">
-                    {String(value.value).split('_').join(' ').toLowerCase()}
-                  </span>
-                </div>
-                <CloseIcon
-                  className="hover:brightness-90 cursor-pointer iconfills"
-                  onClick={() =>
-                    resetExactFilterTriggered(
-                      name as EventPayload<typeof resetExactFilterTriggered>
-                    )
-                  }
-                />
-              </div>
-            )
-        )}
+    <div className="flex flex-col space-y-1 mb-[-10px]">
+      <p>Set theme</p>
+      <div className="relative">
+        <SelectSearch
+          clientSideSearch
+          labelText=""
+          onChange={(option) => {
+            model.selected(option);
+          }}
+          onInputChange={(search) => {
+            model.searchChanged(search);
+          }}
+          value={value}
+          options={options}
+          placeholder={''}
+          className="!border-none !h-[35px] !w-[340px] bg-white dark:bg-darkfilters !rounded-md indent-3 pr-10 outline-0 !mb-1"
+        />
+        <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3.5 right-3 rotate-180" />
       </div>
-      <button
-        onClick={() => resetTriggered()}
-        type="button"
-        className="rounded-md w-[134px] h-[37px] bg-black bg-opacity-35 flex items-center justify-around dark:bg-white dark:bg-opacity-35 text-darkfilterstext hover:opacity-90 active:opacity-80 transition-opacity"
-      >
-        Clear filters
-        <TrashIcon />
-      </button>
+      <div className="flex flex-wrap gap-1 top-0">
+        {selectedWithNames.map((selected) => (
+          <div
+            key={selected.id}
+            aria-hidden
+            onClick={() => model.removed(selected.id)}
+            className="bg-black dark:bg-white bg-opacity-5 dark:bg-opacity-5 hover:bg-opacity-10 px-1.5 py-0.5 rounded-full cursor-pointer"
+          >
+            <span className="text-xs">{selected.name}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
