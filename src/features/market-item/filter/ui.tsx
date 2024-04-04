@@ -69,7 +69,8 @@ export const MarketItemsFilter = ({
             onSubmit={onSubmit}
             className="flex flex-col gap-5 justify-between w-[340px]"
           >
-            <LegoSeriesSearch model={model.seriesListSearch} />
+            <Search model={model.setsSearch} label="Set name" />
+            <Search model={model.seriesListSearch} label="Set theme" />
             <SetState model={model} />
             <Location model={model} />
             <div>
@@ -253,7 +254,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
   );
 };
 
-const LegoSeriesSearch = ({ model }: { model: SearchModel }) => {
+const Search = ({ model, label }: { model: SearchModel; label: string }) => {
   const [options, value, selectedWithNames] = useUnit([
     model.$filteredOptions,
     model.$search,
@@ -262,7 +263,7 @@ const LegoSeriesSearch = ({ model }: { model: SearchModel }) => {
 
   return (
     <div className="flex flex-col space-y-1 mb-[-10px]">
-      <p>Set theme</p>
+      <p>{label}</p>
       <div className="relative">
         <SelectSearch
           clientSideSearch

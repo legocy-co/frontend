@@ -19,6 +19,7 @@ import { legoSeriesService } from '../../../services/LegoSeriesService.ts';
 import { SelectSearchOption } from '../../../shared/ui/select-search.tsx';
 
 import { searchFactory } from '../../../shared/lib/filter/search-factory.ts';
+import { legoSetService } from '../../../services/LegoSetService.ts';
 
 export type MarketItemFilterModel = ReturnType<typeof marketItemFilterFactory>;
 
@@ -55,7 +56,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
 
   const form = createForm({
     fields: {
-      set_name: {
+      set_ids: {
         init: '',
       },
       series_ids: {
@@ -103,6 +104,14 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
     legoSeriesService.GetLegoSeriesList()
   );
 
+  const fetchSetFx = createEffect(({ id }: { id: string }) =>
+    legoSetService.GetLegoSet(id)
+  );
+
+  const fetchSetsFx = createEffect((_: { query: string }) =>
+    legoSetService.GetLegoSets()
+  );
+
   const seriesListSearch = searchFactory({
     $selected: form.fields.series_ids.$value,
     domain,
@@ -127,6 +136,30 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
       ),
   });
 
+  const setsSearch = searchFactory({
+    $selected: form.fields.set_ids.$value,
+    domain,
+    fetchEntityFx: fetchSetFx,
+    key: 'set_id__in',
+    mapEntityToMap: (response) => ({
+      [response.id!]: response.name,
+    }),
+    mapEntityToOption: (response) => ({
+      label: response.name,
+      value: response.id!.toString(),
+    }),
+    requestFx: fetchSetsFx,
+    mapToMap: (response) =>
+      Object.fromEntries(response.map((ser) => [ser.id!, ser.name])),
+    mapToOptions: (response) =>
+      response.map(
+        (ser): SelectSearchOption => ({
+          label: ser.name,
+          value: ser.id!.toString(),
+        })
+      ),
+  });
+
   const $query = $filtersSnapshot.map((snapshot) =>
     stringifyParams(
       {
@@ -134,7 +167,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
         price_gte: snapshot?.min_price,
         price_lte: snapshot?.max_price,
         set_state__in: snapshot?.set_states.split(',').join(',state'),
-        set_name__ilike: snapshot?.set_name,
+        set_id__in: snapshot?.set_ids.split(',').join(',set'),
         series_id__in: snapshot?.series_ids.split(',').join(',ser'),
         set_number: snapshot?.set_number,
         min_pieces: snapshot?.min_pieces,
@@ -147,7 +180,8 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
   const $activeFilters = combine(
     $filtersSnapshot,
     seriesListSearch.$map,
-    (filters, seriesListMap) => {
+    setsSearch.$map,
+    (filters, seriesListMap, setsMap) => {
       const allFilters = {
         locations: {
           value: filters?.locations.split(',').join(', '),
@@ -169,9 +203,12 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
           show: !!filters?.set_states,
           label: 'Set state',
         },
-        set_name: {
-          value: filters?.set_name,
-          show: !!filters?.set_name,
+        set_ids: {
+          value: filters?.set_ids
+            .split(',')
+            .map((id) => setsMap[id])
+            .join(', '),
+          show: !!filters?.set_ids,
           label: 'Set name',
         },
         series_ids: {
@@ -211,7 +248,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
 
   sample({
     clock: gate.open,
-    target: seriesListSearch.fetchEntitiesFx,
+    target: [seriesListSearch.fetchEntitiesFx, setsSearch.fetchEntitiesFx],
   });
 
   sample({
@@ -257,6 +294,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
     filtersApplied,
     cancelTriggered,
     seriesListSearch,
+    setsSearch,
     $query,
 
     disclosure,

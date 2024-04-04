@@ -60,6 +60,8 @@ const GetMarketItemsPageFx = attach({
               .join('&set_state__in=')
               .split('%2Cser')
               .join('&series_id__in=')
+              .split('%2Cset')
+              .join('&set_id__in=')
           )
         )
       : GetMarketItemsFx(
