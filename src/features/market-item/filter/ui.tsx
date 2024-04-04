@@ -12,6 +12,7 @@ import SlidersIcon from '../../../assets/icons/sliders.svg?react';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
+import { NumberFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
 
 export const MarketItemsFilter = ({
   model,
@@ -29,8 +30,12 @@ export const MarketItemsFilter = ({
   };
 
   const [priceRange, setPriceRange] = useState([10, 6000]);
+
   const seriesDirty = useUnit(model.form.fields.series_ids.$isDirty);
+  const setDirty = useUnit(model.form.fields.set_ids.$isDirty);
   const touched = useUnit(model.form.$touched);
+
+  const disabled = !seriesDirty && !setDirty && !touched;
 
   function handlePriceChange() {
     model.form.fields.min_price.onChange(priceRange[0]);
@@ -71,7 +76,33 @@ export const MarketItemsFilter = ({
           >
             <Search model={model.setsSearch} label="Set name" />
             <Search model={model.seriesListSearch} label="Set theme" />
-            <SetState model={model} />
+            <div className="flex justify-between">
+              <SetState model={model} />
+              <div className="flex flex-col gap-1 mt-[2px]">
+                <NumberFieldAdapter
+                  field={model.form.fields.set_number}
+                  labelText="Set number"
+                  placeholder="76053"
+                  className="!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters"
+                />
+              </div>
+            </div>
+            <div className="flex justify-between">
+              <div className="flex flex-col gap-1 mt-[-15px]">
+                <NumberFieldAdapter
+                  field={model.form.fields.min_pieces}
+                  labelText="Amount of pieces"
+                  placeholder="Min pieces"
+                  className="!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters"
+                />
+              </div>
+              <NumberFieldAdapter
+                field={model.form.fields.max_pieces}
+                labelText=""
+                placeholder="Max pieces"
+                className="!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters mt-[7px]"
+              />
+            </div>
             <Location model={model} />
             <div>
               <p>Price, $</p>
@@ -92,13 +123,15 @@ export const MarketItemsFilter = ({
               <Button
                 className="!h-[39px] !w-40 text-[16px]"
                 type="submit"
-                disabled={!touched && !seriesDirty}
+                disabled={disabled}
               >
                 Apply
               </Button>
               <Button
-                className="!h-[39px] !w-40 text-[16px] bg-white hover:!bg-gray-300"
-                disabled={!touched}
+                className={clsx('!h-[39px] !w-40 text-[16px] bg-white ', {
+                  'hover:!bg-gray-300': !disabled,
+                })}
+                disabled={disabled}
                 onClick={() => model.cancelTriggered()}
               >
                 Cancel
@@ -133,7 +166,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
               value.concat(ev.currentTarget.value).join(',')
             )
           }
-          className="h-[35px] w-[340px] bg-white dark:bg-darkfilters rounded-md !dark:text-charcoal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
+          className="h-[35px] w-[160px] bg-white dark:bg-darkfilters rounded-md !dark:text-charcoal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
         >
           {options.map(({ value, label }) => (
             <option key={value} value={value}>
@@ -141,7 +174,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
             </option>
           ))}
         </select>
-        <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
+        <ChevronUpIcon className="fixed iconstrokes pointer-events-none top-[200px]  left-[150px] sm:top-[218px] rotate-180" />
       </div>
       {value.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap cursor-pointer">
@@ -192,7 +225,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
   );
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col gap-2 mt-[-1rem]">
       <p>Location</p>
       <div className="flex justify-between space-x-3">
         <div className="relative">

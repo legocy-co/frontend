@@ -169,9 +169,9 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
         set_state__in: snapshot?.set_states.split(',').join(',state'),
         set_id__in: snapshot?.set_ids.split(',').join(',set'),
         series_id__in: snapshot?.series_ids.split(',').join(',ser'),
-        set_number: snapshot?.set_number,
-        min_pieces: snapshot?.min_pieces,
-        max_pieces: snapshot?.max_pieces,
+        set_number__in: snapshot?.set_number,
+        pieces_gte: snapshot?.min_pieces,
+        pieces_lte: snapshot?.max_pieces,
       },
       false
     )
