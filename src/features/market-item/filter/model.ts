@@ -57,7 +57,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
         init: 10,
       },
       max_price: {
-        init: 3200,
+        init: 6000,
       },
       set_states: {
         init: '',

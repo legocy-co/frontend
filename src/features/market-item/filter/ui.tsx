@@ -13,6 +13,7 @@ import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import { EventPayload } from 'effector';
 import CloseIcon from '../../../assets/icons/close.svg?react';
 import TrashIcon from '../../../assets/icons/trash.svg?react';
+import { current } from 'immer';
 
 export const MarketItemsFilter = ({
   model,
@@ -29,8 +30,7 @@ export const MarketItemsFilter = ({
     form.submit();
   };
 
-  const [priceRange, setPriceRange] = useState([10, 3200]);
-
+  const [priceRange, setPriceRange] = useState([10, 6000]);
   const touched = useUnit(model.form.$touched);
 
   function handlePriceChange() {
@@ -46,7 +46,7 @@ export const MarketItemsFilter = ({
           model.cancelTriggered();
         } else {
           model.disclosure.open();
-          setPriceRange([10, 3200]);
+          setPriceRange([10, 6000]);
         }
       }}
     >
@@ -76,7 +76,7 @@ export const MarketItemsFilter = ({
               <p>Price, $</p>
               <RangeSlider
                 min={10}
-                max={3200}
+                max={6000}
                 value={priceRange}
                 onInput={setPriceRange}
                 onThumbDragEnd={handlePriceChange}
@@ -168,16 +168,27 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
 
 const Location = ({ model }: { model: MarketItemFilterModel }) => {
   const { form, countryOptions } = model;
+
   const value = useStoreMap(
     form.fields.locations.$value,
     (value) => value?.split(',').filter(Boolean) ?? []
   );
 
-  const options = countryOptions.filter(
-    (country) => !value.includes(country.value)
-  );
-
   const [country, setCountry] = useState('');
+
+  const cityOptions = [
+    {
+      label: 'City',
+      value: '',
+    },
+  ].concat(
+    ...cities
+      .filter((city) => city.country === country)
+      .map((city) => city.name)
+      .sort()
+      .map((city) => ({ label: city, value: city }))
+      .filter((city) => !value.includes(`${city.value} - ${country}`))
+  );
 
   return (
     <div className="flex flex-col space-y-2">
@@ -189,7 +200,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
             onChange={(ev) => setCountry(ev.currentTarget.value)}
             className="h-[35px] w-[160px] rounded-md bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters cursor-pointer"
           >
-            {options.map(({ value, label }) => (
+            {countryOptions.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -211,24 +222,11 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
               { 'cursor-default': !country }
             )}
           >
-            {[
-              {
-                label: 'City',
-                value: '',
-              },
-            ]
-              .concat(
-                ...cities
-                  .filter((city) => city.country === country)
-                  .map((city) => city.name)
-                  .sort()
-                  .map((city) => ({ label: city, value: city }))
-              )
-              .map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
+            {cityOptions.map(({ value, label }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
           </select>
           <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
         </div>
