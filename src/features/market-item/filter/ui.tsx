@@ -244,7 +244,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
                   value.filter((x) => x !== loc).join(',')
                 )
               }
-              className="bg-black dark:bg-white bg-opacity-5 hover:bg-opacity-10 px-1.5 py-0.5 rounded-full"
+              className="bg-black dark:bg-white bg-opacity-5 dark:bg-opacity-5 hover:bg-opacity-10 px-1.5 py-0.5 rounded-full"
             >
               <span className="text-xs font-medium">{loc}</span>
             </div>
@@ -267,9 +267,8 @@ export const ActiveFilters = ({ model }: { model: MarketItemFilterModel }) => {
     return null;
   }
 
-
   return (
-    <div className="w-full flex items-center justify-between space-x-5 mb-5 border-b border-b-gray-600 border-solid py-2">
+    <div className="w-full flex items-center justify-between space-x-5 mb-5 py-2">
       <div className="grid md:flex items-center gap-2">
         {activeFilters.map(
           ([name, value]) =>
