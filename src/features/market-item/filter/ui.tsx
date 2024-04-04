@@ -268,7 +268,7 @@ export const ActiveFilters = ({ model }: { model: MarketItemFilterModel }) => {
   }
 
   return (
-    <div className="w-full flex items-center justify-between space-x-5 mb-5 border-b border-b-gray-600 border-solid py-2">
+    <div className="w-full flex items-center justify-between space-x-5 mb-5 py-2">
       <div className="grid md:flex items-center gap-2">
         {activeFilters.map(
           ([name, value]) =>
