@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   width: 283px;
-  height: 385px;
+  height: 345px;
   border: 1px solid #15141459;
   border-radius: 11px;
   font-weight: 500;
@@ -83,6 +83,7 @@
     top: 5px;
     right: 5px;
     min-width: 35px;
+    width: 35px;
     min-height: 35px;
     border-radius: 50%;
     display: flex;
@@ -91,13 +92,14 @@
     background: white;
     color: black;
     p {display: none;}
-    svg {width: 30px}
+    svg {width: 30px; padding: 0 1px 1px 0}
     &_hovered {
-      p {display: inline; padding-top: 9px}
+      animation: sweep 150ms ease-in-out;
+      p {display: inline; padding-top: 9px;}
       padding: 0 6px 0 6px;
       border-radius: 18px;
       gap: 0.5rem;
-      text-wrap: none;
+      white-space: nowrap;
       width: max-content;
       justify-content: space-between;
     }
@@ -106,7 +108,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    gap: 1.5rem;
     h1 {
       text-align: start;
       max-width: 172px;
@@ -170,4 +172,10 @@ html[class='dark'] {
       &:active {background: white}
     }
   }
+}
+
+@keyframes sweep {
+  from    {width: 35px; height: 35px; color: transparent; justify-content: center}
+  50% {width: 110px; height: 35px; color: transparent;}
+  to  {width: max-content; justify-content: space-between}
 }
