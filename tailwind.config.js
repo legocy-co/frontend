@@ -45,6 +45,7 @@ export default {
         'activefilterstext': '#757575',
         'clearfilters': '#FFFFFF59',
         'darkactivefilterstext': '#A2A2A2',
+        'filtersplaceholder': '#625F5F59',
 },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',

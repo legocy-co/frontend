@@ -23,13 +23,13 @@ export const ActiveFilters = ({
 
   return (
     <div className="w-full flex items-center justify-between space-x-5 mb-5 py-2">
-      <div className="grid md:flex items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2 w-max-[1061px]">
         {activeFilters.map(
           ([name, value]) =>
             value.value && (
               <div
                 key={name}
-                className="w-max h-[37px] flex rounded-md items-center space-x-2 px-2 bg-pagesize text-activefilterstext dark:bg-darkfilters dark:text-darkactivefilterstext"
+                className="min-h-[37px] flex rounded-md items-center space-x-2 p-2 bg-pagesize text-activefilterstext dark:bg-darkfilters dark:text-darkactivefilterstext"
               >
                 <div className="flex space-x-1">
                   <span className="capitalize">{value.label}: </span>
@@ -54,7 +54,7 @@ export const ActiveFilters = ({
       <button
         onClick={() => resetTriggered()}
         type="button"
-        className="rounded-md w-[134px] h-[37px] bg-black bg-opacity-35 flex items-center justify-around dark:bg-white dark:bg-opacity-35 text-darkfilterstext hover:opacity-90 active:opacity-80 transition-opacity"
+        className="rounded-md min-w-[144px] h-[37px] bg-black bg-opacity-35 flex items-center justify-around dark:bg-white dark:bg-opacity-35 text-darkfilterstext hover:opacity-90 active:opacity-80 transition-opacity"
       >
         Clear filters
         <TrashIcon />

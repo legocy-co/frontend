@@ -83,7 +83,7 @@ export const MarketItemsFilter = ({
                   field={model.form.fields.set_number}
                   labelText="Set number"
                   placeholder="76053"
-                  className="!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters"
+                  variant="filters"
                 />
               </div>
             </div>
@@ -92,15 +92,16 @@ export const MarketItemsFilter = ({
                 <NumberFieldAdapter
                   field={model.form.fields.min_pieces}
                   labelText="Amount of pieces"
-                  placeholder="Min pieces"
-                  className="!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters"
+                  placeholder="Min. amount"
+                  variant="filters"
                 />
               </div>
               <NumberFieldAdapter
                 field={model.form.fields.max_pieces}
                 labelText=""
-                placeholder="Max pieces"
-                className="!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters mt-[7px]"
+                placeholder="Max. amount"
+                className="mt-[7px]"
+                variant="filters"
               />
             </div>
             <Location model={model} />
@@ -158,7 +159,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
   return (
     <div className="flex flex-col space-y-2">
       <p>Set state</p>
-      <div className="relative">
+      <div className="relative h-[35px] w-[160px]">
         <select
           value=""
           onChange={(ev) =>
@@ -174,7 +175,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
             </option>
           ))}
         </select>
-        <ChevronUpIcon className="fixed iconstrokes pointer-events-none top-[200px]  left-[150px] sm:top-[218px] rotate-180" />
+        <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
       </div>
       {value.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap cursor-pointer">
@@ -253,7 +254,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
             disabled={!country}
             className={clsx(
               'h-[35px] w-[160px] rounded-md bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters cursor-pointer',
-              { 'cursor-default': !country }
+              { '!cursor-default': !country }
             )}
           >
             {cityOptions.map(({ value, label }) => (
@@ -310,7 +311,8 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
           value={value}
           options={options}
           placeholder={''}
-          className="!border-none !h-[35px] !w-[340px] bg-white dark:bg-darkfilters !rounded-md indent-3 pr-10 outline-0 !mb-1"
+          className="!w-[340px]"
+          variant="filters"
         />
         <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3.5 right-3 rotate-180" />
       </div>
