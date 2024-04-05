@@ -9,7 +9,9 @@ import ConfirmationModal from '../ConfirmationModal';
 import { up } from '../../pages/UserProfilePage/index.tsx';
 import PencilIcon from '../../assets/icons/pencil.svg';
 import SliderIcon from '../../assets/icons/slider-back.svg?react';
+import LocationIcon from '../../assets/icons/location.svg?react';
 import { LazySvg } from '../../shared/ui/lazy-svg.tsx';
+import clsx from 'clsx';
 
 interface MarketItemCellProps {
   id: number;
@@ -37,10 +39,14 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   }
 
   const [showDelete, setShowDelete] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="cell dark:bg-dark">
-      <h1>{props.location}</h1>
+    <div
+      className="cell dark:bg-dark"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       {authService.IsAuthorized() &&
         authService.GetUserId() === props.seller_id && (
           <>
@@ -101,25 +107,25 @@ const MarketItemCell = (props: MarketItemCellProps) => {
             </div>
           </div>
         )}
-        <HeartIcon className="cell--favorite" />
+        <HeartIcon className={clsx('cell--favorite', { hidden: !hovered })} />
+        <div
+          className={clsx('cell--condition', {
+            'cell--condition_hovered': hovered,
+          })}
+        >
+          <LazySvg name={props.condition_icon} />
+          <p>{props.condition}</p>
+        </div>
       </div>
       <div className="cell--info">
         <div className="cell--info-set">
           <h1>{props.set}</h1> <h1>{props.price}$</h1>
         </div>
         <div className="cell--info-set">
-          <div className="cell--info-set-props">
-            <p>Series: {props.series}</p>
-            <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>
-              <p>Set number: {props.set_number}</p>
-            </u>
-          </div>
-          <div className="cell--info-set-condition">
-            <div className="bg-condition dark:bg-conditiondark">
-              <LazySvg name={props.condition_icon} />
-            </div>
-            <p>{props.condition}</p>
-          </div>
+          <p>Theme: {props.series}</p>
+          <p>
+            <LocationIcon className="iconfills" /> {props.location}
+          </p>
         </div>
       </div>
       <div

@@ -68,7 +68,7 @@
   &--favorite {
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 8px;
     cursor: pointer;
     transition: filter 0.1s;
     &:hover {
@@ -78,40 +78,46 @@
       filter: brightness(0.8);
     }
   }
+  &--condition {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    min-width: 35px;
+    min-height: 35px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    color: black;
+    p {display: none;}
+    svg {width: 30px}
+    &_hovered {
+      p {display: inline; padding-top: 9px}
+      padding: 0 6px 0 6px;
+      border-radius: 18px;
+      gap: 0.5rem;
+      text-wrap: none;
+      width: max-content;
+      justify-content: space-between;
+    }
+  }
   &--info {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    h1 {text-align: start}
+    h1 {
+      text-align: start;
+      max-width: 172px;
+    }
     &-set {
       display: flex;
       gap: 1rem;
       justify-content: space-between;
-      &-props {
-        height: 52px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
-      &-condition {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 0.5rem;
-        white-space: nowrap;
-        div {
-          margin-top: -8px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 35px;
-          aspect-ratio: 1;
-          border-radius: 50%;
-          svg {
-            width: 23px;
-          }
-        }
+      svg {
+        display: inline;
+        padding: 0 2px 2px 0;
       }
     }
   }
@@ -159,14 +165,9 @@
 html[class='dark'] {
   .cell {
     border: none;
-    &--favorite {
-      path {
-        fill: #979797;
-      }
-    }
     &--link {
-      &:hover {filter: brightness(0.9);}
-      &:active {filter: brightness(0.8);}
+      &:hover {background: white}
+      &:active {background: white}
     }
   }
 }
