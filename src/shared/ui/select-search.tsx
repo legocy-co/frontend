@@ -22,6 +22,7 @@ type Props = {
   className?: string;
   clientSideSearch?: boolean;
   placeholder?: string;
+  variant?: 'filters' | '';
 };
 
 export const SelectSearch = ({
@@ -52,7 +53,7 @@ export const SelectSearch = ({
     const { x, y } = ref.current.getBoundingClientRect();
 
     const right = window.innerWidth - x - ref.current.offsetWidth;
-    setCoords({ left: x, top: y + 60, right });
+    setCoords({ left: x, top: y + 35, right });
     setIsOpened(true);
   };
 
@@ -80,7 +81,7 @@ export const SelectSearch = ({
         <Portal.Root>
           <div
             ref={containerRef}
-            className="absolute bg-white dark:bg-dark rounded overflow-hidden max-h-60 overflow-y-auto w-[343px] shadow-md border-black border-solid border"
+            className="absolute bg-white dark:bg-dark rounded overflow-hidden max-h-60 overflow-y-auto w-[343px] shadow-md border-black border-solid border z-30"
             style={coords}
           >
             {isEmptyOptions &&
