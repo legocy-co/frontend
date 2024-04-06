@@ -168,10 +168,10 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
         price_lte: snapshot?.max_price,
         set_state__in: snapshot?.set_states.split(',').join(',state'),
         set_id__in: snapshot?.set_ids.split(',').join(',set'),
-        series_id__in: snapshot?.series_ids.split(',').join(',ser'),
-        set_number__in: snapshot?.set_number,
-        pieces_gte: snapshot?.min_pieces,
-        pieces_lte: snapshot?.max_pieces,
+        'lego_set[series_id__in]': snapshot?.series_ids.split(',').join(',ser'),
+        'lego_set[set_number__in]': snapshot?.set_number,
+        'lego_set[pieces_gte]': snapshot?.min_pieces,
+        'lego_set[pieces_lte]': snapshot?.max_pieces,
       },
       false
     )
