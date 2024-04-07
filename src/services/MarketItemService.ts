@@ -144,7 +144,8 @@ export const marketItemService: MarketItemService = {
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    error?.response?.data.error === 'marketItems not found' &&
+    history.location?.pathname.split('/')[2] &&
+      error?.response?.data.error === 'marketItems not found' &&
       history.navigate('/');
     return Promise.reject(error);
   }
