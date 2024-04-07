@@ -119,7 +119,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
       </div>
       <div className="cell--info">
         <div className="cell--info-set">
-          <h1>{props.set}</h1> <h1>{props.price}$</h1>
+          <h1>{props.set}</h1> <h1>${props.price}</h1>
         </div>
         <div className="cell--info-set">
           <p>Theme: {props.series}</p>
