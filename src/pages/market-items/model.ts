@@ -97,3 +97,9 @@ sample({
   fn: toMarketItemCells,
   target: $marketItemCells,
 });
+
+sample({
+  clock: GetMarketItemsPageFx.failData.map(() => []),
+  fn: toMarketItemCells,
+  target: $marketItemCells,
+});
