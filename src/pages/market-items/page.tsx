@@ -5,7 +5,7 @@ import MarketItemsList from '../../components/MarketItemsList';
 import { Pagination } from '../../shared/lib/pagination';
 import { MarketItemsFilter } from '../../features/market-item/filter';
 import { ActiveFilters } from '../../shared/ui/active-filters.tsx';
-import ScrollArrow from '../../components/ScrollArrow';
+import ScrollArrow from '../../components/ScrollArrows';
 
 export const CatalogPage = () => {
   useGate(model.gate);
