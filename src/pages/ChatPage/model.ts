@@ -1,23 +1,23 @@
 import { createGate } from 'effector-react';
-import { createEffect, createStore, sample } from 'effector';
-import { AuthChatData } from '../../types/ChatType.ts';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { chatService } from '../../services/ChatService.ts';
 import { authService } from '../../services/AuthService.ts';
 import { userService } from '../../services/UserService.ts';
 import { LoginData } from 'quickblox-react-ui-kit';
+import { ChatToken } from '../../types/ChatType.ts';
 
 export const gate = createGate();
 
 export const $currentUser = createStore<LoginData>({ login: '', password: '' });
 
-export const $authChatData = createStore<AuthChatData>({
-  chat_user_id: 0,
-  session_token: '',
+export const $authChatData = createStore<ChatToken>({
+  qbID: 0,
+  token: '',
 });
 
-const createSessionFx = createEffect(() =>
-  chatService.CreateChatSession(authService.GetUserId())
-);
+export const tokenExpired = createEvent();
+
+const fetchSessionFx = createEffect(() => chatService.GetSessionToken());
 
 const fetchUserFx = createEffect(() =>
   userService.GetUserProfilePage(authService.GetUserId())
@@ -32,11 +32,16 @@ function toLoginData(login: string): LoginData {
 
 sample({
   clock: gate.open,
-  target: [createSessionFx, fetchUserFx],
+  target: [fetchSessionFx, fetchUserFx],
 });
 
 sample({
-  source: createSessionFx.doneData,
+  clock: tokenExpired,
+  target: fetchSessionFx,
+});
+
+sample({
+  source: fetchSessionFx.doneData,
   target: $authChatData,
 });
 

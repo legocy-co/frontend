@@ -49,7 +49,7 @@ const ChatPage = () => {
       prepareSDK()
         .then(() => {
           QB.startSessionWithToken(
-            authChatData.session_token,
+            authChatData.token,
             async function (errorStartSession: any) {
               if (errorStartSession) {
                 console.log(
@@ -57,9 +57,13 @@ const ChatPage = () => {
                   JSON.stringify(errorStartSession)
                 );
               } else {
-                const userId: number = authChatData.chat_user_id;
-                const password: string = authChatData.session_token;
+                const userId: number = authChatData.qbID;
+                const password: string = authChatData.token;
                 const paramsConnect = { userId, password };
+
+                QB.chat.onSessionExpiredListener = function () {
+                  model.tokenExpired();
+                };
 
                 QB.chat.connect(
                   paramsConnect,
@@ -92,7 +96,7 @@ const ChatPage = () => {
           console.log('init SDK has error: ', e);
         });
     }
-  }, [currentUser.login]);
+  }, [authChatData.token]);
 
   // useEffect(() => {
   //   if (!isSDKInitialized && currentUser.login) {
@@ -150,10 +154,10 @@ const ChatPage = () => {
         qbConfig={{ ...QBConfig }}
         maxFileSize={100 * 1000000}
         accountData={{ ...QBConfig.credentials }}
-        loginData={{
-          login: currentUser.login,
-          password: currentUser.password,
-        }}
+        // loginData={{
+        //   login: currentUser.login,
+        //   password: currentUser.password,
+        // }}
       >
         <div className="absolute top-[90px] w-full">
           {
@@ -164,7 +168,7 @@ const ChatPage = () => {
                 theme={new CustomTheme()}
               />
             ) : (
-              <div className="text-center">initializing messenger...</div>
+              <div className="text-center mt-10">initializing messenger...</div>
             )
           }
         </div>

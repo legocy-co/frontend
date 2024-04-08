@@ -1,32 +1,103 @@
-import { AuthChatData, DialogData } from '../types/ChatType.ts';
+import {
+  Chat,
+  ChatData,
+  ChatSchema,
+  ChatToken,
+  ChatTokenSchema,
+  ChatUser,
+  ChatUserSchema,
+} from '../types/ChatType.ts';
+import axios from 'axios';
+import toaster from '../shared/lib/react-toastify.ts';
+import { handleIncorrectParse } from './ErrorHandlers.ts';
 
-// mock service
 interface ChatService {
-  CreateChatSession: (userId: number | string) => Promise<AuthChatData>;
-  GetDialogData: (
-    userId: number | string,
-    sellerId: number | string
-  ) => Promise<DialogData>;
+  CreateChat: (chat: ChatData) => Promise<boolean>;
+  GetChat: (marketItemId: number | string) => Promise<Chat>;
+  GetUserChats: (id: number | string) => Promise<Chat[]>;
+  GetLegocyUser: (qbId: number | string) => Promise<ChatUser>;
+  GetSessionToken: () => Promise<ChatToken>;
+  GetQbUser: (legocyId: number | string) => Promise<ChatUser>;
 }
 
-const CreateChatSession = async (userId: number | string) => {
-  console.log(`User ID: ${userId}`);
-  return {
-    chat_user_id: 139585004,
-    session_token:
-      'eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3NfdHlwZSI6InVzZXJfYWNjZXNzIiwiYXBwbGljYXRpb25faWQiOjEwMjg4NywiYXVkIjoicWJfY29yZSIsImV4cCI6MTcxMjE1OTM1NiwiaWF0IjoxNzEyMDcyOTU2LCJpc3MiOiJxYl9jb3JlIiwianRpIjoiNjMxOWVmMDEtYjlhMS00Y2M2LThiNDQtZjI5N2ZkMDNhNzY1IiwibmJmIjoxNzEyMDcyOTU1LCJzdWIiOjEzOTU4NTAwNCwidHlwIjoiYWNjZXNzIn0.G2pQIwTVJN8VAPSjLHyu-2YBE5N197KdfOcn2t8mRYYK9SIphogY5EG_KG9ZMsgExseYBtzg5zqNMdv65dZikQ',
-  };
+const chatAxios = axios.create({
+  baseURL: import.meta.env.VITE_CHATS_API_ENDPOINT,
+  headers: { 'X-API-Key': import.meta.env.VITE_X_API_KEY },
+});
+
+const CreateChat = async (chat: ChatData): Promise<boolean> => {
+  try {
+    await chatAxios.post('/chats/', chat);
+    toaster.showToastSuccess('Chat created');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
 };
 
-const GetDialogData = async (
-  userId: number | string,
-  sellerId: number | string
-) => {
-  console.log(`User ID: ${userId}, Seller ID: ${sellerId}`);
-  return { chat_user_id: 139585004, chat_seller_id: 139585025 };
+const GetChat = async (marketItemId: number | string): Promise<Chat> => {
+  const response = await chatAxios.get('/chats/market-item/' + marketItemId);
+  const result = ChatSchema.safeParse(response.data);
+  if (!result.success)
+    return handleIncorrectParse(result.error, 'GetChat', "Can't get chat");
+
+  return result.data;
+};
+
+const GetUserChats = async (id: number | string): Promise<Chat[]> => {
+  const response = await chatAxios.get('/chats/user/' + id);
+  const result = ChatSchema.array().safeParse(response.data);
+  if (!result.success)
+    return handleIncorrectParse(
+      result.error,
+      'GetUserChats',
+      "Can't get user chat"
+    );
+
+  return result.data;
+};
+
+const GetLegocyUser = async (qbID: number | string): Promise<ChatUser> => {
+  const response = await chatAxios.get('/users/qb/' + qbID);
+  const result = ChatUserSchema.safeParse(response.data);
+  if (!result.success)
+    return handleIncorrectParse(
+      result.error,
+      'GetLegocyUser',
+      "Can't get Legocy user"
+    );
+
+  return result.data;
+};
+
+const GetSessionToken = async (): Promise<ChatToken> => {
+  const response = await chatAxios.get('/users/session');
+  const result = ChatTokenSchema.safeParse(response.data);
+  if (!result.success)
+    return handleIncorrectParse(
+      result.error,
+      'GetSessionToken',
+      "Can't get session token"
+    );
+
+  return result.data;
+};
+
+const GetQbUser = async (legocyId: number | string): Promise<ChatUser> => {
+  const response = await chatAxios.get('/users/' + legocyId);
+  const result = ChatUserSchema.safeParse(response.data);
+  if (!result.success)
+    return handleIncorrectParse(result.error, 'GetQbUser', "Can't get QB user");
+
+  return result.data;
 };
 
 export const chatService: ChatService = {
-  CreateChatSession: CreateChatSession,
-  GetDialogData: GetDialogData,
+  CreateChat: CreateChat,
+  GetChat: GetChat,
+  GetUserChats: GetUserChats,
+  GetLegocyUser: GetLegocyUser,
+  GetSessionToken: GetSessionToken,
+  GetQbUser: GetQbUser,
 };
