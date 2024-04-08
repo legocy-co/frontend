@@ -26,7 +26,7 @@ export const ActiveFilters = ({
       <div className="flex flex-wrap items-center gap-2 w-max-[1061px]">
         {activeFilters.map(
           ([name, value]) =>
-            value.value && (
+            (value.value || value.value === 0) && (
               <div
                 key={name}
                 className="min-h-[37px] flex rounded-md items-center space-x-2 p-2 bg-pagesize text-activefilterstext dark:bg-darkfilters dark:text-darkactivefilterstext"
