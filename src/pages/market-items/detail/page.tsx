@@ -7,7 +7,7 @@ import HeartIcon from '../../../assets/icons/heart.svg';
 import { Button } from '../../../shared/ui/button.tsx';
 import { useState } from 'react';
 import GalleryModal from '../../../components/GalleryModal';
-import { chatService } from '../../../services/ChatService.ts';
+import { chatService } from '../../../services/ChatService.ts'
 import { authService } from '../../../services/AuthService.ts';
 
 const MarketItemDetailPage = () => {
@@ -31,6 +31,21 @@ const MarketItemDetailPage = () => {
         className="w-44 h-40 object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
       ></img>
     ));
+
+  async function handleMessage() {
+    try {
+      await chatService.GetChat(marketItem.id);
+    } catch (e) {
+      await chatService.CreateChat({
+        client_id: authService.GetUserId(),
+        market_item_id: marketItem.id,
+        name: marketItem.set,
+        seller_id: marketItem.seller_id,
+      });
+    } finally {
+      navigate('/chat/');
+    }
+  }
 
   return (
     <div className="w-full h-full flex flex-col items-center">
@@ -91,18 +106,7 @@ const MarketItemDetailPage = () => {
           </div>
           <div className="flex flex-col gap-5 sm:flex-row justify-between items-center text-3xl">
             <p>{marketItem.price} $</p>
-            <Button
-              onClick={() =>
-                console.log(
-                  chatService.GetDialogData(
-                    authService.GetUserId(),
-                    marketItem.seller_id
-                  )
-                )
-              }
-            >
-              Message about set
-            </Button>
+            <Button onClick={handleMessage}>Message about set</Button>
           </div>
         </div>
       </div>
