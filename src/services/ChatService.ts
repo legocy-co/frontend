@@ -27,7 +27,7 @@ type SessionResponse = {
 
 const chatAxios = axios.create({
   baseURL: import.meta.env.VITE_CHATS_API_ENDPOINT,
-  headers: { 'X-API-Key': import.meta.env.VITE_X_API_KEY, Authorization: axios.defaults.headers.common.Authorization },
+  headers: { 'X-API-Key': import.meta.env.VITE_X_API_KEY },
 });
 
 const CreateChat = async (chat: ChatData): Promise<boolean> => {

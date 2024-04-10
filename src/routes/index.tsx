@@ -17,7 +17,6 @@ import {
   navigateChanged,
 } from '../shared/lib/react-router.ts';
 import PrivateRoute from './PrivateRoute.tsx';
-import PrivatePage from '../pages/PrivatePage';
 import MarketItemDetailPage from '../pages/market-items/detail';
 import CatalogPage from '../pages/market-items';
 import UserProfilePage from '../pages/UserProfilePage';
@@ -94,13 +93,11 @@ const AppRouter = () => {
           <Route path="update/:id" element={<UpdateCollectionSetPage />} />
         </Route>
 
-        <Route path="chat" element={<ChatPage />} />
-
         <Route
-          path="private"
+          path="/chat"
           element={
             <PrivateRoute>
-              <PrivatePage />
+              <ChatPage />
             </PrivateRoute>
           }
         />
