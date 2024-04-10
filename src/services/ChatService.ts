@@ -2,27 +2,32 @@ import {
   Chat,
   ChatData,
   ChatSchema,
-  ChatToken,
-  ChatTokenSchema,
   ChatUser,
   ChatUserSchema,
 } from '../types/ChatType.ts';
 import axios from 'axios';
 import toaster from '../shared/lib/react-toastify.ts';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
+import { GetCredentials, SetCredentials } from '../storage/credentials.ts';
+import { authService } from './AuthService.ts';
 
 interface ChatService {
   CreateChat: (chat: ChatData) => Promise<boolean>;
   GetChat: (marketItemId: number | string) => Promise<Chat>;
   GetUserChats: (id: number | string) => Promise<Chat[]>;
   GetLegocyUser: (qbId: number | string) => Promise<ChatUser>;
-  GetSessionToken: () => Promise<ChatToken>;
+  GetSessionToken: () => void;
   GetQbUser: (legocyId: number | string) => Promise<ChatUser>;
 }
 
+type SessionResponse = {
+  qbID: number;
+  token: string;
+};
+
 const chatAxios = axios.create({
   baseURL: import.meta.env.VITE_CHATS_API_ENDPOINT,
-  headers: { 'X-API-Key': import.meta.env.VITE_X_API_KEY },
+  headers: { 'X-API-Key': import.meta.env.VITE_X_API_KEY, Authorization: axios.defaults.headers.common.Authorization },
 });
 
 const CreateChat = async (chat: ChatData): Promise<boolean> => {
@@ -71,17 +76,15 @@ const GetLegocyUser = async (qbID: number | string): Promise<ChatUser> => {
   return result.data;
 };
 
-const GetSessionToken = async (): Promise<ChatToken> => {
-  const response = await chatAxios.get('/users/session');
-  const result = ChatTokenSchema.safeParse(response.data);
-  if (!result.success)
-    return handleIncorrectParse(
-      result.error,
-      'GetSessionToken',
-      "Can't get session token"
-    );
+const GetSessionToken = async () => {
+  const storage = GetCredentials();
+  const response = await chatAxios
+    .get<SessionResponse>('/users/session')
+    .then((response) => response.data);
 
-  return result.data;
+  storage.qbID = response.qbID;
+  storage.chatToken = response.token;
+  SetCredentials(storage);
 };
 
 const GetQbUser = async (legocyId: number | string): Promise<ChatUser> => {
@@ -101,3 +104,24 @@ export const chatService: ChatService = {
   GetSessionToken: GetSessionToken,
   GetQbUser: GetQbUser,
 };
+
+chatAxios.interceptors.response.use(
+  (response) => response,
+  async (err) => {
+    if (err?.response?.status === 401) {
+      try {
+        chatAxios.defaults.headers.common.Authorization =
+          authService.GetAccessTokenHeader();
+      } catch (e) {
+        return Promise.reject(err);
+      }
+
+      if (err?.config.headers)
+        err.config.headers.Authorization = authService.GetAccessTokenHeader();
+
+      return axios(err?.config);
+    }
+
+    return Promise.reject(err);
+  }
+);

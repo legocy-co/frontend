@@ -1,8 +1,10 @@
 const CREDENTIALS_LOCAL_STORAGE_KEY = 'legocy-credentials';
 
-type CredentialsStorage = {
+export type CredentialsStorage = {
   accessToken: string;
   refreshToken: string;
+  qbID: number;
+  chatToken: string;
 };
 
 const GetCredentials = (): CredentialsStorage => {
@@ -11,6 +13,8 @@ const GetCredentials = (): CredentialsStorage => {
   let storage: CredentialsStorage = {
     accessToken: '',
     refreshToken: '',
+    qbID: 0,
+    chatToken: '',
   };
 
   if (strStorage) storage = JSON.parse(strStorage);
