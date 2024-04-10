@@ -15,7 +15,6 @@ import {
 import { useGate, useUnit } from 'effector-react';
 import { authService } from '../../services/AuthService.ts';
 import { GetCredentials } from '../../storage/credentials.ts';
-import { chatService } from '../../services/ChatService.ts';
 
 const RootPage = () => {
   useGate(cm.gate);
