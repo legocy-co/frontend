@@ -3,19 +3,23 @@ import { createEffect, createEvent, createStore, sample } from 'effector';
 import { chatService } from '../../services/ChatService.ts';
 import { authService } from '../../services/AuthService.ts';
 import { userService } from '../../services/UserService.ts';
-import { LoginData } from 'quickblox-react-ui-kit';
 import { ChatToken } from '../../types/ChatType.ts';
+import { GetCredentials } from '../../storage/credentials.ts';
 
 export const gate = createGate();
 
-export const $currentUser = createStore<LoginData>({ login: '', password: '' });
+export const $username = createStore<string>('');
+
+export const chatConnected = createEvent();
+
+export const $isConnected = createStore<boolean>(false);
 
 export const $authChatData = createStore<ChatToken>({
   qbID: 0,
   token: '',
 });
 
-export const tokenExpired = createEvent();
+export const sessionExpired = createEvent();
 
 const fetchSessionFx = createEffect(() => chatService.GetSessionToken());
 
@@ -23,30 +27,35 @@ const fetchUserFx = createEffect(() =>
   userService.GetUserProfilePage(authService.GetUserId())
 );
 
-function toLoginData(login: string): LoginData {
-  return {
-    login: login,
-    password: import.meta.env.VITE_QB_REGISTERED_USER_PASSWORD,
-  };
+function toAuthChatData() {
+  const creds = GetCredentials();
+  return { qbID: creds.qbID, token: creds.chatToken };
 }
 
 sample({
   clock: gate.open,
-  target: [fetchSessionFx, fetchUserFx],
+  filter: () => authService.IsAuthorized(),
+  target: fetchUserFx,
 });
 
 sample({
-  clock: tokenExpired,
-  target: fetchSessionFx,
-});
-
-sample({
-  source: fetchSessionFx.doneData,
+  clock: [gate.open, fetchSessionFx.done],
+  fn: toAuthChatData,
   target: $authChatData,
 });
 
 sample({
+  clock: sessionExpired,
+  target: fetchSessionFx,
+});
+
+sample({
   source: fetchUserFx.doneData.map((data) => data.user.username),
-  fn: toLoginData,
-  target: $currentUser,
+  target: $username,
+});
+
+sample({
+  clock: chatConnected,
+  fn: () => true,
+  target: $isConnected,
 });

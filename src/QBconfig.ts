@@ -2,7 +2,7 @@ export const QBConfig = {
   credentials: {
     appId: import.meta.env.VITE_QB_APPLICATION_ID,
     accountKey: import.meta.env.VITE_QB_ACCOUNT_KEY,
-    authKey: import.meta.env.VITE_QB_AUTH_KEY,
+    authKey: '',
     authSecret: import.meta.env.VITE_QB_AUTH_SECRET,
     sessionToken: '',
   },
@@ -57,13 +57,8 @@ export const QBConfig = {
     enableForwarding: false,
     enableReplying: true,
     endpoints: {
-      api: 'api.quickblox.com',
+      api: 'legocy',
       chat: 'chat.quickblox.com',
-    },
-    on: {
-      async sessionExpired(handleResponse: any, retry: any) {
-        console.log(`Test sessionExpired… ${handleResponse} ${retry}`);
-      },
     },
     streamManagement: {
       enable: true,

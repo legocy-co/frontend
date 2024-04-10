@@ -51,6 +51,8 @@ const Header = () => {
     localStorage.getItem('color-theme') !== 'light'
   );
 
+  const path = location.pathname.split('/')[1];
+
   window.addEventListener('click', function () {
     setShowMenu(false);
   });
@@ -82,17 +84,21 @@ const Header = () => {
         <div className="header--right">
           <CatalogIcon
             className={clsx('header--member fills', {
-              'legocy-fills': location.pathname.split('/')[1] === 'catalog',
+              'legocy-fills': path === 'catalog',
             })}
             onClick={() => navigate('/catalog')}
           />
           <WikiIcon
             className={clsx('header--member strokes', {
-              'legocy-strokes': location.pathname.split('/')[1] === 'wiki',
+              'legocy-strokes': path === 'wiki',
             })}
             onClick={() => navigate('/wiki/sets')}
           />
-          <div className="header--chat fills">
+          <div
+            className={clsx('header--chat fills', {
+              'legocy-fills': path === 'chat',
+            })}
+          >
             <ChatIcon onClick={() => navigate('/chat')} />
             {Number(messagesCounter) !== 0 && <div>{messagesCounter}</div>}
           </div>

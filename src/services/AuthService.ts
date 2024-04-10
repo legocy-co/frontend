@@ -17,6 +17,7 @@ export interface AuthService {
   Logout: () => void;
   GetUserId: () => number;
   GetUserEmail: () => string;
+  GetAccessTokenHeader: () => string;
 }
 
 export interface TokenType {
@@ -80,6 +81,8 @@ const Logout = () => {
   const storage = GetCredentials();
   storage.accessToken = '';
   storage.refreshToken = '';
+  storage.qbID = 0;
+  storage.chatToken = '';
   SetCredentials(storage);
 
   axios.defaults.headers.common.Authorization = '';
@@ -104,6 +107,11 @@ const GetUserEmail = () => {
   return '';
 };
 
+const GetAccessTokenHeader = (): string => {
+  const storage = GetCredentials();
+  return `Bearer ${storage.accessToken}`;
+};
+
 export const authService: AuthService = {
   IsAuthorized: IsAuthorized,
   SignIn: SignIn,
@@ -112,6 +120,7 @@ export const authService: AuthService = {
   Logout: Logout,
   GetUserId: GetUserId,
   GetUserEmail: GetUserEmail,
+  GetAccessTokenHeader: GetAccessTokenHeader,
 };
 
 const decodeAccess = () => {
@@ -126,11 +135,6 @@ const SetAuthHeaders = (response: AuthResponse) => {
   SetCredentials(storage);
 
   axios.defaults.headers.common.Authorization = GetAccessTokenHeader();
-};
-
-const GetAccessTokenHeader = () => {
-  const storage = GetCredentials();
-  return `Bearer ${storage.accessToken}`;
 };
 
 const GetBaseUrl = () => {
