@@ -25,8 +25,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
       >
         <BackIcon
           className={
-            location.pathname.split('/')[1] === 'catalog' &&
-            !location.pathname.split('/')[2]
+            !to
               ? 'hidden'
               : 'max-lg:hidden lg:absolute left-0 hover:opacity-90 transition-opacity active:opacity-80 cursor-pointer'
           }
