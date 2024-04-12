@@ -20,7 +20,8 @@ import {
 } from '../lego-set/options/model.ts';
 import { collectionService } from '../../services/CollectionService.ts';
 import { NavigateFunction } from 'react-router-dom';
-import { CollectionSet } from '../../types/CollectionSetType.ts';
+
+import { CollectionSet } from '../../types/CollectionType.ts';
 
 export const gate = createGate<{
   id: string | null;

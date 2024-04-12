@@ -1,5 +1,5 @@
-import { CollectionSet } from '../../types/CollectionSetType.ts';
 import { setStates } from '../../types/MarketItemType.ts';
+import { CollectionSet } from '../../types/CollectionType.ts';
 
 export type CollectionCell = {
   id: number;

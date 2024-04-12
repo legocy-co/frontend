@@ -4,8 +4,8 @@ import { SignUpForm } from '../types/SignUp';
 import { ZodError } from 'zod';
 import toaster from '../shared/lib/react-toastify';
 import { MarketItemForm } from '../types/MarketItemType.ts';
-import { CollectionSetForm } from '../types/CollectionSetType.ts';
 import { UserProfileForm } from '../types/UserProfileType.ts';
+import { CollectionSetForm } from '../types/CollectionType.ts';
 
 const handleIncorrectParse = (
   e: ZodError,

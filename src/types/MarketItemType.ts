@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import { LegoSetSchema } from './LegoSetType.ts';
 import { UserSchema } from './UserType.ts';
-import { MarketItemImageSchema } from './MarketItemImage.ts';
 import objectKeysToZodEnum from '../shared/lib/zod.ts';
 import { Form } from 'effector-forms';
 
@@ -32,6 +31,12 @@ export const setStates = {
   BUILT_WITHOUT_BOX: 'Built Without Box',
   BUILT_PIECES_LOST: 'Built, Pieces Lost',
 };
+
+const MarketItemImageSchema = z.object({
+  id: z.number(),
+  image_url: z.string(),
+  is_main: z.boolean(),
+});
 
 const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
 
