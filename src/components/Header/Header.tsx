@@ -104,8 +104,7 @@ const Header = () => {
           </div>
           <CollectionIcon
             className={clsx('header--collection fills strokes', {
-              'legocy-fills legocy-strokes':
-                location.pathname.split('/')[1] === 'collection',
+              'legocy-fills legocy-strokes': path === 'collection',
             })}
             onClick={() => navigate('/collection')}
           />
@@ -120,9 +119,7 @@ const Header = () => {
             ) : (
               <UserIcon
                 className={
-                  location.pathname.split('/')[1] === 'profile' || showMenu
-                    ? 'legocy-strokes'
-                    : 'strokes'
+                  path === 'profile' || showMenu ? 'legocy-strokes' : 'strokes'
                 }
                 onClick={handleAvatarClick}
               />
@@ -147,7 +144,7 @@ const Header = () => {
                   />
                   <img src={DarkIcon} alt="" onError={addDefaultSrc} />
                 </div>
-                <p onClick={() => handleShowLogout()}>Log out</p>
+                <p onClick={handleShowLogout}>Log out</p>
               </div>
             )}
           </div>
