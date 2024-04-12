@@ -2,40 +2,38 @@ import { CollectionSet } from '../../types/CollectionSetType.ts';
 import { setStates } from '../../types/MarketItemType.ts';
 
 export type CollectionCell = {
+  buyPrice: number;
+  condition: string;
   id: number;
-  buy_price: number;
+  images: string[];
   series: string;
   set: string;
-  set_number: number;
-  set_id: number;
-  condition: string;
+  setID: number;
+  setNumber: number;
+  totalReturnPercentage: number;
+  totalReturnUSD: number;
   valuation?: number;
-  images: string[];
-  total_return_percentage: number;
-  total_return_usd: number;
 };
 
 export function toCollectionCells(
   collectionSets: CollectionSet[]
 ): CollectionCell[] {
   return collectionSets.map((set) => ({
-    id: set.id,
-    buy_price: set.buy_price,
-    series: set.lego_set.series.name,
-    set: set.lego_set.name,
-    set_number: set.lego_set.number,
-    set_id: set.lego_set.id,
+    buyPrice: set.buyPrice,
     condition: setStates[set.state as keyof typeof setStates],
-    valuation: set.valuation?.valuation,
-    images: set.lego_set.images
-      ? set.lego_set.images
-          .sort(
-            (current, next) => Number(current.is_main) - Number(next.is_main)
-          )
-          .map((img) => img.image_url)
+    id: set.id,
+    images: set.legoSet.images
+      ? set.legoSet.images
+          .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+          .map((img) => img.imageURL)
       : [],
-    total_return_percentage:
-      Math.round(set.set_profits.total_return_percentage * 100) / 100,
-    total_return_usd: set.set_profits.total_return_usd,
+    series: set.legoSet.series.name,
+    set: set.legoSet.name,
+    setID: set.legoSet.id,
+    setNumber: set.legoSet.number,
+    totalReturnPercentage:
+      Math.round(set.setProfits.totalReturnPercentage * 100) / 100,
+    totalReturnUSD: set.setProfits.totalReturnUSD,
+    valuation: set.valuation?.valuation,
   }));
 }

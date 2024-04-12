@@ -31,3 +31,5 @@ export const ChatTokenSchema = z.object({
   qbID: z.number(),
   token: z.string(),
 });
+
+// ask for JSON camelCase

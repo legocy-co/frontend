@@ -9,6 +9,6 @@ export const LegoSetSchema = z.object({
   images: z.array(LegoSetImageSchema).nullable(),
   name: z.string(),
   number: z.number(),
-  n_pieces: z.number(),
+  nPieces: z.number(),
   series: LegoSeriesSchema,
 });

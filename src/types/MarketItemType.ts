@@ -8,8 +8,8 @@ import { Form } from 'effector-forms';
 export type MarketItem = z.infer<typeof MarketItemSchema>;
 
 export type MarketItemData = {
-  lego_set_id: number;
-  set_state: keyof typeof setStates;
+  legoSetID: number;
+  setState: keyof typeof setStates;
   description: string;
   price: number;
   location: string;
@@ -39,11 +39,11 @@ export const MarketItemSchema = z.object({
   id: z.number(),
   price: z.number(),
   location: z.string(),
-  lego_set: LegoSetSchema,
-  lego_set_id: z.number().optional(),
+  legoSet: LegoSetSchema,
+  legoSetID: z.number().optional(),
   seller: UserSchema,
   status: z.enum(listingStatus).optional(),
-  set_state: objectKeysToZodEnum(setStates),
+  setState: objectKeysToZodEnum(setStates),
   description: z.string(),
   images: z.array(MarketItemImageSchema),
 });

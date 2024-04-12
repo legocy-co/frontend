@@ -7,8 +7,8 @@ import { ValuationSchema } from './ValuationType.ts';
 import { ProfitsSchema } from './Profits.ts';
 
 export type CollectionSetData = {
-  buy_price: number;
-  lego_set_id: number;
+  buyPrice: number;
+  legoSetID: number;
   state: keyof typeof setStates;
 };
 
@@ -22,9 +22,9 @@ export type CollectionSet = z.infer<typeof CollectionSetSchema>;
 
 export const CollectionSetSchema = z.object({
   id: z.number(),
-  buy_price: z.number(),
-  lego_set: LegoSetSchema,
+  buyPrice: z.number(),
+  legoSet: LegoSetSchema,
   state: objectKeysToZodEnum(setStates),
   valuation: ValuationSchema.nullable(),
-  set_profits: ProfitsSchema,
+  setProfits: ProfitsSchema,
 });

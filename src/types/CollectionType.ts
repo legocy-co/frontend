@@ -6,7 +6,7 @@ import { TotalsSchema } from './TotalsType.ts';
 export type Collection = z.infer<typeof CollectionSchema>;
 
 export const CollectionSchema = z.object({
-  collection_sets: z.array(CollectionSetSchema),
+  collectionSets: z.array(CollectionSetSchema),
   user: UserSchema,
   totals: TotalsSchema,
 });

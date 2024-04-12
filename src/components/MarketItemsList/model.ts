@@ -22,15 +22,15 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     id: marketItem.id,
     location: marketItem.location,
     images: marketItem.images
-      .sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => img.image_url),
-    set: marketItem.lego_set.name,
+      .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .map((img) => img.imageURL),
+    set: marketItem.legoSet.name,
     price: marketItem.price,
-    series: marketItem.lego_set.series.name,
-    condition_icon: marketItem.set_state,
-    condition: setStates[marketItem.set_state as keyof typeof setStates],
-    set_number: marketItem.lego_set.number,
+    series: marketItem.legoSet.series.name,
+    condition_icon: marketItem.setState,
+    condition: setStates[marketItem.setState as keyof typeof setStates],
+    set_number: marketItem.legoSet.number,
     seller_id: marketItem.seller?.id,
-    set_id: marketItem.lego_set.id,
+    set_id: marketItem.legoSet.id,
   }));
 }
