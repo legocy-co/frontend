@@ -19,6 +19,7 @@ const MarketItemsList = () => {
         set_number={marketItem.set_number}
         seller_id={marketItem.seller_id}
         set_id={marketItem.set_id}
+        is_liked={marketItem.is_liked}
       />
     </div>
   ));

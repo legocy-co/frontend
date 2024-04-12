@@ -25,6 +25,7 @@ interface MarketItemCellProps {
   set_number: number;
   seller_id: number;
   set_id: number;
+  is_liked: boolean;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
@@ -51,7 +52,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
         authService.GetUserId() === props.seller_id && (
           <>
             <img
-              className="collection-cell--edit"
+              className="cell--edit"
               onClick={() => navigate('/catalog/update/' + props.id)}
               alt=""
               src={PencilIcon}
@@ -107,7 +108,13 @@ const MarketItemCell = (props: MarketItemCellProps) => {
             </div>
           </div>
         )}
-        <HeartIcon className={clsx('cell--favorite', { hidden: !hovered })} />
+        <HeartIcon
+          className={clsx(
+            'cell--favorite',
+            { hidden: !hovered },
+            { fillsrose: props.is_liked }
+          )}
+        />
         <div
           className={clsx('cell--condition', {
             'cell--condition_hovered': hovered,
