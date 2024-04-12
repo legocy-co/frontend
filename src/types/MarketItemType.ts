@@ -36,14 +36,14 @@ export const setStates = {
 const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
 
 export const MarketItemSchema = z.object({
-  id: z.number(),
-  price: z.number(),
-  location: z.string(),
-  lego_set: LegoSetSchema,
-  lego_set_id: z.number().optional(),
-  seller: UserSchema,
-  status: z.enum(listingStatus).optional(),
-  set_state: objectKeysToZodEnum(setStates),
   description: z.string(),
+  id: z.number(),
   images: z.array(MarketItemImageSchema),
+  is_liked: z.boolean(),
+  lego_set: LegoSetSchema,
+  location: z.string(),
+  price: z.number(),
+  seller: UserSchema,
+  set_state: objectKeysToZodEnum(setStates),
+  status: z.enum(listingStatus).optional(),
 });
