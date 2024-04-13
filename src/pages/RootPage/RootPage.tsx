@@ -39,11 +39,11 @@ const RootPage = () => {
       }
     }
 
-    const APPLICATION_ID = import.meta.env.VITE_QB_APPLICATION_ID;
+    const APPLICATION_ID = Number(import.meta.env.VITE_QB_APPLICATION_ID);
     const ACCOUNT_KEY = import.meta.env.VITE_QB_ACCOUNT_KEY;
     const CONFIG = QBConfig.appConfig;
 
-    QB.initWithAppId(Number(APPLICATION_ID), ACCOUNT_KEY, CONFIG);
+    QB.initWithAppId(APPLICATION_ID, ACCOUNT_KEY, CONFIG);
   };
 
   useEffect(() => {
@@ -54,15 +54,12 @@ const RootPage = () => {
             authChatData.token,
             async function (errorStartSession: any) {
               if (errorStartSession) {
+                errorStartSession.code === 401 && cm.sessionExpired();
                 console.log('Start User Session has error:', errorStartSession);
               } else {
                 const userId: number = authChatData.qbID;
                 const password: string = authChatData.token;
                 const paramsConnect = { userId, password };
-
-                QB.chat.onSessionExpiredListener = function () {
-                  cm.sessionExpired();
-                };
 
                 QB.chat.connect(
                   paramsConnect,
