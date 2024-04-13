@@ -30,20 +30,19 @@ export const CollectionPage = () => {
               className={clsx(
                 'text-lg',
                 {
-                  'text-green-400': totals.total_profits.total_return_usd! > 0,
+                  'text-green-400': totals.totalProfits.totalReturnUSD! > 0,
                 },
-                { 'text-red-400': totals.total_profits.total_return_usd! < 0 }
+                { 'text-red-400': totals.totalProfits.totalReturnUSD! < 0 }
               )}
-            >{`${totals.total_profits.total_return_usd}$(${
-              Math.round(totals.total_profits.total_return_percentage * 100) /
-              100
+            >{`${totals.totalProfits.totalReturnUSD}$(${
+              Math.round(totals.totalProfits.totalReturnPercentage * 100) / 100
             }%)`}</h1>
           </div>
         </div>
         <div className="flex justify-between my-5">
           <p>Sets Valuated</p>
           <p className="dark:text-white text-black">
-            {totals.sets_valuated} / {totals.total_sets}
+            {totals.setsValuated} / {totals.totalSets}
           </p>
         </div>
         <Button

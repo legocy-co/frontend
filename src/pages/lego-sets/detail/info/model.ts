@@ -39,11 +39,11 @@ function toDetail(set: LegoSet): LegoSetDetail {
   return {
     id: set.id,
     images: set.images
-      ?.sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => img.image_url),
+      ?.sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .map((img) => img.imageURL),
     name: set.name,
     number: set.number,
-    pieces: set.n_pieces,
+    pieces: set.nPieces,
     series: set.series.name,
   };
 }

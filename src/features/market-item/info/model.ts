@@ -122,21 +122,21 @@ const updateMarketItemFx = attach({
 
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
-    lego_set_id: Number(values.lego_set_id),
+    legoSetID: Number(values.lego_set_id),
     location: `${values.city}, ${values.country}`,
     price: Math.floor(values.price * 100) / 100,
-    set_state: values.set_state,
+    setState: values.set_state,
     description: values.description,
   };
 }
 
 function toForm(values: MarketItem): EventPayload<typeof form.setForm> {
   return {
-    lego_set_id: String(values.lego_set.id),
+    lego_set_id: String(values.legoSet.id),
     country: values.location.split(', ')[1],
     city: values.location.split(', ')[0],
     price: values.price,
-    set_state: values.set_state,
+    set_state: values.setState,
     description: values.description,
   };
 }

@@ -51,21 +51,21 @@ const GetMarketItemFx = attach({
 
 function toDetail(marketItem: MarketItem): MarketItemDetail {
   return {
+    condition: setStates[marketItem.setState as keyof typeof setStates],
+    description: marketItem.description,
     id: marketItem.id,
     images: marketItem.images
-      .sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => img.image_url),
-    set: marketItem.lego_set.name,
-    condition: setStates[marketItem.set_state as keyof typeof setStates],
-    series: marketItem.lego_set.series.name,
+      .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .map((img) => img.imageURL),
     location: marketItem.location,
-    set_number: marketItem.lego_set.number,
-    description: marketItem.description,
     price: marketItem.price,
     seller_id: marketItem.seller.id,
-    seller_username: marketItem.seller.username,
     seller_image: marketItem.seller.images[0]?.downloadURL,
-    set_id: marketItem.lego_set.id,
+    seller_username: marketItem.seller.username,
+    series: marketItem.legoSet.series.name,
+    set: marketItem.legoSet.name,
+    set_id: marketItem.legoSet.id,
+    set_number: marketItem.legoSet.number,
   };
 }
 
