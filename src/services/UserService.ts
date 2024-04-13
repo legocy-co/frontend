@@ -7,7 +7,8 @@ import axios from 'axios';
 import { handleIncorrectParse, handleUserError } from './ErrorHandlers.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { upf } from '../features/user-profile/index.tsx';
-import { User, UserImage, UserImageSchema, UserSchema } from '../types/UserType.ts';
+import { User, UserSchema } from '../types/UserType.ts';
+import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
 
 interface UserService {
   GetCurrentUserProfileInfo: () => Promise<User>;

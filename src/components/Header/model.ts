@@ -6,7 +6,8 @@ import { auth } from '../../pages/auth/';
 import { si } from '../../features/auth/sign-in/index.tsx';
 import { up } from '../../pages/UserProfilePage/index.tsx';
 import { $username } from '../../pages/ChatPage/model.ts';
-import { UserImage } from '../../types/UserType.ts';
+
+import { UserImage } from '../../types/UserImageType.ts';
 
 export const gate = createGate();
 

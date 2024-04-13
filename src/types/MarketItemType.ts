@@ -3,8 +3,11 @@ import { LegoSetSchema } from './LegoSetType.ts';
 import { UserSchema } from './UserType.ts';
 import objectKeysToZodEnum from '../shared/lib/zod.ts';
 import { Form } from 'effector-forms';
+import { MarketItemImageSchema } from './MarketItemImage.ts';
 
 export type MarketItem = z.infer<typeof MarketItemSchema>;
+
+export type Like = z.infer<typeof LikeSchema>;
 
 export type MarketItemData = {
   lego_set_id: number;
@@ -23,6 +26,11 @@ export type MarketItemForm = Form<{
   city: string;
 }>;
 
+export const LikeSchema = z.object({
+  market_item_id: z.number(),
+  user_id: z.number(),
+});
+
 export const setStates = {
   BRAND_NEW: 'Brand New',
   BOX_OPENED: 'Box Opened',
@@ -31,12 +39,6 @@ export const setStates = {
   BUILT_WITHOUT_BOX: 'Built Without Box',
   BUILT_PIECES_LOST: 'Built, Pieces Lost',
 };
-
-const MarketItemImageSchema = z.object({
-  id: z.number(),
-  image_url: z.string(),
-  is_main: z.boolean(),
-});
 
 const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
 
