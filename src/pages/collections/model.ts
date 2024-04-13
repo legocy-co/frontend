@@ -5,7 +5,8 @@ import {
   CollectionCell,
   toCollectionCells,
 } from '../../components/CollectionList/model.ts';
-import { Totals } from '../../types/TotalsType.ts';
+
+import { Totals } from '../../types/CollectionType.ts';
 
 export const gate = createGate();
 

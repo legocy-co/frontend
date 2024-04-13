@@ -31,7 +31,7 @@ const uploadImagesFx = attach({
       const data = new FormData();
       data.append('file', images.files[i]);
 
-      marketItemService.UploadMarketItemImage(data, id);
+      marketItemService.UploadImage(data, id);
       await sleep(1010);
 
       const imgElem = document.getElementById(

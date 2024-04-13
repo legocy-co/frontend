@@ -1,4 +1,6 @@
 import {
+  Like,
+  LikeSchema,
   MarketItem,
   MarketItemData,
   MarketItemSchema,
@@ -13,19 +15,19 @@ import { PaginationData } from '../types/pagination.ts';
 interface MarketItemService {
   GetMarketItems: (query: string) => Promise<PaginationData<MarketItem[]>>;
   CreateMarketItem: (marketItem: MarketItemData) => Promise<MarketItem>;
-  UploadMarketItemImage: (
-    file: FormData,
-    id: number | string
-  ) => Promise<boolean>;
   GetMarketItemsAuthorized: (
     query: string
   ) => Promise<PaginationData<MarketItem[]>>;
+  GetLikedItems: () => Promise<Like[]>;
+  LikeMarketItem: (id: number | string) => Promise<boolean>;
+  UnlikeMarketItem: (id: number | string) => Promise<boolean>;
   GetMarketItem: (id: number | string) => Promise<MarketItem>;
   UpdateMarketItem: (
     id: number | string,
     marketItem: MarketItemData
   ) => Promise<MarketItemData>;
   DeleteMarketItem: (id: number | string) => Promise<boolean>;
+  UploadImage: (file: FormData, id: number | string) => Promise<boolean>;
 }
 
 const GetMarketItems = async (
@@ -47,7 +49,7 @@ const CreateMarketItem = async (
   marketItem: MarketItemData
 ): Promise<MarketItem> => {
   try {
-    const response = await axios.post('/market-items/', marketItem);
+    const response = await axios.post<object>('/market-items/', marketItem);
     toaster.showToastSuccess('Market item created');
 
     const result = MarketItemSchema.safeParse(response.data);
@@ -64,20 +66,6 @@ const CreateMarketItem = async (
   }
 };
 
-const UploadMarketItemImage = async (
-  file: FormData,
-  id: number | string
-): Promise<boolean> => {
-  try {
-    await axios.post('/market-items/images/' + id, file);
-    toaster.showToastSuccess('Image uploaded');
-
-    return Promise.resolve(true);
-  } catch (e) {
-    return Promise.reject(e);
-  }
-};
-
 const GetMarketItemsAuthorized = async (
   query: string
 ): Promise<PaginationData<MarketItem[]>> => {
@@ -91,6 +79,41 @@ const GetMarketItemsAuthorized = async (
     );
 
   return data;
+};
+
+const GetLikedItems = async (): Promise<Like[]> => {
+  const response = await axios.get<object[]>('/market-items/likes/');
+  const result = LikeSchema.array().safeParse(response.data);
+  if (!result.success)
+    return handleIncorrectParse(
+      result.error,
+      'GetLikedItems',
+      "Can't get liked items"
+    );
+
+  return result.data;
+};
+
+const LikeMarketItem = async (id: number | string): Promise<boolean> => {
+  try {
+    await axios.post('/market-items/likes/' + id);
+    toaster.showToastSuccess('Market item liked');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+const UnlikeMarketItem = async (id: number | string): Promise<boolean> => {
+  try {
+    await axios.delete('/market-items/likes/' + id);
+    toaster.showToastSuccess('Market item unliked');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
 };
 
 const GetMarketItem = async (id: number | string): Promise<MarketItem> => {
@@ -131,14 +154,31 @@ const DeleteMarketItem = async (id: number | string): Promise<boolean> => {
   }
 };
 
+const UploadImage = async (
+  file: FormData,
+  id: number | string
+): Promise<boolean> => {
+  try {
+    await axios.post('/market-items/images/' + id, file);
+    toaster.showToastSuccess('Image uploaded');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
 export const marketItemService: MarketItemService = {
   GetMarketItems: GetMarketItems,
   CreateMarketItem: CreateMarketItem,
-  UploadMarketItemImage: UploadMarketItemImage,
   GetMarketItemsAuthorized: GetMarketItemsAuthorized,
+  GetLikedItems: GetLikedItems,
+  LikeMarketItem: LikeMarketItem,
+  UnlikeMarketItem: UnlikeMarketItem,
   GetMarketItem: GetMarketItem,
   UpdateMarketItem: UpdateMarketItem,
   DeleteMarketItem: DeleteMarketItem,
+  UploadImage: UploadImage,
 };
 
 axios.interceptors.response.use(
