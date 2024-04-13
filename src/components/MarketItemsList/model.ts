@@ -26,7 +26,7 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     images: marketItem.images
       .sort((current, next) => Number(current.isMain) - Number(next.isMain))
       .map((img) => img.imageURL),
-    is_liked: marketItem.is_liked,
+    is_liked: marketItem.isLiked,
     location: marketItem.location,
     price: marketItem.price,
     seller_id: marketItem.seller?.id,

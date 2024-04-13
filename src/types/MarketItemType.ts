@@ -27,8 +27,8 @@ export type MarketItemForm = Form<{
 }>;
 
 export const LikeSchema = z.object({
-  market_item_id: z.number(),
-  user_id: z.number(),
+  marketItemID: z.number(),
+  userID: z.number(),
 });
 
 export const setStates = {
@@ -46,7 +46,7 @@ export const MarketItemSchema = z.object({
   description: z.string(),
   id: z.number(),
   images: z.array(MarketItemImageSchema),
-  is_liked: z.boolean(),
+  isLiked: z.boolean(),
   legoSet: LegoSetSchema,
   location: z.string(),
   price: z.number(),
