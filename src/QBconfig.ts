@@ -57,7 +57,7 @@ export const QBConfig = {
     enableForwarding: false,
     enableReplying: true,
     endpoints: {
-      api: 'legocy',
+      api: 'api.quickblox.com',
       chat: 'chat.quickblox.com',
     },
     streamManagement: {
