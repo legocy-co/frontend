@@ -2,35 +2,37 @@ import { MarketItem, setStates } from '../../types/MarketItemType.ts';
 import { createStore } from 'effector';
 
 export type MarketItemCell = {
-  id: number;
-  location: string;
-  images: string[];
-  set: string;
-  price: number;
-  series: string;
-  condition_icon: string;
   condition: string;
-  set_number: number;
+  condition_icon: string;
+  id: number;
+  images: string[];
+  is_liked: boolean;
+  location: string;
+  price: number;
   seller_id: number;
+  series: string;
+  set: string;
   set_id: number;
+  set_number: number;
 };
 
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
 
 export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
+    condition: setStates[marketItem.set_state as keyof typeof setStates],
+    condition_icon: marketItem.set_state,
     id: marketItem.id,
-    location: marketItem.location,
     images: marketItem.images
       .sort((current, next) => Number(current.is_main) - Number(next.is_main))
       .map((img) => img.image_url),
-    set: marketItem.lego_set.name,
+    is_liked: marketItem.is_liked,
+    location: marketItem.location,
     price: marketItem.price,
+    seller_id: marketItem.seller.id,
     series: marketItem.lego_set.series.name,
-    condition_icon: marketItem.set_state,
-    condition: setStates[marketItem.set_state as keyof typeof setStates],
-    set_number: marketItem.lego_set.number,
-    seller_id: marketItem.seller?.id,
+    set: marketItem.lego_set.name,
     set_id: marketItem.lego_set.id,
+    set_number: marketItem.lego_set.number,
   }));
 }

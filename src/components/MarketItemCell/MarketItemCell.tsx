@@ -25,11 +25,16 @@ interface MarketItemCellProps {
   set_number: number;
   seller_id: number;
   set_id: number;
+  is_liked: boolean;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
+  const [liked, setLiked] = useState(props.is_liked);
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(props.images[0]);
+
+  const [showDelete, setShowDelete] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   async function handleDelete() {
     await marketItemService.DeleteMarketItem(props.id);
@@ -38,8 +43,15 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     setShowDelete(false);
   }
 
-  const [showDelete, setShowDelete] = useState(false);
-  const [hovered, setHovered] = useState(false);
+  async function handleLike() {
+    if (liked) {
+      await marketItemService.UnlikeMarketItem(props.id);
+      setLiked(false);
+    } else {
+      await marketItemService.LikeMarketItem(props.id);
+      setLiked(true);
+    }
+  }
 
   return (
     <div
@@ -51,7 +63,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
         authService.GetUserId() === props.seller_id && (
           <>
             <img
-              className="collection-cell--edit"
+              className="cell--edit"
               onClick={() => navigate('/catalog/update/' + props.id)}
               alt=""
               src={PencilIcon}
@@ -107,7 +119,14 @@ const MarketItemCell = (props: MarketItemCellProps) => {
             </div>
           </div>
         )}
-        <HeartIcon className={clsx('cell--favorite', { hidden: !hovered })} />
+        <HeartIcon
+          className={clsx(
+            'cell--favorite',
+            { hidden: !hovered },
+            { fillsrose: liked }
+          )}
+          onClick={handleLike}
+        />
         <div
           className={clsx('cell--condition', {
             'cell--condition_hovered': hovered,

@@ -1,9 +1,12 @@
-import { Collection, CollectionSchema } from '../types/CollectionType.ts';
+import {
+  Collection,
+  CollectionSchema,
+  CollectionSetData,
+} from '../types/CollectionType.ts';
 import axios from 'axios';
 import { handleSetError, handleIncorrectParse } from './ErrorHandlers.ts';
 import { history } from '../routes/history.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import { CollectionSetData } from '../types/CollectionSetType.ts';
 import { csf } from '../features/collection/index.tsx';
 
 interface CollectionService {

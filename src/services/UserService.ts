@@ -5,17 +5,19 @@ import {
 } from '../types/UserProfileType';
 import axios from 'axios';
 import { handleIncorrectParse, handleUserError } from './ErrorHandlers.ts';
-import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { upf } from '../features/user-profile/index.tsx';
+import { User, UserSchema } from '../types/UserType.ts';
+import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
 
 interface UserService {
+  GetCurrentUserProfileInfo: () => Promise<User>;
   GetUserProfilePage: (userID: number | string) => Promise<UserProfile>;
   UpdateUserProfilePage: (
     userID: number | string,
     userProfileData: UserProfileData
   ) => Promise<boolean>;
-  GetUserImages: (userID: number | string) => Promise<UserImage[]>;
+  GetUserImagesList: (userID: number | string) => Promise<UserImage[]>;
   UploadUserImage: (
     file: FormData,
     userID: number | string
@@ -30,6 +32,19 @@ type UserProfileResponse = {
 
 type ImagesResponse = {
   images: object[];
+};
+
+const GetCurrentUserProfileInfo = async (): Promise<User> => {
+  const response = await axios.get<UserProfileResponse>('/users/profile/');
+  const result = UserSchema.safeParse(response.data);
+  if (!result.success)
+    return handleIncorrectParse(
+      result.error,
+      'GetCurrentUserProfileInfo',
+      "Can't get current user profile info"
+    );
+
+  return result.data;
 };
 
 const GetUserProfilePage = async (
@@ -63,14 +78,16 @@ const UpdateUserProfilePage = async (
   }
 };
 
-const GetUserImages = async (userID: number | string): Promise<UserImage[]> => {
+const GetUserImagesList = async (
+  userID: number | string
+): Promise<UserImage[]> => {
   const response = await axios.get<ImagesResponse>('/users/images/' + userID);
   const result = UserImageSchema.array().safeParse(response.data.images);
   if (!result.success)
     return handleIncorrectParse(
       result.error,
-      'GetUserImages',
-      "Can't get user images"
+      'GetUserImagesList',
+      "Can't get user images list"
     );
 
   return result.data;
@@ -91,8 +108,9 @@ const UploadUserImage = async (
 };
 
 export const userService: UserService = {
+  GetCurrentUserProfileInfo: GetCurrentUserProfileInfo,
   GetUserProfilePage: GetUserProfilePage,
   UpdateUserProfilePage: UpdateUserProfilePage,
-  GetUserImages: GetUserImages,
+  GetUserImagesList: GetUserImagesList,
   UploadUserImage: UploadUserImage,
 };

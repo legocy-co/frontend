@@ -1,11 +1,13 @@
 import { z } from 'zod';
 import { LegoSetSchema } from './LegoSetType.ts';
 import { UserSchema } from './UserType.ts';
-import { MarketItemImageSchema } from './MarketItemImage.ts';
 import objectKeysToZodEnum from '../shared/lib/zod.ts';
 import { Form } from 'effector-forms';
+import { MarketItemImageSchema } from './MarketItemImage.ts';
 
 export type MarketItem = z.infer<typeof MarketItemSchema>;
+
+export type Like = z.infer<typeof LikeSchema>;
 
 export type MarketItemData = {
   lego_set_id: number;
@@ -24,6 +26,11 @@ export type MarketItemForm = Form<{
   city: string;
 }>;
 
+export const LikeSchema = z.object({
+  market_item_id: z.number(),
+  user_id: z.number(),
+});
+
 export const setStates = {
   BRAND_NEW: 'Brand New',
   BOX_OPENED: 'Box Opened',
@@ -36,14 +43,14 @@ export const setStates = {
 const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
 
 export const MarketItemSchema = z.object({
-  id: z.number(),
-  price: z.number(),
-  location: z.string(),
-  lego_set: LegoSetSchema,
-  lego_set_id: z.number().optional(),
-  seller: UserSchema,
-  status: z.enum(listingStatus).optional(),
-  set_state: objectKeysToZodEnum(setStates),
   description: z.string(),
+  id: z.number(),
   images: z.array(MarketItemImageSchema),
+  is_liked: z.boolean(),
+  lego_set: LegoSetSchema,
+  location: z.string(),
+  price: z.number(),
+  seller: UserSchema,
+  set_state: objectKeysToZodEnum(setStates),
+  status: z.enum(listingStatus).optional(),
 });
