@@ -30,6 +30,7 @@ interface MarketItemCellProps {
 
 const MarketItemCell = (props: MarketItemCellProps) => {
   const [liked, setLiked] = useState(props.is_liked);
+
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(props.images[0]);
 

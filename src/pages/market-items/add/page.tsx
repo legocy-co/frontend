@@ -6,8 +6,8 @@ import { useState } from 'react';
 import clsx from 'clsx';
 
 const AddMarketItemPage = () => {
-  const tabs = ['primary', 'secondary', 'images'];
-  const [tab] = useState('primary');
+  const steps = ['primary', 'secondary', 'images'];
+  const [step] = useState('primary');
 
   const navigateFn = useNavigate();
 
@@ -17,24 +17,27 @@ const AddMarketItemPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <PageHeading>Add Your Set</PageHeading>
-      <div className="w-[496px] flex items-center justify-between">
-        {tabs.map((t) => (
+      <PageHeading className="!mb-6">Add Your Set</PageHeading>
+      <div className="w-[496px] flex items-center justify-between mb-16">
+        {steps.map((s) => (
           <div
             className={clsx(
-              'w-[154px] border-[5px] border-opacity-45 border-solid border-white',
-              { 'border-opacity-100': t === tab }
+              'w-[154px] border-[5px] rounded-[5px] dark:border-opacity-45 border-solid border-step dark:border-white',
+              {
+                '!border-activestep dark:!border-white dark:!border-opacity-100':
+                  s === step,
+              }
             )}
           ></div>
         ))}
       </div>
-      <div className={tab === 'primary' ? '' : 'hidden'}>
+      <div className={step === 'primary' ? '' : 'hidden'}>
         {/*<MarketItemPrimaryForm />*/}
       </div>
-      <div className={tab === 'secondary' ? '' : 'hidden'}>
+      <div className={step === 'secondary' ? '' : 'hidden'}>
         {/*<MarketItemSecondaryForm />*/}
       </div>
-      <div className={tab === 'images' ? '' : 'hidden'}>
+      <div className={step === 'images' ? '' : 'hidden'}>
         {/*<MarketItemImagesForm />*/}
       </div>
       {/*<div className="w-full flex items-center justify-center gap-5 mb-7">*/}

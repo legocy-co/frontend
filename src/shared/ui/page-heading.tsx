@@ -12,7 +12,7 @@ type PageHeadingProps = {
 };
 
 export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
-  ({ children, to = '/', isMarketItemDetail = false, className }, ref) => {
+  ({ children, to, isMarketItemDetail = false, className }, ref) => {
     const navigate = useNavigate();
 
     return (
@@ -29,7 +29,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
               ? 'hidden'
               : 'max-lg:hidden lg:absolute left-0 hover:opacity-90 transition-opacity active:opacity-80 cursor-pointer'
           }
-          onClick={() => navigate(to)}
+          onClick={() => navigate(to!)}
         />
         <div className="flex justify-center items-center gap-5 text-bh font-bold text-nowrap">
           {children}
