@@ -135,7 +135,9 @@ export const SelectSearchAdapter = ({
         activeValue={activeValue}
       />
       <div
-        className="absolute top-8 right-4 cursor-pointer"
+        className={
+          activeValue ? 'absolute top-8 right-[-16px] cursor-pointer' : 'hidden'
+        }
         onClick={handleReset}
       >
         x

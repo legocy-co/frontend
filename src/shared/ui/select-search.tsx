@@ -22,7 +22,7 @@ type Props = {
   className?: string;
   clientSideSearch?: boolean;
   placeholder?: string;
-  variant?: 'filters' | '';
+  variant?: 'primary' | '';
 };
 
 export const SelectSearch = ({

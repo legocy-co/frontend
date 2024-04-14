@@ -12,7 +12,7 @@ export type InputProps = NativeInputProps & {
   multiple?: boolean;
   className?: string;
   placeholder?: string;
-  variant?: 'filters' | '';
+  variant?: 'primary' | '';
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -45,7 +45,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
             'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl text-charcoal dark:text-white indent-3 pr-10 outline-0 mb-3.5',
             {
               '!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters placeholder:text-filtersplaceholder dark:placeholder:text-darkfiltersprice':
-                variant === 'filters',
+                variant === 'primary',
             },
             { 'bg-rose dark:bg-rose !text-charcoal': isInvalid },
             { 'no-scroll': isNumber },
