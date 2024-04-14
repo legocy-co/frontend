@@ -28,12 +28,12 @@ export interface TokenType {
 }
 
 type AuthResponse = {
-  access_token: string;
-  refresh_token: string;
+  accessToken: string;
+  refreshToken: string;
 };
 
 type RefreshTokenResponse = {
-  access_token: string;
+  accessToken: string;
 };
 
 const IsAuthorized = () => {
@@ -69,11 +69,11 @@ const RefreshToken = async () => {
   const storage = GetCredentials();
   const response = await axios
     .post<RefreshTokenResponse>('/users/auth/refresh', {
-      refresh_token: storage.refreshToken,
+      refreshToken: storage.refreshToken,
     })
     .then((response) => response.data);
 
-  storage.accessToken = response.access_token;
+  storage.accessToken = response.accessToken;
   SetCredentials(storage);
 };
 
@@ -130,8 +130,8 @@ const decodeAccess = () => {
 
 const SetAuthHeaders = (response: AuthResponse) => {
   const storage = GetCredentials();
-  storage.accessToken = response.access_token;
-  storage.refreshToken = response.refresh_token;
+  storage.accessToken = response.accessToken;
+  storage.refreshToken = response.refreshToken;
   SetCredentials(storage);
 
   axios.defaults.headers.common.Authorization = GetAccessTokenHeader();

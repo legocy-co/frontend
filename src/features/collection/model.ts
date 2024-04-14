@@ -98,8 +98,8 @@ const addCollectionSetFx = attach({
   source: form.$values,
   effect: (values) =>
     collectionService.AddCollectionSet({
-      buy_price: values.buy_price,
-      lego_set_id: Number(values.lego_set_id),
+      buyPrice: values.buy_price,
+      legoSetID: Number(values.lego_set_id),
       state: values.state,
     }),
 });
@@ -111,9 +111,9 @@ const updateCollectionSetFx = attach({
   },
   effect: ({ id, data }) =>
     collectionService.UpdateCollectionSet(id!, {
-      buy_price: data.buy_price,
+      buyPrice: data.buy_price,
       state: data.state,
-      lego_set_id: Number(data.lego_set_id),
+      legoSetID: Number(data.lego_set_id),
     }),
 });
 
@@ -124,9 +124,9 @@ const collectionRedirectFx = attach({
 
 function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
   return {
-    buy_price: values.buy_price,
+    buy_price: values.buyPrice,
     state: values.state,
-    lego_set_id: String(values.lego_set.id),
+    lego_set_id: String(values.legoSet.id),
   };
 }
 
@@ -149,7 +149,7 @@ sample({
 
 sample({
   clock: GetCollectionFx.doneData,
-  fn: (data) => data.collection_sets,
+  fn: (data) => data.collectionSets,
   target: $collectionSets,
 });
 

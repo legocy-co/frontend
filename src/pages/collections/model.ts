@@ -14,13 +14,13 @@ export const collectionSetDeleted = createEvent();
 export const $collectionCells = createStore<CollectionCell[]>([]);
 
 export const $collectionTotals = createStore<Totals>({
-  sets_valuated: 0,
+  setsValuated: 0,
   total: 0,
-  total_profits: {
-    total_return_usd: 0,
-    total_return_percentage: 0,
+  totalProfits: {
+    totalReturnUSD: 0,
+    totalReturnPercentage: 0,
   },
-  total_sets: 0,
+  totalSets: 0,
 });
 
 const GetCollectionFx = createEffect(collectionService.GetCollection);
@@ -31,7 +31,7 @@ sample({
 });
 
 sample({
-  clock: GetCollectionFx.doneData.map((data) => data.collection_sets),
+  clock: GetCollectionFx.doneData.map((data) => data.collectionSets),
   fn: toCollectionCells,
   target: $collectionCells,
 });

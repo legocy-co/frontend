@@ -10,11 +10,11 @@ export type MarketItem = z.infer<typeof MarketItemSchema>;
 export type Like = z.infer<typeof LikeSchema>;
 
 export type MarketItemData = {
-  lego_set_id: number;
-  set_state: keyof typeof setStates;
   description: string;
-  price: number;
+  legoSetID: number;
   location: string;
+  price: number;
+  setState: keyof typeof setStates;
 };
 
 export type MarketItemForm = Form<{
@@ -27,8 +27,8 @@ export type MarketItemForm = Form<{
 }>;
 
 export const LikeSchema = z.object({
-  market_item_id: z.number(),
-  user_id: z.number(),
+  marketItemID: z.number(),
+  userID: z.number(),
 });
 
 export const setStates = {
@@ -46,11 +46,11 @@ export const MarketItemSchema = z.object({
   description: z.string(),
   id: z.number(),
   images: z.array(MarketItemImageSchema),
-  is_liked: z.boolean(),
-  lego_set: LegoSetSchema,
+  isLiked: z.boolean(),
+  legoSet: LegoSetSchema,
   location: z.string(),
   price: z.number(),
   seller: UserSchema,
-  set_state: objectKeysToZodEnum(setStates),
+  setState: objectKeysToZodEnum(setStates),
   status: z.enum(listingStatus).optional(),
 });

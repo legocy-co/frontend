@@ -4,6 +4,8 @@ import { UserReviewSchema } from './UserReviewType.ts';
 import { MarketItemSchema } from './MarketItemType.ts';
 import { Form } from 'effector-forms';
 
+export type UserProfile = z.infer<typeof UserProfileSchema>;
+
 export type UserProfileForm = Form<UserProfileData>;
 
 export type UserProfileData = {
@@ -11,9 +13,10 @@ export type UserProfileData = {
   username: string;
 };
 
-export type UserProfile = z.infer<typeof UserProfileSchema>;
 export const UserProfileSchema = z.object({
   user: UserSchema,
-  user_reviews: z.array(UserReviewSchema),
-  market_items: z.array(MarketItemSchema),
+  userReviews: z.array(UserReviewSchema),
+  marketItems: z.array(MarketItemSchema),
 });
+
+// ask for JSON camelCase
