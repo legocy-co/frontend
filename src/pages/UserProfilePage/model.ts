@@ -64,13 +64,13 @@ sample({
 });
 
 sample({
-  clock: GetUserProfilePageFx.doneData.map((data) => data.market_items),
+  clock: GetUserProfilePageFx.doneData.map((data) => data.marketItems),
   fn: toMarketItemCells,
   target: $marketItemCells,
 });
 
 sample({
-  clock: GetUserProfilePageFx.doneData.map((data) => data.user_reviews),
+  clock: GetUserProfilePageFx.doneData.map((data) => data.userReviews),
   fn: toUserReviewCells,
   target: $userReviewCells,
 });
