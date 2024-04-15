@@ -9,16 +9,16 @@ const CollectionList = () => {
     <div id={'collection-cell-' + set.id} key={'collection-cell-' + set.id}>
       <CollectionCell
         id={set.id}
-        buy_price={set.buy_price}
+        buy_price={set.buyPrice}
         valuation={set.valuation ?? 0}
         series={set.series}
         set={set.set}
-        set_number={set.set_number}
-        set_id={set.set_id}
+        set_number={set.setNumber}
+        set_id={set.setID}
         condition={set.condition}
         images={set.images}
-        total_return_percentage={set.total_return_percentage}
-        total_return_usd={set.total_return_usd}
+        total_return_percentage={set.totalReturnPercentage}
+        total_return_usd={set.totalReturnUSD}
       />
     </div>
   ));

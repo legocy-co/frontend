@@ -20,19 +20,19 @@ export const $marketItemCells = createStore<MarketItemCell[]>([]);
 
 export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
-    condition: setStates[marketItem.set_state as keyof typeof setStates],
-    condition_icon: marketItem.set_state,
+    condition: setStates[marketItem.setState as keyof typeof setStates],
+    condition_icon: marketItem.setState,
     id: marketItem.id,
     images: marketItem.images
-      .sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => img.image_url),
-    is_liked: marketItem.is_liked,
+      .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .map((img) => img.imageURL),
+    is_liked: marketItem.isLiked,
     location: marketItem.location,
     price: marketItem.price,
-    seller_id: marketItem.seller.id,
-    series: marketItem.lego_set.series.name,
-    set: marketItem.lego_set.name,
-    set_id: marketItem.lego_set.id,
-    set_number: marketItem.lego_set.number,
+    seller_id: marketItem.seller?.id,
+    series: marketItem.legoSet.series.name,
+    set: marketItem.legoSet.name,
+    set_id: marketItem.legoSet.id,
+    set_number: marketItem.legoSet.number,
   }));
 }

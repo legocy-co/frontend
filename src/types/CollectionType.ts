@@ -13,8 +13,8 @@ export type CollectionSet = z.infer<typeof CollectionSetSchema>;
 export type Totals = z.infer<typeof TotalsSchema>;
 
 export type CollectionSetData = {
-  buy_price: number;
-  lego_set_id: number;
+  buyPrice: number;
+  legoSetID: number;
   state: keyof typeof setStates;
 };
 
@@ -25,28 +25,28 @@ export type CollectionSetForm = Form<{
 }>;
 
 const ProfitsSchema = z.object({
-  total_return_usd: z.number(),
-  total_return_percentage: z.number(),
+  totalReturnUSD: z.number(),
+  totalReturnPercentage: z.number(),
 });
 
 const CollectionSetSchema = z.object({
   id: z.number(),
-  buy_price: z.number(),
-  lego_set: LegoSetSchema,
+  buyPrice: z.number(),
+  legoSet: LegoSetSchema,
   state: objectKeysToZodEnum(setStates),
   valuation: ValuationSchema.nullable(),
-  set_profits: ProfitsSchema,
+  setProfits: ProfitsSchema,
 });
 
 const TotalsSchema = z.object({
+  setsValuated: z.number(),
   total: z.number(),
-  total_sets: z.number(),
-  sets_valuated: z.number(),
-  total_profits: ProfitsSchema,
+  totalProfits: ProfitsSchema,
+  totalSets: z.number(),
 });
 
 export const CollectionSchema = z.object({
-  collection_sets: z.array(CollectionSetSchema),
+  collectionSets: z.array(CollectionSetSchema),
   user: UserSchema,
   totals: TotalsSchema,
 });

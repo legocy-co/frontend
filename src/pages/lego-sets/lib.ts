@@ -42,11 +42,11 @@ export function toSetRows(response: PaginationData<LegoSet[]>): SetRow[] {
   return response.data.map((set) => ({
     id: set.id,
     image: set.images
-      ?.sort((current, next) => Number(current.is_main) - Number(next.is_main))
-      .map((img) => 'https://' + img.image_url)[0],
+      ?.sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .map((img) => 'https://' + img.imageURL)[0],
     name: set.name,
     number: set.number,
-    pieces: set.n_pieces,
+    pieces: set.nPieces,
     series: set.series.name,
   }));
 }
