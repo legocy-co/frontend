@@ -4,16 +4,33 @@ import { useGate } from 'effector-react';
 import { PageHeading } from '../../../shared/ui/page-heading.tsx';
 import { useState } from 'react';
 import clsx from 'clsx';
-import MarketItemPrimaryForm from '../../../features/market-item/primary';
+import MarketItemPrimaryForm, {
+  mipf,
+} from '../../../features/market-item/primary';
 import { Button } from '../../../shared/ui/button.tsx';
+import { useForm } from 'effector-forms';
 
 const AddMarketItemPage = () => {
-  const steps = ['primary', 'secondary', 'images'];
-  const [step] = useState('primary');
-
   const navigateFn = useNavigate();
 
   useGate(model.gate, { navigateFn });
+
+  const steps = ['primary', 'secondary', 'images'];
+  const [step, setStep] = useState('primary');
+
+  const stepIndex = steps.findIndex((s) => s === step);
+  const { isValid: primaryValid, submit: primarySubmit } = useForm(mipf.form);
+
+  function handleNext() {
+    switch (step) {
+      case 'primary':
+        primarySubmit();
+        primaryValid && setStep(steps[stepIndex + 1]);
+    }
+  }
+
+  // TODO: refactor steps
+
   // const detailsForm = useForm(mif.form);
   // const uploadImageForm = useForm(umiif.form);
 
@@ -47,19 +64,20 @@ const AddMarketItemPage = () => {
       </div>
       <div className="flex justify-center gap-4">
         {step === 'primary' ? (
-          <Button>Cancel</Button>
+          <Button onClick={() => navigateFn('/')}>Cancel</Button>
         ) : (
-          <Button>Previous step</Button>
+          <Button onClick={() => setStep(steps[stepIndex - 1])}>
+            Previous step
+          </Button>
         )}
         {step === 'images' ? (
           <Button>Finish</Button>
         ) : (
-          <Button>Next step</Button>
+          <Button onClick={handleNext}>Next step</Button>
         )}
       </div>
     </div>
   );
-  // TODO: buttons change step
 };
 
 export default AddMarketItemPage;

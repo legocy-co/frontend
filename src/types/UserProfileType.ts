@@ -18,5 +18,3 @@ export const UserProfileSchema = z.object({
   userReviews: z.array(UserReviewSchema),
   marketItems: z.array(MarketItemSchema),
 });
-
-// ask for JSON camelCase
