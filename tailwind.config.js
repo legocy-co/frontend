@@ -56,6 +56,9 @@ export default {
         'state': '#393939',
         'step': '#D2D2D2',
         'subtitle': '#242020DB',
+        'prevtext': '#222222',
+        'prev': '#ADAAAA',
+        'prevdark': '#5B5B5B',
       },
       dropShadow: {
         'legocy': '-1px 1px 10px 2px #52525226',

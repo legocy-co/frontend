@@ -52,6 +52,7 @@ export const MarketItemPrimaryForm = () => {
         <div className="flex flex-wrap !w-[360px] sm:!w-[466px] gap-[10px] mb-2">
           {...Object.entries(setStates).map((state) => (
             <div
+              key={'state-' + state}
               className={clsx(
                 'h-[30px] flex items-center px-3 text-state gap-2 bg-pagesize rounded-[19px] cursor-pointer dark:!bg-dark dark:text-darkstate',
                 {

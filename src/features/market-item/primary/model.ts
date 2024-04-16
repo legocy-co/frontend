@@ -38,8 +38,6 @@ export const form = createForm({
 
 const domain = createDomain();
 
-export const createFormInfo = domain.createEvent();
-
 export const resetDomain = domain.createEvent();
 
 export const $mappedValues = form.$values.map(mapFormToRequestBody);
@@ -66,8 +64,9 @@ sample({
 });
 
 sample({
-  source: form.formValidated,
-  target: createFormInfo,
+  clock: form.formValidated,
+  fn: () => 'secondary',
+  target: marketItemPage.tabChanged,
 });
 
 sample({
