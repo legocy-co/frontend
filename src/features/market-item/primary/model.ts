@@ -9,6 +9,7 @@ import {
   toOptions,
 } from '../../lego-set/options/model.ts';
 import { marketItemPage } from '../../../pages/market-items/add/index.tsx';
+import { misf } from '../secondary/index.tsx';
 
 export const form = createForm({
   fields: {
@@ -67,6 +68,19 @@ sample({
   clock: form.formValidated,
   fn: () => 'secondary',
   target: marketItemPage.tabChanged,
+});
+
+sample({
+  clock: form.formValidated,
+  source: form.fields.legoSetID.$value,
+  fn: Number,
+  target: misf.$legoSetID,
+});
+
+sample({
+  clock: form.formValidated,
+  source: form.fields.setState.$value,
+  target: misf.$setState,
 });
 
 sample({

@@ -1,7 +1,6 @@
 import { useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useForm } from 'effector-forms';
-import React from 'react';
 import {
   SelectSearchAdapter,
   TextareaFieldAdapter,
@@ -18,13 +17,8 @@ export const MarketItemPrimaryForm = () => {
   const { fields, eachValid } = useForm(model.form);
   const selectedState = useUnit(model.form.fields.setState.$value);
 
-  function onSubmit(ev: React.FormEvent) {
-    ev.preventDefault();
-    model.form.submit();
-  }
-
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <p className="text-xl text-label dark:text-darkfilterstext">Set name</p>
         <div className="relative w-[360px] sm:w-[470px]">

@@ -5,7 +5,6 @@ import { Button } from '../../../shared/ui/button.tsx';
 import clsx from 'clsx';
 import { MarketItemFilterModel } from './model.ts';
 import { setStates } from '../../../types/MarketItemType.ts';
-import cities from '../../../../data/cities.json';
 import RangeSlider from 'react-range-slider-input';
 import './price-slider.scss';
 import SlidersIcon from '../../../assets/icons/sliders.svg?react';
@@ -13,6 +12,8 @@ import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
 import { NumberFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
+import { lo } from '../../location/options/index.ts';
+import { sso } from '../../set-state/options/index.ts';
 
 export const MarketItemsFilter = ({
   model,
@@ -146,13 +147,13 @@ export const MarketItemsFilter = ({
 };
 
 const SetState = ({ model }: { model: MarketItemFilterModel }) => {
-  const { form, setStateOptions } = model;
+  const { form } = model;
   const value = useStoreMap(
     form.fields.set_states.$value,
     (value) => value?.split(',').filter(Boolean) ?? []
   );
 
-  const options = setStateOptions.filter(
+  const options = sso.setStateOptions.filter(
     (state) => !value.includes(state.value)
   );
 
@@ -202,7 +203,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
 };
 
 const Location = ({ model }: { model: MarketItemFilterModel }) => {
-  const { form, countryOptions } = model;
+  const { form } = model;
 
   const value = useStoreMap(
     form.fields.locations.$value,
@@ -211,19 +212,9 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
 
   const [country, setCountry] = useState('');
 
-  const cityOptions = [
-    {
-      label: 'City',
-      value: '',
-    },
-  ].concat(
-    ...cities
-      .filter((city) => city.country === country)
-      .map((city) => city.name)
-      .sort()
-      .map((city) => ({ label: city, value: city }))
-      .filter((city) => !value.includes(`${city.value} - ${country}`))
-  );
+  const cityOptions = lo
+    .cityOptions(country)
+    .filter((city) => !value.includes(`${city.value} - ${country}`));
 
   return (
     <div className="flex flex-col gap-2 mt-[-1rem]">
@@ -235,7 +226,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
             onChange={(ev) => setCountry(ev.currentTarget.value)}
             className="h-[35px] w-[160px] rounded-md bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters cursor-pointer"
           >
-            {countryOptions.map(({ value, label }) => (
+            {lo.countryOptions.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>

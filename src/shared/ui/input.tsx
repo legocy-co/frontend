@@ -47,7 +47,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
               '!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters placeholder:text-filtersplaceholder dark:placeholder:text-darkfiltersprice':
                 variant === 'primary',
             },
-            { 'bg-rose dark:bg-rose !text-charcoal': isInvalid },
+            {
+              '!bg-rose dark:!bg-rose !text-charcoal dark:!text-black':
+                isInvalid,
+            },
             { 'no-scroll': isNumber },
             className
           )}

@@ -8,6 +8,9 @@ import MarketItemPrimaryForm, {
   mipf,
 } from '../../../features/market-item/primary';
 import { tabChanged } from './model.ts';
+import MarketItemSecondaryForm, {
+  misf,
+} from '../../../features/market-item/secondary';
 
 const AddMarketItemPage = () => {
   const navigateFn = useNavigate();
@@ -21,6 +24,9 @@ const AddMarketItemPage = () => {
     switch (tab) {
       case 'primary':
         mipf.form.submit();
+        break;
+      case 'secondary':
+        misf.form.submit();
     }
   }
 
@@ -36,7 +42,7 @@ const AddMarketItemPage = () => {
             className={clsx(
               'w-[154px] border-2 rounded-[5px] dark:border-opacity-45 border-solid border-step dark:border-white',
               {
-                '!border-activestep dark:!border-white dark:!border-opacity-100':
+                '!border-filterstext dark:!border-white dark:!border-opacity-100':
                   tabs.findIndex((x) => x === t) <= tabIndex,
               }
             )}
@@ -47,12 +53,12 @@ const AddMarketItemPage = () => {
         <MarketItemPrimaryForm />
       </div>
       <div className={tab === 'secondary' ? '' : 'hidden'}>
-        {/*<MarketItemSecondaryForm />*/}
+        <MarketItemSecondaryForm />
       </div>
       <div className={tab === 'images' ? '' : 'hidden'}>
         {/*<MarketItemImagesForm />*/}
       </div>
-      <div className="flex justify-center gap-10 mt-10">
+      <div className="flex justify-center gap-4 mt-10">
         <Button
           className="!h-10 text-lg text-prevtext bg-prev dark:bg-prevdark dark:text-white hover:bg-prev hover:brightness-90"
           onClick={() =>
