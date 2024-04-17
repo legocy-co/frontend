@@ -11,6 +11,7 @@ import { tabChanged } from './model.ts';
 import MarketItemSecondaryForm, {
   misf,
 } from '../../../features/market-item/secondary';
+import { MarketItemImagesForm } from '../../../features/market-item/images';
 
 const AddMarketItemPage = () => {
   const navigateFn = useNavigate();
@@ -56,11 +57,11 @@ const AddMarketItemPage = () => {
         <MarketItemSecondaryForm />
       </div>
       <div className={tab === 'images' ? '' : 'hidden'}>
-        {/*<MarketItemImagesForm />*/}
+        <MarketItemImagesForm />
       </div>
       <div className="flex justify-center gap-4 mt-10">
         <Button
-          className="!h-10 text-lg text-prevtext bg-prev dark:bg-prevdark dark:text-white hover:bg-prev hover:brightness-90"
+          className="!h-10 text-lg text-prevtext bg-prev dark:bg-prevdark dark:text-white hover:bg-prev transition-all hover:brightness-95 active:brightness-90"
           onClick={() =>
             tab === 'primary' ? navigateFn('/') : tabChanged(tabs[tabIndex - 1])
           }

@@ -81,7 +81,7 @@ export const tabs = ['primary', 'secondary', 'images'];
 
 export const tabChanged = createEvent<string>();
 
-export const $tab = createStore(tabs[1]);
+export const $tab = createStore(tabs[2]);
 
 sample({
   source: tabChanged,
