@@ -84,5 +84,62 @@ const Preview = () => {
     onChange(filtered);
   }
 
-  return <MarketItemPreview images={value} handleDelete={handleDelete} />;
+  // assignment without re-rendering images (state change causes flickering)
+  let currentFile: File;
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, item: File) => {
+    currentFile = item;
+  };
+
+  const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, item: File) => {
+    e.preventDefault();
+
+    const rePositionedImages = value.map((c: any, i) => {
+      if (
+        value.findIndex((e) => e === c) === value.findIndex((e) => e === item)
+      ) {
+        c.order_index = value.findIndex((e) => e === currentFile);
+        return c;
+      }
+
+      if (
+        value.findIndex((e) => e === c) ===
+        value.findIndex((e) => e === currentFile)
+      ) {
+        c.order_index = value.findIndex((e) => e === item);
+        return c;
+      }
+      c.order_index = i;
+      return c;
+    });
+
+    onChange(
+      rePositionedImages
+        .sort((a, b) => a.order_index - b.order_index)
+        .map((obj: any) => {
+          console.log(obj);
+          delete obj.order_index;
+          return obj as File;
+        }) as File[]
+    );
+  };
+
+  return (
+    <MarketItemPreview
+      images={value}
+      handleDelete={handleDelete}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    />
+  );
 };
