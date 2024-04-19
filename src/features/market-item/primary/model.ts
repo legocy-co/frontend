@@ -3,13 +3,6 @@ import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { setStates } from '../../../types/MarketItemType.ts';
 import { createDomain, sample, StoreValue } from 'effector';
-import {
-  $legoSetOptions,
-  GetLegoSetsFx,
-  toOptions,
-} from '../../lego-set/options/model.ts';
-import { marketItemPage } from '../../../pages/market-items/add/index.tsx';
-import { misf } from '../secondary/index.tsx';
 
 export const form = createForm({
   fields: {
@@ -46,42 +39,12 @@ export const $mappedValues = form.$values.map(mapFormToRequestBody);
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
     description: values.description,
-    lego_set_id: Number(values.legoSetID),
-    set_state: values.setState,
+    legoSetID: Number(values.legoSetID),
+    setState: values.setState,
   };
 }
 
 domain.onCreateStore((store) => store.reset(resetDomain));
-
-sample({
-  clock: marketItemPage.gate.open,
-  target: GetLegoSetsFx,
-});
-
-sample({
-  clock: GetLegoSetsFx.doneData,
-  fn: toOptions,
-  target: $legoSetOptions,
-});
-
-sample({
-  clock: form.formValidated,
-  fn: () => 'secondary',
-  target: marketItemPage.tabChanged,
-});
-
-sample({
-  clock: form.formValidated,
-  source: form.fields.legoSetID.$value,
-  fn: Number,
-  target: misf.$legoSetID,
-});
-
-sample({
-  clock: form.formValidated,
-  source: form.fields.setState.$value,
-  target: misf.$setState,
-});
 
 sample({
   clock: resetDomain,

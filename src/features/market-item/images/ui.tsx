@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useGate } from 'effector-react';
 import * as model from './model.ts';
 import React, { useEffect } from 'react';
-import { MarketItemPreview } from '../../../entities/market-item';
+import { MarketItemPreview } from '../../../entities/market-item/images';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useField, useForm } from 'effector-forms';
 
@@ -67,7 +67,9 @@ export const MarketItemImagesForm = () => {
         We recommend to upload high-resolution photos from various angles to
         showcase your product effectively and attract potential buyers.
       </p>
-      {!eachValid && <FormError>{fields.images.errorText()}</FormError>}
+      <div className="flex justify-center">
+        {!eachValid && <FormError>{fields.images.errorText()}</FormError>}
+      </div>
     </form>
   );
 };
@@ -87,7 +89,7 @@ const Preview = () => {
   // assignment without re-rendering images (state change causes flickering)
   let currentFile: File;
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, item: File) => {
+  const handleDragStart = (_: React.DragEvent<HTMLDivElement>, item: File) => {
     currentFile = item;
   };
 

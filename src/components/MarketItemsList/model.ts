@@ -12,11 +12,22 @@ export type MarketItemCell = {
   seller_id: number;
   series: string;
   set: string;
-  set_id: number;
-  set_number: number;
 };
 
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
+
+export const $marketItemCell = createStore<MarketItemCell>({
+  condition: '',
+  condition_icon: 'BUILT_WITHOUT_BOX',
+  id: 0,
+  images: [],
+  is_liked: false,
+  location: '',
+  price: 0,
+  seller_id: 0,
+  series: '',
+  set: '',
+});
 
 export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
   return marketItems.map((marketItem) => ({
@@ -32,7 +43,5 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     seller_id: marketItem.seller?.id,
     series: marketItem.legoSet.series.name,
     set: marketItem.legoSet.name,
-    set_id: marketItem.legoSet.id,
-    set_number: marketItem.legoSet.number,
   }));
 }

@@ -9,10 +9,9 @@ import {
   sample,
   StoreValue,
 } from 'effector';
-import { marketItemPage } from '../../../pages/market-items/add/index.tsx';
 import { valuationService } from '../../../services/ValuationService.ts';
-import { setStates } from '../../../types/MarketItemType.ts';
 import { Valuation } from '../../../types/ValuationType.ts';
+import { mipf } from '../primary/index.tsx';
 
 export const form = createForm({
   fields: {
@@ -51,10 +50,6 @@ export const form = createForm({
   },
 });
 
-export const $legoSetID = createStore<number>(0);
-
-export const $setState = createStore<keyof typeof setStates>('BRAND_NEW');
-
 export const $valuations = createStore<Valuation[]>([]);
 
 export const $stateValuation = createStore<number>(0);
@@ -66,7 +61,7 @@ export const resetDomain = domain.createEvent();
 const fetchValuationsFx = createEffect(valuationService.GetValuations);
 
 const fetchStateValuationFx = attach({
-  source: { valuations: $valuations, state: $setState },
+  source: { valuations: $valuations, state: mipf.form.fields.setState.$value },
   effect: ({ valuations, state }) =>
     valuations.find((valuation) => valuation.state === state)?.valuation ?? 0,
 });
@@ -83,7 +78,7 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
 domain.onCreateStore((store) => store.reset(resetDomain));
 
 sample({
-  source: $legoSetID,
+  source: mipf.form.fields.legoSetID.$value,
   target: fetchValuationsFx,
 });
 
@@ -93,19 +88,13 @@ sample({
 });
 
 sample({
-  clock: [$valuations, $setState],
+  clock: $valuations,
   target: fetchStateValuationFx,
 });
 
 sample({
   source: fetchStateValuationFx.doneData,
   target: $stateValuation,
-});
-
-sample({
-  clock: form.formValidated,
-  fn: () => 'images',
-  target: marketItemPage.tabChanged,
 });
 
 sample({

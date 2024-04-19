@@ -8,7 +8,7 @@ type LegoSetOption = {
   name: string;
 };
 
-export const GetLegoSetsFx = createEffect(() => legoSetService.GetLegoSets());
+export const fetchLegoSetsFx = createEffect(() => legoSetService.GetLegoSets());
 
 export const $legoSetOptions = createStore<LegoSetOption[]>([]);
 
