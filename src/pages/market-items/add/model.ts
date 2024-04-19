@@ -24,6 +24,7 @@ import {
 } from '../../../features/lego-set/options/model.ts';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { sleep } from '../../../services/utils.ts';
+import { up } from '../../UserProfilePage/index.tsx';
 
 export const gate = createGate<{
   navigateFn: NavigateFunction;
@@ -38,11 +39,20 @@ const $legoSet = createStore<LegoSet>({
   series: { id: 0, name: '' },
 });
 
-export const tabs = ['primary', 'secondary', 'images', 'preview'];
+export const tabs = [
+  'primary',
+  'secondary',
+  'images',
+  'preview',
+  'loading',
+  'final',
+];
 
 export const tabChanged = createEvent<string>();
 
 export const finish = createEvent();
+
+export const uploadsSelected = createEvent<boolean>();
 
 export const $tab = createStore(tabs[0]);
 
@@ -109,11 +119,6 @@ const uploadImagesFx = attach({
   },
 });
 
-const catalogRedirectFx = attach({
-  source: gate.state,
-  effect: ({ navigateFn }) => navigateFn('/catalog'),
-});
-
 sample({
   clock: gate.open,
   target: fetchLegoSetsFx,
@@ -130,6 +135,8 @@ sample({
     mipf.form.formValidated,
     misf.form.formValidated,
     miif.form.formValidated,
+    finish,
+    miif.resetDomain,
   ],
   source: $tab,
   fn: (tab) => tabs[tabs.findIndex((t) => t === tab) + 1],
@@ -185,11 +192,15 @@ sample({
 
 sample({
   clock: uploadImagesFx.done,
-  target: [
-    mipf.resetDomain,
-    misf.resetDomain,
-    miif.resetDomain,
-    $tab.reinit!,
-    catalogRedirectFx,
-  ],
+  target: [mipf.resetDomain, misf.resetDomain, miif.resetDomain],
+});
+
+sample({
+  source: uploadsSelected,
+  target: up.$uploadsSelected,
+});
+
+sample({
+  clock: gate.close,
+  target: $tab.reinit!,
 });

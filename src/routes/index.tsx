@@ -30,6 +30,7 @@ import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
 import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
 import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
 import ChatPage from '../pages/ChatPage';
+import CatalogSelectPage from '../pages/market-items/select/index.tsx';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<RootPage />}>
-        <Route index element={<Navigate to="/catalog" />} />
+        <Route index element={<Navigate to="/catalog/select" />} />
 
         <Route path="auth" element={<AuthRoute />} />
         <Route path="auth/sign-up" element={<SignUpPage />} />
@@ -57,6 +58,7 @@ const AppRouter = () => {
 
         <Route path="catalog" element={<Outlet />}>
           <Route index element={<CatalogPage />} />
+          <Route path="select" element={<CatalogSelectPage />} />
           <Route path=":id" element={<MarketItemDetailPage />} />
           <Route path="add" element={<AddMarketItemPage />} />
           <Route path="update/:id" element={<UpdateMarketItemPage />} />

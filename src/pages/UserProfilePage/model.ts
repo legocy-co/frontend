@@ -19,6 +19,8 @@ type UserProfile = {
   username: string;
 };
 
+export const $uploadsSelected = createStore(false);
+
 export const avatarChanged = createEvent();
 
 export const marketItemDeleted = createEvent();

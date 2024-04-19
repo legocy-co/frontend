@@ -17,6 +17,8 @@ import {
 } from '../../../features/market-item/images';
 import MarketItemCell from '../../../components/MarketItemCell';
 import { $marketItemCell } from '../../../components/MarketItemsList/model.ts';
+import Loader from '../../../shared/ui/loader.tsx';
+import CongratsIcon from '../../../assets/icons/congrats.svg?react';
 
 const AddMarketItemPage = () => {
   const navigateFn = useNavigate();
@@ -27,6 +29,11 @@ const AddMarketItemPage = () => {
 
   const cell = useUnit($marketItemCell);
   const description = useUnit(mipf.form.fields.description.$value);
+
+  function toUploads() {
+    navigateFn('/profile');
+    model.uploadsSelected(true);
+  }
 
   function handleNext() {
     switch (tab) {
@@ -41,6 +48,9 @@ const AddMarketItemPage = () => {
         break;
       case 'preview':
         model.finish();
+        break;
+      case 'final':
+        navigateFn('/catalog');
     }
   }
 
@@ -50,7 +60,7 @@ const AddMarketItemPage = () => {
         Add Your Set
       </PageHeading>
       <div className="!w-[360px] sm:!w-[496px] flex items-center justify-between gap-1 mb-16">
-        {model.tabs.slice(0, model.tabs.length - 1).map((t) => (
+        {model.tabs.slice(0, model.tabs.length - 3).map((t) => (
           <div
             key={'tab-' + t}
             className={clsx(
@@ -99,17 +109,54 @@ const AddMarketItemPage = () => {
           Set description: {description}
         </p>
       </div>
-      <div className="flex justify-center gap-4 mt-10">
+      <div
+        className={
+          tab === 'loading' ? 'flex flex-col gap-6 items-center' : 'hidden'
+        }
+      >
+        <p className="font-normal text-xs text-label dark:text-darkfilterstext">
+          Your set is publishing. Please stay at this page.
+        </p>
+        <Loader />
+      </div>
+      <div
+        className={
+          tab === 'final' ? 'flex flex-col gap-6 items-center' : 'hidden'
+        }
+      >
+        <CongratsIcon className="iconstrokes" />
+        <p className="text-lg max-w-[360px] sm:max-w-[494px] text-center color-darkfiltersbg dark:color-white">
+          Thank you for your submission! Your request has been sent for
+          moderation and is currently being reviewed. Please await approval.
+        </p>
+      </div>
+      <div
+        className={
+          tab === 'loading' ? 'hidden' : 'flex justify-center gap-4 mt-10'
+        }
+      >
         <Button
           className="!h-10 text-lg text-prevtext bg-prev dark:bg-prevdark dark:text-white hover:bg-prev transition-all hover:brightness-95 active:brightness-90"
           onClick={() =>
-            tab === 'primary' ? navigateFn('/') : tabChanged(tabs[tabIndex - 1])
+            tab === 'primary'
+              ? navigateFn('/catalog/select')
+              : tab === 'final'
+                ? toUploads()
+                : tabChanged(tabs[tabIndex - 1])
           }
         >
-          {tab === 'primary' ? 'Cancel' : 'Previous step'}
+          {tab === 'primary'
+            ? 'Cancel'
+            : tab === 'final'
+              ? 'Go to my uploads'
+              : 'Previous step'}
         </Button>
         <Button className="!h-10 text-lg text-celllink" onClick={handleNext}>
-          {tab === 'images' || tab === 'preview' ? 'Finish' : 'Next step'}
+          {tab === 'images' || tab === 'preview'
+            ? 'Finish'
+            : tab === 'final'
+              ? 'Exit to catalog'
+              : 'Next step'}
         </Button>
       </div>
     </div>

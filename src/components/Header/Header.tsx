@@ -86,7 +86,7 @@ const Header = () => {
             className={clsx('header--member fills', {
               'legocy-fills': path === 'catalog',
             })}
-            onClick={() => navigate('/catalog')}
+            onClick={() => navigate('/')}
           />
           <WikiIcon
             className={clsx('header--member strokes', {
