@@ -44,7 +44,7 @@ export const MarketItemSecondaryForm = () => {
     mark = 'below';
   } else if (
     price.value > stateValuation * 1.25 &&
-    price.value < stateValuation * 1.5
+    price.value <= stateValuation * 1.5
   ) {
     mark = 'above';
   } else if (price.value > stateValuation * 1.5) {

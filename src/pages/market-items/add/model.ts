@@ -22,77 +22,8 @@ import {
   fetchLegoSetsFx,
   toOptions,
 } from '../../../features/lego-set/options/model.ts';
-
-// export const submitTriggered = createEvent();
-//
-// export const gate = createGate<{
-//   navigateFn: NavigateFunction;
-// }>();
-//
-// const $marketItemId = createStore<number>(0);
-//
-// const addMarketItemFx = attach({
-//   source: mif.$mappedValues,
-//   effect: marketItemService.CreateMarketItem,
-// });
-//
-// const uploadImagesFx = attach({
-//   source: {
-//     id: $marketItemId,
-//     images: umiif.$mappedValues,
-//   },
-//   effect: async ({ id, images }) => {
-//     for (let i = 0; i < images.files.length; i++) {
-//       const data = new FormData();
-//       data.append('file', images.files[i]);
-//
-//       marketItemService.UploadImage(data, id);
-//       await sleep(1010);
-//
-//       const imgElem = document.getElementById(
-//         'preview-' + i
-//       ) as HTMLImageElement;
-//
-//       imgElem.width = 0;
-//     }
-//   },
-// });
-//
-// const profileRedirectFx = attach({
-//   source: gate.state,
-//   effect: ({ navigateFn }) => navigateFn('/profile/' + authService.GetUserId()),
-// });
-//
-// sample({
-//   clock: submitTriggered,
-//   target: [mif.form.submit, umiif.form.submit],
-// });
-//
-// sample({
-//   clock: [mif.createFormInfo, umiif.createFormImages],
-//   filter: and(mif.form.$isValid, umiif.form.$isValid),
-//   target: addMarketItemFx,
-// });
-//
-// sample({
-//   clock: addMarketItemFx.doneData.map((data) => data.id),
-//   target: $marketItemId,
-// });
-//
-// sample({
-//   clock: $marketItemId,
-//   target: uploadImagesFx,
-// });
-//
-// sample({
-//   clock: uploadImagesFx.done,
-//   target: profileRedirectFx,
-// });
-//
-// sample({
-//   clock: gate.close,
-//   target: [mif.resetDomain, umiif.resetDomain],
-// });
+import { marketItemService } from '../../../services/MarketItemService.ts';
+import { sleep } from '../../../services/utils.ts';
 
 export const gate = createGate<{
   navigateFn: NavigateFunction;
@@ -146,6 +77,43 @@ const toCell = attach({
   },
 });
 
+const CreateMarketItemFx = attach({
+  source: { primary: mipf.$mappedValues, secondary: misf.$mappedValues },
+  effect: ({ primary, secondary }) => {
+    const data = { ...primary, ...secondary };
+    return marketItemService.CreateMarketItem(data);
+  },
+});
+
+const $marketItemID = createStore<number>(0);
+
+const uploadImagesFx = attach({
+  source: {
+    id: $marketItemID,
+    images: miif.$mappedValues,
+  },
+  effect: async ({ id, images }) => {
+    for (let i = 0; i < images.files.length; i++) {
+      const data = new FormData();
+      data.append('file', images.files[i]);
+
+      marketItemService.UploadImage(data, id);
+      await sleep(1010);
+
+      const imgElem = document.getElementById(
+        'preview-' + i
+      ) as HTMLImageElement;
+
+      imgElem.width = 0;
+    }
+  },
+});
+
+const catalogRedirectFx = attach({
+  source: gate.state,
+  effect: ({ navigateFn }) => navigateFn('/catalog'),
+});
+
 sample({
   clock: gate.open,
   target: fetchLegoSetsFx,
@@ -197,4 +165,31 @@ sample({
 sample({
   clock: tabChanged,
   target: $marketItemCell.reinit!,
+});
+
+sample({
+  clock: finish,
+  target: CreateMarketItemFx,
+});
+
+sample({
+  clock: CreateMarketItemFx.doneData,
+  fn: (data) => data.id,
+  target: $marketItemID,
+});
+
+sample({
+  clock: $marketItemID,
+  target: uploadImagesFx,
+});
+
+sample({
+  clock: uploadImagesFx.done,
+  target: [
+    mipf.resetDomain,
+    misf.resetDomain,
+    miif.resetDomain,
+    $tab.reinit!,
+    catalogRedirectFx,
+  ],
 });
