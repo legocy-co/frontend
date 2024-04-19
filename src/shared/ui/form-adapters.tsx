@@ -52,11 +52,15 @@ export const SelectFieldAdapter = ({
   defaultOptionValue,
   options,
   disabled,
+  variant,
+  className,
 }: {
   options: SelectFieldOption[];
   defaultOptionValue: string;
   field: Field<any>;
   disabled?: boolean;
+  variant?: 'primary' | '';
+  className?: string;
 }) => {
   const { value, onChange, hasError } = useField(field);
 
@@ -68,8 +72,13 @@ export const SelectFieldAdapter = ({
       disabled={disabled}
       onChange={(ev) => onChange(ev.currentTarget.value)}
       className={clsx(
-        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl !dark:text-charcoal indent-3 pr-10 outline-0 mb-3.5',
-        { 'bg-rose dark:bg-rose dark:text-charcoal': isInvalid }
+        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5',
+        {
+          '!h-[35px] !w-[160px] !rounded-md !bg-none !border-none text-filterstext dark:text-darkfilterstext !indent-3 !pr-10 !outline-0 !mb-1 dark:!bg-darkfilters !cursor-pointer':
+            variant === 'primary',
+        },
+        className,
+        { '!bg-rose dark:!bg-rose dark:!text-black': isInvalid }
       )}
     >
       {options.map(({ value, label }, i) => (
@@ -135,7 +144,9 @@ export const SelectSearchAdapter = ({
         activeValue={activeValue}
       />
       <div
-        className="absolute top-8 right-4 cursor-pointer"
+        className={
+          activeValue ? 'absolute top-8 right-[-16px] cursor-pointer' : 'hidden'
+        }
         onClick={handleReset}
       >
         x

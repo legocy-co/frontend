@@ -14,7 +14,7 @@ import {
 import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import {
   $legoSetOptions,
-  GetLegoSetsFx,
+  fetchLegoSetsFx,
   toOptions,
 } from '../../lego-set/options/model.ts';
 import { createGate } from 'effector-react';
@@ -150,7 +150,7 @@ domain.onCreateStore((store) => store.reset(resetDomain));
 
 sample({
   clock: gate.open,
-  target: GetLegoSetsFx,
+  target: fetchLegoSetsFx,
 });
 
 sample({
@@ -175,7 +175,7 @@ sample({
 });
 
 sample({
-  clock: GetLegoSetsFx.doneData,
+  clock: fetchLegoSetsFx.doneData,
   fn: toOptions,
   target: $legoSetOptions,
 });

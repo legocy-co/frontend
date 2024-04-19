@@ -16,9 +16,7 @@ const MarketItemsList = () => {
         price={marketItem.price}
         series={marketItem.series}
         set={marketItem.set}
-        set_number={marketItem.set_number}
         seller_id={marketItem.seller_id}
-        set_id={marketItem.set_id}
         is_liked={marketItem.is_liked}
       />
     </div>

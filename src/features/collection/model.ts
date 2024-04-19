@@ -15,7 +15,7 @@ import {
 } from 'effector';
 import {
   $legoSetOptions,
-  GetLegoSetsFx,
+  fetchLegoSetsFx,
   toOptions,
 } from '../lego-set/options/model.ts';
 import { collectionService } from '../../services/CollectionService.ts';
@@ -132,11 +132,11 @@ function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
 
 sample({
   clock: gate.open,
-  target: GetLegoSetsFx,
+  target: fetchLegoSetsFx,
 });
 
 sample({
-  clock: GetLegoSetsFx.doneData,
+  clock: fetchLegoSetsFx.doneData,
   fn: toOptions,
   target: $legoSetOptions,
 });

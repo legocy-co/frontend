@@ -8,7 +8,7 @@ export const FormError = forwardRef<HTMLDivElement, Props>(
   ({ children }, ref) => {
     return (
       <div
-        className="absolute py-1.5 px-3.5 bg-rose-2 text-burgundy border border-solid border-burgundy rounded-2xl"
+        className="absolute py-1.5 px-3.5 bg-rose-2 text-burgundy rounded-2xl"
         ref={ref}
       >
         {children}

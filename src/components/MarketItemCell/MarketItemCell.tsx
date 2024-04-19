@@ -22,16 +22,16 @@ interface MarketItemCellProps {
   price: number;
   series: string;
   set: string;
-  set_number: number;
   seller_id: number;
-  set_id: number;
   is_liked: boolean;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
   const [liked, setLiked] = useState(props.is_liked);
+
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(props.images[0]);
+  console.log(imageSrc);
 
   const [showDelete, setShowDelete] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -44,13 +44,19 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   }
 
   async function handleLike() {
-    if (liked) {
-      await marketItemService.UnlikeMarketItem(props.id);
-      setLiked(false);
-    } else {
+    if (!props.id) {
+      return;
+    }
+
+    if (!liked) {
       await marketItemService.LikeMarketItem(props.id);
       setLiked(true);
+
+      return;
     }
+
+    await marketItemService.UnlikeMarketItem(props.id);
+    setLiked(false);
   }
 
   return (
@@ -106,9 +112,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
               onClick={() =>
                 setImageSrc(
                   props.images[
-                    (props.images.findIndex((img) => img === imageSrc) +
-                      props.images.length -
-                      1) %
+                    (props.images.findIndex((img) => img === imageSrc) + props.images.length + 1) %
                       props.images.length
                   ]
                 )
@@ -149,7 +153,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
       </div>
       <div
         className="cell--link bg-celllink dark:bg-legocy text-white dark:text-celllinkdarktext"
-        onClick={() => navigate(`/catalog/${props.id}`)}
+        onClick={() => props.id && navigate(`/catalog/${props.id}`)}
       >
         <h1>More Info</h1>
       </div>

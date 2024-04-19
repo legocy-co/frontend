@@ -31,7 +31,7 @@ export const form = createForm({
                   'Only .jpg, .jpeg, .png, .heic and .webp formats are supported.'
                 )
             )
-            .min(1, 'Missing images')
+            .min(1, 'Please add images')
             .max(6, 'Market item must contain no more than 6 images'),
         }),
       ],
