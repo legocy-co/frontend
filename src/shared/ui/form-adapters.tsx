@@ -72,7 +72,7 @@ export const SelectFieldAdapter = ({
       disabled={disabled}
       onChange={(ev) => onChange(ev.currentTarget.value)}
       className={clsx(
-        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5',
+        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5 dark:text-white',
         {
           '!h-[35px] !w-[160px] !rounded-md !bg-none !border-none text-filterstext dark:text-darkfilterstext !indent-3 !pr-10 !outline-0 !mb-1 dark:!bg-darkfilters !cursor-pointer':
             variant === 'primary',

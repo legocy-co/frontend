@@ -21,6 +21,7 @@ import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { authService } from '../../../services/AuthService.ts';
+import { up } from '../../../pages/UserProfilePage/index.tsx';
 
 export const gate = createGate<{
   id: string | null;
@@ -197,6 +198,12 @@ sample({
 sample({
   clock: updateMarketItemFx.done,
   target: profileRedirectFx,
+});
+
+sample({
+  clock: profileRedirectFx.done,
+  fn: () => true,
+  target: up.$uploadsSelected,
 });
 
 sample({

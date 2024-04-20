@@ -94,7 +94,7 @@ export const MarketItemInfoForm = () => {
           </FormError>
         )}
         {params.id && (
-          <Button type="submit" className="mt-20">
+          <Button type="submit" className="mt-20 !w-56">
             Update Market Item
           </Button>
         )}
