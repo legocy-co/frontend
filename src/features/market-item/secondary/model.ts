@@ -78,6 +78,7 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
 domain.onCreateStore((store) => store.reset(resetDomain));
 
 sample({
+  clock: mipf.form.formValidated,
   source: mipf.form.fields.legoSetID.$value,
   target: fetchValuationsFx,
 });
