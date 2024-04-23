@@ -30,10 +30,10 @@ export const MarketItemImagesForm = () => {
 
   return (
     <form className="flex flex-col gap-4 text-center items-center">
-      <p className="text-lg text-label dark:text-darkfilterstext">
+      <p className="text-lg text-[#332929] dark:text-[#F9F9F9]">
         Add images of your set
       </p>
-      <p className="font-normal max-w-[360px] sm:max-w-[565px] text-xs text-label dark:text-darkfilterstext">
+      <p className="font-normal max-w-[360px] sm:max-w-[565px] text-xs text-[#332929] dark:text-[#F9F9F9]">
         The first image will serve as the thumbnail. The thumbnail is the main
         photo displayed on the item card within the catalog. We recommend
         selecting a photo that effectively showcases the entire set.{' '}
@@ -63,7 +63,7 @@ export const MarketItemImagesForm = () => {
       <div className="mb-5">
         <Preview />
       </div>
-      <p className="font-normal max-w-[360px] sm:max-w-[565px] text-xs text-label dark:text-darkfilterstext">
+      <p className="font-normal max-w-[360px] sm:max-w-[565px] text-xs text-[#332929] dark:text-[#F9F9F9]">
         We recommend to upload high-resolution photos from various angles to
         showcase your product effectively and attract potential buyers.
       </p>

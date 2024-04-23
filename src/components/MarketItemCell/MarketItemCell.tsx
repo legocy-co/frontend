@@ -152,7 +152,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
         </div>
       </div>
       <div
-        className="cell--link bg-celllink dark:bg-legocy text-white dark:text-celllinkdarktext"
+        className="cell--link bg-celllink dark:bg-legocy text-white dark:text-[#2F2929]"
         onClick={() => props.id && navigate(`/catalog/${props.id}`)}
       >
         <h1>More Info</h1>

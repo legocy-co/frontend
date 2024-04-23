@@ -107,7 +107,7 @@ const UserProfilePage = () => {
             {
               <img
                 id="profile-avatar"
-                className="w-24 aspect-square rounded-full drop-shadow-avatar object-cover object-bottom "
+                className="w-24 aspect-square rounded-full shadow-avatar object-cover object-bottom "
                 src={
                   userProfile.user_images[0]
                     ? userProfile.user_images[0]

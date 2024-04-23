@@ -37,7 +37,7 @@ const MarketItemDetailPage = () => {
             <div
               onClick={() => setShowGallery(i + 1)}
               key={'subimage-' + i}
-              className="w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+              className="w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 shadow-subimages"
             >
               <img
                 src={marketItem.images[i + 1]}
@@ -78,11 +78,11 @@ const MarketItemDetailPage = () => {
     <div className="w-full h-full flex flex-col items-center">
       <div className="mt-8 mb-9 whitespace-nowrap flex flex-wrap gap-7 justify-center">
         <div className="flex flex-col gap-5 w-[300px] sm:w-[521px]">
-          <div className="flex text-[2rem] font-semibold text-darkfiltersbg justify-between items-center">
+          <div className="flex text-[2rem] font-semibold text-celllink justify-between items-center">
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
           <img
-            className="w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+            className="w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
             src={'' + marketItem.images.slice(0, 1)}
             onError={addDefaultSrc}
             onClick={() => setShowGallery(0)}
@@ -95,19 +95,19 @@ const MarketItemDetailPage = () => {
           <div className="flex flex-col justify-between h-24 mb-4">
             <p>
               Condition:{' '}
-              <span className="text-light dark:text-yellow-100">
+              <span className="text-[#5F5F5F] dark:text-yellow-100">
                 {marketItem.condition}
               </span>
             </p>
             <p>
               Series:{' '}
-              <span className="text-light dark:text-yellow-100">
+              <span className="text-[#5F5F5F] dark:text-yellow-100">
                 {marketItem.series}
               </span>
             </p>
             <p>
               Location:{' '}
-              <span className="text-light dark:text-yellow-100">
+              <span className="text-[#5F5F5F] dark:text-yellow-100">
                 {marketItem.location}
               </span>
             </p>
@@ -115,13 +115,13 @@ const MarketItemDetailPage = () => {
           <p className="mb-9">
             Set Number:{' '}
             <span
-              className="text-light dark:text-yellow-100 underline transition-opacity cursor-pointer hover:opacity-90 active:opacity-80"
+              className="text-[#5F5F5F] dark:text-yellow-100 underline transition-opacity cursor-pointer hover:opacity-90 active:opacity-80"
               onClick={() => navigate('/wiki/sets/' + marketItem.set_id)}
             >
               {marketItem.set_number}
             </span>
           </p>
-          <div className="bg-ghost dark:bg-dark border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-5 sm:mb-28">
+          <div className="bg-description dark:bg-dark border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-5 sm:mb-28">
             <p>Set description: {marketItem.description}</p>
           </div>
           <div className="flex flex-col gap-5 sm:flex-row justify-between items-center text-3xl">

@@ -42,13 +42,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           disabled={isDisabled}
           ref={ref}
           className={clsx(
-            'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl text-charcoal dark:text-white indent-3 pr-10 outline-0 mb-3.5',
+            'block w-[343px] h-[44px] dark:bg-dark border border-solid border-selectborder rounded-xl text-confirmmodal dark:text-white indent-3 pr-10 outline-0 mb-3.5',
             {
-              '!h-[35px] !w-[160px] !rounded-md border-none bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters placeholder:text-filtersplaceholder dark:placeholder:text-darkfiltersprice':
+              '!h-[35px] !w-[160px] !rounded-md border-none bg-white text-tab dark:text-[#F9F9F9] indent-3 pr-10 outline-0 mb-1 dark:bg-dark placeholder:text-[#625F5F] dark:placeholder:text-[#F9F9F9] placeholder:text-opacity-35':
                 variant === 'primary',
             },
             {
-              '!bg-rose dark:!bg-rose !text-charcoal dark:!text-charcoal':
+              '!bg-invalid dark:!bg-invalid !text-confirmmodal dark:!text-confirmmodal':
                 isInvalid,
             },
             { 'no-scroll': isNumber },

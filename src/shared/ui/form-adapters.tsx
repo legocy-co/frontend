@@ -72,13 +72,13 @@ export const SelectFieldAdapter = ({
       disabled={disabled}
       onChange={(ev) => onChange(ev.currentTarget.value)}
       className={clsx(
-        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-slate rounded-xl text-charcoal indent-3 pr-10 outline-0 mb-3.5 dark:text-white',
+        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-selectborder rounded-xl text-confirmmodal indent-3 pr-10 outline-0 mb-3.5 dark:text-white',
         {
-          '!h-[35px] !w-[160px] !rounded-md !bg-none !border-none text-filterstext dark:text-darkfilterstext !indent-3 !pr-10 !outline-0 !mb-1 dark:!bg-darkfilters !cursor-pointer':
+          '!h-[35px] !w-[160px] !rounded-md !bg-none !border-none text-tab dark:text-[#F9F9F9] !indent-3 !pr-10 !outline-0 !mb-1 dark:!bg-dark !cursor-pointer':
             variant === 'primary',
         },
         className,
-        { '!bg-rose dark:!bg-rose dark:!text-black': isInvalid }
+        { '!bg-invalid dark:!bg-invalid dark:!text-black': isInvalid }
       )}
     >
       {options.map(({ value, label }, i) => (
