@@ -2,8 +2,6 @@ import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addDefaultSrc } from '../../../services/utils.ts';
-import { PageHeading } from '../../../shared/ui/page-heading.tsx';
-import HeartIcon from '../../../assets/icons/heart.svg';
 import { Button } from '../../../shared/ui/button.tsx';
 import { useState } from 'react';
 import GalleryModal from '../../../components/GalleryModal';
@@ -19,18 +17,47 @@ const MarketItemDetailPage = () => {
   const marketItem = useUnit(model.$marketItemDetail);
   const [showGallery, setShowGallery] = useState<number>(-1);
 
-  const subImagesElement = marketItem.images
-    .slice(1, 4)
-    .map((image, i) => (
-      <img
-        key={image}
-        src={image}
-        onError={addDefaultSrc}
-        onClick={() => setShowGallery(i + 1)}
-        alt=""
-        className="w-44 h-40 object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
-      ></img>
-    ));
+  const subImagesElement = (
+    <div className="relative">
+      <div className="flex w-full flex-wrap justify-start gap-[13px] items-center">
+        {Array.from({ length: 4 }, (_, i) => (
+          <div
+            key={'subimage_container-' + i}
+            className="w-[120px] h-[114px] bg-pagesize rounded-md"
+          ></div>
+        ))}
+      </div>
+      <div className="flex w-full justify-start gap-[13px] items-center absolute top-0">
+        {Array.from(
+          {
+            length:
+              marketItem.images.length >= 4 ? 4 : marketItem.images.length - 1,
+          },
+          (_, i) => (
+            <div
+              onClick={() => setShowGallery(i + 1)}
+              key={'subimage-' + i}
+              className="w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+            >
+              <img
+                src={marketItem.images[i + 1]}
+                onError={addDefaultSrc}
+                alt=""
+                className="w-full h-full rounded-md object-cover"
+              />
+              {marketItem.images.length > 5 && i === 3 && (
+                <div className="w-[120px] h-[114px] rounded-md absolute top-0 flex justify-center items-center bg-black opacity-70 cursor-pointer transition-opacity hover:opacity-65 active:opacity-60">
+                  <p className="text-lg text-white">
+                    + {marketItem.images.length - 4} photos
+                  </p>
+                </div>
+              )}
+            </div>
+          )
+        )}
+      </div>
+    </div>
+  );
 
   async function handleMessage() {
     try {
@@ -49,26 +76,19 @@ const MarketItemDetailPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <PageHeading isMarketItemDetail to="/catalog" />
-      <div className="mt-8 mb-9 whitespace-nowrap grid xl:grid-cols-2 gap-7">
-        <div className="inline-block w-[300px] sm:w-[595px]">
-          <div className="relative mb-7">
-            <img
-              className="w-full h-[200px] sm:h-[470px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
-              src={'' + marketItem.images.slice(0, 1)}
-              onError={addDefaultSrc}
-              onClick={() => setShowGallery(0)}
-              alt=""
-            />
-            <img
-              className="absolute top-4 left-5 cursor-pointer transition-all hover:brightness-95 active:brightness-90"
-              src={HeartIcon}
-              alt=""
-            />
+      <div className="mt-8 mb-9 whitespace-nowrap flex flex-wrap gap-7 justify-center">
+        <div className="flex flex-col gap-5 w-[300px] sm:w-[521px]">
+          <div className="flex text-[2rem] font-semibold text-darkfiltersbg justify-between items-center">
+            <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
-          <div className="hidden xl:flex justify-around w-full">
-            {subImagesElement}
-          </div>
+          <img
+            className="w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+            src={'' + marketItem.images.slice(0, 1)}
+            onError={addDefaultSrc}
+            onClick={() => setShowGallery(0)}
+            alt=""
+          />
+          {subImagesElement}
         </div>
         <div className="w-[250px] sm:w-[577px] align-top inline-block text-xl">
           <p className="text-3xl font-semibold mb-10">{marketItem.set}</p>

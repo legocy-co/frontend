@@ -9,6 +9,7 @@ import { useUnit } from 'effector-react';
 import LegoMan from '../../../assets/pics/lego-man.png';
 import { addDefaultSrc } from '../../../services/utils.ts';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
+import { useEffect, useState } from 'react';
 
 export const MarketItemSecondaryForm = () => {
   const { fields, eachValid } = useForm(model.form);
@@ -24,7 +25,12 @@ export const MarketItemSecondaryForm = () => {
   const lessLegocy = lessPrice === stateValuation;
 
   const legocyLogo = (
-    <img className="absolute bottom-8 min-w-10" src="/logo.svg" alt="" />
+    <img
+      className="absolute bottom-8 min-w-10"
+      src="/logo.svg"
+      alt=""
+      onError={addDefaultSrc}
+    />
   );
 
   const userImage = (
@@ -36,22 +42,25 @@ export const MarketItemSecondaryForm = () => {
     />
   );
 
-  let mark: string;
+  // let mark: string;
+  const [mark, setMark] = useState<string>();
 
-  if (stateValuation === 0) {
-    mark = 'none';
-  } else if (price.value < stateValuation / 1.25) {
-    mark = 'below';
-  } else if (
-    price.value > stateValuation * 1.25 &&
-    price.value <= stateValuation * 1.5
-  ) {
-    mark = 'above';
-  } else if (price.value > stateValuation * 1.5) {
-    mark = 'high';
-  } else {
-    mark = 'fair';
-  }
+  useEffect(() => {
+    if (stateValuation === 0) {
+      setMark('none');
+    } else if (price.value < stateValuation / 1.25) {
+      setMark('below');
+    } else if (
+      price.value > stateValuation * 1.25 &&
+      price.value <= stateValuation * 1.5
+    ) {
+      setMark('above');
+    } else if (price.value > stateValuation * 1.5) {
+      setMark('high');
+    } else {
+      setMark('fair');
+    }
+  }, [stateValuation, price.value]);
 
   function renderMark() {
     switch (mark) {
@@ -96,6 +105,8 @@ export const MarketItemSecondaryForm = () => {
             standard
           </div>
         );
+      case 'empty':
+        return <></>;
     }
   }
 

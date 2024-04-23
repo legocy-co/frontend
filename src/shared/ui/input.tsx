@@ -48,7 +48,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
                 variant === 'primary',
             },
             {
-              '!bg-rose dark:!bg-rose !text-charcoal dark:!text-black':
+              '!bg-rose dark:!bg-rose !text-charcoal dark:!text-charcoal':
                 isInvalid,
             },
             { 'no-scroll': isNumber },

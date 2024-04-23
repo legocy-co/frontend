@@ -31,7 +31,7 @@ export const MarketItemPrimaryForm = () => {
               label: `${legoSet.number} - ${legoSet.name}`,
             }))}
             variant="primary"
-            className="!text-label dark:!text-darkfilterstext !w-[360px] sm:!w-[470px] !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
+            className="!w-[360px] sm:!w-[470px] !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
           />
           <ChevronUpIcon className="absolute rotate-180 opacity-50 top-5 right-4 iconstrokes" />
         </div>

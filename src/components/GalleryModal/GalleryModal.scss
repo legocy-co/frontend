@@ -55,6 +55,7 @@ $gallery-background: #191515cc;
 
     &_member {
       width: 50px;
+      object-fit: cover;
       border-radius: 6px;
       transition: opacity 0.1s;
       cursor: pointer;
