@@ -42,7 +42,6 @@ export const MarketItemSecondaryForm = () => {
     />
   );
 
-  // let mark: string;
   const [mark, setMark] = useState<string>();
 
   useEffect(() => {

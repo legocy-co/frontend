@@ -8,11 +8,13 @@ import { chatService } from '../../../services/ChatService.ts';
 import { authService } from '../../../services/AuthService.ts';
 import StarIcon from '../../../assets/icons/star.svg?react';
 import LocationIcon from '../../../assets/icons/location.svg?react';
+import NoneIcon from '../../../assets/icons/none.svg?react';
 import PieceIcon from '../../../assets/icons/piece.svg?react';
 import { Button } from '../../../shared/ui/button.tsx';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
 import { up } from '../../UserProfilePage/index.tsx';
-import { Bar, BarChart, LabelList, XAxis } from 'recharts';
+import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
+import { BarRectangleItem } from 'recharts/types/cartesian/Bar';
 
 const MarketItemDetailPage = () => {
   const params = useParams<'id'>();
@@ -23,33 +25,11 @@ const MarketItemDetailPage = () => {
   const marketItem = useUnit(model.$marketItemDetail);
   const [showGallery, setShowGallery] = useState<number>(-1);
 
-  const charData = [
-    {
-      name: 'BRAND_NEW',
-      value: 54,
-      display: '54$',
-    },
-    {
-      name: 'BOX_OPENED',
-      value: 42,
-    },
-    {
-      name: 'BAGS_OPENED',
-      value: 34,
-    },
-    {
-      name: 'BUILT_WITH_BOX',
-      value: 24,
-    },
-    {
-      name: 'BUILT_WITHOUT_BOX',
-      value: 20,
-    },
-    {
-      name: 'BUILT_PIECES_LOST',
-      value: 18,
-    },
-  ];
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const chartData = useUnit(model.$chartData);
+
+  // let prevents re-render component
+  let barGraphData = {} as BarRectangleItem;
 
   const subImagesElement = (
     <div className="relative">
@@ -93,10 +73,11 @@ const MarketItemDetailPage = () => {
     </div>
   );
 
-  const renderLabel = ({ value, x, y }: any) => {
-    return (
-      <LazySvg name={value} width={28} height={28} x={x + 20} y={y - 30} />
-    );
+  // TODO: position state tooltip
+  const StateTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return <div className="w-10 h-10 bg-legocy">{active}</div>;
+    }
   };
 
   function handleReviews() {
@@ -119,11 +100,19 @@ const MarketItemDetailPage = () => {
     }
   }
 
+  window.addEventListener(
+    'resize',
+    function () {
+      setWindowWidth(window.innerWidth);
+    },
+    true
+  );
+
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="mt-8 mb-9 whitespace-nowrap flex flex-wrap gap-7 justify-center">
         <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
-          <div className="flex text-[2rem] font-semibold text-celllink justify-between items-center">
+          <div className="flex text-[2rem] gap-2 font-semibold text-celllink justify-between items-center">
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
           <img
@@ -138,7 +127,7 @@ const MarketItemDetailPage = () => {
         <div className="flex flex-col gap-5 justify-between w-[300px] sm:w-[521px]">
           <div className="flex flex-col gap-5">
             <div className="flex items-center flex-wrap gap-3 justify-between">
-              <div className="flex items-center justify-around gap-4 px-4 min-w-[336px] h-11 rounded-md bg-pagesize text-avatarbg">
+              <div className="flex items-center justify-around gap-4 px-4 w-[300px] sm:w-[336px] h-11 rounded-md bg-pagesize text-avatarbg">
                 <div
                   onClick={() => navigate('/profile/' + marketItem.sellerID)}
                   className="flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
@@ -149,7 +138,9 @@ const MarketItemDetailPage = () => {
                     onError={addDefaultSrc}
                     className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg"
                   />
-                  <p>{marketItem.sellerUsername}</p>
+                  <p className="overflow-ellipsis overflow-hidden max-w-44">
+                    {marketItem.sellerUsername}
+                  </p>
                 </div>
                 <div
                   className={
@@ -203,21 +194,58 @@ const MarketItemDetailPage = () => {
               </div>
             </div>
           </div>
-          <div className="w-[300px] sm:w-[521px] h-[281px] flex flex-col items-center justify-around bg-pagesize rounded-md">
-            <p className="w-full indent-6 text-lg text-confirmmodal text-start">
-              Our Price Evaluation For This Set
-            </p>
-            <BarChart width={500} height={220} data={charData}>
-              <Bar dataKey="value" fill="#262323" radius={6}>
-                <LabelList
-                  dataKey="name"
-                  position="top"
-                  content={renderLabel}
+          {chartData.length > 0 ? (
+            <div className="w-[300px] sm:w-[521px] min-h-[281px] gap-5 flex flex-col items-center justify-around bg-pagesize rounded-md">
+              <p className="w-full indent-6 text-lg text-confirmmodal text-start">
+                Our Price Evaluation For This Set
+              </p>
+              <BarChart
+                width={windowWidth > 600 ? 500 : 300}
+                height={220}
+                data={chartData}
+                margin={{ top: 20 }}
+              >
+                <Bar
+                  dataKey="value"
+                  fill="#262323"
+                  radius={6}
+                  onMouseOver={(data) =>
+                    (barGraphData = { ...barGraphData, ...data })
+                  }
+                >
+                  <LabelList
+                    dataKey="name"
+                    position="top"
+                    content={({ value, x, y, width }: any) => (
+                      <LazySvg
+                        name={value}
+                        width={28}
+                        height={28}
+                        x={width > 50 ? x + width / 4 : x + width / 6}
+                        y={y - 30}
+                      />
+                    )}
+                  />
+                </Bar>
+                <XAxis dataKey="display" axisLine={false} tickLine={false} />
+                <Tooltip
+                  position={{
+                    x: barGraphData.x! + 15,
+                    y: barGraphData.y! - 80,
+                  }}
+                  cursor={false}
+                  content={<StateTooltip />}
                 />
-              </Bar>
-              <XAxis dataKey="display" axisLine={false} tickLine={false} />
-            </BarChart>
-          </div>
+              </BarChart>
+            </div>
+          ) : (
+            <div className="flex mb-52 w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2  text-[#2E2626] dark:text-white">
+              <NoneIcon className="w-10 iconfills" />
+              We currently don&apos;t have enough information on the market of
+              this set to provide a recommendation. We suggest checking out
+              other similar listings to determine an appropriate price.
+            </div>
+          )}
         </div>
       </div>
       {showGallery > -1 && (

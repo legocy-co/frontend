@@ -1,8 +1,10 @@
-import { attach, createStore, sample } from 'effector';
+import { attach, createEffect, createStore, sample } from 'effector';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { createGate } from 'effector-react';
 import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import { NavigateFunction } from 'react-router-dom';
+import { valuationService } from '../../../services/ValuationService.ts';
+import { Valuation } from '../../../types/ValuationType.ts';
 
 type MarketItemDetail = {
   avgRating?: number;
@@ -22,6 +24,12 @@ type MarketItemDetail = {
   totalReviews?: number;
   stateIcon: keyof typeof setStates;
   nPieces: number;
+};
+
+type BarData = {
+  name: keyof typeof setStates;
+  value: number;
+  display: string;
 };
 
 export const gate = createGate<{
@@ -49,6 +57,8 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   nPieces: 0,
 });
 
+export const $chartData = createStore<BarData[]>([]);
+
 const GetMarketItemFx = attach({
   source: gate.state.map(({ id }) => id),
   effect: (id) => {
@@ -56,6 +66,8 @@ const GetMarketItemFx = attach({
     return marketItemService.GetMarketItem(id);
   },
 });
+
+const fetchValuationsFX = createEffect(valuationService.GetValuations);
 
 function toDetail(marketItem: MarketItem): MarketItemDetail {
   return {
@@ -81,6 +93,16 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
   };
 }
 
+function toChartData(valuations: Valuation[]): BarData[] {
+  return valuations.map((val) =>
+    Object({
+      name: val.state,
+      value: val.valuation,
+      display: val.valuation + '$',
+    })
+  );
+}
+
 sample({
   clock: gate.open,
   target: GetMarketItemFx,
@@ -90,4 +112,16 @@ sample({
   clock: GetMarketItemFx.doneData,
   fn: toDetail,
   target: $marketItemDetail,
+});
+
+sample({
+  clock: $marketItemDetail,
+  fn: (detail) => detail.setID,
+  target: fetchValuationsFX,
+});
+
+sample({
+  source: fetchValuationsFX.doneData,
+  fn: toChartData,
+  target: $chartData,
 });

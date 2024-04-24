@@ -48,7 +48,7 @@ const Header = () => {
   }
 
   const [darkTheme, setDarkTheme] = useState(
-    localStorage.getItem('color-theme') !== 'light'
+    localStorage.getItem('color-theme') === 'dark'
   );
 
   const path = location.pathname.split('/')[1];
