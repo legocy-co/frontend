@@ -202,8 +202,8 @@ sample({
 
 sample({
   clock: profileRedirectFx.done,
-  fn: () => true,
-  target: up.$uploadsSelected,
+  fn: () => 'uploads',
+  target: up.sectionSelected,
 });
 
 sample({

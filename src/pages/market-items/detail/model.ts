@@ -5,19 +5,23 @@ import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import { NavigateFunction } from 'react-router-dom';
 
 type MarketItemDetail = {
+  avgRating?: number;
+  state: string;
+  description: string;
   id: number;
   images: string[];
-  set: string;
-  condition: string;
-  series: string;
   location: string;
-  set_number: number;
-  description: string;
   price: number;
-  seller_id: number;
-  seller_username: string;
-  seller_image?: string;
-  set_id: number;
+  sellerID: number;
+  sellerImage?: string;
+  sellerUsername: string;
+  series: string;
+  set: string;
+  setID: number;
+  setNumber: number;
+  totalReviews?: number;
+  stateIcon: keyof typeof setStates;
+  nPieces: number;
 };
 
 export const gate = createGate<{
@@ -26,19 +30,23 @@ export const gate = createGate<{
 }>();
 
 export const $marketItemDetail = createStore<MarketItemDetail>({
-  images: [],
-  condition: '',
+  avgRating: 0,
+  state: '',
   description: '',
   id: 0,
+  images: [],
   location: '',
   price: 0,
-  seller_id: 0,
-  seller_username: '',
+  sellerID: 0,
+  sellerImage: '',
+  sellerUsername: '',
   series: '',
   set: '',
-  set_number: 0,
-  seller_image: '',
-  set_id: 0,
+  setID: 0,
+  setNumber: 0,
+  totalReviews: 0,
+  stateIcon: 'BUILT_WITH_BOX',
+  nPieces: 0,
 });
 
 const GetMarketItemFx = attach({
@@ -51,7 +59,10 @@ const GetMarketItemFx = attach({
 
 function toDetail(marketItem: MarketItem): MarketItemDetail {
   return {
-    condition: setStates[marketItem.setState as keyof typeof setStates],
+    avgRating: marketItem.seller.reviewTotals?.avgRating,
+    totalReviews: marketItem.seller.reviewTotals?.totalReviews,
+    state: setStates[marketItem.setState as keyof typeof setStates],
+    stateIcon: marketItem.setState,
     description: marketItem.description,
     id: marketItem.id,
     images: marketItem.images
@@ -59,13 +70,14 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
       .map((img) => img.imageURL),
     location: marketItem.location,
     price: marketItem.price,
-    seller_id: marketItem.seller.id,
-    seller_image: marketItem.seller.images[0]?.downloadURL,
-    seller_username: marketItem.seller.username,
+    sellerID: marketItem.seller.id,
+    sellerImage: marketItem.seller.images[0]?.downloadURL,
+    sellerUsername: marketItem.seller.username,
     series: marketItem.legoSet.series.name,
     set: marketItem.legoSet.name,
-    set_id: marketItem.legoSet.id,
-    set_number: marketItem.legoSet.number,
+    setID: marketItem.legoSet.id,
+    setNumber: marketItem.legoSet.number,
+    nPieces: marketItem.legoSet.nPieces,
   };
 }
 

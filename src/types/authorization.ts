@@ -1,7 +1,11 @@
 import { z } from 'zod';
 import { Form } from 'effector-forms';
 
+export type SignInData = z.infer<typeof SignInSchema>;
+
 export type SignUpData = z.infer<typeof SignUpSchema>;
+
+export type SignInForm = Form<{ email: string; password: string }>;
 
 export type SignUpForm = Form<{
   username: string;
@@ -9,6 +13,11 @@ export type SignUpForm = Form<{
   password: string;
   passwordConfirm: string;
 }>;
+
+export const SignInSchema = z.object({
+  email: z.string().min(1).email(),
+  password: z.string().min(1),
+});
 
 export const SignUpSchema = z.object({
   username: z.string().min(1),
@@ -18,6 +27,6 @@ export const SignUpSchema = z.object({
     .min(5)
     .max(30)
     .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[/!@#$%^&`*|()_+{}\[\]:;<>',.?~\\-]).{5,}$/
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[/!@#$%^&`*|()_+{}\[\]:;<>',.?~\\-]).{5,}$/,
     ),
 });

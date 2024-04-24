@@ -19,6 +19,7 @@ import MarketItemCell from '../../../components/MarketItemCell';
 import { $marketItemCell } from '../../../components/MarketItemsList/model.ts';
 import Loader from '../../../shared/ui/loader.tsx';
 import CongratsIcon from '../../../assets/icons/congrats.svg?react';
+import { up } from '../../UserProfilePage/index.tsx';
 
 const AddMarketItemPage = () => {
   const navigateFn = useNavigate();
@@ -31,8 +32,8 @@ const AddMarketItemPage = () => {
   const description = useUnit(mipf.form.fields.description.$value);
 
   function toUploads() {
+    up.sectionSelected('uploads');
     navigateFn('/profile');
-    model.uploadsSelected(true);
   }
 
   function handleNext() {
@@ -56,7 +57,7 @@ const AddMarketItemPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <PageHeading className="!mb-6 !text-header dark:!text-[#F4F4F4]">
+      <PageHeading className="!mb-6 !text-[#211C1C] dark:!text-[#F4F4F4]">
         Add Your Set
       </PageHeading>
       <div className="!w-[360px] sm:!w-[496px] flex items-center justify-between gap-1 mb-16">

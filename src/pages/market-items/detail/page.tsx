@@ -2,11 +2,16 @@ import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addDefaultSrc } from '../../../services/utils.ts';
-import { Button } from '../../../shared/ui/button.tsx';
 import { useState } from 'react';
 import GalleryModal from '../../../components/GalleryModal';
 import { chatService } from '../../../services/ChatService.ts';
 import { authService } from '../../../services/AuthService.ts';
+import StarIcon from '../../../assets/icons/star.svg?react';
+import LocationIcon from '../../../assets/icons/location.svg?react';
+import PieceIcon from '../../../assets/icons/piece.svg?react';
+import { Button } from '../../../shared/ui/button.tsx';
+import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
+import { up } from '../../UserProfilePage/index.tsx';
 
 const MarketItemDetailPage = () => {
   const params = useParams<'id'>();
@@ -27,7 +32,7 @@ const MarketItemDetailPage = () => {
           ></div>
         ))}
       </div>
-      <div className="flex w-full justify-start gap-[13px] items-center absolute top-0">
+      <div className="flex w-full flex-wrap justify-start gap-[13px] items-center absolute top-0">
         {Array.from(
           {
             length:
@@ -46,7 +51,7 @@ const MarketItemDetailPage = () => {
                 className="w-full h-full rounded-md object-cover"
               />
               {marketItem.images.length > 5 && i === 3 && (
-                <div className="w-[120px] h-[114px] rounded-md absolute top-0 flex justify-center items-center bg-black opacity-70 cursor-pointer transition-opacity hover:opacity-65 active:opacity-60">
+                <div className="w-[120px] h-[114px] rounded-md absolute bottom-0 flex justify-center items-center bg-black opacity-70 cursor-pointer transition-opacity hover:opacity-65 active:opacity-60">
                   <p className="text-lg text-white">
                     + {marketItem.images.length - 4} photos
                   </p>
@@ -59,6 +64,11 @@ const MarketItemDetailPage = () => {
     </div>
   );
 
+  function handleReviews() {
+    up.sectionSelected('reviews');
+    navigate('/profile/' + marketItem.sellerID);
+  }
+
   async function handleMessage() {
     try {
       await chatService.GetChat(marketItem.id);
@@ -67,7 +77,7 @@ const MarketItemDetailPage = () => {
         client_id: authService.GetUserId(),
         market_item_id: marketItem.id,
         name: marketItem.set,
-        seller_id: marketItem.seller_id,
+        seller_id: marketItem.sellerID,
       });
     } finally {
       navigate('/chat/');
@@ -77,7 +87,7 @@ const MarketItemDetailPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="mt-8 mb-9 whitespace-nowrap flex flex-wrap gap-7 justify-center">
-        <div className="flex flex-col gap-5 w-[300px] sm:w-[521px]">
+        <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
           <div className="flex text-[2rem] font-semibold text-celllink justify-between items-center">
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
@@ -90,61 +100,70 @@ const MarketItemDetailPage = () => {
           />
           {subImagesElement}
         </div>
-        <div className="w-[250px] sm:w-[577px] align-top inline-block text-xl">
-          <p className="text-3xl font-semibold mb-10">{marketItem.set}</p>
-          <div className="flex flex-col justify-between h-24 mb-4">
-            <p>
-              Condition:{' '}
-              <span className="text-[#5F5F5F] dark:text-yellow-100">
-                {marketItem.condition}
-              </span>
-            </p>
-            <p>
-              Series:{' '}
-              <span className="text-[#5F5F5F] dark:text-yellow-100">
-                {marketItem.series}
-              </span>
-            </p>
-            <p>
-              Location:{' '}
-              <span className="text-[#5F5F5F] dark:text-yellow-100">
-                {marketItem.location}
-              </span>
-            </p>
-          </div>
-          <p className="mb-9">
-            Set Number:{' '}
-            <span
-              className="text-[#5F5F5F] dark:text-yellow-100 underline transition-opacity cursor-pointer hover:opacity-90 active:opacity-80"
-              onClick={() => navigate('/wiki/sets/' + marketItem.set_id)}
+        <div className="flex flex-col gap-5 w-[300px] sm:w-[521px]">
+          <div className="flex items-center flex-wrap gap-3 justify-between">
+            <div className="flex items-center justify-around gap-4 px-4 min-w-[336px] h-11 rounded-md bg-pagesize text-avatarbg">
+              <div
+                onClick={() => navigate('/profile/' + marketItem.sellerID)}
+                className="flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+              >
+                <img
+                  src={marketItem.sellerImage}
+                  alt=""
+                  onError={addDefaultSrc}
+                  className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg"
+                />
+                <p>{marketItem.sellerUsername}</p>
+              </div>
+              <div
+                className={
+                  marketItem.totalReviews
+                    ? 'flex items-center justify-center gap-1'
+                    : 'hidden'
+                }
+              >
+                <p className="text-[#0D0C0C]">{marketItem.avgRating}</p>
+                <StarIcon className="w-[18px] fillsblack" />
+              </div>
+              <p onClick={handleReviews} className={'underline cursor-pointer'}>
+                {marketItem.totalReviews ? marketItem.totalReviews : 0}{' '}
+                {'review' + (marketItem.totalReviews! !== 1 ? 's' : '')}
+              </p>
+            </div>
+            <Button
+              onClick={handleMessage}
+              className="!w-[162px] !h-11 !text-lg !text-celllink"
             >
-              {marketItem.set_number}
-            </span>
-          </p>
-          <div className="bg-description dark:bg-dark border border-solid border-black rounded-xl whitespace-normal py-3.5 pr-5 pl-6 mb-5 sm:mb-28">
-            <p>Set description: {marketItem.description}</p>
-          </div>
-          <div className="flex flex-col gap-5 sm:flex-row justify-between items-center text-3xl">
-            <p>{marketItem.price} $</p>
-            <Button className="!w-56" onClick={handleMessage}>
-              Message about set
+              Contact seller
             </Button>
           </div>
+          <div className="w-full h-[123px] py-3.5 pr-5 pl-6 overflow-y-scroll text-wrap text-cellink bg-pagesize border border-solid border-black rounded-md">
+            {marketItem.description}
+          </div>
+          <div className="flex flex-wrap items-center justify-start gap-3 text-tab">
+            <div className="flex items-center justify-center gap-1">
+              <LocationIcon />
+              <p>Location: {marketItem.location}</p>
+            </div>
+            <div className="h-[30px] flex items-center px-3 text-darkstatefocus gap-2 bg-step rounded-[19px] dark:!bg-dark dark:text-darkstate text-xs">
+              <LazySvg name={marketItem.stateIcon} className="w-7" />
+              <p>{marketItem.state}</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-between flex-wrap text-celllink">
+            <p>Series: {marketItem.series}</p>
+            <p
+              onClick={() => navigate('/wiki/sets/' + marketItem.setID)}
+              className="underline cursor-pointer"
+            >
+              Set number: {marketItem.setNumber}
+            </p>
+            <div className="flex items-center justify-center gap-1">
+              <PieceIcon />
+              <p>{marketItem.nPieces} pieces</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div
-        onClick={() => navigate('/profile/' + marketItem.seller_id)}
-        className="flex mr-14 gap-4 items-center border border-solid border-black rounded-xl pt-7 pr-11 pb-5 pl-6 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
-      >
-        <div className="h-16 aspect-square relative rounded-full bg-legocy">
-          <img
-            className="absolute h-full aspect-square rounded-full object-cover object-center"
-            onError={addDefaultSrc}
-            src={marketItem.seller_image}
-            alt=""
-          />
-        </div>
-        <p className="text-2xl">{marketItem.seller_username}</p>
       </div>
       {showGallery > -1 && (
         <GalleryModal

@@ -16,7 +16,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         className={clsx(
           className,
-          'text-center w-40 h-14 bg-legocy rounded-md text-2xl text-black transition-all hover:bg-brightness-95 active:bg-brightness-90',
+          'text-center w-40 h-14 bg-legocy rounded-md text-2xl text-black transition-all hover:brightness-95 active:brightness-90',
           {
             '!bg-pagesizehover dark:!bg-prevdark dark:text-[#F9F9F9] dark:text-opacity-35':
               disabled,

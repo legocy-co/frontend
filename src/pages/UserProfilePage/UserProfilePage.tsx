@@ -34,11 +34,12 @@ const DEFAULT_AVATARS = [
 const UserProfilePage = () => {
   const params = useParams<'id'>();
   const isPersonal = authService.GetUserId() === Number(params.id);
-  const uploadsSelected = useUnit(model.$uploadsSelected);
+  const sectionSelected = useUnit(model.$section);
 
   const [section, setSection] = useState(
-    isPersonal && !uploadsSelected ? '' : 'uploads'
+    sectionSelected ? sectionSelected : isPersonal ? '' : 'uploads'
   );
+
   const navigate = useNavigate();
   const userProfile = useUnit(model.$userProfilePage);
 

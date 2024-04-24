@@ -38,7 +38,7 @@ input[type="number"]::-webkit-outer-spin-button {
 html[class="dark"] {
   color: #E6E6E6;
   background-color: #191919;
-  .iconfills path {fill: #F9F9F9;;}
+  .iconfills path {fill: #F9F9F9;}
   .iconstrokes path {stroke: #F9F9F9;}
 }
 
@@ -48,6 +48,6 @@ html[class="dark"] {
   appearance:none;
 }
 
-.fillsrose path {fill: #FFD0D0}
-
-.fillswhite path {fill: white}
+.fillsrose path {fill: #FFD0D0;}
+.fillswhite path {fill: white;}
+.fillsblack path {fill: black;}
