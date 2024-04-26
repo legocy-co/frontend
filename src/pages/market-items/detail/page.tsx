@@ -2,7 +2,7 @@ import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useNavigate, useParams } from 'react-router-dom';
 import { addDefaultSrc } from '../../../services/utils.ts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import GalleryModal from '../../../components/GalleryModal';
 import { chatService } from '../../../services/ChatService.ts';
 import { authService } from '../../../services/AuthService.ts';
@@ -14,7 +14,6 @@ import { Button } from '../../../shared/ui/button.tsx';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
 import { up } from '../../UserProfilePage/index.tsx';
 import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
-import { BarRectangleItem } from 'recharts/types/cartesian/Bar';
 
 const MarketItemDetailPage = () => {
   const params = useParams<'id'>();
@@ -29,7 +28,7 @@ const MarketItemDetailPage = () => {
   const chartData = useUnit(model.$chartData);
 
   // let prevents re-render component
-  let barGraphData = {} as BarRectangleItem;
+  let barGraphData = { x: 0, y: 0 };
 
   const subImagesElement = (
     <div className="relative">
@@ -75,8 +74,21 @@ const MarketItemDetailPage = () => {
 
   // TODO: position state tooltip
   const StateTooltip = ({ active, payload }: any) => {
+    const [posData, setPosData] = useState(barGraphData);
+
+    useEffect(() => {
+      setPosData(barGraphData);
+      console.log(posData);
+    }, [barGraphData]);
+
     if (active && payload && payload.length) {
-      return <div className="w-10 h-10 bg-legocy">{active}</div>;
+      return (
+        <div
+          className={`absolute top-[${posData.y}px] left-[${posData.x}px] w-10 h-10 bg-legocy`}
+        >
+          {posData.x} - {posData.y}
+        </div>
+      );
     }
   };
 
@@ -209,30 +221,33 @@ const MarketItemDetailPage = () => {
                   dataKey="value"
                   fill="#262323"
                   radius={6}
-                  onMouseOver={(data) =>
-                    (barGraphData = { ...barGraphData, ...data })
-                  }
+                  onMouseOver={(data) => {
+                    barGraphData = data;
+                    console.log(barGraphData);
+                  }}
                 >
                   <LabelList
                     dataKey="name"
                     position="top"
                     content={({ value, x, y, width }: any) => (
-                      <LazySvg
-                        name={value}
-                        width={28}
-                        height={28}
-                        x={width > 50 ? x + width / 4 : x + width / 6}
-                        y={y - 30}
-                      />
+                      <>
+                        <LazySvg
+                          name={value}
+                          width={28}
+                          height={28}
+                          x={width > 50 ? x + width / 4 : x + width / 6}
+                          y={y - 30}
+                        />
+                      </>
                     )}
                   />
                 </Bar>
                 <XAxis dataKey="display" axisLine={false} tickLine={false} />
                 <Tooltip
-                  position={{
-                    x: barGraphData.x! + 15,
-                    y: barGraphData.y! - 80,
-                  }}
+                  // position={{
+                  //   x: barGraphData.x + 15,
+                  //   y: barGraphData.y - 80,
+                  // }}
                   cursor={false}
                   content={<StateTooltip />}
                 />

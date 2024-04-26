@@ -53,7 +53,7 @@ export const QBConfig = {
     chatProtocol: {
       active: 2,
     },
-    debug: true,
+    debug: false,
     enableForwarding: false,
     enableReplying: true,
     endpoints: {
