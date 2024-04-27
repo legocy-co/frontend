@@ -14,6 +14,7 @@ import { Button } from '../../../shared/ui/button.tsx';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
 import { up } from '../../UserProfilePage/index.tsx';
 import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
+import { setStates } from '../../../types/MarketItemType.ts';
 
 const MarketItemDetailPage = () => {
   const params = useParams<'id'>();
@@ -28,7 +29,7 @@ const MarketItemDetailPage = () => {
   const chartData = useUnit(model.$chartData);
 
   // let prevents re-render component
-  let barGraphData = { x: 0, y: 0 };
+  let barGraphData = { x: 0, y: 0, name: '' };
 
   const subImagesElement = (
     <div className="relative">
@@ -72,21 +73,23 @@ const MarketItemDetailPage = () => {
     </div>
   );
 
-  // TODO: position state tooltip
   const StateTooltip = ({ active, payload }: any) => {
-    const [posData, setPosData] = useState(barGraphData);
+    const tooltip = document.getElementsByClassName(
+      'recharts-tooltip-wrapper'
+    )[0] as HTMLElement;
 
     useEffect(() => {
-      setPosData(barGraphData);
-      console.log(posData);
+      if (tooltip) {
+        tooltip.style.left = `${barGraphData.x - 33}px`;
+        tooltip.style.top = `${barGraphData.y - 75}px`;
+      }
     }, [barGraphData]);
 
     if (active && payload && payload.length) {
       return (
-        <div
-          className={`absolute top-[${posData.y}px] left-[${posData.x}px] w-10 h-10 bg-legocy`}
-        >
-          {posData.x} - {posData.y}
+        <div className="absolute flex h-10 bg-legocy items-center px-2 rounded-full">
+          {setStates[barGraphData.name as keyof typeof setStates]}
+          <div className="invisible absolute h-2 w-2 top-9 left-1/2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']"></div>
         </div>
       );
     }
@@ -221,10 +224,7 @@ const MarketItemDetailPage = () => {
                   dataKey="value"
                   fill="#262323"
                   radius={6}
-                  onMouseOver={(data) => {
-                    barGraphData = data;
-                    console.log(barGraphData);
-                  }}
+                  onMouseOver={(data) => (barGraphData = data)}
                 >
                   <LabelList
                     dataKey="name"
@@ -243,14 +243,7 @@ const MarketItemDetailPage = () => {
                   />
                 </Bar>
                 <XAxis dataKey="display" axisLine={false} tickLine={false} />
-                <Tooltip
-                  // position={{
-                  //   x: barGraphData.x + 15,
-                  //   y: barGraphData.y - 80,
-                  // }}
-                  cursor={false}
-                  content={<StateTooltip />}
-                />
+                <Tooltip cursor={false} content={<StateTooltip />} />
               </BarChart>
             </div>
           ) : (
