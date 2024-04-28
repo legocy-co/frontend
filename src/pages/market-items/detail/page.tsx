@@ -15,6 +15,7 @@ import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
 import { up } from '../../UserProfilePage/index.tsx';
 import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
 import { setStates } from '../../../types/MarketItemType.ts';
+import MarketItemCell from '../../../components/MarketItemCell';
 
 const MarketItemDetailPage = () => {
   const params = useParams<'id'>();
@@ -27,6 +28,7 @@ const MarketItemDetailPage = () => {
 
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
   const chartData = useUnit(model.$chartData);
+  const recommendations = useUnit(model.$recommendations);
 
   // let prevents re-render component
   let barGraphData = { x: 0, y: 0, name: '' };
@@ -72,6 +74,23 @@ const MarketItemDetailPage = () => {
       </div>
     </div>
   );
+
+  const recommendationsElement = recommendations.map((marketItem) => (
+    <div id={'cell-' + marketItem.id} key={'cell-' + marketItem.id}>
+      <MarketItemCell
+        id={marketItem.id}
+        location={marketItem.location}
+        condition_icon={marketItem.condition_icon}
+        condition={marketItem.condition}
+        images={marketItem.images}
+        price={marketItem.price}
+        series={marketItem.series}
+        set={marketItem.set}
+        seller_id={marketItem.seller_id}
+        is_liked={marketItem.is_liked}
+      />
+    </div>
+  ));
 
   const StateTooltip = ({ active, payload }: any) => {
     const tooltip = document.getElementsByClassName(
@@ -255,6 +274,14 @@ const MarketItemDetailPage = () => {
             </div>
           )}
         </div>
+      </div>
+      {recommendations.length > 0 && (
+        <p className="mt-24 text-[2rem] font-semibold text-celllink">
+          You might like...
+        </p>
+      )}
+      <div className="w-full mt-8 flex items-center justify-around gap-5 overflow-x-scroll">
+        {recommendationsElement}
       </div>
       {showGallery > -1 && (
         <GalleryModal

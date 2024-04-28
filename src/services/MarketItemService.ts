@@ -7,7 +7,6 @@ import {
 } from '../types/MarketItemType.ts';
 import axios from 'axios';
 import { handleIncorrectParse, handleSetError } from './ErrorHandlers.ts';
-import { history } from '../routes/history.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { mif } from '../features/market-item/info';
 import { PaginationData } from '../types/pagination.ts';
@@ -180,13 +179,3 @@ export const marketItemService: MarketItemService = {
   DeleteMarketItem: DeleteMarketItem,
   UploadImage: UploadImage,
 };
-
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    history.location?.pathname.split('/')[2] &&
-      error?.response?.data.error === 'marketItems not found' &&
-      history.navigate('/');
-    return Promise.reject(error);
-  }
-);

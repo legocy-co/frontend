@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import './GalleryModal.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
+import BackIcon from '../../assets/icons/back.svg?react';
 
 interface GalleryModalProps {
   list: string[];
@@ -34,6 +35,11 @@ const GalleryModal = (props: GalleryModalProps) => {
   if (!modalElement) return null;
   return createPortal(
     <div className="gallery" onClick={onClose}>
+      {list.length > 1 && (
+        <div className="gallery--index">
+          {index + 1}/{list.length}
+        </div>
+      )}
       <div className="gallery--main" onClick={(e) => e.stopPropagation()}>
         {list.length > 1 && (
           <button
@@ -41,7 +47,7 @@ const GalleryModal = (props: GalleryModalProps) => {
               setIndex((prev) => (prev + list.length - 1) % list.length)
             }
           >
-            &lt;
+            <BackIcon width={53} />
           </button>
         )}
         <img
@@ -53,18 +59,15 @@ const GalleryModal = (props: GalleryModalProps) => {
         />
         {list.length > 1 && (
           <button onClick={() => setIndex((prev) => (prev + 1) % list.length)}>
-            &gt;
+            <BackIcon width={53} className="rotate-180" />
           </button>
         )}
       </div>
       {list.length > 1 && (
-        <div className="gallery--index">
-          {index + 1}/{list.length}
+        <div className="gallery--list" onClick={(e) => e.stopPropagation()}>
+          {listElement}
         </div>
       )}
-      <div className="gallery--list" onClick={(e) => e.stopPropagation()}>
-        {listElement}
-      </div>
     </div>,
     modalElement
   );
