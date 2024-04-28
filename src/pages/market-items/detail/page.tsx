@@ -80,16 +80,16 @@ const MarketItemDetailPage = () => {
 
     useEffect(() => {
       if (tooltip) {
-        tooltip.style.left = `${barGraphData.x - 33}px`;
-        tooltip.style.top = `${barGraphData.y - 75}px`;
+        tooltip.style.left = `${barGraphData.x}px`;
+        tooltip.style.top = `${barGraphData.y - 50}px`;
       }
     }, [barGraphData]);
 
     if (active && payload && payload.length) {
       return (
-        <div className="absolute flex h-10 bg-legocy items-center px-2 rounded-full">
+        <div className="absolute flex h-4 bg-legocy items-center px-2 rounded-2xl text-[8px]">
           {setStates[barGraphData.name as keyof typeof setStates]}
-          <div className="invisible absolute h-2 w-2 top-9 left-1/2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']"></div>
+          <div className="invisible absolute h-2 w-2 top-3 left-1/2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']"></div>
         </div>
       );
     }
