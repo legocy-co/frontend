@@ -70,7 +70,7 @@ export const MarketItemsFilter = ({
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded-md w-[378px] styled-select bg-pagesize text-tab dark:text-[#F9F9F9] p-4 mt-4 dark:bg-cellink z-20 border dark:border-solid dark:border-px dark:border-darkfiltersborder">
+        <Popover.Content className="rounded-md w-[378px] styled-select bg-pagesize text-tab dark:text-[#F9F9F9] p-4 mt-4 dark:bg-celllink z-20 border dark:border-solid dark:border-px dark:border-darkfiltersborder">
           <form
             onSubmit={onSubmit}
             className="flex flex-col gap-5 justify-between w-[340px]"

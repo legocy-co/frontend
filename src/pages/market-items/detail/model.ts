@@ -161,3 +161,8 @@ sample({
   fn: toMarketItemCells,
   target: $recommendations,
 });
+
+sample({
+  clock: gate.close,
+  target: $recommendations.reinit!,
+});

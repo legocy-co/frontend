@@ -23,10 +23,10 @@ const MarketItemDetailPage = () => {
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const marketItem = useUnit(model.$marketItemDetail);
   const [showGallery, setShowGallery] = useState<number>(-1);
-
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+
+  const marketItem = useUnit(model.$marketItemDetail);
   const chartData = useUnit(model.$chartData);
   const recommendations = useUnit(model.$recommendations);
 
@@ -106,7 +106,7 @@ const MarketItemDetailPage = () => {
 
     if (active && payload && payload.length) {
       return (
-        <div className="absolute flex h-4 bg-legocy items-center px-2 rounded-2xl text-[8px]">
+        <div className="absolute flex h-4 bg-legocy items-center px-2 rounded-2xl text-[8px] dark:text-black">
           {setStates[barGraphData.name as keyof typeof setStates]}
           <div className="invisible absolute h-2 w-2 top-3 left-1/2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']"></div>
         </div>
@@ -142,11 +142,12 @@ const MarketItemDetailPage = () => {
     true
   );
 
+  // TODO: stroke chart textpath
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="mt-8 mb-9 whitespace-nowrap flex flex-wrap gap-7 justify-center">
         <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
-          <div className="flex text-[2rem] gap-2 font-semibold text-celllink justify-between items-center">
+          <div className="flex text-[2rem] gap-2 font-semibold text-celllink justify-between items-center dark:text-white">
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
           <img
@@ -158,10 +159,10 @@ const MarketItemDetailPage = () => {
           />
           {subImagesElement}
         </div>
-        <div className="flex flex-col gap-5 justify-between w-[300px] sm:w-[521px]">
+        <div className="flex flex-col gap-5 justify-start w-[300px] sm:w-[521px]">
           <div className="flex flex-col gap-5">
             <div className="flex items-center flex-wrap gap-3 justify-between">
-              <div className="flex items-center justify-around gap-4 px-4 w-[300px] sm:w-[336px] h-11 rounded-md bg-pagesize text-avatarbg">
+              <div className="flex items-center justify-around gap-4 px-4 w-[300px] sm:w-[336px] h-11 rounded-md bg-pagesize dark:bg-dark text-avatarbg">
                 <div
                   onClick={() => navigate('/profile/' + marketItem.sellerID)}
                   className="flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
@@ -170,9 +171,9 @@ const MarketItemDetailPage = () => {
                     src={marketItem.sellerImage}
                     alt=""
                     onError={addDefaultSrc}
-                    className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg"
+                    className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg dark:bg-avatarbgdark"
                   />
-                  <p className="overflow-ellipsis overflow-hidden max-w-44">
+                  <p className="overflow-ellipsis overflow-hidden max-w-44 dark:text-avatarbgdark">
                     {marketItem.sellerUsername}
                   </p>
                 </div>
@@ -183,12 +184,14 @@ const MarketItemDetailPage = () => {
                       : 'hidden'
                   }
                 >
-                  <p className="text-[#0D0C0C]">{marketItem.avgRating}</p>
-                  <StarIcon className="w-[18px] fillsblack" />
+                  <p className="text-[#0D0C0C] dark:text-white">
+                    {marketItem.avgRating}
+                  </p>
+                  <StarIcon className="w-[18px] fillsblack iconfills" />
                 </div>
                 <p
                   onClick={handleReviews}
-                  className={'underline cursor-pointer'}
+                  className={'underline cursor-pointer dark:text-avatarbgdark'}
                 >
                   {marketItem.totalReviews ? marketItem.totalReviews : 0}{' '}
                   {'review' + (marketItem.totalReviews! !== 1 ? 's' : '')}
@@ -201,20 +204,20 @@ const MarketItemDetailPage = () => {
                 Contact seller
               </Button>
             </div>
-            <div className="w-full h-[123px] py-3.5 pr-5 pl-6 overflow-y-scroll text-wrap text-cellink bg-pagesize border border-solid border-black rounded-md">
+            <div className="w-full h-[123px] py-3.5 pr-5 pl-6 overflow-y-scroll text-wrap text-cellink bg-pagesize border border-solid border-black dark:border-white dark:bg-dark dark:text-white rounded-md">
               {marketItem.description}
             </div>
-            <div className="flex flex-wrap items-center justify-start gap-3 text-tab">
+            <div className="flex flex-wrap items-center justify-start gap-3 text-tab dark:text-white">
               <div className="flex items-center justify-center gap-1">
-                <LocationIcon />
+                <LocationIcon className="iconfills" />
                 <p>Location: {marketItem.location}</p>
               </div>
-              <div className="h-[30px] flex items-center px-3 text-darkstatefocus gap-2 bg-step rounded-[19px] dark:!bg-dark dark:text-darkstate text-xs">
+              <div className="h-[30px] flex items-center px-3 text-darkstatefocus gap-2 bg-step rounded-[19px] dark:!bg-darkstatebg dark:text-black text-xs">
                 <LazySvg name={marketItem.stateIcon} className="w-7" />
                 <p>{marketItem.state}</p>
               </div>
             </div>
-            <div className="flex items-center justify-between flex-wrap text-celllink">
+            <div className="flex items-center justify-between flex-wrap text-celllink dark:text-white">
               <p>Series: {marketItem.series}</p>
               <p
                 onClick={() => navigate('/wiki/sets/' + marketItem.setID)}
@@ -223,14 +226,14 @@ const MarketItemDetailPage = () => {
                 Set number: {marketItem.setNumber}
               </p>
               <div className="flex items-center justify-center gap-1">
-                <PieceIcon />
+                <PieceIcon className="iconfills iconstrokes" />
                 <p>{marketItem.nPieces} pieces</p>
               </div>
             </div>
           </div>
           {chartData.length > 0 ? (
-            <div className="w-[300px] sm:w-[521px] min-h-[281px] gap-5 flex flex-col items-center justify-around bg-pagesize rounded-md">
-              <p className="w-full indent-6 text-lg text-confirmmodal text-start">
+            <div className="w-[300px] sm:w-[521px] min-h-[281px] mt-[50px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
+              <p className="w-full indent-6 text-lg text-confirmmodal text-start dark:text-white">
                 Our Price Evaluation For This Set
               </p>
               <BarChart
@@ -238,10 +241,11 @@ const MarketItemDetailPage = () => {
                 height={220}
                 data={chartData}
                 margin={{ top: 20 }}
+                className="iconfills"
               >
                 <Bar
                   dataKey="value"
-                  fill="#262323"
+                  fill="#2F2F2F"
                   radius={6}
                   onMouseOver={(data) => (barGraphData = data)}
                 >
@@ -249,15 +253,13 @@ const MarketItemDetailPage = () => {
                     dataKey="name"
                     position="top"
                     content={({ value, x, y, width }: any) => (
-                      <>
-                        <LazySvg
-                          name={value}
-                          width={28}
-                          height={28}
-                          x={width > 50 ? x + width / 4 : x + width / 6}
-                          y={y - 30}
-                        />
-                      </>
+                      <LazySvg
+                        name={value}
+                        width={28}
+                        height={28}
+                        x={width > 50 ? x + width / 4 : x + width / 6}
+                        y={y - 30}
+                      />
                     )}
                   />
                 </Bar>
@@ -266,7 +268,7 @@ const MarketItemDetailPage = () => {
               </BarChart>
             </div>
           ) : (
-            <div className="flex mb-52 w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2  text-[#2E2626] dark:text-white">
+            <div className="flex w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2  text-[#2E2626] dark:text-white">
               <NoneIcon className="w-10 iconfills" />
               We currently don&apos;t have enough information on the market of
               this set to provide a recommendation. We suggest checking out
@@ -276,11 +278,11 @@ const MarketItemDetailPage = () => {
         </div>
       </div>
       {recommendations.length > 0 && (
-        <p className="mt-24 text-[2rem] font-semibold text-celllink">
+        <p className="mt-24 text-[2rem] font-semibold text-celllink dark:text-white">
           You might like...
         </p>
       )}
-      <div className="w-full mt-8 flex items-center justify-around gap-5 overflow-x-scroll">
+      <div className="w-full mt-8 flex pb-3 items-center justify-center gap-5 overflow-x-scroll">
         {recommendationsElement}
       </div>
       {showGallery > -1 && (
