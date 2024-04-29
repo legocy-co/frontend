@@ -142,7 +142,6 @@ const MarketItemDetailPage = () => {
     true
   );
 
-  // TODO: stroke chart textpath
   return (
     <div className="w-full h-full flex flex-col items-center">
       <div className="mt-8 mb-9 whitespace-nowrap flex flex-wrap gap-7 justify-center">
