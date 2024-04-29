@@ -39,7 +39,7 @@ const MarketItemDetailPage = () => {
         {Array.from({ length: 4 }, (_, i) => (
           <div
             key={'subimage_container-' + i}
-            className="w-[120px] h-[114px] bg-pagesize rounded-md"
+            className="w-[120px] h-[114px] bg-pagesize dark:bg-dark rounded-md"
           ></div>
         ))}
       </div>
@@ -241,7 +241,7 @@ const MarketItemDetailPage = () => {
                 height={220}
                 data={chartData}
                 margin={{ top: 20 }}
-                className="iconfills"
+                className="iconfills textfills"
               >
                 <Bar
                   dataKey="value"
@@ -263,7 +263,12 @@ const MarketItemDetailPage = () => {
                     )}
                   />
                 </Bar>
-                <XAxis dataKey="display" axisLine={false} tickLine={false} />
+                <XAxis
+                  dataKey="display"
+                  stroke="#262323"
+                  axisLine={false}
+                  tickLine={false}
+                />
                 <Tooltip cursor={false} content={<StateTooltip />} />
               </BarChart>
             </div>
@@ -282,7 +287,7 @@ const MarketItemDetailPage = () => {
           You might like...
         </p>
       )}
-      <div className="w-full mt-8 flex pb-3 items-center justify-center gap-5 overflow-x-scroll">
+      <div className="w-full mt-8 flex pb-3 items-center justify-start gap-5 overflow-x-scroll">
         {recommendationsElement}
       </div>
       {showGallery > -1 && (

@@ -108,13 +108,15 @@ const fetchMarketItemsFX = createEffect(
 );
 
 function toChartData(valuations: Valuation[]): BarData[] {
-  return valuations.map((val) =>
-    Object({
-      name: val.state,
-      value: val.valuation,
-      display: val.valuation + '$',
-    })
-  );
+  return valuations
+    .sort((a, b) => b.valuation - a.valuation)
+    .map((val) =>
+      Object({
+        name: val.state,
+        value: val.valuation,
+        display: val.valuation + '$',
+      })
+    );
 }
 
 sample({
