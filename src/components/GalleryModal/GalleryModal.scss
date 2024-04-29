@@ -17,7 +17,6 @@ $gallery-background: #191515cc;
   button {
     margin: 10px;
     padding: 10px;
-    background-color: $gallery-background;
     color: white;
     transition: opacity 0.1s;
     &:hover {opacity: 0.9}
@@ -31,7 +30,10 @@ $gallery-background: #191515cc;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 500px;
+    max-width: 588px;
+    max-height: 400px;
+    object-fit: cover;
+    object-position: center;
     border-radius: 6px;
     cursor: pointer;
     background: $gallery-background;
@@ -41,20 +43,26 @@ $gallery-background: #191515cc;
   }
 
   &--index {
+    font-size: 24px;
+    font-weight: 600;
     margin-top: 10px;
     padding: 10px;
-    background-color: $gallery-background;
     color: white;
   }
 
   &--list {
     margin-top: 50px;
     display: flex;
+    flex-wrap: wrap;
+    width: 588px;
     justify-items: center;
     gap: 10px;
 
     &_member {
-      width: 50px;
+      max-width: 111px;
+      max-height: 109px;
+      object-fit: cover;
+      object-position: center;
       border-radius: 6px;
       transition: opacity 0.1s;
       cursor: pointer;

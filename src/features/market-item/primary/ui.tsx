@@ -20,7 +20,7 @@ export const MarketItemPrimaryForm = () => {
   return (
     <form className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
-        <p className="text-xl text-label dark:text-darkfilterstext">Set name</p>
+        <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">Set name</p>
         <div className="relative w-[360px] sm:w-[470px]">
           <SelectSearchAdapter
             clientSideSearch
@@ -31,16 +31,14 @@ export const MarketItemPrimaryForm = () => {
               label: `${legoSet.number} - ${legoSet.name}`,
             }))}
             variant="primary"
-            className="!text-label dark:!text-darkfilterstext !w-[360px] sm:!w-[470px] !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
+            className="!w-[360px] sm:!w-[470px] !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
           />
           <ChevronUpIcon className="absolute rotate-180 opacity-50 top-5 right-4 iconstrokes" />
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-xl text-label dark:text-darkfilterstext">
-          Set state
-        </p>
-        <p className="text-sm font-normal text-subtitle dark:text-darkfilterstext dark:text-opacity-85">
+        <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">Set state</p>
+        <p className="text-sm font-normal text-[#242020] dark:text-[#F9F9F9] text-opacity-85">
           Choose a condition that best describes your set
         </p>
         <div className="flex flex-wrap !w-[360px] sm:!w-[466px] gap-[10px] mb-2">
@@ -65,17 +63,17 @@ export const MarketItemPrimaryForm = () => {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="text-xl text-label dark:text-darkfilterstext">
+        <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">
           Description
         </p>
-        <p className="text-sm font-normal text-subtitle w-[360px] sm:w-[450px] dark:text-darkfilterstext dark:text-opacity-85">
+        <p className="text-sm font-normal text-[#242020] w-[360px] sm:w-[450px] dark:text-[#F9F9F9] text-opacity-85">
           Here you can provide additional details, such as elaborating on the
           condition of the item, preferred communication method, etc
         </p>
         <TextareaFieldAdapter
           field={model.form.fields.description}
           labelText="Ex. Set is missing a few insignificant pieces, but overall, it’s in great condition. Bought it two months ago."
-          className="!w-[360px] sm:!w-[471px] !min-h-[108px] !rounded-lg !pl-5 !pt-5 !pr-16 !pb-16 !bg-pagesize !border-none !text-label dark:!text-darkfilterstext dark:!bg-dark"
+          className="!w-[360px] sm:!w-[471px] !min-h-[108px] !rounded-lg !pl-5 !pt-5 !pr-16 !pb-16 !bg-pagesize !border-none !text-[#332929] dark:!text-[#F9F9F9] dark:!bg-dark"
         />
       </div>
       <div className="flex justify-center">

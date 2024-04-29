@@ -9,6 +9,7 @@ import { useUnit } from 'effector-react';
 import LegoMan from '../../../assets/pics/lego-man.png';
 import { addDefaultSrc } from '../../../services/utils.ts';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
+import { useEffect, useState } from 'react';
 
 export const MarketItemSecondaryForm = () => {
   const { fields, eachValid } = useForm(model.form);
@@ -24,7 +25,12 @@ export const MarketItemSecondaryForm = () => {
   const lessLegocy = lessPrice === stateValuation;
 
   const legocyLogo = (
-    <img className="absolute bottom-8 min-w-10" src="/logo.svg" alt="" />
+    <img
+      className="absolute bottom-8 min-w-10"
+      src="/logo.svg"
+      alt=""
+      onError={addDefaultSrc}
+    />
   );
 
   const userImage = (
@@ -36,22 +42,24 @@ export const MarketItemSecondaryForm = () => {
     />
   );
 
-  let mark: string;
+  const [mark, setMark] = useState<string>();
 
-  if (stateValuation === 0) {
-    mark = 'none';
-  } else if (price.value < stateValuation / 1.25) {
-    mark = 'below';
-  } else if (
-    price.value > stateValuation * 1.25 &&
-    price.value <= stateValuation * 1.5
-  ) {
-    mark = 'above';
-  } else if (price.value > stateValuation * 1.5) {
-    mark = 'high';
-  } else {
-    mark = 'fair';
-  }
+  useEffect(() => {
+    if (stateValuation === 0) {
+      setMark('none');
+    } else if (price.value < stateValuation / 1.25) {
+      setMark('below');
+    } else if (
+      price.value > stateValuation * 1.25 &&
+      price.value <= stateValuation * 1.5
+    ) {
+      setMark('above');
+    } else if (price.value > stateValuation * 1.5) {
+      setMark('high');
+    } else {
+      setMark('fair');
+    }
+  }, [stateValuation, price.value]);
 
   function renderMark() {
     switch (mark) {
@@ -66,7 +74,7 @@ export const MarketItemSecondaryForm = () => {
         );
       case 'below':
         return (
-          <div className="flex w-[360px] sm:w-[710px] p-3 text-lg text-[#363535] dark:text-white bg-[#CCCCCC] dark:bg-white !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
+          <div className="flex w-[360px] sm:w-[710px] p-3 text-lg text-[#363535] dark:text-white bg-below dark:bg-white !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
             <LazySvg name={mark} className="w-10 iconfills" />
             Below market average: Your price is lower than what is typically
             seen on the market.
@@ -74,7 +82,7 @@ export const MarketItemSecondaryForm = () => {
         );
       case 'above':
         return (
-          <div className="flex w-[360px] sm:w-[780px] p-3 text-lg text-[#FCB11F] dark:text-legocy bg-[#FCB11F] dark:bg-[#FFF6A3] !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
+          <div className="flex w-[360px] sm:w-[780px] p-3 text-lg text-[#FCB11F] dark:text-legocy bg-above dark:bg-abovedark !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
             <LazySvg name={mark} className="w-10" />
             Slightly above market average: Your price is somewhat higher than
             the average market price.
@@ -82,7 +90,7 @@ export const MarketItemSecondaryForm = () => {
         );
       case 'high':
         return (
-          <div className="flex w-[360px] sm:w-[824px] p-3 text-lg text-[#FF6464] dark:text-[#FF6464] bg-[#FF8D8D] dark:bg-[#FF8D8D] !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
+          <div className="flex w-[360px] sm:w-[824px] p-3 text-lg text-[#FF6464] dark:text-[#FF6464] bg-high !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
             <LazySvg name={mark} className="w-10" />
             Significantly above market average: Your price is considerably
             higher than the average market price.
@@ -90,7 +98,7 @@ export const MarketItemSecondaryForm = () => {
         );
       case 'fair':
         return (
-          <div className="flex w-[360px] sm:w-[576px] p-3 text-lg text-[#568824] dark:text-[#BDFF7A] bg-[#458D3E] dark:bg-[#ABF8A4] !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
+          <div className="flex w-[360px] sm:w-[576px] p-3 text-lg text-[#568824] dark:text-[#BDFF7A] bg-fair dark:bg-fairdark !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
             <LazySvg name={mark} className="w-10" />
             Fair price: Your price aligns closely with the current market
             standard
@@ -102,7 +110,7 @@ export const MarketItemSecondaryForm = () => {
   return (
     <form className="flex flex-col gap-8 items-center">
       <div className="flex flex-col gap-2">
-        <p className="text-xl text-label dark:text-darkfilterstext flex items-center gap-2">
+        <p className="text-xl text-[#332929] dark:text-[#F9F9F9] flex items-center gap-2">
           Location <LocationIcon className="iconfills inline" />
         </p>
         <div className="flex items-center gap-4 styled-select">
@@ -130,7 +138,7 @@ export const MarketItemSecondaryForm = () => {
         </div>
       </div>
       <div className="flex flex-col items-center gap-4">
-        <p className="text-xl text-label dark:text-darkfilterstext">Price, $</p>
+        <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">Price, $</p>
         <input
           type="number"
           placeholder="100"
@@ -142,12 +150,12 @@ export const MarketItemSecondaryForm = () => {
       </div>
       {stateValuation > 0 && (
         <div className="relative w-[360px] sm:w-[468px] mt-10">
-          <div className="w-full border border-solid border-darkactivefilterstext dark:border-white"></div>
+          <div className="w-full border border-solid border-statevaluationchart dark:border-white"></div>
           <div className="absolute top-[-4px] flex justify-between w-full">
             {Array.from({ length: 20 }, (_, i) => (
               <div
                 key={'split-' + i}
-                className="h-[10px] w-0.5 relative border border-solid border-darkactivefilterstext"
+                className="h-[10px] w-0.5 relative border border-solid border-statevaluationchart"
               >
                 {(i === indent && (
                   <div

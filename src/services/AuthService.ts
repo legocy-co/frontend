@@ -1,7 +1,6 @@
 import { GetCredentials, SetCredentials } from '../storage/credentials.ts';
-import { SignInData } from '../types/SignIn.ts';
+import { SignInData, SignUpData } from '../types/authorization.ts';
 import axios from 'axios';
-import { SignUpData } from '../types/SignUp.ts';
 import { history } from '../routes/history.ts';
 import { handleUserError } from './ErrorHandlers.ts';
 import { su } from '../features/auth/sign-up/';

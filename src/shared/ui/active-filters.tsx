@@ -29,7 +29,7 @@ export const ActiveFilters = ({
             (value.value || value.value === 0) && (
               <div
                 key={name}
-                className="min-h-[37px] flex rounded-md items-center space-x-2 p-2 bg-pagesize text-activefilterstext dark:bg-darkfilters dark:text-darkactivefilterstext"
+                className="min-h-[37px] flex rounded-md items-center space-x-2 p-2 bg-pagesize text-darkfiltersborder dark:bg-dark dark:text-statevaluationchart"
               >
                 <div className="flex space-x-1">
                   <span className="capitalize">{value.label}: </span>
@@ -54,7 +54,7 @@ export const ActiveFilters = ({
       <button
         onClick={() => resetTriggered()}
         type="button"
-        className="rounded-md min-w-[144px] h-[37px] bg-black bg-opacity-35 flex items-center justify-around dark:bg-white dark:bg-opacity-35 text-darkfilterstext hover:opacity-90 active:opacity-80 transition-opacity"
+        className="rounded-md min-w-[144px] h-[37px] bg-black bg-opacity-35 flex items-center justify-around dark:bg-white dark:bg-opacity-35 text-[#F9F9F9] hover:opacity-90 active:opacity-80 transition-opacity"
       >
         Clear filters
         <TrashIcon />

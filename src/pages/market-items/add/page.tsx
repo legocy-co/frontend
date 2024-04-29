@@ -19,6 +19,7 @@ import MarketItemCell from '../../../components/MarketItemCell';
 import { $marketItemCell } from '../../../components/MarketItemsList/model.ts';
 import Loader from '../../../shared/ui/loader.tsx';
 import CongratsIcon from '../../../assets/icons/congrats.svg?react';
+import { up } from '../../UserProfilePage/index.tsx';
 
 const AddMarketItemPage = () => {
   const navigateFn = useNavigate();
@@ -31,8 +32,8 @@ const AddMarketItemPage = () => {
   const description = useUnit(mipf.form.fields.description.$value);
 
   function toUploads() {
+    up.sectionSelected('uploads');
     navigateFn('/profile');
-    model.uploadsSelected(true);
   }
 
   function handleNext() {
@@ -56,7 +57,7 @@ const AddMarketItemPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <PageHeading className="!mb-6 !text-header dark:!text-darkheader">
+      <PageHeading className="!mb-6 !text-[#211C1C] dark:!text-[#F4F4F4]">
         Add Your Set
       </PageHeading>
       <div className="!w-[360px] sm:!w-[496px] flex items-center justify-between gap-1 mb-16">
@@ -66,7 +67,7 @@ const AddMarketItemPage = () => {
             className={clsx(
               'w-[154px] border-2 rounded-[5px] dark:border-opacity-45 border-solid border-step dark:border-white',
               {
-                '!border-filterstext dark:!border-white dark:!border-opacity-100':
+                '!border-tab dark:!border-white dark:!border-opacity-100':
                   model.tabs.findIndex((x) => x === t) <= tabIndex,
               }
             )}
@@ -87,8 +88,8 @@ const AddMarketItemPage = () => {
           tab === 'preview' ? 'flex flex-col gap-6 items-center' : 'hidden'
         }
       >
-        <p className="text-lg text-label dark:text-darkfilterstext">Preview</p>
-        <p className="font-normal text-xs text-label dark:text-darkfilterstext">
+        <p className="text-lg text-[#332929] dark:text-[#F9F9F9]">Preview</p>
+        <p className="font-normal text-xs text-[#332929] dark:text-[#F9F9F9]">
           This is a preview of how other users will see your card.
         </p>
         {cell.set && (
@@ -114,7 +115,7 @@ const AddMarketItemPage = () => {
           tab === 'loading' ? 'flex flex-col gap-6 items-center' : 'hidden'
         }
       >
-        <p className="font-normal text-xs text-label dark:text-darkfilterstext">
+        <p className="font-normal text-xs text-[#332929] dark:text-[#F9F9F9]">
           Your set is publishing. Please stay at this page.
         </p>
         <Loader />
@@ -125,7 +126,7 @@ const AddMarketItemPage = () => {
         }
       >
         <CongratsIcon className="iconstrokes" />
-        <p className="text-lg max-w-[360px] sm:max-w-[494px] text-center color-darkfiltersbg dark:color-white">
+        <p className="text-lg max-w-[360px] sm:max-w-[494px] text-center text-cellink dark:color-white">
           Thank you for your submission! Your request has been sent for
           moderation and is currently being reviewed. Please await approval.
         </p>
@@ -136,7 +137,7 @@ const AddMarketItemPage = () => {
         }
       >
         <Button
-          className="!h-10 text-lg text-prevtext bg-prev dark:bg-prevdark dark:text-white hover:bg-prev transition-all hover:brightness-95 active:brightness-90"
+          className="!h-10 text-lg text-tab bg-prev dark:bg-prevdark dark:text-white hover:bg-prev transition-all hover:brightness-95 active:brightness-90"
           onClick={() =>
             tab === 'primary'
               ? navigateFn('/catalog/select')

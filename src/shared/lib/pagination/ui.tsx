@@ -34,8 +34,8 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
         <Popover.Root open={open} onOpenChange={setOpen}>
           <Popover.Trigger
             className={clsx(
-              'hidden lg:flex w-12 py-1 px-1.5 justify-between gap-1 rounded-md hover:bg-pagesize hover:text-pagesizetext  transition-colors items-center space-x-2 disabled:hover:!bg-transparent disabled:cursor-not-allowed',
-              { 'rounded-b-none bg-pagesize text-pagesizetext': open },
+              'hidden lg:flex w-12 py-1 px-1.5 justify-between gap-1 rounded-md hover:bg-pagesize hover:text-state transition-colors items-center space-x-2 disabled:hover:!bg-transparent disabled:cursor-not-allowed',
+              { 'rounded-b-none bg-pagesize text-state': open },
               { 'w-14': pageSize === 100 }
             )}
           >
@@ -51,7 +51,7 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
           </Popover.Trigger>
           <Popover.Portal>
             <Popover.Content
-              className="bg-pagesize flex flex-col rounded-b-md text-pagesizetext"
+              className="bg-pagesize flex flex-col rounded-b-md text-state"
               onClick={() => setOpen(false)}
             >
               {Array.from({ length: 4 }, (_, index) => (

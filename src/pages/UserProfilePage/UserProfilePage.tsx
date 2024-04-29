@@ -34,11 +34,12 @@ const DEFAULT_AVATARS = [
 const UserProfilePage = () => {
   const params = useParams<'id'>();
   const isPersonal = authService.GetUserId() === Number(params.id);
-  const uploadsSelected = useUnit(model.$uploadsSelected);
+  const sectionSelected = useUnit(model.$section);
 
   const [section, setSection] = useState(
-    isPersonal && !uploadsSelected ? '' : 'uploads'
+    sectionSelected ? sectionSelected : isPersonal ? '' : 'uploads'
   );
+
   const navigate = useNavigate();
   const userProfile = useUnit(model.$userProfilePage);
 
@@ -107,7 +108,7 @@ const UserProfilePage = () => {
             {
               <img
                 id="profile-avatar"
-                className="w-24 aspect-square rounded-full drop-shadow-avatar object-cover object-bottom "
+                className="w-24 aspect-square rounded-full shadow-avatar object-cover object-bottom "
                 src={
                   userProfile.user_images[0]
                     ? userProfile.user_images[0]

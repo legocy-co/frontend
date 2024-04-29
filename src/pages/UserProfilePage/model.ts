@@ -19,7 +19,9 @@ type UserProfile = {
   username: string;
 };
 
-export const $uploadsSelected = createStore(false);
+export const sectionSelected = createEvent<string>();
+
+export const $section = createStore<string>('');
 
 export const avatarChanged = createEvent();
 
@@ -60,6 +62,11 @@ sample({
 });
 
 sample({
+  source: sectionSelected,
+  target: $section,
+});
+
+sample({
   clock: GetUserProfilePageFx.doneData.map((data) => data.user),
   fn: toPage,
   target: $userProfilePage,
@@ -75,4 +82,9 @@ sample({
   clock: GetUserProfilePageFx.doneData.map((data) => data.userReviews),
   fn: toUserReviewCells,
   target: $userReviewCells,
+});
+
+sample({
+  clock: gate.close,
+  target: $section.reinit!,
 });

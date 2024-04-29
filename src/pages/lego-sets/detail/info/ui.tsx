@@ -23,7 +23,7 @@ export const LegoSetDetailInfo = () => {
         onError={addDefaultSrc}
         onClick={() => setShowGallery(i + 1)}
         alt=""
-        className="w-44 h-40 object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+        className="w-44 h-40 object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
       ></img>
     ));
 
@@ -33,7 +33,7 @@ export const LegoSetDetailInfo = () => {
         {legoSet.images && (
           <div className="inline-block w-[300px] sm:w-[595px]">
             <img
-              className="w-full h-[200px] sm:h-[470px] object-cover object-center rounded-md bg-silver cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+              className="w-full h-[200px] sm:h-[470px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
               src={'' + legoSet.images?.slice(0, 1)}
               onError={addDefaultSrc}
               onClick={() => setShowGallery(0)}
@@ -49,20 +49,20 @@ export const LegoSetDetailInfo = () => {
           <div className="flex flex-col justify-between h-24 mb-4">
             <p>
               Pieces:{' '}
-              <span className="text-light dark:text-yellow-100">
+              <span className="text-[#5F5F5F] dark:text-yellow-100">
                 {legoSet.pieces}
               </span>
             </p>
             <p>
               Series:{' '}
-              <span className="text-light dark:text-yellow-100">
+              <span className="text-[#5F5F5F] dark:text-yellow-100">
                 {legoSet.series}
               </span>
             </p>
           </div>
           <p className="mb-9">
             Set Number:{' '}
-            <span className="text-light dark:text-yellow-100">
+            <span className="text-[#5F5F5F] dark:text-yellow-100">
               {legoSet.number}
             </span>
           </p>

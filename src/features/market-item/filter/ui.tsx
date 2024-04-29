@@ -56,7 +56,7 @@ export const MarketItemsFilter = ({
       }}
     >
       <Popover.Trigger asChild>
-        <Button className="!bg-pagesize dark:!bg-darkfilters dark:!text-darkfilterstext rounded-md !text-sm w-36 max-w-32 h-9 flex items-center justify-around">
+        <Button className="!bg-pagesize dark:!bg-dark dark:!text-[#F9F9F9] rounded-md !text-sm w-36 max-w-32 h-9 flex items-center justify-around">
           <SlidersIcon className="iconstrokes" />
           <span className="text-primary text-base">Filters</span>
           <ChevronUpIcon
@@ -70,7 +70,7 @@ export const MarketItemsFilter = ({
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded-md w-[378px] styled-select bg-pagesize text-filterstext dark:text-darkfilterstext p-4 mt-4 dark:bg-darkfiltersbg z-20 border dark:border-solid dark:border-px dark:border-darkfiltersborder">
+        <Popover.Content className="rounded-md w-[378px] styled-select bg-pagesize text-tab dark:text-[#F9F9F9] p-4 mt-4 dark:bg-celllink z-20 border dark:border-solid dark:border-px dark:border-darkfiltersborder">
           <form
             onSubmit={onSubmit}
             className="flex flex-col gap-5 justify-between w-[340px]"
@@ -117,7 +117,7 @@ export const MarketItemsFilter = ({
                 onRangeDragEnd={handlePriceChange}
                 className="my-5"
               />
-              <div className="flex w-full justify-between text-xs text-filtersprice dark:text-darkfiltersprice">
+              <div className="flex w-full justify-between text-xs text-filtersprice dark:text-[#F9F9F9] dark:text-opacity-35">
                 <p>{priceRange[0]}$</p> <p>{priceRange[1]}$</p>
               </div>
             </div>
@@ -168,7 +168,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
               value.concat(ev.currentTarget.value).join(',')
             )
           }
-          className="h-[35px] w-[160px] bg-white dark:bg-darkfilters rounded-md !dark:text-charcoal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
+          className="h-[35px] w-[160px] bg-white dark:bg-dark rounded-md !dark:text-confirmmodal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
         >
           {options.map(({ value, label }) => (
             <option key={value} value={value}>
@@ -224,7 +224,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
           <select
             value={country}
             onChange={(ev) => setCountry(ev.currentTarget.value)}
-            className="h-[35px] w-[160px] rounded-md bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters cursor-pointer"
+            className="h-[35px] w-[160px] rounded-md bg-white text-tab dark:text-[#F9F9F9] indent-3 pr-10 outline-0 mb-1 dark:bg-dark cursor-pointer"
           >
             {lo.countryOptions.map(({ value, label }) => (
               <option key={value} value={value}>
@@ -244,7 +244,7 @@ const Location = ({ model }: { model: MarketItemFilterModel }) => {
             }
             disabled={!country}
             className={clsx(
-              'h-[35px] w-[160px] rounded-md bg-white text-filterstext dark:text-darkfilterstext indent-3 pr-10 outline-0 mb-1 dark:bg-darkfilters cursor-pointer',
+              'h-[35px] w-[160px] rounded-md bg-white text-tab dark:text-[#F9F9F9] indent-3 pr-10 outline-0 mb-1 dark:bg-dark cursor-pointer',
               { '!cursor-default': !country }
             )}
           >

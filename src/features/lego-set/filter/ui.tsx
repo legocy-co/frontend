@@ -44,7 +44,7 @@ export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded w-96 bg-white dark:text-white p-4 mt-2 dark:bg-slate shadow-md">
+        <Popover.Content className="rounded w-96 bg-white dark:text-white p-4 mt-2 dark:bg-selectborder shadow-md">
           <p className="text-xl">Filters</p>
           <form onSubmit={onSubmit} className="flex flex-col mt-5">
             <TextFieldAdapter
@@ -100,7 +100,7 @@ const LegoSeriesSearch = ({
             key={selected.id}
             aria-hidden
             onClick={() => model.removed(selected.id)}
-            className="bg-silver dark:bg-slate dark:text-white w-max rounded-full px-1.5 mb-1 py-0.5 cursor-pointer hover:brightness-90 active:brightness-80 transition-colors"
+            className="bg-pagesizehover dark:bg-selectborder dark:text-white w-max rounded-full px-1.5 mb-1 py-0.5 cursor-pointer hover:brightness-90 active:brightness-80 transition-colors"
           >
             <span className="text-sm">{selected.name}</span>
           </div>

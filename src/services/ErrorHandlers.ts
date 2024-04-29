@@ -1,6 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { SignInForm } from '../types/SignIn';
-import { SignUpForm } from '../types/SignUp';
+import { SignInForm, SignUpForm } from '../types/authorization.ts';
 import { ZodError } from 'zod';
 import toaster from '../shared/lib/react-toastify';
 import { MarketItemForm } from '../types/MarketItemType.ts';

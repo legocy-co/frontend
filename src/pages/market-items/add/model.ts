@@ -24,7 +24,6 @@ import {
 } from '../../../features/lego-set/options/model.ts';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { sleep } from '../../../services/utils.ts';
-import { up } from '../../UserProfilePage/index.tsx';
 
 export const gate = createGate<{
   navigateFn: NavigateFunction;
@@ -51,8 +50,6 @@ export const tabs = [
 export const tabChanged = createEvent<string>();
 
 export const finish = createEvent();
-
-export const uploadsSelected = createEvent<boolean>();
 
 export const $tab = createStore(tabs[0]);
 
@@ -193,11 +190,6 @@ sample({
 sample({
   clock: uploadImagesFx.done,
   target: [mipf.resetDomain, misf.resetDomain, miif.resetDomain],
-});
-
-sample({
-  source: uploadsSelected,
-  target: up.$uploadsSelected,
 });
 
 sample({
