@@ -10,6 +10,7 @@ import {
   toMarketItemCells,
 } from '../../../components/MarketItemsList/model.ts';
 import { navigateFx } from '../../../shared/lib/react-router.ts';
+import { AxiosError } from 'axios';
 
 type MarketItemDetail = {
   avgRating?: number;
@@ -120,7 +121,7 @@ function toChartData(valuations: Valuation[]): BarData[] {
 }
 
 sample({
-  clock: gate.open,
+  clock: [gate.open, gate.state.map(({ id }) => id)],
   target: GetMarketItemFx,
 });
 
@@ -132,6 +133,10 @@ sample({
 
 sample({
   clock: GetMarketItemFx.failData,
+  filter: (error) => {
+    const axiosError = error as AxiosError;
+    return axiosError.response!.status === 404;
+  },
   fn: () => '/catalog',
   target: navigateFx,
 });

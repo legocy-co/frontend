@@ -31,7 +31,6 @@ const MarketItemCell = (props: MarketItemCellProps) => {
 
   const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState(props.images[0]);
-  console.log(imageSrc);
 
   const [showDelete, setShowDelete] = useState(false);
   const [hovered, setHovered] = useState(false);

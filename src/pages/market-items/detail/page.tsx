@@ -144,7 +144,7 @@ const MarketItemDetailPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
-      <div className="mt-8 mb-9 whitespace-nowrap flex flex-wrap gap-7 justify-center">
+      <div className="mt-8 mb-9 flex flex-wrap gap-7 justify-center">
         <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
           <div className="flex text-[2rem] gap-2 font-semibold text-celllink justify-between items-center dark:text-white">
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
@@ -272,7 +272,7 @@ const MarketItemDetailPage = () => {
               </BarChart>
             </div>
           ) : (
-            <div className="flex w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2  text-[#2E2626] dark:text-white">
+            <div className="flex w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2 text-[#2E2626] dark:text-white">
               <NoneIcon className="w-10 iconfills" />
               We currently don&apos;t have enough information on the market of
               this set to provide a recommendation. We suggest checking out
