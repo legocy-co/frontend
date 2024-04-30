@@ -106,7 +106,7 @@ const MarketItemDetailPage = () => {
 
     if (active && payload && payload.length) {
       return (
-        <div className="absolute flex h-4 bg-legocy items-center px-2 rounded-2xl text-[8px] dark:text-black">
+        <div className="absolute flex h-4 bg-legocy items-center px-2 rounded-2xl text-[8px] dark:text-black whitespace-nowrap">
           {setStates[barGraphData.name as keyof typeof setStates]}
           <div className="invisible absolute h-2 w-2 top-3 left-1/2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']"></div>
         </div>
@@ -203,7 +203,7 @@ const MarketItemDetailPage = () => {
                 Contact seller
               </Button>
             </div>
-            <div className="w-full h-[123px] py-3.5 pr-5 pl-6 overflow-y-scroll text-wrap text-cellink bg-pagesize border border-solid border-black dark:border-white dark:bg-dark dark:text-white rounded-md">
+            <div className="w-full h-[173px] py-3.5 pr-5 pl-6 overflow-y-scroll text-wrap text-cellink bg-pagesize border border-solid border-black dark:border-white dark:bg-dark dark:text-white rounded-md">
               {marketItem.description}
             </div>
             <div className="flex flex-wrap items-center justify-start gap-3 text-tab dark:text-white">
@@ -216,7 +216,7 @@ const MarketItemDetailPage = () => {
                 <p>{marketItem.state}</p>
               </div>
             </div>
-            <div className="flex items-center justify-between flex-wrap text-celllink dark:text-white">
+            <div className="flex items-center justify-between flex-wrap gap-2 text-celllink dark:text-white">
               <p>Series: {marketItem.series}</p>
               <p
                 onClick={() => navigate('/wiki/sets/' + marketItem.setID)}
@@ -231,7 +231,7 @@ const MarketItemDetailPage = () => {
             </div>
           </div>
           {chartData.length > 0 ? (
-            <div className="w-[300px] sm:w-[521px] min-h-[281px] mt-[50px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
+            <div className="w-[300px] sm:w-[521px] min-h-[281px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
               <p className="w-full indent-6 text-lg text-confirmmodal text-start dark:text-white">
                 Our Price Evaluation For This Set
               </p>
