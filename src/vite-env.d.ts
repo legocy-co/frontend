@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 
 declare module 'react-range-slider-input';
+declare module 'reactjs-social-login';
 
 interface ImportMetaEnv {
   readonly VITE_API_ENDPOINT: string;
