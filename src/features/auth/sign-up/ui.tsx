@@ -5,7 +5,11 @@ import { Button } from '../../../shared/ui/button.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 import { useGate } from 'effector-react';
-import { IResolveParams, LoginSocialGoogle } from 'reactjs-social-login';
+import {
+  IResolveParams,
+  LoginSocialFacebook,
+  LoginSocialGoogle,
+} from 'reactjs-social-login';
 
 const REDIRECT_URI = window.location.href;
 
@@ -30,8 +34,9 @@ export const SignUp = () => {
     if (provider === 'google') {
       fields.username.onChange(data.name);
       fields.email.onChange(data.email);
-      console.log(data);
+      return;
     }
+    console.log(data);
   }
 
   return (
@@ -80,6 +85,15 @@ export const SignUp = () => {
       >
         <Button>Login via Google</Button>
       </LoginSocialGoogle>
+      <LoginSocialFacebook
+        redirect_uri={REDIRECT_URI}
+        appId={import.meta.env.VITE_FB_APP_ID}
+        onLoginStart={onLoginStart}
+        onResolve={handleSocialResolve}
+        onReject={console.log}
+      >
+        <Button>Login via Facebook</Button>
+      </LoginSocialFacebook>
     </form>
   );
 };
