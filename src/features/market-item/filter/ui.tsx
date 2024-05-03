@@ -84,7 +84,6 @@ export const MarketItemsFilter = ({
                   field={model.form.fields.set_number}
                   labelText="Set number"
                   placeholder="76053"
-                  variant="primary"
                 />
               </div>
             </div>
@@ -94,7 +93,6 @@ export const MarketItemsFilter = ({
                   field={model.form.fields.min_pieces}
                   labelText="Amount of pieces"
                   placeholder="Min. amount"
-                  variant="primary"
                 />
               </div>
               <NumberFieldAdapter
@@ -102,7 +100,6 @@ export const MarketItemsFilter = ({
                 labelText=""
                 placeholder="Max. amount"
                 className="mt-[7px]"
-                variant="primary"
               />
             </div>
             <Location model={model} />
@@ -303,7 +300,6 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
           options={options}
           placeholder={''}
           className="!w-[340px]"
-          variant="primary"
         />
         <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3.5 right-3 rotate-180" />
       </div>

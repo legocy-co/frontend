@@ -28,7 +28,7 @@ export default {
         'filtersprice': '#5A5959',
         'tab': '#222020',
         'description': '#F8F8F8',
-        'menubuttonborder': '#414141',
+        'menubuttonborder': '#4F4F4F',
         'legocy': '#FFD540',
         'pagesize': '#EAEAEA',
         'pagesizehover': '#C9C9C9',
@@ -45,7 +45,7 @@ export default {
         'fair': '#458D3E',
         'fairdark': '#ABF8A4',
         'avatarbg': '#100F0F',
-        'avatarbgdark': '#F5F5F5'
+        'darkmenuborder': '#3D3D3D',
       },
       boxShadow: {
         'avatar': '0 4px 7px 0 #00000070',

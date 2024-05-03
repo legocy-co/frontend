@@ -6,11 +6,12 @@ import { addDefaultSrc } from '../../services/utils.ts';
 import MarketItemsList from '../../components/MarketItemsList';
 import UserReviewsList from '../../components/UserReviewsList';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
-import React, { useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import { authService } from '../../services/AuthService.ts';
 import GalleryModal from '../../components/GalleryModal';
 import { userService } from '../../services/UserService.ts';
 import PencilIcon from '../../assets/icons/pencil.svg';
+import StarIcon from '../../assets/icons/star.svg?react';
 import BatmanPic from '../../assets/pics/batman.png';
 import ChickenPic from '../../assets/pics/chicken.png';
 import IndianajonesPic from '../../assets/pics/indianajones.png';
@@ -20,6 +21,9 @@ import JodaPic from '../../assets/pics/joda.png';
 import LeaPic from '../../assets/pics/lea.png';
 import { UserProfileForm } from '../../features/user-profile';
 import toaster from '../../shared/lib/react-toastify.ts';
+import { $userReviewCells } from '../../components/UserReviewsList/model.ts';
+import { $marketItemCells } from '../../components/MarketItemsList/model.ts';
+import clsx from 'clsx';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -33,21 +37,21 @@ const DEFAULT_AVATARS = [
 
 const UserProfilePage = () => {
   const params = useParams<'id'>();
-  const isPersonal = authService.GetUserId() === Number(params.id);
-  const sectionSelected = useUnit(model.$section);
-
-  const [section, setSection] = useState(
-    sectionSelected ? sectionSelected : isPersonal ? '' : 'uploads'
-  );
-
   const navigate = useNavigate();
-  const userProfile = useUnit(model.$userProfilePage);
-
-  let contentElement;
+  const isPersonal = authService.GetUserId() === Number(params.id);
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
+  const sectionSelected = useUnit(model.$section);
+  const user = useUnit(model.$user);
+  const reviews = useUnit($userReviewCells);
+  const marketItems = useUnit($marketItemCells);
+
+  const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
+  const [section, setSection] = useState(
+    sectionSelected ? sectionSelected : isPersonal ? '' : 'uploads'
+  );
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.currentTarget.files?.[0];
@@ -64,61 +68,63 @@ const UserProfilePage = () => {
     }
   }
 
-  switch (section) {
-    case 'uploads': {
-      contentElement = (
-        <>
-          <p className="my-10 text-bh font-bold">Uploads</p>
-          {isPersonal && (
-            <div className="w-full flex items-center justify-center gap-5 mb-7">
-              <MenuButton onClick={() => navigate('/catalog/add')}>
-                Add new
-              </MenuButton>
-            </div>
-          )}
-          <MarketItemsList />
-        </>
-      );
-      break;
+  useEffect(() => {
+    switch (section) {
+      case 'uploads': {
+        setContentElement(
+          <>
+            <p className="my-10 text-bh font-bold">Uploads</p>
+            {isPersonal && (
+              <div className="w-full flex items-center justify-center gap-5 mb-7">
+                <MenuButton onClick={() => navigate('/catalog/add')}>
+                  Add new
+                </MenuButton>
+              </div>
+            )}
+            <MarketItemsList />
+          </>
+        );
+        break;
+      }
+      case 'reviews': {
+        setContentElement(
+          <>
+            <p className="my-10 text-bh font-bold">Reviews</p>
+            <UserReviewsList />
+          </>
+        );
+        break;
+      }
+      default: {
+        setContentElement(<UserProfileForm />);
+      }
     }
-    case 'reviews': {
-      contentElement = (
-        <>
-          <p className="my-10 text-bh font-bold">Reviews</p>
-          <UserReviewsList />
-        </>
-      );
-      break;
-    }
-    default: {
-      contentElement = (
-        <>
-          <p className="my-10 text-bh font-bold">General info</p>
-          <UserProfileForm />
-        </>
-      );
-    }
-  }
+  }, [section]);
 
   return (
     <>
-      <PageHeading to="/" className="py-12">
+      <PageHeading className="py-14">
         <div className="relative">
-          <div className="w-24 aspect-square rounded-full bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80">
+          <div
+            className={clsx(
+              'w-[82px] aspect-square rounded-full bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80',
+              { '!w-[56px]': !isPersonal }
+            )}
+          >
             {
               <img
                 id="profile-avatar"
-                className="w-24 aspect-square rounded-full shadow-avatar object-cover object-bottom "
+                className={`w-full aspect-square rounded-full object-cover object-bottom`}
                 src={
-                  userProfile.user_images[0]
-                    ? userProfile.user_images[0]
+                  user.images[0]
+                    ? user.images[0].downloadURL
                     : DEFAULT_AVATARS[
                         Math.floor(Math.random() * DEFAULT_AVATARS.length)
                       ]
                 }
                 onError={addDefaultSrc}
                 alt=""
-                onClick={() => userProfile.user_images[0] && setShowGallery(0)}
+                onClick={() => user.images[0].downloadURL && setShowGallery(0)}
               />
             }
           </div>
@@ -136,19 +142,22 @@ const UserProfilePage = () => {
                 />
                 <label
                   htmlFor="input_avatar"
-                  className="absolute flex items-center justify-center w-8 h-8 p-1 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80 text-lg text-black text-center"
+                  className="absolute flex items-center justify-center w-6 h-6 p-1 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80 text-lg text-black text-center"
                 >
-                  {userProfile.user_images[0] ? (
-                    <img src={PencilIcon} alt="" />
-                  ) : (
-                    '+'
-                  )}
+                  {user.images[0] ? <img src={PencilIcon} alt="" /> : '+'}
                 </label>
               </div>
             )}
         </div>
-
-        {userProfile.username}
+        {user.username}
+        {!isPersonal && user.reviewTotals?.avgRating && (
+          <div className="h-[34px] bg-pagesize dark:bg-dark flex items-center gap-2 px-2 rounded-2xl mt-1">
+            <p className="text-tab dark:text-white text-[16px] font-medium">
+              {user.reviewTotals?.avgRating}
+            </p>
+            <StarIcon className="iconfills" width={18} />
+          </div>
+        )}
       </PageHeading>
       <div className="w-full flex items-center justify-center gap-5 mb-7">
         {isPersonal && (
@@ -160,19 +169,19 @@ const UserProfilePage = () => {
           onClick={() => setSection('uploads')}
           disabled={section === 'uploads'}
         >
-          Uploads
+          Uploads {marketItems.length}
         </MenuButton>
         <MenuButton
           onClick={() => setSection('reviews')}
           disabled={section === 'reviews'}
         >
-          Reviews
+          Reviews {reviews.length}
         </MenuButton>
       </div>
       {contentElement}
       {showGallery > -1 && (
         <GalleryModal
-          list={userProfile.user_images}
+          list={user.images.map((img) => img.downloadURL!)}
           i={showGallery}
           onClose={() => setShowGallery(-1)}
         />

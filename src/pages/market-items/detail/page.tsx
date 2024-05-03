@@ -170,9 +170,9 @@ const MarketItemDetailPage = () => {
                     src={marketItem.sellerImage}
                     alt=""
                     onError={addDefaultSrc}
-                    className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg dark:bg-avatarbgdark"
+                    className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg dark:bg-description"
                   />
-                  <p className="overflow-ellipsis overflow-hidden max-w-44 dark:text-avatarbgdark">
+                  <p className="overflow-ellipsis overflow-hidden max-w-44 dark:text-description">
                     {marketItem.sellerUsername}
                   </p>
                 </div>
@@ -186,11 +186,11 @@ const MarketItemDetailPage = () => {
                   <p className="text-[#0D0C0C] dark:text-white">
                     {marketItem.avgRating}
                   </p>
-                  <StarIcon className="w-[18px] fillsblack iconfills" />
+                  <StarIcon className="w-[18px] iconfills" />
                 </div>
                 <p
                   onClick={handleReviews}
-                  className={'underline cursor-pointer dark:text-avatarbgdark'}
+                  className={'underline cursor-pointer dark:text-description'}
                 >
                   {marketItem.totalReviews ? marketItem.totalReviews : 0}{' '}
                   {'review' + (marketItem.totalReviews! !== 1 ? 's' : '')}

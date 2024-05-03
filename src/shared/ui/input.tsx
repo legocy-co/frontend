@@ -12,7 +12,6 @@ export type InputProps = NativeInputProps & {
   multiple?: boolean;
   className?: string;
   placeholder?: string;
-  variant?: 'primary' | '';
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -23,7 +22,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     isDisabled,
     className,
     placeholder,
-    variant,
     ...rest
   } = props;
 
@@ -36,17 +34,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
   return (
     <>
-      <label className="mb-0.5">{labelText}</label>
+      <label className="text-xs font-semibold">{labelText}</label>
       <div className="relative">
         <input
           disabled={isDisabled}
           ref={ref}
           className={clsx(
-            'block w-[343px] h-[44px] dark:bg-dark border border-solid border-selectborder rounded-xl text-confirmmodal dark:text-white indent-3 pr-10 outline-0 mb-3.5',
-            {
-              '!h-[35px] !w-[160px] !rounded-md border-none bg-white text-tab dark:text-[#F9F9F9] indent-3 pr-10 outline-0 mb-1 dark:bg-dark placeholder:text-[#625F5F] dark:placeholder:text-[#F9F9F9] placeholder:text-opacity-35':
-                variant === 'primary',
-            },
+            'block h-[35px] w-[160px] rounded-md text-celllink dark:text-description indent-3 pr-10 outline-0 mb-1 dark:bg-dark placeholder:text-[#625F5F] dark:placeholder:text-[#F9F9F9] placeholder:text-opacity-35 dark:placeholder:text-opacity-35',
             {
               '!bg-invalid dark:!bg-invalid !text-confirmmodal dark:!text-confirmmodal':
                 isInvalid,

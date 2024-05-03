@@ -22,7 +22,6 @@ type Props = {
   className?: string;
   clientSideSearch?: boolean;
   placeholder?: string;
-  variant?: 'primary' | '';
 };
 
 export const SelectSearch = ({
