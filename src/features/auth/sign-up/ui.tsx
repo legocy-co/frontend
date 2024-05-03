@@ -34,6 +34,7 @@ export const SignUp = () => {
     if (provider === 'google') {
       fields.username.onChange(data.name);
       fields.email.onChange(data.email);
+      console.log(data);
       return;
     }
     console.log(data);
@@ -75,7 +76,6 @@ export const SignUp = () => {
       </div>
       <LoginSocialGoogle
         redirect_uri={REDIRECT_URI}
-        scope="email name picture"
         typeResponse="idToken"
         ux_mode="popup"
         client_id={import.meta.env.VITE_GG_APP_ID}
