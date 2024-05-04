@@ -274,9 +274,9 @@ const MarketItemDetailPage = () => {
           ) : (
             <div className="flex w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2 text-[#2E2626] dark:text-white">
               <NoneIcon className="w-10 iconfills" />
-              We currently don&apos;t have enough information on the market of
-              this set to provide a recommendation. We suggest checking out
-              other similar listings to determine an appropriate price.
+              We currently don&apos;t have enough information to give you our
+              price evaluation for this set . We suggest checking out other
+              similar listings to determine an appropriate price.
             </div>
           )}
         </div>

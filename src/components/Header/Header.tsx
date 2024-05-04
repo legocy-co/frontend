@@ -4,8 +4,8 @@ import WikiIcon from '../../assets/icons/wiki.svg?react';
 import ChatIcon from '../../assets/icons/chat.svg?react';
 import UserIcon from '../../assets/icons/user.svg?react';
 import CollectionIcon from '../../assets/icons/collection.svg?react';
-import DarkIcon from '../../assets/icons/dark.svg';
-import LightIcon from '../../assets/icons/light.svg';
+import DarkIcon from '../../assets/icons/dark.svg?react';
+import LightIcon from '../../assets/icons/light.svg?react';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
@@ -126,25 +126,21 @@ const Header = () => {
             )}
             {showMenu && (
               <div
-                className="header--user-menu bg-white dark:bg-dark dark:text-white"
+                className="header--user-menu"
                 onClick={(e) => e.stopPropagation()}
               >
-                <p
-                  onClick={() =>
-                    navigate('/profile/' + authService.GetUserId())
-                  }
-                >
-                  My profile
-                </p>
+                <p onClick={() => navigate('/profile/')}>My profile</p>
+                <p onClick={handleShowLogout}>Log out</p>
                 <div className="header--user-menu_theme">
-                  <img src={LightIcon} alt="" onError={addDefaultSrc} />
+                  <div>
+                    <LightIcon className={darkTheme ? 'w-0' : ''} />
+                    <DarkIcon className={darkTheme ? '' : 'w-0'} />
+                  </div>
                   <Toggle
                     checked={darkTheme}
                     onChange={() => setDarkTheme((prev) => !prev)}
                   />
-                  <img src={DarkIcon} alt="" onError={addDefaultSrc} />
                 </div>
-                <p onClick={handleShowLogout}>Log out</p>
               </div>
             )}
           </div>

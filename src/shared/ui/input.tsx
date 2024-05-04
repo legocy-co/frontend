@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
   return (
     <>
-      <label className="text-xs font-semibold">{labelText}</label>
+      <label>{labelText}</label>
       <div className="relative">
         <input
           disabled={isDisabled}

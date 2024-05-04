@@ -87,12 +87,7 @@ const UserProfilePage = () => {
         break;
       }
       case 'reviews': {
-        setContentElement(
-          <>
-            <p className="my-10 text-bh font-bold">Reviews</p>
-            <UserReviewsList />
-          </>
-        );
+        setContentElement(<UserReviewsList />);
         break;
       }
       default: {

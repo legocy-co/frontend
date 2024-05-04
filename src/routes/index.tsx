@@ -68,13 +68,7 @@ const AppRouter = () => {
           <Route
             index
             element={
-              <Navigate
-                to={
-                  authService.IsAuthorized()
-                    ? '/profile/' + authService.GetUserId()
-                    : '/'
-                }
-              />
+              <Navigate to={authService.IsAuthorized() ? '/profile/' : '/'} />
             }
           />
           <Route

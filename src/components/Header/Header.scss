@@ -44,7 +44,6 @@ header {
   height: 55px;
   z-index: 1;
   //background: lightpink;
-  button {background: $legocy-yellow}
 }
 
 .header--logo {
@@ -110,15 +109,37 @@ header {
     border-radius: 12px 0 12px 12px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 18px 29px;
-    box-shadow: -4px 3px 10px 0px #00000073;
+    align-items: start;
+    gap: 24px;
+    padding: 18px 60px 18px 29px;
+    box-shadow: 0px -1px 8.4px 0px #00000040;
+    font-weight: 700;
+    font-size: 24px;
+    background: #F2F2F2;
+    color: #141313;
     &_theme {
-      align-self: center;
-      width: 120px;
+      position: relative;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      button {
+        background: #2F2F2F;
+        span {background: white;};
+      }
+      div {
+        position: absolute;
+        z-index: 21;
+        pointer-events: none;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 65px;
+        height: 31px;
+        display: flex;
+        padding: 0 9px 1px 9px;
+        align-items: center;
+        justify-content: space-between;
+      }
     }
     img {
       max-width: 30px;
@@ -158,4 +179,14 @@ header {
 html[class='dark'] {
   .fills path {fill: white;}
   .strokes path {stroke: white;}
+  .header--user{
+    &-menu {
+      background: #2F2F2F;
+      color: #F4F4F4;
+      &_theme {
+        button {background: #F4F4F4;}
+        span {background: #141313}
+      }
+    }
+  }
 }

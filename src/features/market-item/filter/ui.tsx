@@ -79,7 +79,7 @@ export const MarketItemsFilter = ({
             <Search model={model.seriesListSearch} label="Set theme" />
             <div className="flex justify-between">
               <SetState model={model} />
-              <div className="flex flex-col gap-1 mt-[2px]">
+              <div className="flex flex-col gap-1 mt-[3px]">
                 <NumberFieldAdapter
                   field={model.form.fields.set_number}
                   labelText="Set number"
@@ -88,7 +88,7 @@ export const MarketItemsFilter = ({
               </div>
             </div>
             <div className="flex justify-between">
-              <div className="flex flex-col gap-1 mt-[-15px]">
+              <div className="flex flex-col gap-1 mt-[-13px]">
                 <NumberFieldAdapter
                   field={model.form.fields.min_pieces}
                   labelText="Amount of pieces"
