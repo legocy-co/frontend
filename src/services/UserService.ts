@@ -35,7 +35,9 @@ type ImagesResponse = {
 };
 
 const GetCurrentUserProfileInfo = async (): Promise<User> => {
-  const response = await axios.get<UserProfileResponse>('/users/profile/');
+  const response = await axios.get<UserProfileResponse>(
+    '/users/profile/header/'
+  );
   const result = UserSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(
