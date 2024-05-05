@@ -73,7 +73,6 @@ const UserProfilePage = () => {
       case 'uploads': {
         setContentElement(
           <>
-            <p className="my-10 text-bh font-bold">Uploads</p>
             {isPersonal && (
               <div className="w-full flex items-center justify-center gap-5 mb-7">
                 <MenuButton onClick={() => navigate('/catalog/add')}>
@@ -145,7 +144,7 @@ const UserProfilePage = () => {
             )}
         </div>
         {user.username}
-        {!isPersonal && user.reviewTotals?.avgRating && (
+        {!isPersonal && user.reviewTotals?.avgRating !== 0 && (
           <div className="h-[34px] bg-pagesize dark:bg-dark flex items-center gap-2 px-2 rounded-2xl mt-1">
             <p className="text-tab dark:text-white text-[16px] font-medium">
               {user.reviewTotals?.avgRating}
