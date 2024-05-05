@@ -19,21 +19,25 @@ export const SignUp = () => {
       <TextFieldAdapter
         field={model.form.fields.username}
         labelText="Username"
+        className="w-[343px] h-[44px] mb-5"
       />
       <TextFieldAdapter
         field={model.form.fields.email}
         labelText="E-mail address"
         type="email"
+        className="w-[343px] h-[44px] mb-5"
       />
       <TextFieldAdapter
         field={model.form.fields.password}
         labelText="Password"
         type="password"
+        className="w-[343px] h-[44px] mb-5"
       />
       <TextFieldAdapter
         field={model.form.fields.passwordConfirm}
         labelText="Confirm password"
         type="password"
+        className="w-[343px] h-[44px] mb-5"
       />
       <div className="flex justify-center">
         {!eachValid && (

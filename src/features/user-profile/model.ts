@@ -137,7 +137,7 @@ sample({
 
 sample({
   source: form.formValidated,
-  target: updateUserProfilePageFx,
+  target: [updateUserProfilePageFx, form.resetTouched],
 });
 
 sample({

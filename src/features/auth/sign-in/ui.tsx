@@ -21,11 +21,13 @@ export const SignIn = () => {
         field={model.form.fields.email}
         labelText="E-mail address"
         type="email"
+        className="w-[343px] h-[44px] mb-5"
       />
       <TextFieldAdapter
         field={model.form.fields.password}
         labelText="Password"
         type="password"
+        className="w-[343px] h-[44px]"
       />
       <div className="flex justify-center">
         {!eachValid && (

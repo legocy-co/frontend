@@ -32,11 +32,13 @@ export const CollectionSetForm = () => {
       <NumberFieldAdapter
         field={model.form.fields.buy_price}
         labelText="Buy price"
+        className="w-[343px] h-[44px] mb-3 bg-pagesize"
       />
       <SelectSearchAdapter
         clientSideSearch
         field={model.form.fields.lego_set_id}
         labelText="Lego set"
+        className="w-[343px] h-[44px] mb-3 bg-pagesize"
         options={legoSets.map((legoSet) => ({
           value: legoSet.id,
           label: `${legoSet.number} - ${legoSet.name}`,

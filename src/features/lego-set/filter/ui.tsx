@@ -44,20 +44,23 @@ export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded w-96 bg-white dark:text-white p-4 mt-2 dark:bg-selectborder shadow-md">
+        <Popover.Content className="rounded w-96 bg-pagesize dark:text-white p-4 mt-2 dark:bg-selectborder shadow-md">
           <p className="text-xl">Filters</p>
           <form onSubmit={onSubmit} className="flex flex-col mt-5">
             <TextFieldAdapter
               field={form.fields.name}
               labelText="Lego set name"
+              className="w-[343px] h-[44px] mb-3"
             />
             <NumberFieldAdapter
               field={form.fields.min_pieces}
               labelText="Min pieces"
+              className="w-[343px] h-[44px] mb-3"
             />
             <NumberFieldAdapter
               field={form.fields.max_pieces}
               labelText="Max pieces"
+              className="w-[343px] h-[44px] mb-3"
             />
             <LegoSeriesSearch
               label="Lego series"
@@ -67,6 +70,7 @@ export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
               placeholder="76240"
               field={model.form.fields.set_number}
               labelText="Set number"
+              className="w-[343px] h-[44px] mb-3"
             />
             <div className="flex gap-5 justify-center">
               <Button onClick={() => model.cancelTriggered()}>Cancel</Button>
@@ -118,7 +122,7 @@ const LegoSeriesSearch = ({
         value={value}
         options={options}
         placeholder={label}
-        className="border-none max-w-80 w-80"
+        className="w-80 h-[44px] mb-3 !bg-pagesize dark:!bg-dark"
       />
     </div>
   );

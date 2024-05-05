@@ -1,15 +1,19 @@
-import { useGate } from 'effector-react';
+import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import React from 'react';
 import { TextFieldAdapter } from '../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../shared/ui/form-error.tsx';
 import { Button } from '../../shared/ui/button.tsx';
 import { useForm } from 'effector-forms';
+import PencilIcon from '../../assets/icons/pencil.svg?react';
+import clsx from 'clsx';
 
 export const UserProfileForm = () => {
   useGate(model.gate);
 
   const { fields, eachValid } = useForm(model.form);
+
+  const isDirty = useUnit(model.form.$touched);
 
   function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
@@ -18,21 +22,34 @@ export const UserProfileForm = () => {
 
   return (
     <form onSubmit={onSubmit}>
-      <TextFieldAdapter
-        field={model.form.fields.username}
-        labelText="Username"
-      />
-      <TextFieldAdapter
-        field={model.form.fields.email}
-        labelText="E-mail address"
-      />
+      <div className="relative">
+        <TextFieldAdapter
+          field={model.form.fields.username}
+          labelText="Username"
+          className="w-[386px] h-[48px] mb-6 bg-pagesize"
+        />
+        <PencilIcon className="absolute top-1/2 right-3 iconfills" />
+      </div>
+      <div className="relative">
+        <TextFieldAdapter
+          field={model.form.fields.email}
+          labelText="Email address"
+          className="w-[386px] h-[48px] mb-2 bg-pagesize"
+        />
+        <PencilIcon className="absolute top-1/2 right-3 iconfills" />
+      </div>
       <div className="flex justify-center">
         {!eachValid && (
           <FormError>
             {fields.username.errorText() || fields.email.errorText()}
           </FormError>
         )}
-        <Button type="submit" className="mt-14">
+        <Button
+          type="submit"
+          className={clsx('mt-9 !w-[176px] !h-10 text-lg', {
+            'bg-prevdark text-white pointer-events-none': !isDirty,
+          })}
+        >
           Save
         </Button>
       </div>

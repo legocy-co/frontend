@@ -1,6 +1,6 @@
 import './UserReviewCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
-import Star from '../../assets/icons/star.svg';
+import StarIcon from '../../assets/icons/star.svg?react';
 
 interface UserReviewCellProps {
   id: number;
@@ -12,8 +12,8 @@ interface UserReviewCellProps {
 }
 
 const UserReviewCell = (props: UserReviewCellProps) => {
-  const stars = [...Array(props.rating)].map((star, i) => (
-    <img key={star + i} src={Star} alt="" />
+  const stars = [...Array(props.rating)].map((_, i) => (
+    <StarIcon key={'star-' + i} width={15} />
   ));
 
   return (

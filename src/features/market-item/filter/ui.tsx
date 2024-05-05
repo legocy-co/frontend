@@ -79,22 +79,20 @@ export const MarketItemsFilter = ({
             <Search model={model.seriesListSearch} label="Set theme" />
             <div className="flex justify-between">
               <SetState model={model} />
-              <div className="flex flex-col gap-1 mt-[2px]">
+              <div className="flex flex-col gap-1 mt-[3px]">
                 <NumberFieldAdapter
                   field={model.form.fields.set_number}
                   labelText="Set number"
                   placeholder="76053"
-                  variant="primary"
                 />
               </div>
             </div>
             <div className="flex justify-between">
-              <div className="flex flex-col gap-1 mt-[-15px]">
+              <div className="flex flex-col gap-1 mt-[-13px]">
                 <NumberFieldAdapter
                   field={model.form.fields.min_pieces}
                   labelText="Amount of pieces"
                   placeholder="Min. amount"
-                  variant="primary"
                 />
               </div>
               <NumberFieldAdapter
@@ -102,7 +100,6 @@ export const MarketItemsFilter = ({
                 labelText=""
                 placeholder="Max. amount"
                 className="mt-[7px]"
-                variant="primary"
               />
             </div>
             <Location model={model} />
@@ -303,7 +300,6 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
           options={options}
           placeholder={''}
           className="!w-[340px]"
-          variant="primary"
         />
         <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3.5 right-3 rotate-180" />
       </div>

@@ -13,12 +13,6 @@ import {
 } from '../../components/UserReviewsList/model.ts';
 import { profileUpdated } from '../../features/user-profile/model.ts';
 
-type UserProfile = {
-  id: number;
-  user_images: string[];
-  username: string;
-};
-
 export const sectionSelected = createEvent<string>();
 
 export const $section = createStore<string>('');
@@ -32,9 +26,12 @@ export const gate = createGate<{
   navigate: NavigateFunction;
 }>();
 
-export const $userProfilePage = createStore<UserProfile>({
+export const $user = createStore<User>({
+  email: '',
   id: 0,
-  user_images: [],
+  images: [],
+  reviewTotals: { avgRating: 0, totalReviews: 0 },
+  role: 0,
   username: '',
 });
 
@@ -42,19 +39,9 @@ const GetUserProfilePageFx = attach({
   source: gate.state.map(({ id }) => id),
   effect: (id) => {
     if (!id) throw new Error('No id provided');
-    return userService.GetUserProfilePage(id);
+    return userService.GetUserProfilePage(id === 'my' ? undefined : id);
   },
 });
-
-function toPage(user: User): UserProfile {
-  return {
-    id: user.id,
-    user_images: user.images.map((img) =>
-      img.downloadURL ? img.downloadURL : ''
-    ),
-    username: user.username,
-  };
-}
 
 sample({
   clock: [gate.open, avatarChanged, marketItemDeleted, profileUpdated],
@@ -67,9 +54,8 @@ sample({
 });
 
 sample({
-  clock: GetUserProfilePageFx.doneData.map((data) => data.user),
-  fn: toPage,
-  target: $userProfilePage,
+  source: GetUserProfilePageFx.doneData.map((data) => data.user),
+  target: $user,
 });
 
 sample({
