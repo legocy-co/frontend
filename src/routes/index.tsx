@@ -19,7 +19,7 @@ import {
 import PrivateRoute from './PrivateRoute.tsx';
 import MarketItemDetailPage from '../pages/market-items/detail';
 import CatalogPage from '../pages/market-items';
-import UserProfilePage from '../pages/UserProfilePage';
+import UserProfilePage from '../pages/user-profile-pages';
 import AddMarketItemPage from '../pages/market-items/add';
 import LegoSetsPage from '../pages/lego-sets';
 import LegoSetDetailPage from '../pages/lego-sets/detail';
@@ -30,6 +30,7 @@ import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
 import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
 import ChatPage from '../pages/ChatPage';
 import CatalogSelectPage from '../pages/market-items/select/index.tsx';
+import MyUploadsPage from '../pages/user-profile-pages/uploads/page.tsx';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -51,9 +52,11 @@ const AppRouter = () => {
       <Route path="/" element={<RootPage />}>
         <Route index element={<Navigate to="/catalog/select" />} />
 
-        <Route path="auth" element={<AuthRoute />} />
-        <Route path="auth/sign-up" element={<SignUpPage />} />
-        <Route path="auth/sign-in" element={<SignInPage />} />
+        <Route path="auth" element={<Outlet />}>
+          <Route index element={<AuthRoute />} />
+          <Route path="sign-up" element={<SignUpPage />} />
+          <Route path="sign-in" element={<SignInPage />} />
+        </Route>
 
         <Route path="catalog" element={<Outlet />}>
           <Route index element={<CatalogPage />} />
@@ -63,11 +66,14 @@ const AppRouter = () => {
           <Route path="update/:id" element={<UpdateMarketItemPage />} />
         </Route>
 
-        <Route path="profile" element={<Navigate to="my" />} />
-        <Route
-          path="profile/:id"
-          element={<UserProfilePage key={history.location.pathname} />}
-        />
+        <Route path="profile" element={<Outlet />}>
+          <Route index element={<Navigate to="my" />} />
+          <Route
+            path=":id"
+            element={<UserProfilePage key={history.location.pathname} />}
+          />
+          <Route path="my/uploads" element={<MyUploadsPage />} />
+        </Route>
 
         <Route path="wiki" element={<Navigate to="sets" />} />
         <Route path="wiki/sets" element={<Outlet />}>
@@ -83,7 +89,7 @@ const AppRouter = () => {
         </Route>
 
         <Route
-          path="/chat"
+          path="chat"
           element={
             <PrivateRoute>
               <ChatPage />

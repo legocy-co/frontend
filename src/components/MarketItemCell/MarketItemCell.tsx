@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { authService } from '../../services/AuthService.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import ConfirmationModal from '../ConfirmationModal';
-import { up } from '../../pages/UserProfilePage/index.tsx';
+import { upp } from '../../pages/user-profile-pages';
 import PencilIcon from '../../assets/icons/pencil.svg';
 import SliderIcon from '../../assets/icons/slider-back.svg?react';
 import LocationIcon from '../../assets/icons/location.svg?react';
@@ -37,7 +37,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
 
   async function handleDelete() {
     await marketItemService.DeleteMarketItem(props.id);
-    up.marketItemDeleted();
+    upp.marketItemDeleted();
 
     setShowDelete(false);
   }
@@ -111,7 +111,9 @@ const MarketItemCell = (props: MarketItemCellProps) => {
               onClick={() =>
                 setImageSrc(
                   props.images[
-                    (props.images.findIndex((img) => img === imageSrc) + props.images.length + 1) %
+                    (props.images.findIndex((img) => img === imageSrc) +
+                      props.images.length +
+                      1) %
                       props.images.length
                   ]
                 )

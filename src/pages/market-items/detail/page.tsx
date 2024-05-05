@@ -12,7 +12,7 @@ import NoneIcon from '../../../assets/icons/none.svg?react';
 import PieceIcon from '../../../assets/icons/piece.svg?react';
 import { Button } from '../../../shared/ui/button.tsx';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
-import { up } from '../../UserProfilePage/index.tsx';
+import { upp } from '../../user-profile-pages/index.tsx';
 import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
 import { setStates } from '../../../types/MarketItemType.ts';
 import MarketItemCell from '../../../components/MarketItemCell';
@@ -115,7 +115,7 @@ const MarketItemDetailPage = () => {
   };
 
   function handleReviews() {
-    up.sectionSelected('reviews');
+    upp.sectionSelected('reviews');
     navigate('/profile/' + marketItem.sellerID);
   }
 

@@ -52,7 +52,9 @@ export const MarketItemPrimaryForm = () => {
                 }
               )}
               onClick={() =>
-                model.form.fields.setState.onChange(state[0] as any)
+                model.form.fields.setState.onChange(
+                  state[0] as keyof typeof setStates
+                )
               }
             >
               <LazySvg name={state[0]} className="w-5" />

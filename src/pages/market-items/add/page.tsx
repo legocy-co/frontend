@@ -19,7 +19,7 @@ import MarketItemCell from '../../../components/MarketItemCell';
 import { $marketItemCell } from '../../../components/MarketItemsList/model.ts';
 import Loader from '../../../shared/ui/loader.tsx';
 import CongratsIcon from '../../../assets/icons/congrats.svg?react';
-import { up } from '../../UserProfilePage/index.tsx';
+import { upp } from '../../user-profile-pages/index.tsx';
 
 const AddMarketItemPage = () => {
   const navigateFn = useNavigate();
@@ -32,7 +32,7 @@ const AddMarketItemPage = () => {
   const description = useUnit(mipf.form.fields.description.$value);
 
   function toUploads() {
-    up.sectionSelected('uploads');
+    upp.sectionSelected('uploads');
     navigateFn('/profile');
   }
 
