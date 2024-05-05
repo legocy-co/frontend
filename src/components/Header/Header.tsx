@@ -129,7 +129,7 @@ const Header = () => {
                 className="header--user-menu"
                 onClick={(e) => e.stopPropagation()}
               >
-                <p onClick={() => navigate('/profile/')}>My profile</p>
+                <p onClick={() => navigate('profile/my')}>My profile</p>
                 <p onClick={handleShowLogout}>Log out</p>
                 <div className="header--user-menu_theme">
                   <div>

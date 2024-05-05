@@ -39,7 +39,7 @@ const GetUserProfilePageFx = attach({
   source: gate.state.map(({ id }) => id),
   effect: (id) => {
     if (!id) throw new Error('No id provided');
-    return userService.GetUserProfilePage(id);
+    return userService.GetUserProfilePage(id === 'my' ? undefined : id);
   },
 });
 

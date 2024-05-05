@@ -21,7 +21,6 @@ import MarketItemDetailPage from '../pages/market-items/detail';
 import CatalogPage from '../pages/market-items';
 import UserProfilePage from '../pages/UserProfilePage';
 import AddMarketItemPage from '../pages/market-items/add';
-import { authService } from '../services/AuthService.ts';
 import LegoSetsPage from '../pages/lego-sets';
 import LegoSetDetailPage from '../pages/lego-sets/detail';
 import CollectionPage from '../pages/collections';
@@ -64,19 +63,13 @@ const AppRouter = () => {
           <Route path="update/:id" element={<UpdateMarketItemPage />} />
         </Route>
 
-        <Route path="/profile" element={<Outlet />}>
-          <Route
-            index
-            element={
-              <Navigate to={authService.IsAuthorized() ? '/profile/' : '/'} />
-            }
-          />
-          <Route
-            path=":id"
-            element={<UserProfilePage key={history.location.pathname} />}
-          />
-        </Route>
+        <Route path="profile" element={<Navigate to="my" />} />
+        <Route
+          path="profile/:id"
+          element={<UserProfilePage key={history.location.pathname} />}
+        />
 
+        <Route path="wiki" element={<Navigate to="sets" />} />
         <Route path="wiki/sets" element={<Outlet />}>
           <Route index element={<LegoSetsPage />} />
           <Route path=":id" element={<LegoSetDetailPage />} />

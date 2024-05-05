@@ -38,7 +38,7 @@ const DEFAULT_AVATARS = [
 const UserProfilePage = () => {
   const params = useParams<'id'>();
   const navigate = useNavigate();
-  const isPersonal = authService.GetUserId() === Number(params.id);
+  const isPersonal = params.id === 'my';
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
