@@ -12,7 +12,7 @@ export const CollectionsIntroPage = () => {
         – the heart of brick excitement. ✨
       </p>
       <Button
-        className={'mt-0 mb-7 h-14'}
+        className={'mt-0 mb-7 h-14 !w-60'}
         onClick={() => navigate('/collection/add/')}
       >
         Start Collecting

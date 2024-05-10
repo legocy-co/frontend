@@ -112,25 +112,24 @@ const UserProfilePage = () => {
             }
           </div>
 
-          {authService.IsAuthorized() &&
-            authService.GetUserId() == Number(params.id) && (
-              <div>
-                <input
-                  accept=".jpg, .jpeg, .png, .heic"
-                  className="hidden"
-                  type="file"
-                  id="input_avatar"
-                  name="input_avatar"
-                  onChange={handleUpload}
-                />
-                <label
-                  htmlFor="input_avatar"
-                  className="absolute flex items-center justify-center w-6 h-6 p-1 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80 text-lg text-black text-center"
-                >
-                  {user.images[0] ? <img src={PencilIcon} alt="" /> : '+'}
-                </label>
-              </div>
-            )}
+          {isPersonal && (
+            <div>
+              <input
+                accept=".jpg, .jpeg, .png, .heic"
+                className="hidden"
+                type="file"
+                id="input_avatar"
+                name="input_avatar"
+                onChange={handleUpload}
+              />
+              <label
+                htmlFor="input_avatar"
+                className="absolute flex items-center justify-center w-6 h-6 p-1 rounded-full bottom-0 right-0 bg-legocy cursor-pointer transition-all hover:brightness-90 active:brightness-80 text-lg text-black text-center"
+              >
+                {user.images[0] ? <img src={PencilIcon} alt="" /> : '+'}
+              </label>
+            </div>
+          )}
         </div>
         {user.username}
         {!isPersonal && user.reviewTotals?.avgRating !== 0 && (
