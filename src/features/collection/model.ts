@@ -30,11 +30,11 @@ export const gate = createGate<{
 
 export const form = createForm({
   fields: {
-    buy_price: {
+    buyPrice: {
       init: null as unknown as number,
       rules: [
         createRule({
-          name: 'buy_price',
+          name: 'buyPrice',
           schema: z
             .number()
             .max(999999)
@@ -44,7 +44,7 @@ export const form = createForm({
         }),
       ],
     },
-    lego_set_id: {
+    legoSetID: {
       init: '',
       rules: [
         createRule({
@@ -57,7 +57,7 @@ export const form = createForm({
       init: '' as keyof typeof setStates,
       rules: [
         createRule({
-          name: 'set_states',
+          name: 'state',
           schema: z.string().min(1, 'Missing condition'),
         }),
       ],
@@ -71,9 +71,9 @@ export const setForm = domain.createEvent<CollectionSet>();
 
 const $collectionSets = createStore<CollectionSet[]>([]);
 
-const $setId = gate.state.map(({ id }) => id);
+const $setID = gate.state.map(({ id }) => id);
 
-const $isEditing = $setId.map((id) => id !== null);
+const $isEditing = $setID.map((id) => id !== null);
 
 const setCollectionSet = createEvent<CollectionSet>();
 
@@ -82,7 +82,7 @@ const GetCollectionFx = createEffect(() => collectionService.GetCollection());
 const fetchCollectionSetFx = attach({
   source: {
     collectionSets: $collectionSets,
-    setId: $setId,
+    setId: $setID,
   },
   effect: ({ collectionSets, setId }) => {
     const collectionSet = collectionSets.find(
@@ -98,22 +98,22 @@ const addCollectionSetFx = attach({
   source: form.$values,
   effect: (values) =>
     collectionService.AddCollectionSet({
-      buyPrice: values.buy_price,
-      legoSetID: Number(values.lego_set_id),
+      buyPrice: values.buyPrice,
+      legoSetID: Number(values.legoSetID),
       state: values.state,
     }),
 });
 
 const updateCollectionSetFx = attach({
   source: {
-    id: $setId,
+    id: $setID,
     data: form.$values,
   },
   effect: ({ id, data }) =>
     collectionService.UpdateCollectionSet(id!, {
-      buyPrice: data.buy_price,
+      buyPrice: data.buyPrice,
       state: data.state,
-      legoSetID: Number(data.lego_set_id),
+      legoSetID: Number(data.legoSetID),
     }),
 });
 
@@ -124,9 +124,9 @@ const collectionRedirectFx = attach({
 
 function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
   return {
-    buy_price: values.buyPrice,
+    buyPrice: values.buyPrice,
     state: values.state,
-    lego_set_id: String(values.legoSet.id),
+    legoSetID: String(values.legoSet.id),
   };
 }
 

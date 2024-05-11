@@ -44,7 +44,7 @@ const GetUserProfilePageFx = attach({
 });
 
 sample({
-  clock: [gate.open, avatarChanged, marketItemDeleted, profileUpdated],
+  clock: [gate.open, avatarChanged, profileUpdated],
   target: GetUserProfilePageFx,
 });
 

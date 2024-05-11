@@ -13,8 +13,8 @@ const MyUploadsPage = () => {
   return (
     <>
       <PageHeading>My Uploads</PageHeading>
-      <p className="mb-7">You have {uploads.length} uploads</p>
-      <div className="w-full flex items-center justify-center gap-5 mb-7">
+      <p className="mb-11">{uploads.length} uploads</p>
+      <div className="w-full flex items-center justify-center gap-5 mb-6">
         <MenuButton
           onClick={() => model.statusChanged('CHECK_REQUIRED')}
           disabled={status === 'CHECK_REQUIRED'}

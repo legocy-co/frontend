@@ -10,84 +10,67 @@ import {
 } from '../../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
-import cities from '../../../../data/cities.json';
-import { setStates } from '../../../types/MarketItemType.ts';
 import { lso } from '../../lego-set/options/index.ts';
 import { Button } from '../../../shared/ui/button.tsx';
+import { lo } from '../../location/options/index.ts';
+import { sso } from '../../set-state/options/index.ts';
 
-export const MarketItemInfoForm = () => {
-  const legoSets = useUnit(lso.$legoSetOptions);
-  const navigateFn = useNavigate();
+export const MarketItemUpdateForm = () => {
   const params = useParams<'id'>();
+  const navigateFn = useNavigate();
   useGate(model.gate, { id: params.id ?? null, navigateFn });
 
   const { fields, eachValid } = useForm(model.form);
+
+  const legoSets = useUnit(lso.$legoSetOptions);
+
   function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
     model.form.submit();
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className="flex flex-col gap-2">
       <SelectSearchAdapter
         clientSideSearch
-        field={model.form.fields.lego_set_id}
+        field={model.form.fields.legoSetID}
         labelText="Lego set"
         options={legoSets.map((legoSet) => ({
           value: legoSet.id,
           label: `${legoSet.number} - ${legoSet.name}`,
         }))}
+        className="!w-[343px] !h-[44px] bg-pagesize"
       />
       <SelectFieldAdapter
-        field={model.form.fields.set_state}
-        options={[
-          {
-            value: '',
-            label: 'Select condition',
-          },
-          ...Object.entries(setStates).map((state) => ({
-            label: state[1],
-            value: state[0],
-          })),
-        ]}
+        field={model.form.fields.setState}
+        options={sso.setStateOptions}
         defaultOptionValue=""
       />
       <TextareaFieldAdapter
         field={model.form.fields.description}
         labelText="Description"
       />
-      <NumberFieldAdapter field={model.form.fields.price} labelText="Price" />
+      <NumberFieldAdapter
+        field={model.form.fields.price}
+        labelText="Price"
+        className="!w-[343px] !h-[44px] bg-pagesize"
+      />
       <SelectFieldAdapter
         field={model.form.fields.country}
-        options={[
-          {
-            value: '',
-            label: 'Select country',
-          },
-          ...[...new Set(cities.map((city) => city.country))].map(
-            (country) => ({ label: country, value: country })
-          ),
-        ]}
+        options={lo.countryOptions}
         defaultOptionValue=""
       />
       <SelectFieldAdapter
         field={model.form.fields.city}
-        options={[
-          { value: '', label: 'Select city' },
-          ...cities
-            .filter((city) => city.country === fields.country.value)
-            .map((city) => city.name)
-            .sort()
-            .map((city) => ({ label: city, value: city })),
-        ]}
-        disabled={fields.country.value === ''}
+        options={lo.cityOptions(fields.country.value)}
+        disabled={!fields.country.value}
         defaultOptionValue=""
       />
       <div className="flex justify-center">
         {!eachValid && (
           <FormError>
-            {fields.lego_set_id.errorText() ||
-              fields.set_state.errorText() ||
+            {fields.legoSetID.errorText() ||
+              fields.setState.errorText() ||
               fields.price.errorText() ||
               fields.country.errorText() ||
               fields.city.errorText()}

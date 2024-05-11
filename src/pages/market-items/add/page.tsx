@@ -95,15 +95,15 @@ const AddMarketItemPage = () => {
         {cell.set && (
           <MarketItemCell
             id={cell.id}
-            condition_icon={cell.condition_icon}
-            condition={cell.condition}
+            stateIcon={cell.condition_icon}
+            state={cell.condition}
             images={cell.images}
             location={cell.location}
             price={cell.price}
             series={cell.series}
             set={cell.set}
-            seller_id={cell.seller_id}
-            is_liked={cell.is_liked}
+            sellerID={cell.seller_id}
+            isLiked={cell.is_liked}
           />
         )}
         <p className="max-w-[360px] sm:max-w-[405px] color-[#1D1C1C] dark:color-white">

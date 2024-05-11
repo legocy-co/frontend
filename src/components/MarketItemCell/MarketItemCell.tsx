@@ -7,7 +7,7 @@ import { authService } from '../../services/AuthService.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import ConfirmationModal from '../ConfirmationModal';
 import { upp } from '../../pages/user-profile-pages';
-import PencilIcon from '../../assets/icons/pencil.svg';
+import PencilIcon from '../../assets/icons/pencil.svg?react';
 import SliderIcon from '../../assets/icons/slider-back.svg?react';
 import LocationIcon from '../../assets/icons/location.svg?react';
 import { LazySvg } from '../../shared/ui/lazy-svg.tsx';
@@ -15,28 +15,29 @@ import clsx from 'clsx';
 
 interface MarketItemCellProps {
   id: number;
-  condition_icon: string;
-  condition: string;
+  stateIcon: string;
+  state: string;
   images: string[];
   location: string;
   price: number;
   series: string;
   set: string;
-  seller_id: number;
-  is_liked: boolean;
+  sellerID: number;
+  isLiked: boolean;
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
   const navigate = useNavigate();
 
-  const [liked, setLiked] = useState(props.is_liked);
+  const [liked, setLiked] = useState(props.isLiked);
   const [imageSrc, setImageSrc] = useState(props.images[0]);
   const [showDelete, setShowDelete] = useState(false);
   const [hovered, setHovered] = useState(false);
 
   const isPersonal =
-    authService.IsAuthorized() && authService.GetUserId() === props.seller_id;
+    authService.IsAuthorized() && authService.GetUserId() === props.sellerID;
 
+  //TODO: after delete fx
   async function handleDelete() {
     await marketItemService.DeleteMarketItem(props.id);
     upp.marketItemDeleted();
@@ -69,12 +70,6 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     >
       {isPersonal && (
         <>
-          <img
-            className="cell--edit"
-            onClick={() => navigate('/catalog/update/' + props.id)}
-            alt=""
-            src={PencilIcon}
-          />
           <div
             className="cell--delete"
             onClick={() => {
@@ -126,7 +121,14 @@ const MarketItemCell = (props: MarketItemCellProps) => {
             </div>
           </div>
         )}
-        {!isPersonal && (
+        {isPersonal ? (
+          <div
+            className="cell--edit"
+            onClick={() => navigate('/catalog/update/' + props.id)}
+          >
+            <PencilIcon />
+          </div>
+        ) : (
           <HeartIcon
             className={clsx(
               'cell--favorite',
@@ -137,12 +139,12 @@ const MarketItemCell = (props: MarketItemCellProps) => {
           />
         )}
         <div
-          className={clsx('cell--condition', {
-            'cell--condition_hovered': hovered,
+          className={clsx('cell--state', {
+            'cell--state_hovered': hovered,
           })}
         >
-          <LazySvg name={props.condition_icon} />
-          <p>{props.condition}</p>
+          <LazySvg name={props.stateIcon} />
+          <p>{props.state}</p>
         </div>
       </div>
       <div className="cell--info">

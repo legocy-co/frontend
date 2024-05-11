@@ -12,6 +12,7 @@ import {
   $marketItemCells,
   toMarketItemCells,
 } from '../../../components/MarketItemsList/model.ts';
+import { marketItemDeleted } from '../model.ts';
 
 export const gate = createGate();
 
@@ -30,7 +31,7 @@ const fetchMarketItemsByStatusFX = attach({
 });
 
 sample({
-  clock: gate.open,
+  clock: [gate.open, marketItemDeleted],
   target: GetUserFX,
 });
 
