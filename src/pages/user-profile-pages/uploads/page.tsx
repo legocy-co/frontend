@@ -20,10 +20,7 @@ const MyUploadsPage = () => {
           disabled={status === 'CHECK_REQUIRED'}
         >
           Pending{' '}
-          {
-            uploads.filter((item) => item.status === 'CHECK_REQUIRED')
-              .length
-          }
+          {uploads.filter((item) => item.status === 'CHECK_REQUIRED').length}
         </MenuButton>
         <MenuButton
           onClick={() => model.statusChanged('ACTIVE')}
