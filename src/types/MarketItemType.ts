@@ -18,8 +18,8 @@ export type MarketItemData = {
 };
 
 export type MarketItemForm = Form<{
-  lego_set_id: string;
-  set_state: keyof typeof setStates;
+  legoSetID: string;
+  setState: keyof typeof setStates;
   description: string;
   price: number;
   country: string;

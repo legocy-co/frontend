@@ -52,7 +52,7 @@ const handleSetError = (
       `${consolePrefix}: code = ${err.response?.status}, msg = ${errorMessage}`
     );
 
-    form.fields.lego_set_id.addError({
+    form.fields.legoSetID.addError({
       rule: '',
       errorText: errorMessage,
     });
