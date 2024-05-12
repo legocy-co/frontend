@@ -72,7 +72,7 @@ export const SelectFieldAdapter = ({
       disabled={disabled}
       onChange={(ev) => onChange(ev.currentTarget.value)}
       className={clsx(
-        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-selectborder rounded-xl text-confirmmodal indent-3 pr-10 outline-0 mb-3.5 dark:text-white',
+        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-selectborder rounded-xl text-confirmmodal indent-3 pr-10 outline-0 dark:text-white',
         {
           '!h-[35px] !w-[160px] !rounded-md !bg-none !border-none text-tab dark:text-[#F9F9F9] !indent-3 !pr-10 !outline-0 !mb-1 dark:!bg-dark !cursor-pointer':
             variant === 'primary',
@@ -151,50 +151,6 @@ export const SelectSearchAdapter = ({
       >
         x
       </div>
-    </div>
-  );
-};
-
-export const FilesFieldAdapter = ({
-  field,
-  labelText,
-  ...props
-}: FormAdapterProps<File[]>) => {
-  const { hasError, onChange, value } = useField(field);
-
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      Array.from(e.target.files).map((file) => value.push(file));
-
-      const transfer = new DataTransfer();
-      value.map((file) => transfer.items.add(file));
-      e.target.files = transfer.files;
-
-      const files = [] as File[];
-      files.push(...value);
-
-      onChange(files);
-    }
-  };
-
-  return (
-    <div className="w-full relative">
-      <Input
-        readOnly
-        type="file"
-        multiple
-        labelText={labelText}
-        value={'Click to upload'}
-        isInvalid={hasError()}
-        {...props}
-      />
-      <input
-        accept={props.accept}
-        multiple
-        className="cursor-pointer opacity-0 z-50 w-full h-full absolute top-0 left-0"
-        type="file"
-        onChange={handleUpload}
-      />
     </div>
   );
 };

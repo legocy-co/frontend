@@ -8,7 +8,7 @@ import { useForm } from 'effector-forms';
 import PencilIcon from '../../assets/icons/pencil.svg?react';
 import clsx from 'clsx';
 
-export const UserProfileForm = () => {
+export const UserProfilePageForm = () => {
   useGate(model.gate);
 
   const { fields, eachValid } = useForm(model.form);

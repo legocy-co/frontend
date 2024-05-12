@@ -3,7 +3,7 @@ import { setStates } from '../../../types/MarketItemType.ts';
 
 export const setStateOptions: SelectFieldOption[] = [
   {
-    label: '',
+    label: 'State',
     value: '',
   },
   ...Object.entries(setStates).map((state) => ({

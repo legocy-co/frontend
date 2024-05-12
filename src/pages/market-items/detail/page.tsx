@@ -12,7 +12,7 @@ import NoneIcon from '../../../assets/icons/none.svg?react';
 import PieceIcon from '../../../assets/icons/piece.svg?react';
 import { Button } from '../../../shared/ui/button.tsx';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
-import { up } from '../../UserProfilePage/index.tsx';
+import { upp } from '../../user-profile-pages/index.tsx';
 import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
 import { setStates } from '../../../types/MarketItemType.ts';
 import MarketItemCell from '../../../components/MarketItemCell';
@@ -23,6 +23,7 @@ const MarketItemDetailPage = () => {
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
+  // TODO 2: fix subimages showgallery when 4 images
   const [showGallery, setShowGallery] = useState<number>(-1);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
@@ -47,7 +48,7 @@ const MarketItemDetailPage = () => {
         {Array.from(
           {
             length:
-              marketItem.images.length >= 4 ? 4 : marketItem.images.length - 1,
+              marketItem.images.length > 4 ? 4 : marketItem.images.length - 1,
           },
           (_, i) => (
             <div
@@ -80,14 +81,14 @@ const MarketItemDetailPage = () => {
       <MarketItemCell
         id={marketItem.id}
         location={marketItem.location}
-        condition_icon={marketItem.condition_icon}
-        condition={marketItem.condition}
+        stateIcon={marketItem.condition_icon}
+        state={marketItem.condition}
         images={marketItem.images}
         price={marketItem.price}
         series={marketItem.series}
         set={marketItem.set}
-        seller_id={marketItem.seller_id}
-        is_liked={marketItem.is_liked}
+        sellerID={marketItem.seller_id}
+        isLiked={marketItem.is_liked}
       />
     </div>
   ));
@@ -115,7 +116,7 @@ const MarketItemDetailPage = () => {
   };
 
   function handleReviews() {
-    up.sectionSelected('reviews');
+    upp.sectionSelected('reviews');
     navigate('/profile/' + marketItem.sellerID);
   }
 
@@ -166,12 +167,14 @@ const MarketItemDetailPage = () => {
                   onClick={() => navigate('/profile/' + marketItem.sellerID)}
                   className="flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
                 >
-                  <img
-                    src={marketItem.sellerImage}
-                    alt=""
-                    onError={addDefaultSrc}
-                    className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg dark:bg-description"
-                  />
+                  {marketItem.sellerImage && (
+                    <img
+                      src={marketItem.sellerImage}
+                      alt=""
+                      onError={addDefaultSrc}
+                      className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg dark:bg-description"
+                    />
+                  )}
                   <p className="overflow-ellipsis overflow-hidden max-w-44 dark:text-description">
                     {marketItem.sellerUsername}
                   </p>

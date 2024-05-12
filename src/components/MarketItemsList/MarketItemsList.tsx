@@ -10,14 +10,14 @@ const MarketItemsList = () => {
       <MarketItemCell
         id={marketItem.id}
         location={marketItem.location}
-        condition_icon={marketItem.condition_icon}
-        condition={marketItem.condition}
+        stateIcon={marketItem.condition_icon}
+        state={marketItem.condition}
         images={marketItem.images}
         price={marketItem.price}
         series={marketItem.series}
         set={marketItem.set}
-        seller_id={marketItem.seller_id}
-        is_liked={marketItem.is_liked}
+        sellerID={marketItem.seller_id}
+        isLiked={marketItem.is_liked}
       />
     </div>
   ));

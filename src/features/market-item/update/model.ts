@@ -1,7 +1,6 @@
 import { createForm } from 'effector-forms';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
-
 import {
   StoreValue,
   createDomain,
@@ -20,8 +19,6 @@ import {
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
 import { marketItemService } from '../../../services/MarketItemService.ts';
-import { authService } from '../../../services/AuthService.ts';
-import { up } from '../../../pages/UserProfilePage/index.tsx';
 
 export const gate = createGate<{
   id: string | null;
@@ -30,16 +27,16 @@ export const gate = createGate<{
 
 export const form = createForm({
   fields: {
-    lego_set_id: {
+    legoSetID: {
       init: '',
       rules: [
         createRule({
-          name: 'lego_set_id',
+          name: 'legoSetID',
           schema: z.string().min(1, 'Missing Lego set'),
         }),
       ],
     },
-    set_state: {
+    setState: {
       init: '' as keyof typeof setStates,
       rules: [
         createRule({
@@ -123,28 +120,30 @@ const updateMarketItemFx = attach({
 
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
-    legoSetID: Number(values.lego_set_id),
+    legoSetID: Number(values.legoSetID),
     location: `${values.city}, ${values.country}`,
     price: Math.floor(values.price * 100) / 100,
-    setState: values.set_state,
+    setState: values.setState,
     description: values.description,
   };
 }
 
 function toForm(values: MarketItem): EventPayload<typeof form.setForm> {
+  const locationMap = values.location.split(', ');
+
   return {
-    lego_set_id: String(values.legoSet.id),
-    country: values.location.split(', ')[1],
-    city: values.location.split(', ')[0],
+    legoSetID: String(values.legoSet.id),
+    country: locationMap[1],
+    city: locationMap[0],
     price: values.price,
-    set_state: values.setState,
+    setState: values.setState,
     description: values.description,
   };
 }
 
-const profileRedirectFx = attach({
+const uploadsRedirectFX = attach({
   source: gate.state,
-  effect: ({ navigateFn }) => navigateFn('/profile/' + authService.GetUserId()),
+  effect: ({ navigateFn }) => navigateFn('/profile/my/uploads'),
 });
 
 domain.onCreateStore((store) => store.reset(resetDomain));
@@ -197,13 +196,7 @@ sample({
 
 sample({
   clock: updateMarketItemFx.done,
-  target: profileRedirectFx,
-});
-
-sample({
-  clock: profileRedirectFx.done,
-  fn: () => 'uploads',
-  target: up.sectionSelected,
+  target: uploadsRedirectFX,
 });
 
 sample({

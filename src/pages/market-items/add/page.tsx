@@ -19,7 +19,6 @@ import MarketItemCell from '../../../components/MarketItemCell';
 import { $marketItemCell } from '../../../components/MarketItemsList/model.ts';
 import Loader from '../../../shared/ui/loader.tsx';
 import CongratsIcon from '../../../assets/icons/congrats.svg?react';
-import { up } from '../../UserProfilePage/index.tsx';
 
 const AddMarketItemPage = () => {
   const navigateFn = useNavigate();
@@ -30,11 +29,6 @@ const AddMarketItemPage = () => {
 
   const cell = useUnit($marketItemCell);
   const description = useUnit(mipf.form.fields.description.$value);
-
-  function toUploads() {
-    up.sectionSelected('uploads');
-    navigateFn('/profile');
-  }
 
   function handleNext() {
     switch (tab) {
@@ -95,15 +89,15 @@ const AddMarketItemPage = () => {
         {cell.set && (
           <MarketItemCell
             id={cell.id}
-            condition_icon={cell.condition_icon}
-            condition={cell.condition}
+            stateIcon={cell.condition_icon}
+            state={cell.condition}
             images={cell.images}
             location={cell.location}
             price={cell.price}
             series={cell.series}
             set={cell.set}
-            seller_id={cell.seller_id}
-            is_liked={cell.is_liked}
+            sellerID={cell.seller_id}
+            isLiked={cell.is_liked}
           />
         )}
         <p className="max-w-[360px] sm:max-w-[405px] color-[#1D1C1C] dark:color-white">
@@ -142,7 +136,7 @@ const AddMarketItemPage = () => {
             tab === 'primary'
               ? navigateFn('/catalog/select')
               : tab === 'final'
-                ? toUploads()
+                ? navigateFn('/profile/my/uploads')
                 : tabChanged(tabs[tabIndex - 1])
           }
         >

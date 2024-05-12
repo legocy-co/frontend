@@ -19,7 +19,7 @@ import GermionaPic from '../../assets/pics/germiona.png';
 import IronmanPic from '../../assets/pics/ironman.png';
 import JodaPic from '../../assets/pics/joda.png';
 import LeaPic from '../../assets/pics/lea.png';
-import { UserProfileForm } from '../../features/user-profile';
+import { UserProfilePageForm } from '../../features/user-profile-page';
 import toaster from '../../shared/lib/react-toastify.ts';
 import { $userReviewCells } from '../../components/UserReviewsList/model.ts';
 import { $marketItemCells } from '../../components/MarketItemsList/model.ts';
@@ -71,18 +71,7 @@ const UserProfilePage = () => {
   useEffect(() => {
     switch (section) {
       case 'uploads': {
-        setContentElement(
-          <>
-            {isPersonal && (
-              <div className="w-full flex items-center justify-center gap-5 mb-7">
-                <MenuButton onClick={() => navigate('/catalog/add')}>
-                  Add new
-                </MenuButton>
-              </div>
-            )}
-            <MarketItemsList />
-          </>
-        );
+        setContentElement(<MarketItemsList />);
         break;
       }
       case 'reviews': {
@@ -90,7 +79,7 @@ const UserProfilePage = () => {
         break;
       }
       default: {
-        setContentElement(<UserProfileForm />);
+        setContentElement(<UserProfilePageForm />);
       }
     }
   }, [section]);
@@ -158,12 +147,14 @@ const UserProfilePage = () => {
             General info
           </MenuButton>
         )}
-        <MenuButton
-          onClick={() => setSection('uploads')}
-          disabled={section === 'uploads'}
-        >
-          Uploads {marketItems.length}
-        </MenuButton>
+        {!isPersonal && (
+          <MenuButton
+            onClick={() => setSection('uploads')}
+            disabled={section === 'uploads'}
+          >
+            Uploads {marketItems.length}
+          </MenuButton>
+        )}
         <MenuButton
           onClick={() => setSection('reviews')}
           disabled={section === 'reviews'}

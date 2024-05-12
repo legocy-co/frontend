@@ -40,7 +40,7 @@ export const setStates = {
   BUILT_PIECES_LOST: 'Built, Pieces Lost',
 };
 
-const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
+export const statuses = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
 
 export const MarketItemSchema = z.object({
   description: z.string(),
@@ -52,5 +52,5 @@ export const MarketItemSchema = z.object({
   price: z.number(),
   seller: UserSchema,
   setState: objectKeysToZodEnum(setStates),
-  status: z.enum(listingStatus).optional(),
+  status: z.enum(statuses).optional(),
 });

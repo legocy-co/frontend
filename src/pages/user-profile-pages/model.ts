@@ -11,7 +11,7 @@ import {
   $userReviewCells,
   toUserReviewCells,
 } from '../../components/UserReviewsList/model.ts';
-import { profileUpdated } from '../../features/user-profile/model.ts';
+import { profileUpdated } from '../../features/user-profile-page/model.ts';
 
 export const sectionSelected = createEvent<string>();
 
@@ -44,7 +44,7 @@ const GetUserProfilePageFx = attach({
 });
 
 sample({
-  clock: [gate.open, avatarChanged, marketItemDeleted, profileUpdated],
+  clock: [gate.open, avatarChanged, profileUpdated],
   target: GetUserProfilePageFx,
 });
 

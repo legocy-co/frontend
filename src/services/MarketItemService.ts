@@ -6,9 +6,8 @@ import {
   MarketItemSchema,
 } from '../types/MarketItemType.ts';
 import axios from 'axios';
-import { handleIncorrectParse, handleSetError } from './ErrorHandlers.ts';
+import { handleIncorrectParse } from './ErrorHandlers.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import { mif } from '../features/market-item/info';
 import { PaginationData } from '../types/pagination.ts';
 
 interface MarketItemService {
@@ -61,7 +60,7 @@ const CreateMarketItem = async (
 
     return result.data;
   } catch (e) {
-    return handleSetError(e, 'MarketItem', mif.form);
+    return Promise.reject(e);
   }
 };
 
@@ -138,7 +137,7 @@ const UpdateMarketItem = async (
 
     return Promise.resolve(marketItem);
   } catch (e) {
-    return handleSetError(e, 'MarketItem', mif.form);
+    return Promise.reject(e);
   }
 };
 
