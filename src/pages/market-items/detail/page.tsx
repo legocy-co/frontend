@@ -48,7 +48,7 @@ const MarketItemDetailPage = () => {
         {Array.from(
           {
             length:
-              marketItem.images.length >= 4 ? 4 : marketItem.images.length - 1,
+              marketItem.images.length > 4 ? 4 : marketItem.images.length - 1,
           },
           (_, i) => (
             <div
