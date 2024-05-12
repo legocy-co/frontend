@@ -37,12 +37,13 @@ const MarketItemCell = (props: MarketItemCellProps) => {
   const isPersonal =
     authService.IsAuthorized() && authService.GetUserId() === props.sellerID;
 
-  //TODO: after delete fx
   async function handleDelete() {
-    await marketItemService.DeleteMarketItem(props.id);
-    upp.marketItemDeleted();
-
-    setShowDelete(false);
+    try {
+      await marketItemService.DeleteMarketItem(props.id);
+    } finally {
+      upp.marketItemDeleted();
+      setShowDelete(false);
+    }
   }
 
   async function handleLike() {
