@@ -46,6 +46,7 @@ export default {
         'fairdark': '#ABF8A4',
         'avatarbg': '#100F0F',
         'darkmenuborder': '#3D3D3D',
+        'statuswarn': '#FFE8AE',
       },
       boxShadow: {
         'avatar': '0 4px 7px 0 #00000070',

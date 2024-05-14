@@ -52,5 +52,5 @@ export const MarketItemSchema = z.object({
   price: z.number(),
   seller: UserSchema,
   setState: objectKeysToZodEnum(setStates),
-  status: z.enum(statuses).optional(),
+  status: z.enum(statuses),
 });

@@ -23,13 +23,14 @@ const MarketItemDetailPage = () => {
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  // TODO 2: fix subimages showgallery when 4 images
   const [showGallery, setShowGallery] = useState<number>(-1);
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   const marketItem = useUnit(model.$marketItemDetail);
   const chartData = useUnit(model.$chartData);
   const recommendations = useUnit(model.$recommendations);
+
+  const isActive = marketItem.status === 'ACTIVE';
 
   // let prevents re-render component
   let barGraphData = { x: 0, y: 0, name: '' };
@@ -145,6 +146,11 @@ const MarketItemDetailPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
+      {!isActive && (
+        <div className="w-[300px] sm:w-[584px] h-12 bg-statuswarn flex justify-center items-center gap-2 bg-opacity-35 rounded-md border border-solid border-black">
+          <NoneIcon />
+        </div>
+      )}
       <div className="mt-8 mb-9 flex flex-wrap gap-7 justify-center">
         <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
           <div className="flex text-[2rem] gap-2 font-semibold text-celllink justify-between items-center dark:text-white">
@@ -201,7 +207,10 @@ const MarketItemDetailPage = () => {
               </div>
               <Button
                 onClick={handleMessage}
-                className="!w-[162px] !h-11 !text-lg !text-celllink"
+                className="!w-[162px] !h-11 !text-lg !text-celllink disabled:!text-white"
+                disabled={
+                  !isActive || marketItem.sellerID === authService.GetUserId()
+                }
               >
                 Contact seller
               </Button>
