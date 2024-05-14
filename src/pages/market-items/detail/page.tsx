@@ -31,9 +31,9 @@ const MarketItemDetailPage = () => {
   const recommendations = useUnit(model.$recommendations);
 
   const isActive = marketItem.status === 'ACTIVE';
+  const isSold = marketItem.status === 'SOLD';
 
-  // let prevents re-render component
-  let barGraphData = { x: 0, y: 0, name: '' };
+  let barData = { x: 0, y: 0, name: '' };
 
   const subImagesElement = (
     <div className="relative">
@@ -55,7 +55,9 @@ const MarketItemDetailPage = () => {
             <div
               onClick={() => setShowGallery(i + 1)}
               key={'subimage-' + i}
-              className="w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 shadow-subimages"
+              className={`w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 shadow-subimages ${
+                isSold && 'contrast-50'
+              }`}
             >
               <img
                 src={marketItem.images[i + 1]}
@@ -101,15 +103,15 @@ const MarketItemDetailPage = () => {
 
     useEffect(() => {
       if (tooltip) {
-        tooltip.style.left = `${barGraphData.x}px`;
-        tooltip.style.top = `${barGraphData.y - 50}px`;
+        tooltip.style.left = `${barData.x}px`;
+        tooltip.style.top = `${barData.y - 50}px`;
       }
-    }, [barGraphData]);
+    }, [barData]);
 
     if (active && payload && payload.length) {
       return (
         <div className="absolute flex h-4 bg-legocy items-center px-2 rounded-2xl text-[8px] dark:text-black whitespace-nowrap">
-          {setStates[barGraphData.name as keyof typeof setStates]}
+          {setStates[barData.name as keyof typeof setStates]}
           <div className="invisible absolute h-2 w-2 top-3 left-1/2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']"></div>
         </div>
       );
@@ -147,8 +149,12 @@ const MarketItemDetailPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       {!isActive && (
-        <div className="w-[300px] sm:w-[584px] h-12 bg-statuswarn flex justify-center items-center gap-2 bg-opacity-35 rounded-md border border-solid border-black">
+        <div className="w-[300px] sm:w-[584px] text-black h-12 bg-statuswarn flex justify-center items-center gap-5 bg-opacity-35 rounded-md border border-solid border-black dark:bg-white dark:bg-opacity-85 dark:border-statevaluationchart">
           <NoneIcon />
+          <p>
+            This listing{' '}
+            {isSold ? 'has already been sold' : 'is still being validated'}
+          </p>
         </div>
       )}
       <div className="mt-8 mb-9 flex flex-wrap gap-7 justify-center">
@@ -157,7 +163,9 @@ const MarketItemDetailPage = () => {
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
           <img
-            className="w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+            className={`w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 ${
+              isSold && 'contrast-50'
+            }`}
             src={'' + marketItem.images.slice(0, 1)}
             onError={addDefaultSrc}
             onClick={() => setShowGallery(0)}
@@ -258,7 +266,7 @@ const MarketItemDetailPage = () => {
                   dataKey="value"
                   fill="#2F2F2F"
                   radius={6}
-                  onMouseOver={(data) => (barGraphData = data)}
+                  onMouseOver={(data) => (barData = data)}
                 >
                   <LabelList
                     dataKey="name"
