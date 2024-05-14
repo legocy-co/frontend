@@ -13,18 +13,18 @@ import {
 } from '../../components/UserReviewsList/model.ts';
 import { profileUpdated } from '../../features/user-profile-page/model.ts';
 
-export const sectionSelected = createEvent<string>();
+export const gate = createGate<{
+  id: string | null;
+  navigate: NavigateFunction;
+}>();
 
-export const $section = createStore<string>('');
+export const sectionSelected = createEvent<string>();
 
 export const avatarChanged = createEvent();
 
 export const marketItemDeleted = createEvent();
 
-export const gate = createGate<{
-  id: string | null;
-  navigate: NavigateFunction;
-}>();
+export const $section = createStore<string>('');
 
 export const $user = createStore<User>({
   email: '',
@@ -59,13 +59,13 @@ sample({
 });
 
 sample({
-  clock: GetUserProfilePageFx.doneData.map((data) => data.marketItems),
+  source: GetUserProfilePageFx.doneData.map((data) => data.marketItems),
   fn: toMarketItemCells,
   target: $marketItemCells,
 });
 
 sample({
-  clock: GetUserProfilePageFx.doneData.map((data) => data.userReviews),
+  source: GetUserProfilePageFx.doneData.map((data) => data.userReviews),
   fn: toUserReviewCells,
   target: $userReviewCells,
 });

@@ -70,7 +70,7 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     switch (section) {
-      case 'uploads': {
+      case 'uploads' || 'favorites': {
         setContentElement(<MarketItemsList />);
         break;
       }
@@ -147,7 +147,14 @@ const UserProfilePage = () => {
             General info
           </MenuButton>
         )}
-        {!isPersonal && (
+        {isPersonal ? (
+          <MenuButton
+            onClick={() => setSection('favorites')}
+            disabled={section === 'favorites'}
+          >
+            Favorites
+          </MenuButton>
+        ) : (
           <MenuButton
             onClick={() => setSection('uploads')}
             disabled={section === 'uploads'}
