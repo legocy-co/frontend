@@ -32,7 +32,7 @@ export const avatarChanged = createEvent();
 
 export const marketItemUnliked = createEvent();
 
-export const offsetChanged = createEvent();
+export const loadingStarted = createEvent();
 
 export const $section = createStore<string>('');
 
@@ -58,19 +58,20 @@ const GetUserProfilePageFx = attach({
 });
 
 const GetFavoritesFX = createEffect(() =>
-  marketItemService.GetFavoriteMarketItems(12, 0)
+  marketItemService.GetFavoriteMarketItems(5, 0)
 );
 
-// TODO: check load fx
 const loadMoreFX = attach({
   source: { marketItems: $marketItemCells, offset: $offset },
   effect: async ({ marketItems, offset }) => {
     const loadedItems = await marketItemService.GetFavoriteMarketItems(
-      12,
+      5,
       offset
     );
 
-    return [...marketItems, ...loadedItems.data];
+    const loadedCells = toMarketItemCells(loadedItems.data);
+
+    return [...marketItems, ...loadedCells];
   },
 });
 
@@ -121,9 +122,9 @@ sample({
 });
 
 sample({
-  clock: offsetChanged,
+  clock: loadingStarted,
   source: $offset,
-  fn: (offset) => offset + 12,
+  fn: (offset) => offset + 5,
   target: $offset,
 });
 
@@ -132,7 +133,10 @@ sample({
   target: loadMoreFX,
 });
 
-// TODO: combine loadedCells & marketItemCells
+sample({
+  source: loadMoreFX.doneData,
+  target: $marketItemCells,
+});
 
 sample({
   clock: gate.close,

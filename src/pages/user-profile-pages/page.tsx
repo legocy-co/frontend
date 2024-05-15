@@ -24,6 +24,7 @@ import toaster from '../../shared/lib/react-toastify.ts';
 import { $userReviewCells } from '../../components/UserReviewsList/model.ts';
 import { $marketItemCells } from '../../components/MarketItemsList/model.ts';
 import clsx from 'clsx';
+import { Button } from '../../shared/ui/button.tsx';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -50,7 +51,7 @@ const UserProfilePage = () => {
   const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
   const [section, setSection] = useState(
-    selectedSection ? selectedSection : isPersonal ? '' : 'marketItems'
+    selectedSection ? selectedSection : isPersonal ? '' : 'uploads'
   );
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -70,7 +71,26 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     switch (section) {
-      case 'marketItems': {
+      case 'favorites': {
+        //TODO: dynamic loading cells
+        window.addEventListener('scroll', function () {
+          if (
+            window.scrollY >
+            document.body.offsetHeight / 2 -
+              (window.innerHeight / document.body.offsetHeight) *
+                window.innerHeight
+          )
+            model.loadingStarted();
+        });
+        setContentElement(
+          <>
+            <MarketItemsList />
+            <Button onClick={() => model.loadingStarted()}>Load more</Button>
+          </>
+        );
+        break;
+      }
+      case 'uploads': {
         setContentElement(<MarketItemsList />);
         break;
       }
@@ -147,14 +167,21 @@ const UserProfilePage = () => {
             General info
           </MenuButton>
         )}
-        {
+        {isPersonal ? (
           <MenuButton
-            onClick={() => setSection('marketItems')}
-            disabled={section === 'marketItems'}
+            onClick={() => setSection('favorites')}
+            disabled={section === 'favorites'}
           >
-            {isPersonal ? 'Favorites' : 'Uploads'} {marketItems.length}
+            Favorites {marketItems.length}
           </MenuButton>
-        }
+        ) : (
+          <MenuButton
+            onClick={() => setSection('uploads')}
+            disabled={section === 'uploads'}
+          >
+            Uploads {marketItems.length}
+          </MenuButton>
+        )}
         <MenuButton
           onClick={() => setSection('reviews')}
           disabled={section === 'reviews'}
