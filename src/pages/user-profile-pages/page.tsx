@@ -42,7 +42,7 @@ const UserProfilePage = () => {
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const sectionSelected = useUnit(model.$section);
+  const selectedSection = useUnit(model.$section);
   const user = useUnit(model.$user);
   const reviews = useUnit($userReviewCells);
   const marketItems = useUnit($marketItemCells);
@@ -50,7 +50,7 @@ const UserProfilePage = () => {
   const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
   const [section, setSection] = useState(
-    sectionSelected ? sectionSelected : isPersonal ? '' : 'uploads'
+    selectedSection ? selectedSection : isPersonal ? '' : 'marketItems'
   );
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -70,7 +70,7 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     switch (section) {
-      case 'uploads' || 'favorites': {
+      case 'marketItems': {
         setContentElement(<MarketItemsList />);
         break;
       }
@@ -147,21 +147,14 @@ const UserProfilePage = () => {
             General info
           </MenuButton>
         )}
-        {isPersonal ? (
+        {
           <MenuButton
-            onClick={() => setSection('favorites')}
-            disabled={section === 'favorites'}
+            onClick={() => setSection('marketItems')}
+            disabled={section === 'marketItems'}
           >
-            Favorites
+            {isPersonal ? 'Favorites' : 'Uploads'} {marketItems.length}
           </MenuButton>
-        ) : (
-          <MenuButton
-            onClick={() => setSection('uploads')}
-            disabled={section === 'uploads'}
-          >
-            Uploads {marketItems.length}
-          </MenuButton>
-        )}
+        }
         <MenuButton
           onClick={() => setSection('reviews')}
           disabled={section === 'reviews'}

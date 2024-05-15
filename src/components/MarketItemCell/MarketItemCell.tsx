@@ -6,12 +6,13 @@ import { useState } from 'react';
 import { authService } from '../../services/AuthService.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import ConfirmationModal from '../ConfirmationModal';
-import { upp } from '../../pages/user-profile-pages';
 import PencilIcon from '../../assets/icons/pencil.svg?react';
 import SliderIcon from '../../assets/icons/slider-back.svg?react';
 import LocationIcon from '../../assets/icons/location.svg?react';
 import { LazySvg } from '../../shared/ui/lazy-svg.tsx';
 import clsx from 'clsx';
+import { uppu } from '../../pages/user-profile-pages/uploads/index.tsx';
+import { upp } from '../../pages/user-profile-pages/index.tsx';
 
 interface MarketItemCellProps {
   id: number;
@@ -41,7 +42,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     try {
       await marketItemService.DeleteMarketItem(props.id);
     } finally {
-      upp.marketItemDeleted();
+      uppu.marketItemDeleted();
       setShowDelete(false);
     }
   }
@@ -60,6 +61,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     }
 
     await marketItemService.UnlikeMarketItem(props.id);
+    upp.marketItemUnliked();
     setLiked(false);
   }
 
