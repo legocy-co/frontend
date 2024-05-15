@@ -47,12 +47,14 @@ const UserProfilePage = () => {
   const user = useUnit(model.$user);
   const reviews = useUnit($userReviewCells);
   const marketItems = useUnit($marketItemCells);
+  const favoritesLength = useUnit(model.$favoritesLength);
 
   const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
   const [section, setSection] = useState(
     selectedSection ? selectedSection : isPersonal ? '' : 'uploads'
   );
+
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.currentTarget.files?.[0];
@@ -73,19 +75,18 @@ const UserProfilePage = () => {
     switch (section) {
       case 'favorites': {
         //TODO: dynamic loading cells
-        window.addEventListener('scroll', function () {
-          if (
-            window.scrollY >
-            document.body.offsetHeight / 2 -
-              (window.innerHeight / document.body.offsetHeight) *
-                window.innerHeight
-          )
-            model.loadingStarted();
-        });
         setContentElement(
           <>
             <MarketItemsList />
-            <Button onClick={() => model.loadingStarted()}>Load more</Button>
+              <Button
+                className="mt-10"
+                onClick={() =>
+                  model.loadingStarted()
+                }
+              >
+                Load more
+              </Button>
+            )}
           </>
         );
         break;
@@ -172,7 +173,7 @@ const UserProfilePage = () => {
             onClick={() => setSection('favorites')}
             disabled={section === 'favorites'}
           >
-            Favorites {marketItems.length}
+            Favorites {favoritesLength}
           </MenuButton>
         ) : (
           <MenuButton

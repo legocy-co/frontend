@@ -38,6 +38,8 @@ export const $section = createStore<string>('');
 
 export const $uploads = createStore<MarketItemCell[]>([]);
 
+export const $favoritesLength = createStore<number>(0);
+
 export const $user = createStore<User>({
   email: '',
   id: 0,
@@ -119,6 +121,11 @@ sample({
   source: GetFavoritesFX.doneData.map((data) => data.data),
   fn: toMarketItemCells,
   target: $marketItemCells,
+});
+
+sample({
+  source: GetFavoritesFX.doneData.map((data) => data.meta.total),
+  target: $favoritesLength,
 });
 
 sample({
