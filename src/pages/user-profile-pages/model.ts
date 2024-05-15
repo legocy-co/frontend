@@ -32,6 +32,8 @@ export const avatarChanged = createEvent();
 
 export const marketItemUnliked = createEvent();
 
+export const offsetChanged = createEvent();
+
 export const $section = createStore<string>('');
 
 export const $uploads = createStore<MarketItemCell[]>([]);
@@ -45,6 +47,12 @@ export const $user = createStore<User>({
   username: '',
 });
 
+const $offset = createStore<number>(0);
+
+const $loadedCells = createStore<MarketItemCell[]>([]);
+
+// const $allCells = combine($marketItemCells, $loadedCells);
+
 const GetUserProfilePageFx = attach({
   source: gate.state.map(({ id }) => id),
   effect: (id) => {
@@ -55,6 +63,10 @@ const GetUserProfilePageFx = attach({
 
 const GetFavoritesFX = createEffect(() =>
   marketItemService.GetFavoriteMarketItems(12, 0)
+);
+
+const loadMoreFX = createEffect((offset: number) =>
+  marketItemService.GetFavoriteMarketItems(12, offset)
 );
 
 sample({
@@ -102,6 +114,31 @@ sample({
   fn: toMarketItemCells,
   target: $marketItemCells,
 });
+
+sample({
+  clock: offsetChanged,
+  source: $offset,
+  fn: (offset) => offset + 12,
+  target: $offset,
+});
+
+sample({
+  source: $offset,
+  target: loadMoreFX,
+});
+
+sample({
+  source: loadMoreFX.doneData.map((data) => data.data),
+  fn: toMarketItemCells,
+  target: $loadedCells,
+});
+
+//TODO: combine loadedCells & marketItemCells
+// sample({
+//   clock: $loadedCells,
+//   source: $allCells,
+//   target: $marketItemCells,
+// });
 
 sample({
   clock: gate.close,
