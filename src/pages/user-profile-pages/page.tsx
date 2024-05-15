@@ -55,7 +55,6 @@ const UserProfilePage = () => {
     selectedSection ? selectedSection : isPersonal ? '' : 'uploads'
   );
 
-
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.currentTarget.files?.[0];
     if (file) {
@@ -78,15 +77,9 @@ const UserProfilePage = () => {
         setContentElement(
           <>
             <MarketItemsList />
-              <Button
-                className="mt-10"
-                onClick={() =>
-                  model.loadingStarted()
-                }
-              >
-                Load more
-              </Button>
-            )}
+            <Button className="mt-10" onClick={() => model.loadingStarted()}>
+              Load more
+            </Button>
           </>
         );
         break;
