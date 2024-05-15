@@ -49,10 +49,6 @@ export const $user = createStore<User>({
 
 const $offset = createStore<number>(0);
 
-const $loadedCells = createStore<MarketItemCell[]>([]);
-
-// const $allCells = combine($marketItemCells, $loadedCells);
-
 const GetUserProfilePageFx = attach({
   source: gate.state.map(({ id }) => id),
   effect: (id) => {
@@ -65,9 +61,18 @@ const GetFavoritesFX = createEffect(() =>
   marketItemService.GetFavoriteMarketItems(12, 0)
 );
 
-const loadMoreFX = createEffect((offset: number) =>
-  marketItemService.GetFavoriteMarketItems(12, offset)
-);
+// TODO: check load fx
+const loadMoreFX = attach({
+  source: { marketItems: $marketItemCells, offset: $offset },
+  effect: async ({ marketItems, offset }) => {
+    const loadedItems = await marketItemService.GetFavoriteMarketItems(
+      12,
+      offset
+    );
+
+    return [...marketItems, ...loadedItems.data];
+  },
+});
 
 sample({
   clock: [gate.open, avatarChanged, profileUpdated],
@@ -127,18 +132,7 @@ sample({
   target: loadMoreFX,
 });
 
-sample({
-  source: loadMoreFX.doneData.map((data) => data.data),
-  fn: toMarketItemCells,
-  target: $loadedCells,
-});
-
-//TODO: combine loadedCells & marketItemCells
-// sample({
-//   clock: $loadedCells,
-//   source: $allCells,
-//   target: $marketItemCells,
-// });
+// TODO: combine loadedCells & marketItemCells
 
 sample({
   clock: gate.close,
