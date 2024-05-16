@@ -40,6 +40,8 @@ export const $uploads = createStore<MarketItemCell[]>([]);
 
 export const $favoritesLength = createStore<number>(0);
 
+export const $isLoading = createStore<boolean>(false);
+
 export const $user = createStore<User>({
   email: '',
   id: 0,
@@ -75,6 +77,11 @@ const loadMoreFX = attach({
 
     return [...marketItems, ...loadedCells];
   },
+});
+
+const increaseOffsetFX = attach({
+  source: $offset,
+  effect: (offset) => offset + 5,
 });
 
 sample({
@@ -130,8 +137,19 @@ sample({
 
 sample({
   clock: loadingStarted,
-  source: $offset,
-  fn: (offset) => offset + 5,
+  source: $isLoading,
+  filter: (isLoading) => isLoading === false,
+  target: increaseOffsetFX,
+});
+
+sample({
+  clock: increaseOffsetFX.pending,
+  fn: () => true,
+  target: $isLoading,
+});
+
+sample({
+  source: increaseOffsetFX.doneData,
   target: $offset,
 });
 
@@ -143,6 +161,12 @@ sample({
 sample({
   source: loadMoreFX.doneData,
   target: $marketItemCells,
+});
+
+sample({
+  clock: $marketItemCells,
+  fn: () => false,
+  target: $isLoading,
 });
 
 sample({

@@ -24,7 +24,7 @@ import toaster from '../../shared/lib/react-toastify.ts';
 import { $userReviewCells } from '../../components/UserReviewsList/model.ts';
 import { $marketItemCells } from '../../components/MarketItemsList/model.ts';
 import clsx from 'clsx';
-import { Button } from '../../shared/ui/button.tsx';
+import Loader from '../../shared/ui/loader.tsx';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -48,6 +48,7 @@ const UserProfilePage = () => {
   const reviews = useUnit($userReviewCells);
   const marketItems = useUnit($marketItemCells);
   const favoritesLength = useUnit(model.$favoritesLength);
+  const isLoading = useUnit(model.$isLoading);
 
   const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
@@ -74,13 +75,28 @@ const UserProfilePage = () => {
     switch (section) {
       case 'favorites': {
         //TODO: dynamic loading cells
+        onscroll = () => {
+          function setPrecision(x: number) {
+            return Math.floor(x / 10);
+          }
+
+          if (isLoading) return;
+
+          if (
+            setPrecision(window.scrollY + window.innerHeight) >
+              setPrecision(document.body.scrollHeight - 500) &&
+            favoritesLength !== marketItems.length
+          )
+            model.loadingStarted();
+        };
         setContentElement(
-          <>
+          <div id="favorites">
             <MarketItemsList />
-            <Button className="mt-10" onClick={() => model.loadingStarted()}>
-              Load more
-            </Button>
-          </>
+            {isLoading && <Loader />}
+            {/*<Button className="mt-10" onClick={() => model.loadingStarted()}>*/}
+            {/*  Load more*/}
+            {/*</Button>*/}
+          </div>
         );
         break;
       }
