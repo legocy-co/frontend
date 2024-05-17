@@ -89,7 +89,7 @@ const UserProfilePage = () => {
             model.loadingStarted();
         };
         setContentElement(
-          <div>
+          <div className="flex flex-col gap-2ß">
             <MarketItemsList />
             {isLoading > 0 && <Loader />}
             {/*<Button className="mt-10" onClick={() => model.loadingStarted()}>*/}
@@ -104,10 +104,12 @@ const UserProfilePage = () => {
         break;
       }
       case 'reviews': {
+        onscroll = () => {};
         setContentElement(<UserReviewsList />);
         break;
       }
       default: {
+        onscroll = () => {};
         setContentElement(<UserProfilePageForm />);
       }
     }

@@ -10,8 +10,8 @@ import { BsChevronDown } from 'react-icons/bs';
 export const Pagination = ({ model }: { model: PaginationModel }) => {
   return (
     <div className=" flex max-w-[1204px] w-full items-center justify-between pt-2">
-      <PaginateController model={model} />
       <PageCountToggler model={model} />
+      <PaginateController model={model} />
     </div>
   );
 };

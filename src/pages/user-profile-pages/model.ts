@@ -61,14 +61,14 @@ const GetUserProfilePageFx = attach({
 });
 
 const GetFavoritesFX = createEffect(() =>
-  marketItemService.GetFavoriteMarketItems(5, 0)
+  marketItemService.GetFavoriteMarketItems(12, 0)
 );
 
 const loadMoreFX = attach({
   source: { marketItems: $favorites, offset: $offset },
   effect: async ({ marketItems, offset }) => {
     const loadedItems = await marketItemService.GetFavoriteMarketItems(
-      5,
+      12,
       offset
     );
 
@@ -117,7 +117,7 @@ sample({
   clock: loadingStarted,
   source: { offset: $offset, isLoading: $isLoading },
   filter: ({ isLoading }) => isLoading === 0,
-  fn: ({ offset }) => offset + 5,
+  fn: ({ offset }) => offset + 12,
   target: [$isLoading, $offset],
 });
 
