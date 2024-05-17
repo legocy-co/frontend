@@ -30,7 +30,7 @@ export const sectionSelected = createEvent<string>();
 
 export const avatarChanged = createEvent();
 
-export const marketItemUnliked = createEvent();
+export const marketItemUnliked = createEvent<number>();
 
 export const loadingStarted = createEvent();
 
@@ -99,7 +99,9 @@ sample({
 
 sample({
   clock: marketItemUnliked,
-  target: GetFavoritesFX,
+  source: $marketItemCells,
+  fn: (marketItems, id) => marketItems.filter((item) => item.id !== id),
+  target: $marketItemCells,
 });
 
 sample({

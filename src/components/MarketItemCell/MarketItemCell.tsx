@@ -61,7 +61,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     }
 
     await marketItemService.UnlikeMarketItem(props.id);
-    upp.marketItemUnliked();
+    upp.marketItemUnliked(props.id);
     setLiked(false);
   }
 
