@@ -1,5 +1,5 @@
 import { MarketItem, setStates } from '../../types/MarketItemType.ts';
-import { createStore } from 'effector';
+import { createEvent, createStore } from 'effector';
 
 export type MarketItemCell = {
   condition: string;
@@ -14,6 +14,8 @@ export type MarketItemCell = {
   set: string;
   status: string;
 };
+
+export const marketItemUnliked = createEvent<number>();
 
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
 

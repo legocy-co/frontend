@@ -71,7 +71,7 @@ header {
   position: relative;
   min-width: 25px;
   &:hover path {
-    fill: #FFD540;
+    fill: $legocy-yellow;
   }
   div {
     background: $legocy-yellow;
@@ -164,16 +164,16 @@ header {
   }
 }
 
-.legocy-fills path {fill: #FFD540 !important;}
+.legocy-fills path {fill: $legocy-yellow !important;}
 
-.legocy-strokes path {stroke: #FFD540 !important;}
+.legocy-strokes path {stroke: $legocy-yellow !important;}
 
 .fills {
-  &:hover path {fill: #FFD540 !important;}
+  &:hover path {fill: $legocy-yellow !important;}
 }
 
 .strokes {
-  &:hover path {stroke: #FFD540 !important;}
+  &:hover path {stroke: $legocy-yellow !important;}
 }
 
 html[class='dark'] {

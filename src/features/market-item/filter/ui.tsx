@@ -112,10 +112,51 @@ export const MarketItemsFilter = ({
                 onInput={setPriceRange}
                 onThumbDragEnd={handlePriceChange}
                 onRangeDragEnd={handlePriceChange}
-                className="my-5"
+                className="mt-5 mb-1"
               />
-              <div className="flex w-full justify-between text-xs text-filtersprice dark:text-[#F9F9F9] dark:text-opacity-35">
-                <p>{priceRange[0]}$</p> <p>{priceRange[1]}$</p>
+              <div className="flex w-full px-2 justify-between text-xs text-darkfiltersborder dark:text-[#F9F9F9] dark:text-opacity-70">
+                {/*<p>{priceRange[0]}$</p> <p>{priceRange[1]}$</p>*/}
+                <label
+                  className="input-sizer bg-white dark:bg-transparent"
+                  data-value={priceRange[0] ? priceRange[0] : ''}
+                >
+                  <input
+                    size={1}
+                    value={priceRange[0] ? priceRange[0] + '$' : '$'}
+                    onInput={(e) => {
+                      e.currentTarget.value.concat(' $');
+                      setPriceRange([
+                        Number(e.currentTarget.value.replace('$', '')),
+                        priceRange[1],
+                      ]);
+                    }}
+                    onChange={(e) =>
+                      form.fields.min_price.onChange(
+                        Number(e.currentTarget.value.replace('$', ''))
+                      )
+                    }
+                  />
+                </label>
+                <label
+                  className="input-sizer bg-white dark:bg-transparent"
+                  data-value={priceRange[1] ? priceRange[1] : ''}
+                >
+                  <input
+                    size={1}
+                    value={priceRange[1] ? priceRange[1] + '$' : '$'}
+                    onInput={(e) =>
+                      setPriceRange([
+                        priceRange[0],
+                        Number(e.currentTarget.value.replace('$', '')),
+                      ])
+                    }
+                    onChange={(e) =>
+                      form.fields.max_price.onChange(
+                        Number(e.currentTarget.value.replace('$', ''))
+                      )
+                    }
+                  />
+                </label>
               </div>
             </div>
             <div className="flex gap-5 justify-center">
@@ -157,7 +198,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
   return (
     <div className="flex flex-col space-y-2">
       <p>Set state</p>
-      <div className="relative h-[35px] w-[160px]">
+      <div className="relative">
         <select
           value=""
           onChange={(ev) =>

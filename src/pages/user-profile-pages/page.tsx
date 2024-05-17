@@ -24,6 +24,7 @@ import toaster from '../../shared/lib/react-toastify.ts';
 import { $userReviewCells } from '../../components/UserReviewsList/model.ts';
 import { $marketItemCells } from '../../components/MarketItemsList/model.ts';
 import clsx from 'clsx';
+import Loader from '../../shared/ui/loader.tsx';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -42,15 +43,17 @@ const UserProfilePage = () => {
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const sectionSelected = useUnit(model.$section);
+  const selectedSection = useUnit(model.$section);
   const user = useUnit(model.$user);
   const reviews = useUnit($userReviewCells);
   const marketItems = useUnit($marketItemCells);
+  const favoritesLength = useUnit(model.$favoritesLength);
+  const isLoading = useUnit(model.$isLoading);
 
   const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
   const [section, setSection] = useState(
-    sectionSelected ? sectionSelected : isPersonal ? '' : 'uploads'
+    selectedSection ? selectedSection : isPersonal ? '' : 'uploads'
   );
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -70,19 +73,47 @@ const UserProfilePage = () => {
 
   useEffect(() => {
     switch (section) {
+      case 'favorites': {
+        onscroll = () => {
+          function setPrecision(x: number) {
+            return Math.floor(x / 10);
+          }
+
+          if (isLoading) return;
+
+          if (
+            setPrecision(window.scrollY + window.innerHeight) >
+              setPrecision(document.body.scrollHeight - 500) &&
+            favoritesLength !== marketItems.length
+          )
+            model.loadingStarted();
+        };
+        setContentElement(
+          <div className="flex flex-col gap-2ß">
+            <MarketItemsList />
+            {isLoading > 0 && <Loader />}
+            {/*<Button className="mt-10" onClick={() => model.loadingStarted()}>*/}
+            {/*  Load more*/}
+            {/*</Button>*/}
+          </div>
+        );
+        break;
+      }
       case 'uploads': {
         setContentElement(<MarketItemsList />);
         break;
       }
       case 'reviews': {
+        onscroll = () => {};
         setContentElement(<UserReviewsList />);
         break;
       }
       default: {
+        onscroll = () => {};
         setContentElement(<UserProfilePageForm />);
       }
     }
-  }, [section]);
+  }, [section, marketItems.length]);
 
   return (
     <>
@@ -147,7 +178,14 @@ const UserProfilePage = () => {
             General info
           </MenuButton>
         )}
-        {!isPersonal && (
+        {isPersonal ? (
+          <MenuButton
+            onClick={() => setSection('favorites')}
+            disabled={section === 'favorites'}
+          >
+            Favorites {favoritesLength}
+          </MenuButton>
+        ) : (
           <MenuButton
             onClick={() => setSection('uploads')}
             disabled={section === 'uploads'}

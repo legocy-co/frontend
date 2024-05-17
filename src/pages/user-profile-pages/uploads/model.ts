@@ -12,7 +12,6 @@ import {
   $marketItemCells,
   toMarketItemCells,
 } from '../../../components/MarketItemsList/model.ts';
-import { marketItemDeleted } from '../model.ts';
 
 export const gate = createGate();
 
@@ -21,6 +20,8 @@ export const $status = createStore<string>('ACTIVE');
 export const $marketItems = createStore<MarketItem[]>([]);
 
 export const statusChanged = createEvent<string>();
+
+export const marketItemDeleted = createEvent();
 
 const GetUserFX = createEffect(() => userService.GetUserProfilePage());
 
