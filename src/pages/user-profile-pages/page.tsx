@@ -74,11 +74,12 @@ const UserProfilePage = () => {
   useEffect(() => {
     switch (section) {
       case 'favorites': {
-        // TODO: fix cell stores
         onscroll = () => {
           function setPrecision(x: number) {
             return Math.floor(x / 10);
           }
+
+          if (isLoading) return;
 
           if (
             setPrecision(window.scrollY + window.innerHeight) >
@@ -88,9 +89,9 @@ const UserProfilePage = () => {
             model.loadingStarted();
         };
         setContentElement(
-          <div id="favorites">
+          <div>
             <MarketItemsList />
-            {isLoading && <Loader />}
+            {isLoading > 0 && <Loader />}
             {/*<Button className="mt-10" onClick={() => model.loadingStarted()}>*/}
             {/*  Load more*/}
             {/*</Button>*/}
@@ -110,7 +111,7 @@ const UserProfilePage = () => {
         setContentElement(<UserProfilePageForm />);
       }
     }
-  }, [section]);
+  }, [section, marketItems.length]);
 
   return (
     <>

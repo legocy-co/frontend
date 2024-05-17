@@ -12,7 +12,7 @@ import LocationIcon from '../../assets/icons/location.svg?react';
 import { LazySvg } from '../../shared/ui/lazy-svg.tsx';
 import clsx from 'clsx';
 import { uppu } from '../../pages/user-profile-pages/uploads/index.tsx';
-import { upp } from '../../pages/user-profile-pages/index.tsx';
+import { marketItemUnliked } from '../MarketItemsList/model.ts';
 
 interface MarketItemCellProps {
   id: number;
@@ -61,7 +61,7 @@ const MarketItemCell = (props: MarketItemCellProps) => {
     }
 
     await marketItemService.UnlikeMarketItem(props.id);
-    upp.marketItemUnliked(props.id);
+    marketItemUnliked(props.id);
     setLiked(false);
   }
 

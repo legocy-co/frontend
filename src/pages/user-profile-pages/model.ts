@@ -11,6 +11,7 @@ import { userService } from '../../services/UserService.ts';
 import {
   $marketItemCells,
   MarketItemCell,
+  marketItemUnliked,
   toMarketItemCells,
 } from '../../components/MarketItemsList/model.ts';
 import { User } from '../../types/UserType.ts';
@@ -30,17 +31,15 @@ export const sectionSelected = createEvent<string>();
 
 export const avatarChanged = createEvent();
 
-export const marketItemUnliked = createEvent<number>();
-
 export const loadingStarted = createEvent();
 
 export const $section = createStore<string>('');
 
-export const $uploads = createStore<MarketItemCell[]>([]);
+export const $favorites = createStore<MarketItemCell[]>([]);
 
 export const $favoritesLength = createStore<number>(0);
 
-export const $isLoading = createStore<boolean>(false);
+export const $isLoading = createStore<number>(0);
 
 export const $user = createStore<User>({
   email: '',
@@ -66,12 +65,14 @@ const GetFavoritesFX = createEffect(() =>
 );
 
 const loadMoreFX = attach({
-  source: { marketItems: $marketItemCells, offset: $offset },
+  source: { marketItems: $favorites, offset: $offset },
   effect: async ({ marketItems, offset }) => {
     const loadedItems = await marketItemService.GetFavoriteMarketItems(
       5,
       offset
     );
+
+    console.log(offset);
 
     const loadedCells = toMarketItemCells(loadedItems.data);
 
@@ -79,29 +80,9 @@ const loadMoreFX = attach({
   },
 });
 
-const increaseOffsetFX = attach({
-  source: $offset,
-  effect: (offset) => offset + 5,
-});
-
 sample({
   clock: [gate.open, avatarChanged, profileUpdated],
   target: GetUserProfilePageFx,
-});
-
-sample({
-  clock: $uploads,
-  source: gate.state,
-  filter: (state: { id: string | null; navigate: NavigateFunction }) =>
-    state.id === 'my',
-  target: GetFavoritesFX,
-});
-
-sample({
-  clock: marketItemUnliked,
-  source: $marketItemCells,
-  fn: (marketItems, id) => marketItems.filter((item) => item.id !== id),
-  target: $marketItemCells,
 });
 
 sample({
@@ -115,21 +96,16 @@ sample({
 });
 
 sample({
-  source: GetUserProfilePageFx.doneData.map((data) => data.marketItems),
-  fn: toMarketItemCells,
-  target: [$uploads, $marketItemCells],
-});
-
-sample({
-  source: GetUserProfilePageFx.doneData.map((data) => data.userReviews),
-  fn: toUserReviewCells,
-  target: $userReviewCells,
+  source: gate.state,
+  filter: (state: { id: string | null; navigate: NavigateFunction }) =>
+    state.id === 'my',
+  target: GetFavoritesFX,
 });
 
 sample({
   source: GetFavoritesFX.doneData.map((data) => data.data),
   fn: toMarketItemCells,
-  target: $marketItemCells,
+  target: $favorites,
 });
 
 sample({
@@ -139,39 +115,67 @@ sample({
 
 sample({
   clock: loadingStarted,
-  source: $isLoading,
-  filter: (isLoading) => isLoading === false,
-  target: increaseOffsetFX,
+  source: { offset: $offset, isLoading: $isLoading },
+  filter: ({ isLoading }) => isLoading === 0,
+  fn: ({ offset }) => offset + 5,
+  target: [$isLoading, $offset],
 });
 
 sample({
-  clock: increaseOffsetFX.pending,
-  fn: () => true,
-  target: $isLoading,
-});
-
-sample({
-  source: increaseOffsetFX.doneData,
-  target: $offset,
-});
-
-sample({
-  source: $offset,
+  clock: $offset,
   target: loadMoreFX,
 });
 
 sample({
   source: loadMoreFX.doneData,
+  target: $favorites,
+});
+
+sample({
+  clock: $favorites,
+  source: gate.state,
+  filter: (state: { id: string | null; navigate: NavigateFunction }) =>
+    state.id === 'my',
+  fn: (_, favorites) => favorites,
   target: $marketItemCells,
 });
 
 sample({
   clock: $marketItemCells,
-  fn: () => false,
+  fn: () => 0,
   target: $isLoading,
 });
 
 sample({
+  clock: marketItemUnliked,
+  source: $favoritesLength,
+  fn: (len) => len - 1,
+  target: $favoritesLength,
+});
+
+sample({
+  clock: marketItemUnliked,
+  source: $favorites,
+  fn: (marketItems, id) => marketItems.filter((item) => item.id !== id),
+  target: $favorites,
+});
+
+sample({
+  source: GetUserProfilePageFx.doneData.map((data) => data.userReviews),
+  fn: toUserReviewCells,
+  target: $userReviewCells,
+});
+
+sample({
+  clock: GetUserProfilePageFx.doneData.map((data) => data.marketItems),
+  source: gate.state,
+  filter: (state: { id: string | null; navigate: NavigateFunction }) =>
+    state.id !== 'my',
+  fn: (_, items) => toMarketItemCells(items),
+  target: $marketItemCells,
+});
+
+sample({
   clock: gate.close,
-  target: $section.reinit!,
+  target: [$section.reinit!, $offset.reinit!, $favoritesLength.reinit!],
 });
