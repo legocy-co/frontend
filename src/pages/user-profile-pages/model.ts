@@ -149,6 +149,7 @@ sample({
 sample({
   clock: marketItemUnliked,
   source: $favoritesLength,
+  filter: (len) => len !== 0,
   fn: (len) => len - 1,
   target: $favoritesLength,
 });
