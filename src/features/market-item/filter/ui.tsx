@@ -99,7 +99,7 @@ export const MarketItemsFilter = ({
                 field={model.form.fields.max_pieces}
                 labelText=""
                 placeholder="Max. amount"
-                className="mt-[7px]"
+                className="mt-[6px]"
               />
             </div>
             <Location model={model} />
@@ -206,7 +206,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
               value.concat(ev.currentTarget.value).join(',')
             )
           }
-          className="h-[35px] w-[160px] bg-white dark:bg-dark rounded-md !dark:text-confirmmodal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
+          className="h-[35px] w-[160px] relative bg-white dark:bg-dark rounded-md !dark:text-confirmmodal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
         >
           {options.map(({ value, label }) => (
             <option key={value} value={value}>
@@ -217,7 +217,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
         <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
       </div>
       {value.length > 0 && (
-        <div className="flex items-center gap-2 flex-wrap cursor-pointer">
+        <div className="flex items-center w-[160px] gap-2 flex-wrap cursor-pointer">
           {value.map((state) => (
             <div
               key={state}
