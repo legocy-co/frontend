@@ -68,7 +68,6 @@ const toCell = attach({
     imagesMapped,
     legoSet,
   }): MarketItemCell => {
-    console.log(primaryMapped, secondaryMapped, imagesMapped, legoSet);
     return {
       status: '',
       condition: setStates[primaryMapped.setState as keyof typeof setStates],
