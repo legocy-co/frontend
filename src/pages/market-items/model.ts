@@ -103,3 +103,8 @@ sample({
   fn: toMarketItemCells,
   target: $marketItemCells,
 });
+
+sample({
+  clock: gate.close,
+  target: $marketItemCells.reinit!,
+});
