@@ -7,6 +7,8 @@ import { MarketItemsFilter } from '../../features/market-item/filter';
 import { ActiveFilters } from '../../shared/ui/active-filters.tsx';
 import ScrollArrow from '../../components/ScrollArrows';
 
+// TODO: fix filter layouts
+
 export const CatalogPage = () => {
   useGate(model.gate);
   return (
