@@ -52,7 +52,7 @@ export const MarketItemUpdateForm = () => {
           <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">
             Set state
           </p>
-          <div className="relative w-[185] sm:w-[257px] styled-select">
+          <div className="relative h-12 w-[185] sm:w-[257px] styled-select">
             <SelectFieldAdapter
               field={model.form.fields.setState}
               options={sso.setStateOptions}
@@ -67,7 +67,7 @@ export const MarketItemUpdateForm = () => {
           <NumberFieldAdapter
             field={model.form.fields.price}
             labelText=""
-            className="!w-[157px] !h-[44px] bg-pagesize"
+            className="w-[109px] sm:!w-[159px] !h-12 bg-pagesize"
           />
         </div>
       </div>
