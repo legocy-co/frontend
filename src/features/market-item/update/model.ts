@@ -6,9 +6,8 @@ import {
   createDomain,
   sample,
   attach,
-  createEvent,
   EventPayload,
-  split,
+  createStore,
 } from 'effector';
 import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import {
@@ -19,6 +18,14 @@ import {
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
 import { marketItemService } from '../../../services/MarketItemService.ts';
+
+const ACCEPTED_IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/heic',
+];
 
 export const gate = createGate<{
   id: string | null;
@@ -80,13 +87,35 @@ export const form = createForm({
         }),
       ],
     },
+
+    newImages: {
+      init: [] as File[],
+      rules: [
+        createRule({
+          name: 'image',
+          schema: z
+            .array(
+              z
+                .custom<File>((file) => file instanceof File)
+                .refine((file) => {
+                  return file.size <= 20000000;
+                }, `Maximum image size is 20MB.`)
+                .refine(
+                  (file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file.type),
+                  'Only .jpg, .jpeg, .png, .heic and .webp formats are supported.'
+                )
+            )
+            .min(1, 'Please add images')
+            .max(6, 'Market item must contain no more than 6 images'),
+        }),
+      ],
+    },
   },
 });
 
 const domain = createDomain();
 
 const $itemId = gate.state.map(({ id }) => id);
-const $isEditing = $itemId.map((id) => id !== null);
 
 const fetchMarketItemFx = attach({
   source: {
@@ -98,17 +127,13 @@ const fetchMarketItemFx = attach({
   },
 });
 
-export const setForm = domain.createEvent<MarketItem>();
-
-export const createFormInfo = domain.createEvent();
-
-const updateFormInfo = domain.createEvent();
-
 export const resetDomain = domain.createEvent();
 
 export const $mappedValues = form.$values.map(mapFormToRequestBody);
 
-const setMarketItem = createEvent<MarketItem>();
+export const $initialValues = createStore<EventPayload<typeof form.setForm>>(
+  {}
+);
 
 const updateMarketItemFx = attach({
   source: {
@@ -160,18 +185,8 @@ sample({
 
 sample({
   clock: fetchMarketItemFx.doneData,
-  target: setMarketItem,
-});
-
-sample({
-  clock: setMarketItem,
-  target: setForm,
-});
-
-sample({
-  clock: setForm,
   fn: toForm,
-  target: form.setForm,
+  target: [form.setForm, $initialValues],
 });
 
 sample({
@@ -180,23 +195,19 @@ sample({
   target: $legoSetOptions,
 });
 
-split({
-  source: form.formValidated,
-  match: $isEditing.map(String),
-  cases: {
-    true: updateFormInfo,
-    false: createFormInfo,
-  },
-});
-
 sample({
-  clock: updateFormInfo,
+  clock: form.formValidated,
   target: updateMarketItemFx,
 });
 
 sample({
   clock: updateMarketItemFx.done,
   target: uploadsRedirectFX,
+});
+
+sample({
+  clock: form.fields.country.changed,
+  target: form.fields.city.reset,
 });
 
 sample({

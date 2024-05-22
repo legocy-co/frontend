@@ -24,6 +24,7 @@ export const MarketItemUpdateForm = () => {
   const { fields, eachValid } = useForm(model.form);
 
   const legoSets = useUnit(lso.$legoSetOptions);
+  // const initialValues = useUnit(model.$initialValues);
 
   function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
