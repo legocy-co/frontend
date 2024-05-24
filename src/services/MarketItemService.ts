@@ -9,6 +9,8 @@ import axios from 'axios';
 import { handleIncorrectParse } from './ErrorHandlers.ts';
 import toaster from '../shared/lib/react-toastify.ts';
 import { PaginationData } from '../types/pagination.ts';
+import { UpdateImageData } from '../types/MarketItemImage.ts';
+import { sleep } from './utils.ts';
 
 interface MarketItemService {
   GetMarketItems: (query: string) => Promise<PaginationData<MarketItem[]>>;
@@ -31,8 +33,14 @@ interface MarketItemService {
   DeleteMarketItem: (itemID: number | string) => Promise<boolean>;
   DeleteImage: (imageID: number | string) => Promise<boolean>;
   UploadImage: (
-    file: FormData,
+    file: File,
+    sortIndex: string,
     marketItemID: number | string
+  ) => Promise<boolean>;
+  UpdateImage: (
+    imageID: number | string,
+    marketItemID: number | string,
+    data: UpdateImageData
   ) => Promise<boolean>;
 }
 
@@ -172,6 +180,7 @@ const UpdateMarketItem = async (
 const DeleteMarketItem = async (itemID: number | string): Promise<boolean> => {
   try {
     await axios.delete('/market-items/' + itemID);
+    await sleep(1010);
     toaster.showToastSuccess('Market item deleted');
 
     return Promise.resolve(true);
@@ -192,12 +201,33 @@ const DeleteImage = async (imageID: number | string): Promise<boolean> => {
 };
 
 const UploadImage = async (
-  file: FormData,
+  image: File,
+  sortIndex: string,
   marketItemID: number | string
 ): Promise<boolean> => {
   try {
-    await axios.post('/market-items/images/' + marketItemID, file);
+    const data = new FormData();
+    data.append('file', image);
+    data.append('sortIndex', sortIndex);
+    await axios.post('/market-items/images/' + marketItemID, data);
+    await sleep(1010);
     toaster.showToastSuccess('Image uploaded');
+
+    return Promise.resolve(true);
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+const UpdateImage = async (
+  imageID: number | string,
+  marketItemID: number | string,
+  data: UpdateImageData
+): Promise<boolean> => {
+  try {
+    await axios.patch(`/market-items/images/${marketItemID}/${imageID}`, data);
+    await sleep(1010);
+    toaster.showToastSuccess('Image updated');
 
     return Promise.resolve(true);
   } catch (e) {
@@ -218,4 +248,5 @@ export const marketItemService: MarketItemService = {
   DeleteMarketItem: DeleteMarketItem,
   DeleteImage: DeleteImage,
   UploadImage: UploadImage,
+  UpdateImage: UpdateImage,
 };

@@ -8,6 +8,7 @@ import {
   attach,
   EventPayload,
   createStore,
+  createEffect,
 } from 'effector';
 import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import {
@@ -26,6 +27,11 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
   'image/webp',
   'image/heic',
 ];
+
+type InitialImageData = {
+  ID: number;
+  index: number;
+};
 
 export const gate = createGate<{
   id: string | null;
@@ -87,8 +93,7 @@ export const form = createForm({
         }),
       ],
     },
-
-    newImages: {
+    images: {
       init: [] as File[],
       rules: [
         createRule({
@@ -153,18 +158,74 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   };
 }
 
-function toForm(values: MarketItem): EventPayload<typeof form.setForm> {
-  const locationMap = values.location.split(', ');
+const toFormFX = createEffect(
+  async (values: MarketItem): Promise<EventPayload<typeof form.setForm>> => {
+    const locationMap = values.location.split(', ');
 
-  return {
-    legoSetID: String(values.legoSet.id),
-    country: locationMap[1],
-    city: locationMap[0],
-    price: values.price,
-    setState: values.setState,
-    description: values.description,
-  };
-}
+    const imageIDs = values.images.map((img) => img.id);
+
+    const files = await Promise.all(
+      values.images
+        .map((img) => img.imageURL)
+        .map(async (url, i) => {
+          const response = await fetch(url);
+          return new File(
+            [await response.blob()],
+            JSON.stringify({ index: i, ID: imageIDs[i] }),
+            {
+              type: 'image/png',
+            }
+          );
+        })
+    );
+
+    return {
+      legoSetID: String(values.legoSet.id),
+      country: locationMap[1],
+      city: locationMap[0],
+      price: values.price,
+      setState: values.setState,
+      description: values.description,
+      images: files,
+    };
+  }
+);
+
+const updateImagesFX = attach({
+  source: {
+    itemID: $itemId,
+    images: form.fields.images.$value,
+    initialValues: $initialValues,
+  },
+  effect: async ({ itemID, images, initialValues }) => {
+    const remained: InitialImageData[] = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+      if (image.name) {
+        const initialData: InitialImageData = JSON.parse(image.name);
+        remained.push({ index: initialData.index, ID: initialData.ID });
+        console.log(remained);
+        if (initialData.index !== i) {
+          await marketItemService.UpdateImage(initialData.ID, itemID!, {
+            sortIndex: i,
+          });
+        }
+      } else if (
+        // TODO: Delete missing images/IDs
+        !remained
+          .map((rem) => rem.ID)
+          .findIndex(JSON.parse(initialValues.images![i].name).ID)
+      ) {
+        await marketItemService.DeleteImage(
+          JSON.parse(initialValues.images![i].name).ID
+        );
+      } else {
+        await marketItemService.UploadImage(image, String(i), itemID!);
+      }
+    }
+  },
+});
 
 const uploadsRedirectFX = attach({
   source: gate.state,
@@ -185,7 +246,11 @@ sample({
 
 sample({
   clock: fetchMarketItemFx.doneData,
-  fn: toForm,
+  target: toFormFX,
+});
+
+sample({
+  source: toFormFX.doneData,
   target: [form.setForm, $initialValues],
 });
 
@@ -202,6 +267,11 @@ sample({
 
 sample({
   clock: updateMarketItemFx.done,
+  target: updateImagesFX,
+});
+
+sample({
+  clock: updateImagesFX.done,
   target: uploadsRedirectFX,
 });
 

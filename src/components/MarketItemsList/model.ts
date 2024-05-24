@@ -39,7 +39,9 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     condition_icon: marketItem.setState,
     id: marketItem.id,
     images: marketItem.images
-      .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .sort(
+        (current, next) => Number(current.sortIndex) + Number(next.sortIndex)
+      )
       .map((img) => img.imageURL),
     is_liked: marketItem.isLiked,
     location: marketItem.location,

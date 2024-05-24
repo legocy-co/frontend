@@ -8,13 +8,15 @@ import {
   TextareaFieldAdapter,
 } from '../../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
-import { useForm } from 'effector-forms';
+import { useField, useForm } from 'effector-forms';
 import { lso } from '../../lego-set/options/index.ts';
 import { Button } from '../../../shared/ui/button.tsx';
 import { lo } from '../../location/options/index.ts';
 import { sso } from '../../set-state/options/index.ts';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import LocationIcon from '../../../assets/icons/location.svg?react';
+import React, { useEffect, useState } from 'react';
+import { MarketItemPreview } from '../../../entities/market-item/images';
 
 export const MarketItemUpdateForm = () => {
   const params = useParams<'id'>();
@@ -113,6 +115,9 @@ export const MarketItemUpdateForm = () => {
           </div>
         </div>
       </div>
+      <div className="mb-5 max-w-[468px]">
+        <Preview />
+      </div>
       <div className="flex justify-center">
         {!eachValid && (
           <FormError>
@@ -130,5 +135,84 @@ export const MarketItemUpdateForm = () => {
         )}
       </div>
     </form>
+  );
+};
+
+const Preview = () => {
+  const imagesValue = useUnit(model.form.fields.images.$value);
+
+  const [value, setValue] = useState(imagesValue);
+
+  const { onChange } = useField(model.form.fields.images);
+
+  useEffect(() => {
+    onChange([]);
+  }, []);
+
+  function handleDelete(image: File) {
+    const filtered = value.filter((img) => img !== image);
+    setValue(filtered);
+    onChange(filtered);
+  }
+
+  // assignment without re-rendering images (state change causes flickering)
+  let currentFile: File;
+
+  const handleDragStart = (_: React.DragEvent<HTMLDivElement>, item: File) => {
+    currentFile = item;
+  };
+
+  const handleDragEnd = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>, item: File) => {
+    e.preventDefault();
+
+    const rePositionedImages = value.map((c: any, i) => {
+      if (
+        value.findIndex((e) => e === c) === value.findIndex((e) => e === item)
+      ) {
+        c.order_index = value.findIndex((e) => e === currentFile);
+        return c;
+      }
+
+      if (
+        value.findIndex((e) => e === c) ===
+        value.findIndex((e) => e === currentFile)
+      ) {
+        c.order_index = value.findIndex((e) => e === item);
+        return c;
+      }
+      c.order_index = i;
+      return c;
+    });
+
+    const sortedImages = rePositionedImages
+      .sort((a, b) => a.order_index - b.order_index)
+      .map((obj: any) => {
+        console.log(obj);
+        delete obj.order_index;
+        return obj as File;
+      }) as File[];
+
+    setValue(sortedImages);
+
+    onChange(sortedImages);
+  };
+
+  return (
+    <MarketItemPreview
+      images={value}
+      handleDelete={handleDelete}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onDragOver={handleDragOver}
+      onDrop={handleDrop}
+    />
   );
 };

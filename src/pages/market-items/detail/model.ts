@@ -91,7 +91,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     description: marketItem.description,
     id: marketItem.id,
     images: marketItem.images
-      .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .sort((current, next) => Number(current.sortIndex) + Number(next.sortIndex))
       .map((img) => img.imageURL),
     location: marketItem.location,
     nPieces: marketItem.legoSet.nPieces,
