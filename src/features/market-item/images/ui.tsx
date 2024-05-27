@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { MarketItemPreview } from '../../../entities/market-item/images';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useField, useForm } from 'effector-forms';
+import { handleUploadFile } from '../../../services/utils.ts';
 
 export const MarketItemImagesForm = () => {
   const params = useParams<'id'>();
@@ -12,21 +13,6 @@ export const MarketItemImagesForm = () => {
 
   const { fields, eachValid } = useForm(model.form);
   const { onChange, value } = useField(model.form.fields.images);
-
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      Array.from(e.target.files).map((file) => value.push(file));
-
-      const transfer = new DataTransfer();
-      value.map((file) => transfer.items.add(file));
-      e.target.files = transfer.files;
-
-      const files = [] as File[];
-      files.push(...value);
-
-      onChange(files);
-    }
-  };
 
   return (
     <form className="flex flex-col gap-4 text-center items-center">
@@ -45,7 +31,7 @@ export const MarketItemImagesForm = () => {
           type="file"
           placeholder=""
           multiple
-          onChange={handleUpload}
+          onChange={(e) => handleUploadFile(e, value, onChange)}
           accept=".jpg, .jpeg, .webp, .heic"
           className="hidden"
         />
@@ -60,7 +46,7 @@ export const MarketItemImagesForm = () => {
           Add image
         </label>
       </div>
-      <div className="mb-5">
+      <div className="my-5">
         <Preview />
       </div>
       <p className="font-normal max-w-[360px] sm:max-w-[565px] text-xs text-[#332929] dark:text-[#F9F9F9]">

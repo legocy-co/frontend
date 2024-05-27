@@ -31,7 +31,10 @@ interface MarketItemService {
     data: MarketItemData
   ) => Promise<MarketItemData>;
   DeleteMarketItem: (itemID: number | string) => Promise<boolean>;
-  DeleteImage: (imageID: number | string) => Promise<boolean>;
+  DeleteImage: (
+    imageID: number | string,
+    marketItemID: number | string
+  ) => Promise<boolean>;
   UploadImage: (
     file: File,
     sortIndex: string,
@@ -189,9 +192,12 @@ const DeleteMarketItem = async (itemID: number | string): Promise<boolean> => {
   }
 };
 
-const DeleteImage = async (imageID: number | string): Promise<boolean> => {
+const DeleteImage = async (
+  imageID: number | string,
+  marketItemID: number | string
+): Promise<boolean> => {
   try {
-    await axios.delete('/market-item/images/' + imageID);
+    await axios.delete(`/market-item/images/${marketItemID}/${imageID}`);
     toaster.showToastSuccess('Image deleted');
 
     return Promise.resolve(true);

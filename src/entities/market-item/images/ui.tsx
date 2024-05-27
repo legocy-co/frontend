@@ -1,6 +1,8 @@
 import CloseIcon from '../../../assets/icons/close.svg?react';
-import clsx from 'clsx';
+import PlusIcon from '../../../assets/icons/plus.svg?react';
 import React from 'react';
+import clsx from 'clsx';
+import { handleUploadFile } from '../../../services/utils.ts';
 
 type Props = {
   images: File[];
@@ -9,6 +11,8 @@ type Props = {
   onDragEnd: (e: React.DragEvent<HTMLDivElement>) => void;
   onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
   onDrop: (e: React.DragEvent<HTMLDivElement>, item: File) => void;
+  variant?: 'update';
+  onChange?: (v: File[]) => File[];
 };
 
 export const MarketItemPreview = ({
@@ -18,6 +22,8 @@ export const MarketItemPreview = ({
   onDragOver,
   onDragStart,
   onDragEnd,
+  variant,
+  onChange,
 }: Props) => {
   return (
     <div className="flex max-w-[675px] flex-wrap gap-2 justify-center items-center">
@@ -34,22 +40,48 @@ export const MarketItemPreview = ({
             onDragOver={onDragOver}
             onDrop={(e: React.DragEvent<HTMLDivElement>) => onDrop(e, img)}
           >
-            {!i && <p className="font-normal text-xs">Thumbnail</p>}
+            {!i && !variant && (
+              <p className="font-normal text-xs absolute bottom-24 left-8">
+                Thumbnail
+              </p>
+            )}
             <img
               src={URL.createObjectURL(img)}
               className={clsx(
                 'rounded-lg w-[127px] h-[92px] object-cover object-center cursor-grab',
-                { 'mt-[0.9rem]': i }
+                {
+                  'border border-solid border-white':
+                    variant === 'update' && !i,
+                }
               )}
               alt="image"
               id={'preview-' + i}
             />
             <CloseIcon
-              className="absolute w-2 top-5 right-2 fillswhite cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+              className="absolute w-2 top-1 right-2 fillswhite cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
               onClick={() => handleDelete(img)}
             />
           </div>
         ))}
+      {variant === 'update' && onChange && (
+        <>
+          <input
+            id="imagesUpload"
+            type="file"
+            placeholder=""
+            multiple
+            onChange={(e) => handleUploadFile(e, images, onChange)}
+            accept=".jpg, .jpeg, .webp, .heic"
+            className="hidden"
+          />
+          <label
+            htmlFor="imagesUpload"
+            className="rounded-lg w-[127px] h-[92px] dark:bg-white bg-black !bg-opacity-20 flex justify-center items-center cursor-pointer transition-all hover:!bg-opacity-25 active:!bg-opacity-30"
+          >
+            <PlusIcon />
+          </label>
+        </>
+      )}
     </div>
   );
 };

@@ -34,7 +34,7 @@ export const MarketItemUpdateForm = () => {
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-8">
+    <form onSubmit={onSubmit} className="flex flex-col items-center gap-8">
       <div className="flex flex-col gap-2">
         <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">Set name</p>
         <div className="relative w-80 sm:w-[468px]">
@@ -51,7 +51,7 @@ export const MarketItemUpdateForm = () => {
           <ChevronUpIcon className="absolute rotate-180 opacity-50 top-5 right-4 iconstrokes" />
         </div>
       </div>
-      <div className="flex gap-5">
+      <div className="flex w-80 sm:w-[468px] justify-between">
         <div className="flex flex-col gap-2">
           <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">
             Set state
@@ -115,7 +115,7 @@ export const MarketItemUpdateForm = () => {
           </div>
         </div>
       </div>
-      <div className="mb-5 max-w-[468px]">
+      <div className="mb-5 max-w-[675px] flex justify-center">
         <Preview />
       </div>
       <div className="flex justify-center">
@@ -125,7 +125,8 @@ export const MarketItemUpdateForm = () => {
               fields.setState.errorText() ||
               fields.price.errorText() ||
               fields.country.errorText() ||
-              fields.city.errorText()}
+              fields.city.errorText() ||
+              fields.images.errorText()}
           </FormError>
         )}
         {params.id && (
@@ -146,8 +147,8 @@ const Preview = () => {
   const { onChange } = useField(model.form.fields.images);
 
   useEffect(() => {
-    onChange([]);
-  }, []);
+    imagesValue.length > 0 && setValue(imagesValue);
+  }, [imagesValue.length]);
 
   function handleDelete(image: File) {
     const filtered = value.filter((img) => img !== image);
@@ -201,18 +202,19 @@ const Preview = () => {
       }) as File[];
 
     setValue(sortedImages);
-
     onChange(sortedImages);
   };
 
   return (
     <MarketItemPreview
+      variant="update"
       images={value}
       handleDelete={handleDelete}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
+      onChange={onChange}
     />
   );
 };

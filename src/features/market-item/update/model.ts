@@ -3,7 +3,6 @@ import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import {
   StoreValue,
-  createDomain,
   sample,
   attach,
   EventPayload,
@@ -19,6 +18,7 @@ import {
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
 import { marketItemService } from '../../../services/MarketItemService.ts';
+import { MarketItemImage } from '../../../types/MarketItemImage.ts';
 
 const ACCEPTED_IMAGE_MIME_TYPES = [
   'image/jpeg',
@@ -27,11 +27,6 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
   'image/webp',
   'image/heic',
 ];
-
-type InitialImageData = {
-  ID: number;
-  index: number;
-};
 
 export const gate = createGate<{
   id: string | null;
@@ -118,8 +113,6 @@ export const form = createForm({
   },
 });
 
-const domain = createDomain();
-
 const $itemId = gate.state.map(({ id }) => id);
 
 const fetchMarketItemFx = attach({
@@ -131,8 +124,6 @@ const fetchMarketItemFx = attach({
     return marketItemService.GetMarketItem(id!);
   },
 });
-
-export const resetDomain = domain.createEvent();
 
 export const $mappedValues = form.$values.map(mapFormToRequestBody);
 
@@ -162,21 +153,17 @@ const toFormFX = createEffect(
   async (values: MarketItem): Promise<EventPayload<typeof form.setForm>> => {
     const locationMap = values.location.split(', ');
 
-    const imageIDs = values.images.map((img) => img.id);
-
-    const files = await Promise.all(
-      values.images
-        .map((img) => img.imageURL)
-        .map(async (url, i) => {
-          const response = await fetch(url);
-          return new File(
-            [await response.blob()],
-            JSON.stringify({ index: i, ID: imageIDs[i] }),
+    const images = await Promise.all(
+      values.images.map(
+        async (img) =>
+          new File(
+            [await fetch(img.imageURL).then((res) => res.blob())],
+            JSON.stringify({ sortIndex: img.sortIndex, id: img.id }),
             {
               type: 'image/png',
             }
-          );
-        })
+          )
+      )
     );
 
     return {
@@ -186,7 +173,7 @@ const toFormFX = createEffect(
       price: values.price,
       setState: values.setState,
       description: values.description,
-      images: files,
+      images: images,
     };
   }
 );
@@ -195,33 +182,33 @@ const updateImagesFX = attach({
   source: {
     itemID: $itemId,
     images: form.fields.images.$value,
-    initialValues: $initialValues,
+    initValues: $initialValues,
   },
-  effect: async ({ itemID, images, initialValues }) => {
-    const remained: InitialImageData[] = [];
+  effect: async ({ itemID, images, initValues }) => {
+    const newData: MarketItemImage[] = images.map((img) =>
+      JSON.parse(img.name)
+    );
+
+    const initData: MarketItemImage[] =
+      initValues.images?.map((img) => JSON.parse(img.name)) ?? [];
+
+    newData.length < initData.length &&
+      initData
+        .filter(
+          (init) => newData.findIndex((data) => data.id === init.id) === -1
+        )
+        .map((data) => data.id)
+        .map(async (id) => await marketItemService.DeleteImage(id, itemID!));
 
     for (let i = 0; i < images.length; i++) {
-      const image = images[i];
-      if (image.name) {
-        const initialData: InitialImageData = JSON.parse(image.name);
-        remained.push({ index: initialData.index, ID: initialData.ID });
-        console.log(remained);
-        if (initialData.index !== i) {
-          await marketItemService.UpdateImage(initialData.ID, itemID!, {
-            sortIndex: i,
-          });
-        }
-      } else if (
-        // TODO: Delete missing images/IDs
-        !remained
-          .map((rem) => rem.ID)
-          .findIndex(JSON.parse(initialValues.images![i].name).ID)
-      ) {
-        await marketItemService.DeleteImage(
-          JSON.parse(initialValues.images![i].name).ID
-        );
-      } else {
-        await marketItemService.UploadImage(image, String(i), itemID!);
+      const img = images[i];
+      const imgData = JSON.parse(img.name);
+      if (!imgData.id) {
+        await marketItemService.UploadImage(img, String(i), itemID!);
+      } else if (imgData.sortIndex !== i) {
+        await marketItemService.UpdateImage(imgData.id, itemID!, {
+          sortIndex: i,
+        });
       }
     }
   },
@@ -232,16 +219,9 @@ const uploadsRedirectFX = attach({
   effect: ({ navigateFn }) => navigateFn('/profile/my/uploads'),
 });
 
-domain.onCreateStore((store) => store.reset(resetDomain));
-
 sample({
   clock: gate.open,
-  target: fetchLegoSetsFx,
-});
-
-sample({
-  clock: $itemId,
-  target: fetchMarketItemFx,
+  target: [fetchLegoSetsFx, fetchMarketItemFx],
 });
 
 sample({
@@ -281,6 +261,6 @@ sample({
 });
 
 sample({
-  clock: resetDomain,
+  clock: gate.close,
   target: form.reset,
 });
