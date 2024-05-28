@@ -270,7 +270,6 @@ const Preview = () => {
     const sortedImages = rePositionedImages
       .sort((a, b) => a.order_index - b.order_index)
       .map((obj: any) => {
-        console.log(obj);
         delete obj.order_index;
         return obj as File;
       }) as File[];

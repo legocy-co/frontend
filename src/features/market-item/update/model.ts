@@ -145,19 +145,6 @@ const checkChangedFX = attach({
     initialValues: $initialValues,
   },
   effect: ({ data, images, initialValues }) => {
-    console.log({
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      ...(({ location, price, isSold, changed, ...rest }) => rest)(data),
-      images: images,
-    });
-    console.log();
-    console.log(
-      partialToFull({
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        ...(({ country, city, price, ...rest }) => rest)(initialValues),
-        legoSetID: Number(initialValues.legoSetID),
-      })
-    );
     return !_.isEqual(
       {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
