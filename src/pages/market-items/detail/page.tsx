@@ -82,6 +82,7 @@ const MarketItemDetailPage = () => {
   const recommendationsElement = recommendations.map((marketItem) => (
     <div id={'cell-' + marketItem.id} key={'cell-' + marketItem.id}>
       <MarketItemCell
+        status={marketItem.status}
         id={marketItem.id}
         location={marketItem.location}
         stateIcon={marketItem.condition_icon}
