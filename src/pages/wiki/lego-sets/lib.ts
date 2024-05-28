@@ -13,27 +13,27 @@ export type SetRow = {
 export const columns = [
   {
     id: 'number',
-    size: 200,
+    size: 250,
     title: 'Set number',
   },
   {
     id: 'name',
-    size: 400,
-    title: 'Set',
+    size: 500,
+    title: 'Set name',
   },
   {
     id: 'pieces',
-    size: 200,
+    size: 300,
     title: 'Pieces',
   },
   {
     id: 'image',
-    size: 200,
+    size: 300,
     title: 'Image',
   },
   {
     id: 'series',
-    size: 400,
+    size: 500,
     title: 'Series',
   },
 ];

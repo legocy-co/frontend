@@ -3,6 +3,7 @@ import * as Switch from '@radix-ui/react-switch';
 type Props = {
   checked: boolean;
   onChange: (checked: boolean) => void;
+  className?: string;
 };
 
 export const Toggle = ({ checked, onChange }: Props) => {
