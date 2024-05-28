@@ -30,7 +30,7 @@ export const MarketItemUpdateForm = () => {
   // const initialValues = useUnit(model.$initialValues);
 
   const [showSold, setShowSold] = useState(false);
-  const [soldPrice, setSoldPrice] = useState(120);
+  const [soldPrice, setSoldPrice] = useState(0);
 
   function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
@@ -46,9 +46,10 @@ export const MarketItemUpdateForm = () => {
     model.form.submit();
   }
 
-  useEffect(() => {
-    showSold && setSoldPrice(fields.price.value);
-  }, [showSold]);
+  // sold modal price mapping
+  // useEffect(() => {
+  //   showSold && setSoldPrice(fields.price.value);
+  // }, [showSold]);
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center gap-8">
@@ -96,7 +97,7 @@ export const MarketItemUpdateForm = () => {
         <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">
           Description
         </p>
-        <p className="text-sm font-normal text-[#242020] w-[360px] sm:w-[450px] dark:text-[#F9F9F9] text-opacity-85">
+        <p className="text-sm font-normal text-[#242020] w-80 sm:w-[450px] dark:text-[#F9F9F9] text-opacity-85">
           Here you can provide additional details, such as elaborating on the
           condition of the item, preferred communication method, etc
         </p>
@@ -136,7 +137,7 @@ export const MarketItemUpdateForm = () => {
         <Preview />
       </div>
       <Button
-        className="text-lg !h-12 !w-[340px]"
+        className="text-lg !h-12 !w-80 sm:!w-[340px]"
         onClick={() => setShowSold(true)}
       >
         Listing Is Sold
@@ -152,11 +153,20 @@ export const MarketItemUpdateForm = () => {
               fields.images.errorText()}
           </FormError>
         )}
-        {params.id && (
-          <Button type="submit" className="mt-20 !w-56">
-            Update Market Item
+        <div className="w-80 sm:w-[340px] flex items-center justify-between mt-10">
+          <Button
+            className="text-lg font-medium !w-36 sm:!w-40 !h-10 bg-prevdark"
+            onClick={() => navigateFn('/profile/my/uploads')}
+          >
+            Cancel
           </Button>
-        )}
+          <Button
+            className="text-lg font-medium !w-36 sm:!w-40 !h-10"
+            type="submit"
+          >
+            Save
+          </Button>
+        </div>
       </div>
       {showSold && (
         <ConfirmationModal
@@ -170,8 +180,9 @@ export const MarketItemUpdateForm = () => {
           <div className="flex flex-col items-center gap-2">
             <p>My offer for the set was:</p>
             <input
-              value={soldPrice ? soldPrice + '$' : '$'}
-              className="border-none bg-transparent font-semibold text-[3.125rem] text-confirmmodal dark:text-description text-opacity-35 dark:text-opacity-35 outline-0 text-center"
+              placeholder="120$"
+              value={soldPrice ? soldPrice + '$' : ''}
+              className="border-none bg-transparent font-semibold text-[3.125rem] text-confirmmodal dark:text-description text-opacity-85 placeholder:text-confirmmodal placeholder:dark:text-description placeholder:!text-opacity-35 outline-0 text-center"
               onChange={(ev) =>
                 setSoldPrice(Number(ev.currentTarget.value.replace('$', '')))
               }
@@ -179,15 +190,19 @@ export const MarketItemUpdateForm = () => {
           </div>
           <div className="flex gap-6 ">
             <Button
-              className="!text-lg !h-12 !w-48"
+              className="!text-lg !h-12 !w-48 disabled:bg-tab disabled:text-prevdark"
               type="submit"
               onClick={handleSold}
+              disabled={!soldPrice}
             >
               Confirm
             </Button>
             <Button
               className="!text-lg !h-12 !w-48 bg-prevdark"
-              onClick={() => setShowSold(false)}
+              onClick={() => {
+                setShowSold(false);
+                setSoldPrice(0);
+              }}
             >
               Cancel
             </Button>
