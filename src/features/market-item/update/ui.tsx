@@ -30,6 +30,7 @@ export const MarketItemUpdateForm = () => {
   // const initialValues = useUnit(model.$initialValues);
 
   const [showSold, setShowSold] = useState(false);
+  const [soldPrice, setSoldPrice] = useState(120);
 
   function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
@@ -38,9 +39,16 @@ export const MarketItemUpdateForm = () => {
 
   function handleSold(ev: React.FormEvent) {
     ev.preventDefault();
+
+    fields.price.onChange(soldPrice);
     fields.isSold.onChange(true);
+
     model.form.submit();
   }
+
+  useEffect(() => {
+    showSold && setSoldPrice(fields.price.value);
+  }, [showSold]);
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center gap-8">
@@ -162,12 +170,10 @@ export const MarketItemUpdateForm = () => {
           <div className="flex flex-col items-center gap-2">
             <p>My offer for the set was:</p>
             <input
-              value={fields.price.value ? fields.price.value + '$' : '$'}
-              className="border-none bg-transparent font-semibold text-[3.125rem] dark:text-description text-opacity-35 outline-0 text-center"
+              value={soldPrice ? soldPrice + '$' : '$'}
+              className="border-none bg-transparent font-semibold text-[3.125rem] text-confirmmodal dark:text-description text-opacity-35 dark:text-opacity-35 outline-0 text-center"
               onChange={(ev) =>
-                fields.price.onChange(
-                  Number(ev.currentTarget.value.replace('$', ''))
-                )
+                setSoldPrice(Number(ev.currentTarget.value.replace('$', '')))
               }
             />
           </div>

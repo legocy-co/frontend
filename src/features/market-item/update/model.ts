@@ -1,5 +1,5 @@
 import { createForm } from 'effector-forms';
-import { createRule } from '../../../services/utils.ts';
+import { createRule, partialToFull } from '../../../services/utils.ts';
 import { z } from 'zod';
 import {
   StoreValue,
@@ -19,6 +19,7 @@ import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { MarketItemImage } from '../../../types/MarketItemImage.ts';
+import * as _ from 'lodash';
 
 const ACCEPTED_IMAGE_MIME_TYPES = [
   'image/jpeg',
@@ -137,6 +138,41 @@ export const $initialValues = createStore<EventPayload<typeof form.setForm>>(
   {}
 );
 
+const checkChangedFX = attach({
+  source: {
+    data: $mappedValues,
+    images: form.fields.images.$value,
+    initialValues: $initialValues,
+  },
+  effect: ({ data, images, initialValues }) => {
+    console.log({
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ...(({ location, price, isSold, changed, ...rest }) => rest)(data),
+      images: images,
+    });
+    console.log();
+    console.log(
+      partialToFull({
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ...(({ country, city, price, ...rest }) => rest)(initialValues),
+        legoSetID: Number(initialValues.legoSetID),
+      })
+    );
+    return !_.isEqual(
+      {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ...(({ location, price, isSold, changed, ...rest }) => rest)(data),
+        images: images,
+      },
+      partialToFull({
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ...(({ country, city, price, ...rest }) => rest)(initialValues),
+        legoSetID: Number(initialValues.legoSetID),
+      })
+    );
+  },
+});
+
 const updateMarketItemFx = attach({
   source: {
     id: $itemId,
@@ -161,19 +197,6 @@ const toFormFX = createEffect(
   async (values: MarketItem): Promise<EventPayload<typeof form.setForm>> => {
     const locationMap = values.location.split(', ');
 
-    const images = await Promise.all(
-      values.images.map(
-        async (img) =>
-          new File(
-            [await fetch(img.imageURL).then((res) => res.blob())],
-            JSON.stringify({ sortIndex: img.sortIndex, id: img.id }),
-            {
-              type: 'image/png',
-            }
-          )
-      )
-    );
-
     return {
       legoSetID: String(values.legoSet.id),
       country: locationMap[1],
@@ -181,7 +204,18 @@ const toFormFX = createEffect(
       price: values.price,
       setState: values.setState,
       description: values.description,
-      images: images,
+      images: await Promise.all(
+        values.images.map(
+          async (img) =>
+            new File(
+              [await (await fetch(img.imageURL)).blob()],
+              JSON.stringify({ sortIndex: img.sortIndex, id: img.id }),
+              {
+                type: 'image/png',
+              }
+            )
+        )
+      ),
     };
   }
 );
@@ -250,11 +284,17 @@ sample({
 
 sample({
   clock: form.formValidated,
-  target: updateMarketItemFx,
+  target: checkChangedFX,
 });
 
 sample({
-  clock: updateMarketItemFx.done,
+  source: checkChangedFX.done,
+  fn: (changed) => changed.result,
+  target: [form.fields.changed.onChange, updateMarketItemFx],
+});
+
+sample({
+  clock: [updateMarketItemFx.done, updateMarketItemFx.fail],
   target: updateImagesFX,
 });
 

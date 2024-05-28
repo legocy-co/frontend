@@ -57,3 +57,8 @@ sample({
   source: statusChanged,
   target: $status,
 });
+
+sample({
+  clock: gate.close,
+  target: $marketItemCells.reinit!,
+});

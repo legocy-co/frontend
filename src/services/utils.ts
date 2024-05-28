@@ -90,3 +90,7 @@ export function handleUploadFile(
     onChange(files);
   }
 }
+
+export function partialToFull<T>(x: Partial<T>): T {
+  return x as T;
+}

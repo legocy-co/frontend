@@ -13,6 +13,7 @@ import { LazySvg } from '../../shared/ui/lazy-svg.tsx';
 import clsx from 'clsx';
 import { uppu } from '../../pages/user-profile-pages/uploads/index.tsx';
 import { marketItemUnliked } from '../MarketItemsList/model.ts';
+import { statuses } from '../../types/MarketItemType.ts';
 
 interface MarketItemCellProps {
   id: number;
@@ -25,6 +26,7 @@ interface MarketItemCellProps {
   set: string;
   sellerID: number;
   isLiked: boolean;
+  status: (typeof statuses)[number];
 }
 
 const MarketItemCell = (props: MarketItemCellProps) => {
@@ -124,14 +126,15 @@ const MarketItemCell = (props: MarketItemCellProps) => {
             </div>
           </div>
         )}
-        {isPersonal ? (
+        {isPersonal && props.status === 'ACTIVE' && (
           <div
             className="cell--edit"
             onClick={() => navigate('/catalog/update/' + props.id)}
           >
             <PencilIcon />
           </div>
-        ) : (
+        )}
+        {!isPersonal && (
           <HeartIcon
             className={clsx(
               'cell--favorite',

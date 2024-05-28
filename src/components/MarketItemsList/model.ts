@@ -1,4 +1,4 @@
-import { MarketItem, setStates } from '../../types/MarketItemType.ts';
+import { MarketItem, setStates, statuses } from '../../types/MarketItemType.ts';
 import { createEvent, createStore } from 'effector';
 
 export type MarketItemCell = {
@@ -12,7 +12,7 @@ export type MarketItemCell = {
   seller_id: number;
   series: string;
   set: string;
-  status: string;
+  status: (typeof statuses)[number];
 };
 
 export const marketItemUnliked = createEvent<number>();
@@ -30,7 +30,7 @@ export const $marketItemCell = createStore<MarketItemCell>({
   seller_id: 0,
   series: '',
   set: '',
-  status: '',
+  status: 'ACTIVE',
 });
 
 export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {

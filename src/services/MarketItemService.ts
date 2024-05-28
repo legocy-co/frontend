@@ -183,7 +183,6 @@ const UpdateMarketItem = async (
 const DeleteMarketItem = async (itemID: number | string): Promise<boolean> => {
   try {
     await axios.delete('/market-items/' + itemID);
-    await sleep(1010);
     toaster.showToastSuccess('Market item deleted');
 
     return Promise.resolve(true);
@@ -198,6 +197,7 @@ const DeleteImage = async (
 ): Promise<boolean> => {
   try {
     await axios.delete(`/market-items/images/${marketItemID}/${imageID}`);
+    await sleep(1010);
     toaster.showToastSuccess('Image deleted');
 
     return Promise.resolve(true);
