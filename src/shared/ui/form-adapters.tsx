@@ -70,7 +70,7 @@ export const SelectFieldAdapter = ({
       disabled={disabled}
       onChange={(ev) => onChange(ev.currentTarget.value)}
       className={clsx(
-        'block w-[343px] h-[44px] dark:bg-dark border border-solid border-selectborder rounded-xl text-confirmmodal indent-3 pr-10 outline-0 dark:text-white',
+        'block w-[343px] h-[44px] bg-pagesize dark:bg-dark rounded-md text-confirmmodal indent-3 pr-10 outline-0 dark:text-white',
         className,
         { '!bg-invalid dark:!bg-invalid dark:!text-black': isInvalid }
       )}

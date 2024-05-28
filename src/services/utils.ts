@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { Rule } from 'effector-forms';
-import { SyntheticEvent } from 'react';
+import React, { SyntheticEvent } from 'react';
 import Image404 from '../assets/pics/404.png';
 
 export function createRule<V, T = unknown>({
@@ -57,3 +57,40 @@ export const stringifyParams = (
   if (withQuerySign) return stringified ? `?${stringified}` : '';
   return stringified;
 };
+
+export function handleUploadFile(
+  e: React.ChangeEvent<HTMLInputElement>,
+  value: File[],
+  onChange: (v: File[]) => File[]
+) {
+  if (e.target.files) {
+    Array.from(e.target.files).map((file) =>
+      value.push(
+        new File(
+          [file],
+          JSON.stringify({
+            time: new Date().getTime(),
+          }),
+          {
+            type: file.type,
+          }
+        )
+      )
+    );
+
+    const transfer = new DataTransfer();
+    value.map((file) => {
+      transfer.items.add(file);
+    });
+    e.target.files = transfer.files;
+
+    const files = [] as File[];
+    files.push(...value);
+
+    onChange(files);
+  }
+}
+
+export function partialToFull<T>(x: Partial<T>): T {
+  return x as T;
+}

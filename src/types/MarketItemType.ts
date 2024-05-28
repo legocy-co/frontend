@@ -15,6 +15,8 @@ export type MarketItemData = {
   location: string;
   price: number;
   setState: keyof typeof setStates;
+  changed?: boolean;
+  isSold?: boolean;
 };
 
 export type MarketItemForm = Form<{

@@ -18,6 +18,7 @@ const MarketItemsList = () => {
         set={marketItem.set}
         sellerID={marketItem.seller_id}
         isLiked={marketItem.is_liked}
+        status={marketItem.status}
       />
     </div>
   ));

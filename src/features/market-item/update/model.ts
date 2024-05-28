@@ -1,14 +1,13 @@
 import { createForm } from 'effector-forms';
-import { createRule } from '../../../services/utils.ts';
+import { createRule, partialToFull } from '../../../services/utils.ts';
 import { z } from 'zod';
 import {
   StoreValue,
-  createDomain,
   sample,
   attach,
-  createEvent,
   EventPayload,
-  split,
+  createStore,
+  createEffect,
 } from 'effector';
 import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
 import {
@@ -19,6 +18,16 @@ import {
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
 import { marketItemService } from '../../../services/MarketItemService.ts';
+import { MarketItemImage } from '../../../types/MarketItemImage.ts';
+import * as _ from 'lodash';
+
+const ACCEPTED_IMAGE_MIME_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'image/heic',
+];
 
 export const gate = createGate<{
   id: string | null;
@@ -80,13 +89,38 @@ export const form = createForm({
         }),
       ],
     },
+    images: {
+      init: [] as File[],
+      rules: [
+        createRule({
+          name: 'image',
+          schema: z
+            .array(
+              z
+                .custom<File>((file) => file instanceof File)
+                .refine((file) => {
+                  return file.size <= 20000000;
+                }, `Maximum image size is 20MB.`)
+                .refine(
+                  (file) => ACCEPTED_IMAGE_MIME_TYPES.includes(file.type),
+                  'Only .jpg, .jpeg, .png, .heic and .webp formats are supported.'
+                )
+            )
+            .min(1, 'Please add images')
+            .max(6, 'Market item must contain no more than 6 images'),
+        }),
+      ],
+    },
+    changed: {
+      init: false,
+    },
+    isSold: {
+      init: false,
+    },
   },
 });
 
-const domain = createDomain();
-
 const $itemId = gate.state.map(({ id }) => id);
-const $isEditing = $itemId.map((id) => id !== null);
 
 const fetchMarketItemFx = attach({
   source: {
@@ -98,17 +132,46 @@ const fetchMarketItemFx = attach({
   },
 });
 
-export const setForm = domain.createEvent<MarketItem>();
-
-export const createFormInfo = domain.createEvent();
-
-const updateFormInfo = domain.createEvent();
-
-export const resetDomain = domain.createEvent();
-
 export const $mappedValues = form.$values.map(mapFormToRequestBody);
 
-const setMarketItem = createEvent<MarketItem>();
+export const $initialValues = createStore<EventPayload<typeof form.setForm>>(
+  {}
+);
+
+const checkChangedFX = attach({
+  source: {
+    data: $mappedValues,
+    images: form.fields.images.$value,
+    initialValues: $initialValues,
+  },
+  effect: ({ data, images, initialValues }) => {
+    console.log({
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      ...(({ location, price, isSold, changed, ...rest }) => rest)(data),
+      images: images,
+    });
+    console.log();
+    console.log(
+      partialToFull({
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ...(({ country, city, price, ...rest }) => rest)(initialValues),
+        legoSetID: Number(initialValues.legoSetID),
+      })
+    );
+    return !_.isEqual(
+      {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ...(({ location, price, isSold, changed, ...rest }) => rest)(data),
+        images: images,
+      },
+      partialToFull({
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        ...(({ country, city, price, ...rest }) => rest)(initialValues),
+        legoSetID: Number(initialValues.legoSetID),
+      })
+    );
+  },
+});
 
 const updateMarketItemFx = attach({
   source: {
@@ -125,53 +188,92 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
     price: Math.floor(values.price * 100) / 100,
     setState: values.setState,
     description: values.description,
+    changed: values.changed,
+    isSold: values.isSold,
   };
 }
 
-function toForm(values: MarketItem): EventPayload<typeof form.setForm> {
-  const locationMap = values.location.split(', ');
+const toFormFX = createEffect(
+  async (values: MarketItem): Promise<EventPayload<typeof form.setForm>> => {
+    const locationMap = values.location.split(', ');
 
-  return {
-    legoSetID: String(values.legoSet.id),
-    country: locationMap[1],
-    city: locationMap[0],
-    price: values.price,
-    setState: values.setState,
-    description: values.description,
-  };
-}
+    return {
+      legoSetID: String(values.legoSet.id),
+      country: locationMap[1],
+      city: locationMap[0],
+      price: values.price,
+      setState: values.setState,
+      description: values.description,
+      images: await Promise.all(
+        values.images.map(
+          async (img) =>
+            new File(
+              [await (await fetch(img.imageURL)).blob()],
+              JSON.stringify({ sortIndex: img.sortIndex, id: img.id }),
+              {
+                type: 'image/png',
+              }
+            )
+        )
+      ),
+    };
+  }
+);
+
+const updateImagesFX = attach({
+  source: {
+    itemID: $itemId,
+    images: form.fields.images.$value,
+    initValues: $initialValues,
+  },
+  effect: async ({ itemID, images, initValues }) => {
+    const newData: MarketItemImage[] = images.map((img) =>
+      JSON.parse(img.name)
+    );
+
+    const initData: MarketItemImage[] =
+      initValues.images?.map((img) => JSON.parse(img.name)) ?? [];
+
+    newData.length < initData.length &&
+      initData
+        .filter(
+          (init) => newData.findIndex((data) => data.id === init.id) === -1
+        )
+        .map((data) => data.id)
+        .map(async (id) => await marketItemService.DeleteImage(id, itemID!));
+
+    for (let i = 0; i < images.length; i++) {
+      const img = images[i];
+      const imgData = JSON.parse(img.name);
+      if (!imgData.id) {
+        await marketItemService.UploadImage(img, String(i), itemID!);
+      } else if (imgData.sortIndex !== i) {
+        await marketItemService.UpdateImage(imgData.id, itemID!, {
+          sortIndex: i,
+        });
+      }
+    }
+  },
+});
 
 const uploadsRedirectFX = attach({
   source: gate.state,
   effect: ({ navigateFn }) => navigateFn('/profile/my/uploads'),
 });
 
-domain.onCreateStore((store) => store.reset(resetDomain));
-
 sample({
   clock: gate.open,
-  target: fetchLegoSetsFx,
-});
-
-sample({
-  clock: $itemId,
-  target: fetchMarketItemFx,
+  target: [fetchLegoSetsFx, fetchMarketItemFx],
 });
 
 sample({
   clock: fetchMarketItemFx.doneData,
-  target: setMarketItem,
+  target: toFormFX,
 });
 
 sample({
-  clock: setMarketItem,
-  target: setForm,
-});
-
-sample({
-  clock: setForm,
-  fn: toForm,
-  target: form.setForm,
+  source: toFormFX.doneData,
+  target: [form.setForm, $initialValues],
 });
 
 sample({
@@ -180,26 +282,33 @@ sample({
   target: $legoSetOptions,
 });
 
-split({
-  source: form.formValidated,
-  match: $isEditing.map(String),
-  cases: {
-    true: updateFormInfo,
-    false: createFormInfo,
-  },
+sample({
+  clock: form.formValidated,
+  target: checkChangedFX,
 });
 
 sample({
-  clock: updateFormInfo,
-  target: updateMarketItemFx,
+  source: checkChangedFX.done,
+  fn: (changed) => changed.result,
+  target: [form.fields.changed.onChange, updateMarketItemFx],
 });
 
 sample({
-  clock: updateMarketItemFx.done,
+  clock: [updateMarketItemFx.done, updateMarketItemFx.fail],
+  target: updateImagesFX,
+});
+
+sample({
+  clock: updateImagesFX.done,
   target: uploadsRedirectFX,
 });
 
 sample({
-  clock: resetDomain,
+  clock: form.fields.country.changed,
+  target: form.fields.city.reset,
+});
+
+sample({
+  clock: gate.close,
   target: form.reset,
 });
