@@ -6,7 +6,7 @@ export default {
     extend: {
       backgroundImage: {
         'buy': 'url("/src/assets/pics/yellow-lego.png")',
-        'collections-intro': 'url("/src/assets/pics/lego-museum.webp")',
+        'collections-intro': 'url("/src/assets/pics/lego-city.png")',
         'sell': 'url("/src/assets/pics/lego-money.png")',
         'sign-in': 'url("/src/assets/pics/mixed-lego.png")',
         'sign-up': 'url("/src/assets/pics/red-lego.png")',
