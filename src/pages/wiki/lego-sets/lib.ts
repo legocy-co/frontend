@@ -1,5 +1,5 @@
-import { PaginationData } from '../../types/pagination.ts';
-import { LegoSet } from '../../types/LegoSetType.ts';
+import { PaginationData } from '../../../types/pagination.ts';
+import { LegoSet } from '../../../types/LegoSetType.ts';
 
 export type SetRow = {
   id: number;

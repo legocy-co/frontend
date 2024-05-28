@@ -10,6 +10,7 @@ export default {
         'sell': 'url("/src/assets/pics/lego-money.png")',
         'sign-in': 'url("/src/assets/pics/mixed-lego.png")',
         'sign-up': 'url("/src/assets/pics/red-lego.png")',
+        'wiki-intro': 'url("/src/assets/pics/lego-space.png")',
       },
       fontSize: {
         'bh': '2.5rem',

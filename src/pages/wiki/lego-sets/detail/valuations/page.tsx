@@ -1,8 +1,8 @@
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useNavigate, useParams } from 'react-router-dom';
-import { setStates } from '../../../../types/MarketItemType.ts';
-import { InfoTooltip } from '../../../../shared/ui/info-tooltip.tsx';
+import { setStates } from '../../../../../types/MarketItemType.ts';
+import { InfoTooltip } from '../../../../../shared/ui/info-tooltip.tsx';
 import { setStateDescriptions } from './lib.ts';
 
 export const LegoSetDetailValuations = () => {
