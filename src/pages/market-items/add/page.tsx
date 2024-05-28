@@ -88,6 +88,7 @@ const AddMarketItemPage = () => {
         </p>
         {cell.set && (
           <MarketItemCell
+            status={cell.status}
             id={cell.id}
             stateIcon={cell.condition_icon}
             state={cell.condition}
