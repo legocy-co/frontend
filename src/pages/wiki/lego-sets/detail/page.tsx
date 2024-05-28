@@ -1,6 +1,6 @@
 import { LegoSetDetailInfoRoute } from './info';
-import { PageHeading } from '../../../shared/ui/page-heading.tsx';
-import { MenuButton } from '../../../shared/ui/menu-button.tsx';
+import { PageHeading } from '../../../../shared/ui/page-heading.tsx';
+import { MenuButton } from '../../../../shared/ui/menu-button.tsx';
 import { useState } from 'react';
 import { LegoSetDetailValuationsRoute } from './valuations';
 

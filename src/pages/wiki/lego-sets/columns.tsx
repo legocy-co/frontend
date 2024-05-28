@@ -1,5 +1,5 @@
 import { createColumnHelper } from '@tanstack/table-core';
-import * as lib from './lib';
+import * as lib from './lib.ts';
 
 const columnHelper = createColumnHelper<lib.SetRow>();
 

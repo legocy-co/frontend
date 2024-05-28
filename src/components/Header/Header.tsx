@@ -92,7 +92,7 @@ const Header = () => {
             className={clsx('header--member strokes', {
               'legocy-strokes': path === 'wiki',
             })}
-            onClick={() => navigate('/wiki/sets')}
+            onClick={() => navigate('wiki')}
           />
           <div
             className={clsx('header--chat fills', {

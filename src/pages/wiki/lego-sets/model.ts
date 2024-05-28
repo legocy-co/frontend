@@ -1,12 +1,12 @@
 import { createGate } from 'effector-react';
 import { attach, combine, createDomain, sample } from 'effector';
-import { createColumnControlModel } from '../../shared/lib/column-control';
+import { createColumnControlModel } from '../../../shared/lib/column-control';
 import { columns, SetRow, toSetRows } from './lib.ts';
 import { createEffect } from 'effector/compat';
-import { legoSetService } from '../../services/LegoSetService.ts';
-import { Pagination } from '../../shared/lib/pagination';
-import { stringifyParams } from '../../services/utils.ts';
-import { LegoSetsFilter } from '../../features/lego-set/filter';
+import { legoSetService } from '../../../services/LegoSetService.ts';
+import { Pagination } from '../../../shared/lib/pagination';
+import { stringifyParams } from '../../../services/utils.ts';
+import { LegoSetsFilter } from '../../../features/lego-set/filter';
 
 export const gate = createGate();
 

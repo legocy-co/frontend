@@ -1,13 +1,13 @@
-import { ColumnControl } from '../../shared/lib/column-control';
-import { Pagination } from '../../shared/lib/pagination';
+import { ColumnControl } from '../../../shared/lib/column-control';
+import { Pagination } from '../../../shared/lib/pagination';
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
-import { mapSetState } from '../../shared/lib/react.ts';
-import { Table } from '../../shared/ui/table';
+import { mapSetState } from '../../../shared/lib/react.ts';
+import { Table } from '../../../shared/ui/table';
 import { useNavigate } from 'react-router-dom';
 import { useColumns } from './columns.tsx';
-import { LegoSetsFilter } from '../../features/lego-set/filter/';
-import { ActiveFilters } from '../../shared/ui/active-filters.tsx';
+import { LegoSetsFilter } from '../../../features/lego-set/filter';
+import { ActiveFilters } from '../../../shared/ui/active-filters.tsx';
 
 export const LegoSetsPage = () => {
   useGate(model.gate);
