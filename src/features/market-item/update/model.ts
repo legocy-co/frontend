@@ -110,6 +110,12 @@ export const form = createForm({
         }),
       ],
     },
+    changed: {
+      init: false,
+    },
+    isSold: {
+      init: false,
+    },
   },
 });
 
@@ -146,6 +152,8 @@ function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
     price: Math.floor(values.price * 100) / 100,
     setState: values.setState,
     description: values.description,
+    changed: values.changed,
+    isSold: values.isSold,
   };
 }
 

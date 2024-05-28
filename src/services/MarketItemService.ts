@@ -197,7 +197,7 @@ const DeleteImage = async (
   marketItemID: number | string
 ): Promise<boolean> => {
   try {
-    await axios.delete(`/market-item/images/${marketItemID}/${imageID}`);
+    await axios.delete(`/market-items/images/${marketItemID}/${imageID}`);
     toaster.showToastSuccess('Image deleted');
 
     return Promise.resolve(true);

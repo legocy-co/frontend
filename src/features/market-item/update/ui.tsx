@@ -17,6 +17,7 @@ import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import LocationIcon from '../../../assets/icons/location.svg?react';
 import React, { useEffect, useState } from 'react';
 import { MarketItemPreview } from '../../../entities/market-item/images';
+import ConfirmationModal from '../../../components/ConfirmationModal';
 
 export const MarketItemUpdateForm = () => {
   const params = useParams<'id'>();
@@ -28,8 +29,16 @@ export const MarketItemUpdateForm = () => {
   const legoSets = useUnit(lso.$legoSetOptions);
   // const initialValues = useUnit(model.$initialValues);
 
+  const [showSold, setShowSold] = useState(false);
+
   function onSubmit(ev: React.FormEvent) {
     ev.preventDefault();
+    model.form.submit();
+  }
+
+  function handleSold(ev: React.FormEvent) {
+    ev.preventDefault();
+    fields.isSold.onChange(true);
     model.form.submit();
   }
 
@@ -118,6 +127,12 @@ export const MarketItemUpdateForm = () => {
       <div className="mb-5 max-w-[675px] flex justify-center">
         <Preview />
       </div>
+      <Button
+        className="text-lg !h-12 !w-[340px]"
+        onClick={() => setShowSold(true)}
+      >
+        Listing Is Sold
+      </Button>
       <div className="flex justify-center">
         {!eachValid && (
           <FormError>
@@ -135,6 +150,44 @@ export const MarketItemUpdateForm = () => {
           </Button>
         )}
       </div>
+      {showSold && (
+        <ConfirmationModal
+          className="!w-[588px] dark:!bg-dark !text-lg !font-medium !gap-6 dark:!text-description"
+          show={showSold}
+          onClose={() => setShowSold(false)}
+          showYes={false}
+        >
+          <p className="font-bold text-[2rem]">Mark Listing as Sold?</p>
+          <p>Once you mark this listing as sold, you cannot reactivate it.</p>
+          <div className="flex flex-col items-center gap-2">
+            <p>My offer for the set was:</p>
+            <input
+              value={fields.price.value ? fields.price.value + '$' : '$'}
+              className="border-none bg-transparent font-semibold text-[3.125rem] dark:text-description text-opacity-35 outline-0 text-center"
+              onChange={(ev) =>
+                fields.price.onChange(
+                  Number(ev.currentTarget.value.replace('$', ''))
+                )
+              }
+            />
+          </div>
+          <div className="flex gap-6 ">
+            <Button
+              className="!text-lg !h-12 !w-48"
+              type="submit"
+              onClick={handleSold}
+            >
+              Confirm
+            </Button>
+            <Button
+              className="!text-lg !h-12 !w-48 bg-prevdark"
+              onClick={() => setShowSold(false)}
+            >
+              Cancel
+            </Button>
+          </div>
+        </ConfirmationModal>
+      )}
     </form>
   );
 };
