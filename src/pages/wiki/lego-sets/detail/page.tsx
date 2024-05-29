@@ -4,6 +4,7 @@ import { MenuButton } from '../../../../shared/ui/menu-button.tsx';
 import { useState } from 'react';
 import { LegoSetDetailValuationsRoute } from './valuations';
 
+//TODO: redesign detail page
 export const LegoSetDetailPage = () => {
   const [valuationsTab, setValuationsTab] = useState(false);
 

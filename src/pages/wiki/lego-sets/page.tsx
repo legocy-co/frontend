@@ -20,7 +20,6 @@ export const LegoSetsPage = () => {
           <LegoSetsFilter.View model={model.legoSetsFilterModel} />
         </div>
         <ActiveFilters model={model.legoSetsFilterModel} />
-        TODO: redesign table content
         <Content />
         <Pagination.View model={model.paginationModel} />
       </div>

@@ -13,28 +13,28 @@ export type SetRow = {
 export const columns = [
   {
     id: 'number',
-    size: 250,
+    size: 200,
     title: 'Set number',
   },
   {
     id: 'name',
-    size: 500,
+    size: 400,
     title: 'Set name',
   },
   {
     id: 'pieces',
-    size: 300,
+    size: 200,
     title: 'Pieces',
   },
   {
-    id: 'image',
-    size: 300,
-    title: 'Image',
+    id: 'series',
+    size: 400,
+    title: 'Series',
   },
   {
-    id: 'series',
-    size: 500,
-    title: 'Series',
+    id: 'image',
+    size: 200,
+    title: 'Image',
   },
 ];
 
@@ -43,7 +43,7 @@ export function toSetRows(response: PaginationData<LegoSet[]>): SetRow[] {
     id: set.id,
     image: set.images
       ?.sort((current, next) => Number(current.isMain) - Number(next.isMain))
-      .map((img) => 'https://' + img.imageURL)[0],
+      .map((img) => img.imageURL)[0],
     name: set.name,
     number: set.number,
     pieces: set.nPieces,

@@ -107,7 +107,7 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
             checked={checked}
             onChange={() => model.visibilityChanged(id)}
             className="!w-[50px] !h-6"
-            thumbClassName="!w-[19px] !h-[19px] data-[state=checked]:translate-x-[24px] data-[state=checked]:bg-legocy"
+            thumbClassName="!w-[19px] !h-[19px] data-[state=checked]:!translate-x-[24px] data-[state=checked]:bg-legocy"
           />
         </div>
       </div>

@@ -15,7 +15,7 @@ import {
 } from '@tanstack/react-table';
 import React, { useState } from 'react';
 import { clsx } from 'clsx';
-import ArrowDownIcon from '../../icons/arrow-down.svg';
+import ArrowDownIcon from '../../icons/arrow-down.svg?react';
 import EnlargeIcon from '../../icons/enlarge.svg';
 import { useDrag, useDrop } from 'react-dnd';
 import './index.scss';
@@ -104,10 +104,13 @@ export const Table = <T,>({
               onClick={() =>
                 onRowClick ? onRowClick(row.original) : undefined
               }
-              className={clsx('odd:bg-black odd:bg-opacity-5', {
-                'cursor-pointer hover:bg-black hover:bg-opacity-10':
-                  !!onRowClick,
-              })}
+              className={clsx(
+                'odd:bg-step odd:bg-opacity-65 odd:dark:bg-dark odd:dark:bg-opacity-100 even:dark:bg-celllink',
+                {
+                  'cursor-pointer hover:bg-black hover:bg-opacity-15 dark:hover:bg-black dark:hover:bg-opacity-100':
+                    !!onRowClick,
+                }
+              )}
             >
               {row.getVisibleCells().map((cell) => (
                 <td
@@ -117,7 +120,7 @@ export const Table = <T,>({
                       width: cell.column.getSize(),
                     },
                   }}
-                  className="px-4 py-3 text-left overflow-hidden"
+                  className="px-3 py-3 text-left align-middle text-xs overflow-hidden"
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
@@ -197,7 +200,7 @@ const DraggableColumnHeader = <T,>({
         <div
           ref={dragRef}
           className={clsx(
-            'text-left px-4 py-3 transition-all text-sm font-medium select-none space-x-1 flex items-baseline hover:bg-black hover:bg-opacity-10',
+            'text-left px-3 py-3 transition-all font-semibold select-none space-x-1 flex items-center justify-between hover:bg-step hover:bg-opacity-30',
             {
               'bg-neutral-60': isOver,
             }
@@ -215,17 +218,15 @@ const DraggableColumnHeader = <T,>({
                 : {})}
               className="w-5 h-5"
             >
-              <img
-                src={ArrowDownIcon}
-                alt=""
+              <ArrowDownIcon
                 className={clsx(
-                  'flex-shrink-0 transition-all hover:opacity-90 active:opacity-80',
+                  'flex-shrink-0 transition-all hover:opacity-90 active:opacity-80 dark:[&>path]:stroke-white',
                   {
-                    'rotate-180 [&>path]:stroke-primary-default':
+                    'rotate-180 [&>path]:!stroke-2':
                       header.column.getIsSorted() === 'asc',
-                    'rotate-0 [&>path]:stroke-primary-default':
+                    'rotate-0 [&>path]:!stroke-2':
                       header.column.getIsSorted() === 'desc',
-                    '[&>path]:stroke-neutral-50 opacity-0 group-hover/sort:opacity-100':
+                    'opacity-0 group-hover/sort:opacity-100':
                       !header.column.getIsSorted(),
                   }
                 )}

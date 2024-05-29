@@ -16,12 +16,12 @@ export const useColumns = () => {
     }),
 
     columnHelper.accessor('name', {
-      header: () => 'Set',
+      header: () => 'Set name',
       cell: (info) => <span>{info.getValue()}</span>,
       id: 'name',
       size: 400,
       meta: {
-        title: 'Set',
+        title: 'Set name',
       },
     }),
 
@@ -31,7 +31,7 @@ export const useColumns = () => {
       id: 'pieces',
       size: 200,
       meta: {
-        title: 'Pieces',
+        title: 'Image',
       },
     }),
 
@@ -42,6 +42,24 @@ export const useColumns = () => {
       size: 400,
       meta: {
         title: 'Series',
+      },
+    }),
+
+    columnHelper.accessor('image', {
+      header: () => 'Image',
+      cell: (info) => (
+        <img
+          src={info.getValue()}
+          className={`w-10 h-10 object-center object-cover ${
+            !info.getValue() && 'hidden'
+          }`}
+          alt=""
+        />
+      ),
+      id: 'image',
+      size: 200,
+      meta: {
+        title: 'Image',
       },
     }),
   ];
