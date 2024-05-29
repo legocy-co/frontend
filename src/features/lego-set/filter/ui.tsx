@@ -7,7 +7,8 @@ import {
   TextFieldAdapter,
 } from '../../../shared/ui/form-adapters.tsx';
 import { LegoSetFilterModel } from './model.ts';
-import { BsChevronDown } from 'react-icons/bs';
+import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
+import SlidersIcon from '../../../assets/icons/sliders.svg?react';
 import clsx from 'clsx';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
@@ -15,6 +16,11 @@ import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
 export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   const { gate, disclosure, form } = model;
   useGate(gate);
+
+  const seriesDirty = useUnit(model.form.fields.series_ids.$isDirty);
+  const touched = useUnit(model.form.$touched);
+
+  const buttonsDisabled = !seriesDirty && !touched;
 
   const [isOpen] = useUnit([disclosure.$isOpen]);
   const onSubmit = (ev: React.FormEvent) => {
@@ -34,47 +40,70 @@ export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
       }}
     >
       <Popover.Trigger asChild>
-        <Button className="w-32 max-w-32 h-9 flex items-center justify-around">
+        <Button className="!bg-pagesize dark:!bg-dark dark:!text-[#F9F9F9] rounded-md !w-36 h-9 flex items-center justify-center gap-4">
+          <SlidersIcon className="iconstrokes" />
           <span className="text-primary text-base">Filters</span>
-          <BsChevronDown
-            className={clsx('transition-all mt-px -translate-y-[2px]', {
-              'rotate-180': isOpen,
-            })}
+          <ChevronUpIcon
+            className={clsx(
+              'transition-all mt-1 w-4 -translate-y-[2px] iconstrokes',
+              {
+                'rotate-180': !isOpen,
+              }
+            )}
           />
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className="rounded w-96 bg-pagesize dark:text-white p-4 mt-2 dark:bg-selectborder shadow-md">
-          <p className="text-xl">Filters</p>
-          <form onSubmit={onSubmit} className="flex flex-col mt-5">
-            <TextFieldAdapter
-              field={form.fields.name}
-              labelText="Lego set name"
-              className="w-[343px] h-[44px] mb-3"
-            />
-            <NumberFieldAdapter
-              field={form.fields.min_pieces}
-              labelText="Min pieces"
-              className="w-[343px] h-[44px] mb-3"
-            />
-            <NumberFieldAdapter
-              field={form.fields.max_pieces}
-              labelText="Max pieces"
-              className="w-[343px] h-[44px] mb-3"
-            />
-            <LegoSeriesSearch
-              label="Lego series"
-              model={model.seriesListSearch}
-            />
-            <NumberFieldAdapter
-              placeholder="76240"
-              field={model.form.fields.set_number}
-              labelText="Set number"
-              className="w-[343px] h-[44px] mb-3"
-            />
-            <div className="flex gap-5 justify-center">
-              <Button onClick={() => model.cancelTriggered()}>Cancel</Button>
-              <Button type="submit">Apply</Button>
+        <Popover.Content className="rounded-md w-[378px] bg-pagesize text-tab dark:text-white mt-5 dark:bg-celllink">
+          <form
+            onSubmit={onSubmit}
+            className="flex flex-col items-center gap-10 py-5"
+          >
+            <div className="flex flex-col gap-1 text-left text-sm w-[332px]">
+              <TextFieldAdapter
+                field={form.fields.name}
+                labelText="Set name"
+                className="w-full h-[34px] mb-3"
+              />
+              <Search label="Set theme" model={model.seriesListSearch} />
+              <NumberFieldAdapter
+                placeholder="76053"
+                field={model.form.fields.set_number}
+                labelText="Set number"
+                className="w-full h-[34px] mb-3 placeholder:text-xs placeholder:text-[#C8C7C7] dark:placeholder:text-[#767676]"
+              />
+              <div className="flex justify-between">
+                <div className="flex flex-col gap-1">
+                  <NumberFieldAdapter
+                    placeholder="Min. amount"
+                    field={form.fields.min_pieces}
+                    labelText="Amount of pieces"
+                    className="h-[34px] mb-3 placeholder:text-xs placeholder:text-[#C8C7C7] dark:placeholder:text-[#767676]"
+                  />
+                </div>
+                <NumberFieldAdapter
+                  placeholder="Max. amount"
+                  field={form.fields.max_pieces}
+                  labelText=""
+                  className="h-[34px] mt-[23px] placeholder:text-xs placeholder:text-[#C8C7C7] dark:placeholder:text-[#767676]"
+                />
+              </div>
+            </div>
+            <div className="w-[332px] flex justify-between text-celllink text-opacity-75">
+              <Button
+                disabled={buttonsDisabled}
+                className="!h-[39px] !w-40 text-[16px] bg-white dark:bg-darkmenuborder"
+                onClick={() => model.cancelTriggered()}
+              >
+                Cancel
+              </Button>
+              <Button
+                disabled={buttonsDisabled}
+                className="!h-[39px] !w-40 text-[16px]"
+                type="submit"
+              >
+                Apply
+              </Button>
             </div>
           </form>
         </Popover.Content>
@@ -83,13 +112,7 @@ export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   );
 };
 
-const LegoSeriesSearch = ({
-  model,
-  label,
-}: {
-  model: SearchModel;
-  label: string;
-}) => {
+const Search = ({ model, label }: { model: SearchModel; label: string }) => {
   const [options, value, selectedWithNames] = useUnit([
     model.$filteredOptions,
     model.$search,
@@ -97,33 +120,37 @@ const LegoSeriesSearch = ({
   ]);
 
   return (
-    <div className="w-[343px] border-black border border-solid dark:bg-dark dark:border-none rounded-xl pt-2 pl-2 mb-5 flex flex-col justify-end">
+    <div className="flex flex-col space-y-1 mb-3">
+      <p>{label}</p>
+      <div className="relative">
+        <SelectSearch
+          clientSideSearch
+          labelText=""
+          onChange={(option) => {
+            model.selected(option);
+          }}
+          onInputChange={(search) => {
+            model.searchChanged(search);
+          }}
+          value={value}
+          options={options}
+          placeholder={''}
+          className="w-full !h-[34px]"
+        />
+        <ChevronUpIcon className="absolute dark:opacity-25 iconstrokes w-[14px] pointer-events-none top-3 right-3 rotate-180" />
+      </div>
       <div className="flex flex-wrap gap-1 top-0">
         {selectedWithNames.map((selected) => (
           <div
             key={selected.id}
             aria-hidden
             onClick={() => model.removed(selected.id)}
-            className="bg-pagesizehover dark:bg-selectborder dark:text-white w-max rounded-full px-1.5 mb-1 py-0.5 cursor-pointer hover:brightness-90 active:brightness-80 transition-colors"
+            className="bg-black dark:bg-white bg-opacity-5 dark:bg-opacity-5 hover:bg-opacity-10 px-1.5 py-0.5 rounded-full cursor-pointer"
           >
-            <span className="text-sm">{selected.name}</span>
+            <span className="text-xs">{selected.name}</span>
           </div>
         ))}
       </div>
-      <SelectSearch
-        clientSideSearch
-        labelText=""
-        onChange={(option) => {
-          model.selected(option);
-        }}
-        onInputChange={(search) => {
-          model.searchChanged(search);
-        }}
-        value={value}
-        options={options}
-        placeholder={label}
-        className="w-80 h-[44px] mb-3 !bg-pagesize dark:!bg-dark"
-      />
     </div>
   );
 };
