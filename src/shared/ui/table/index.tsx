@@ -105,9 +105,9 @@ export const Table = <T,>({
                 onRowClick ? onRowClick(row.original) : undefined
               }
               className={clsx(
-                'odd:bg-step odd:bg-opacity-65 odd:dark:bg-dark odd:dark:bg-opacity-100 even:dark:bg-celllink',
+                'odd:bg-step odd:bg-opacity-65 odd:dark:bg-dark odd:dark:bg-opacity-100',
                 {
-                  'cursor-pointer hover:bg-black hover:bg-opacity-15 dark:hover:bg-black dark:hover:bg-opacity-100':
+                  'cursor-pointer hover:bg-legocy hover:bg-opacity-15 dark:hover:bg-black dark:hover:bg-opacity-100':
                     !!onRowClick,
                 }
               )}

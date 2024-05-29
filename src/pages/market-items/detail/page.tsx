@@ -241,7 +241,7 @@ const MarketItemDetailPage = () => {
               <p>Series: {marketItem.series}</p>
               <p
                 onClick={() => navigate('/wiki/sets/' + marketItem.setID)}
-                className="underline cursor-pointer"
+                className="underline underline-offset-4 cursor-pointer"
               >
                 Set number: {marketItem.setNumber}
               </p>
@@ -260,13 +260,14 @@ const MarketItemDetailPage = () => {
                 width={windowWidth > 600 ? 500 : 300}
                 height={220}
                 data={chartData}
-                margin={{ top: 20 }}
+                margin={{ top: 30, right: 500 - chartData.length * 83 }}
                 className="iconfills textfills"
               >
                 <Bar
                   dataKey="value"
                   fill="#2F2F2F"
-                  radius={6}
+                  radius={3}
+                  barSize={57}
                   onMouseOver={(data) => (barData = data)}
                 >
                   <LabelList
