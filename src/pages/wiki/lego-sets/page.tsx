@@ -17,6 +17,7 @@ export const LegoSetsPage = () => {
       <div className="flex-grow w-full overflow-y-auto flex flex-col gap-5">
         <div className="flex items-center justify-between">
           <ColumnControl model={model.columnControlModel} />
+          {/*TODO: redesign filter view*/}
           <LegoSetsFilter.View model={model.legoSetsFilterModel} />
         </div>
         <ActiveFilters model={model.legoSetsFilterModel} />

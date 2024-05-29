@@ -26,6 +26,9 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
     $totalCount,
   ]);
 
+  const findPageSize = (index: number): number =>
+    !index ? 10 : 25 * (2 * (index - 1) || 1);
+
   if (totalCount === 0) return null;
   return (
     <div className="flex items-center space-x-8 rounded-md">
@@ -57,16 +60,12 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
               {Array.from({ length: 4 }, (_, index) => (
                 <button
                   key={index}
-                  onClick={() =>
-                    pageSizeChanged(!index ? 10 : 25 * (2 * (index - 1) || 1))
-                  }
+                  onClick={() => pageSizeChanged(findPageSize(index))}
                   type="button"
                   className={clsx(
                     ' leading-4 w-12 hover:bg-pagesizehover transition-colors pl-1.5 text-start py-1 px-1.5 rounded-b-md',
                     {
-                      hidden:
-                        pageSize ===
-                        (!index ? 10 : 25 * (2 * (index - 1) || 1)),
+                      hidden: pageSize === findPageSize(index),
                     },
                     { 'w-14': pageSize === 100 },
                     { 'hover:rounded-none': index < 3 }

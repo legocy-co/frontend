@@ -25,7 +25,7 @@ export const ColumnControl = ({ model }: Props) => {
       <Popover.Portal>
         <Popover.Content
           align="start"
-          className="w-[309px] py-5 mt-5 bg-pagesize dark:bg-dark p-2 rounded-md will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-10"
+          className="w-[309px] py-5 mt-5 bg-pagesize dark:bg-celllink p-2 rounded-md will-change-[transform,opacity] data-[state=open]:data-[side=top]:animate-slideDownAndFade data-[state=open]:data-[side=right]:animate-slideLeftAndFade data-[state=open]:data-[side=bottom]:animate-slideUpAndFade data-[state=open]:data-[side=left]:animate-slideRightAndFade z-10"
           sideOffset={5}
         >
           {useList(model.$columnOrder, (id) => (
@@ -85,7 +85,7 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
       <div
         ref={dropRef}
         className={clsx(
-          'w-full bg-pagesize dark:bg-dark flex items-center space-x-2 px-5 transition-all',
+          'w-full flex items-center space-x-2 px-5 transition-all',
           {
             '!bg-neutral-60': isOver,
           },
@@ -103,10 +103,11 @@ const Column = ({ model, id }: { id: string; model: ColumnControlModel }) => {
           className="flex-1 py-4 flex items-center justify-between"
         >
           <span>{title}</span>
-          {/*TODO: redesign column control*/}
           <Toggle
             checked={checked}
             onChange={() => model.visibilityChanged(id)}
+            className="!w-[50px] !h-6"
+            thumbClassName="!w-[19px] !h-[19px] data-[state=checked]:translate-x-[23px] data-[state=checked]:bg-legocy"
           />
         </div>
       </div>
