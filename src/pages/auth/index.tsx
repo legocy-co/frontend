@@ -3,12 +3,12 @@ import Loader from '../../shared/ui/loader.tsx';
 
 export * as auth from './model.ts';
 
-const AuthPage = lazy(() =>
-  import('./page.tsx').then((page) => ({ default: page.AuthPage }))
+const SignInPage = lazy(() =>
+  import('./sign-in/page.tsx').then((page) => ({ default: page.SignInPage }))
 );
 
 export const AuthRoute = () => (
   <Suspense fallback={<Loader />}>
-    <AuthPage />
+    <SignInPage />
   </Suspense>
 );

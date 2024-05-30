@@ -87,7 +87,7 @@ const Logout = () => {
   axios.defaults.headers.common.Authorization = '';
   auth.loggedOut();
 
-  history.navigate(`auth?from=${history.location?.pathname}`);
+  history.navigate(`auth/sign-in?from=${history.location?.pathname}`);
 };
 
 const GetUserId = () => {

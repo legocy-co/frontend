@@ -44,7 +44,7 @@ const Header = () => {
     e.stopPropagation();
     authService.IsAuthorized()
       ? setShowMenu((prev) => !prev)
-      : navigate(`auth?from=${location.pathname}`);
+      : navigate(`auth/sign-in?from=${location.pathname}`);
   }
 
   const [darkTheme, setDarkTheme] = useState(
@@ -63,6 +63,14 @@ const Header = () => {
   );
 
   document.body.style.background = darkTheme ? '#191919' : '#FFFFFF';
+
+  if (path === 'auth') {
+    document.body.style.background =
+      'url("/src/assets/pics/lego-starwars.png")';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundRepeat = 'norepeat';
+  }
 
   useEffect(() => {
     darkTheme

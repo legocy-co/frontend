@@ -25,7 +25,7 @@ const redirectBackFx = attach({
   source: $from,
   effect: (from) => {
     navigateFx({
-      pathname: from === '/auth' ? '/' : from,
+      pathname: from === '/auth/sign-in' ? '/' : from,
     });
   },
 });

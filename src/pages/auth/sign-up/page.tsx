@@ -1,8 +1,8 @@
-import { SignUp } from '../../../features/auth/sign-up/ui.tsx';
+import { SignUp } from '../../../features/auth/sign-up';
 import { useGate } from 'effector-react';
 import * as model from '../model.ts';
 
-const SignUpPage = () => {
+export const SignUpPage = () => {
   useGate(model.gate);
 
   return (
@@ -12,5 +12,3 @@ const SignUpPage = () => {
     </div>
   );
 };
-
-export default SignUpPage;
