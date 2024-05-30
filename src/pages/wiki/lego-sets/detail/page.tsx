@@ -10,7 +10,7 @@ import GalleryModal from '../../../../components/GalleryModal';
 import NoneIcon from '../../../../assets/icons/none.svg?react';
 import PieceIcon from '../../../../assets/icons/piece.svg?react';
 
-//TODO: redesign detail page
+//TODO: layout LegoSetDetailPage subImages
 export const LegoSetDetailPage = () => {
   const params = useParams<'id'>();
   const navigate = useNavigate();

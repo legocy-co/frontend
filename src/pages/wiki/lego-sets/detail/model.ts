@@ -1,6 +1,6 @@
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
-import { attach, createStore, sample } from 'effector';
+import { attach, createEffect, createStore, sample } from 'effector';
 import { LegoSet } from '../../../../types/LegoSetType.ts';
 import { legoSetService } from '../../../../services/LegoSetService.ts';
 import { valuationService } from '../../../../services/ValuationService.ts';
@@ -38,21 +38,18 @@ export const $legoSetDetail = createStore<LegoSetDetail>({
 
 export const $chartData = createStore<BarData[]>([]);
 
-const $id = gate.state.map(({ id }) => id);
+const $id = gate.state.map(({ id }) => id!);
 
-const GetLegoSetFX = attach({
-  source: $id,
-  effect: (id) => {
-    if (!id) throw new Error('No id provided');
-    return legoSetService.GetLegoSet(id);
-  },
-});
+const GetLegoSetFX = createEffect(legoSetService.GetLegoSet);
+
+const setsRedirectFX = createEffect((navigate: NavigateFunction) =>
+  navigate('/wiki/sets')
+);
 
 const fetchValuationsFX = attach({
   source: $id,
-  effect: (legoSetID) => {
-    if (!legoSetID) throw new Error('No id provided');
-    return valuationService.GetValuations(legoSetID);
+  effect: (id) => {
+    return valuationService.GetValuations(id);
   },
 });
 
@@ -82,14 +79,25 @@ function toChartData(valuations: Valuation[]): BarData[] {
 }
 
 sample({
-  clock: gate.state.map(({ id }) => id),
-  target: [GetLegoSetFX, fetchValuationsFX],
+  source: $id,
+  target: GetLegoSetFX,
 });
 
 sample({
-  clock: GetLegoSetFX.doneData,
+  clock: GetLegoSetFX.fail,
+  source: gate.state.map(({ navigate }) => navigate),
+  target: setsRedirectFX,
+});
+
+sample({
+  source: GetLegoSetFX.doneData,
   fn: toDetail,
   target: $legoSetDetail,
+});
+
+sample({
+  clock: GetLegoSetFX.done,
+  target: fetchValuationsFX,
 });
 
 sample({
