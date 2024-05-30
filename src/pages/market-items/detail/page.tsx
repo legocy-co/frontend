@@ -150,7 +150,7 @@ const MarketItemDetailPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center">
       {!isActive && (
-        <div className="w-[300px] sm:w-[584px] text-black h-12 bg-statuswarn flex justify-center items-center gap-5 bg-opacity-35 rounded-md border border-solid border-black dark:bg-white dark:bg-opacity-85 dark:border-statevaluationchart">
+        <div className="w-80 sm:w-[584px] text-black h-12 bg-statuswarn flex justify-center items-center gap-5 bg-opacity-35 rounded-md border border-solid border-black dark:bg-white dark:bg-opacity-85 dark:border-statevaluationchart">
           <NoneIcon />
           <p>
             This listing{' '}
@@ -159,12 +159,12 @@ const MarketItemDetailPage = () => {
         </div>
       )}
       <div className="mt-8 mb-9 flex flex-wrap gap-7 justify-center">
-        <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
+        <div className="flex flex-col gap-8 w-80 sm:w-[521px]">
           <div className="flex text-[2rem] gap-2 font-semibold text-celllink justify-between items-center dark:text-white">
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
           <img
-            className={`w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 ${
+            className={`w-full h-[259px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 ${
               isSold && 'contrast-50'
             }`}
             src={'' + marketItem.images.slice(0, 1)}
@@ -174,10 +174,10 @@ const MarketItemDetailPage = () => {
           />
           {subImagesElement}
         </div>
-        <div className="flex flex-col gap-5 justify-start w-[300px] sm:w-[521px]">
+        <div className="flex flex-col gap-5 justify-start w-80 sm:w-[521px]">
           <div className="flex flex-col gap-5">
             <div className="flex items-center flex-wrap gap-3 justify-between">
-              <div className="flex items-center justify-around gap-4 px-4 w-[300px] sm:w-[336px] h-11 rounded-md bg-pagesize dark:bg-dark text-avatarbg">
+              <div className="flex items-center justify-around gap-4 px-4 w-80 sm:w-[336px] h-11 rounded-md bg-pagesize dark:bg-dark text-avatarbg">
                 <div
                   onClick={() => navigate('/profile/' + marketItem.sellerID)}
                   className="flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
@@ -252,22 +252,27 @@ const MarketItemDetailPage = () => {
             </div>
           </div>
           {chartData.length > 0 ? (
-            <div className="w-[300px] sm:w-[521px] min-h-[281px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
+            <div className="w-80 sm:w-[521px] min-h-[281px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
               <p className="w-full indent-6 text-lg text-confirmmodal text-start dark:text-white">
                 Our Price Evaluation For This Set
               </p>
               <BarChart
-                width={windowWidth > 600 ? 500 : 300}
+                width={windowWidth > 640 ? 500 : 250}
                 height={220}
                 data={chartData}
-                margin={{ top: 30, right: 500 - chartData.length * 83 }}
+                margin={{
+                  top: 30,
+                  right:
+                    (windowWidth > 640 ? 500 : 250) -
+                    chartData.length * (windowWidth > 640 ? 84 : 41),
+                }}
                 className="iconfills textfills"
               >
                 <Bar
                   dataKey="value"
                   fill="#2F2F2F"
                   radius={3}
-                  barSize={57}
+                  barSize={windowWidth > 640 ? 57 : 28}
                   onMouseOver={(data) => (barData = data)}
                 >
                   <LabelList
@@ -278,7 +283,7 @@ const MarketItemDetailPage = () => {
                         name={value}
                         width={28}
                         height={28}
-                        x={width > 50 ? x + width / 4 : x + width / 6}
+                        x={width > 50 ? x + width / 4 : x}
                         y={y - 30}
                       />
                     )}

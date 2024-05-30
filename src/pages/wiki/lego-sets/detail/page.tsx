@@ -9,6 +9,7 @@ import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
 import GalleryModal from '../../../../components/GalleryModal';
 import NoneIcon from '../../../../assets/icons/none.svg?react';
 import PieceIcon from '../../../../assets/icons/piece.svg?react';
+import clsx from 'clsx';
 
 //TODO: layout LegoSetDetailPage subImages
 export const LegoSetDetailPage = () => {
@@ -27,11 +28,11 @@ export const LegoSetDetailPage = () => {
 
   const subImagesElement = legoSet.images && legoSet.images.length > 1 && (
     <div className="relative">
-      <div className="flex w-full flex-wrap justify-start gap-[13px] items-center">
+      <div className="flex w-full flex-wrap justify-start gap-4 items-center">
         {Array.from({ length: 4 }, (_, i) => (
           <div
             key={'subimage_container-' + i}
-            className="w-[120px] h-[114px] bg-pagesize dark:bg-dark rounded-md"
+            className="w-[115px] h-[114px] bg-pagesize dark:bg-dark rounded-md"
           ></div>
         ))}
       </div>
@@ -44,7 +45,7 @@ export const LegoSetDetailPage = () => {
             <div
               onClick={() => setShowGallery(i + 1)}
               key={'subimage-' + i}
-              className="w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 shadow-subimages"
+              className="w-[115px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 shadow-subimages"
             >
               <img
                 src={legoSet.images && legoSet.images[i + 1]}
@@ -53,7 +54,7 @@ export const LegoSetDetailPage = () => {
                 className="w-full h-full rounded-md object-cover"
               />
               {legoSet.images && legoSet.images.length > 5 && i === 3 && (
-                <div className="w-[120px] h-[114px] rounded-md absolute bottom-0 flex justify-center items-center bg-black opacity-70 cursor-pointer transition-opacity hover:opacity-65 active:opacity-60">
+                <div className="w-full h-full rounded-md absolute bottom-0 flex justify-center items-center bg-black opacity-70 cursor-pointer transition-opacity hover:opacity-65 active:opacity-60">
                   <p className="text-lg text-white">
                     + {legoSet.images.length - 4} photos
                   </p>
@@ -99,9 +100,17 @@ export const LegoSetDetailPage = () => {
   return (
     <div className="flex flex-wrap gap-7 justify-center">
       {legoSet.images && (
-        <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
+        <div
+          className={clsx('flex flex-col gap-[22px] w-80 sm:w-[508px]', {
+            'sm:w-[521px]': legoSet.images.length < 2,
+          })}
+        >
           <img
-            className="w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+            className={`w-full ${
+              legoSet.images.length < 2
+                ? 'h-[281px] sm:h-[459px]'
+                : 'h-[204px] sm:h-[324px]'
+            } object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90`}
             src={'' + legoSet.images.slice(0, 1)}
             onError={addDefaultSrc}
             onClick={() => setShowGallery(0)}
@@ -110,11 +119,13 @@ export const LegoSetDetailPage = () => {
           {subImagesElement}
         </div>
       )}
-      <div className="flex flex-col gap-5 justify-start w-[300px] sm:w-[521px]">
-        <div className="flex flex-col gap-5">
-          <h1 className="text-celllink text-[2rem] font-semibold dark:text-darkstatebg">{legoSet.name}</h1>
-          <div className="flex items-center justify-between flex-wrap gap-2 text-celllink dark:text-white">
-            <p>Series: {legoSet.series}</p>
+      <div className="flex flex-col justify-between w-80 sm:w-[521px] h-[459px]">
+        <h1 className="text-celllink text-[2rem] font-semibold dark:text-darkstatebg">
+          {legoSet.name}
+        </h1>
+        <div className="flex flex-col justify-center gap-4">
+          <p>Series: {legoSet.series}</p>
+          <div className="flex items-center justify-start flex-wrap gap-14 text-celllink dark:text-white">
             <p className="underline underline-offset-4">
               Set number: {legoSet.number}
             </p>
@@ -125,17 +136,19 @@ export const LegoSetDetailPage = () => {
           </div>
         </div>
         {chartData.length > 0 ? (
-          <div className="w-[300px] sm:w-[521px] min-h-[281px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
+          <div className="w-80 sm:w-[521px] min-h-[281px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
             <p className="w-full indent-6 text-lg text-confirmmodal text-start dark:text-white">
               Our Price Evaluation For This Set
             </p>
             <BarChart
-              width={windowWidth > 600 ? 500 : 300}
+              width={windowWidth > 640 ? 500 : 250}
               height={220}
               data={chartData}
               margin={{
                 top: 30,
-                right: 500 - chartData.length * 83,
+                right:
+                  (windowWidth > 640 ? 500 : 250) -
+                  chartData.length * (windowWidth > 640 ? 84 : 41),
               }}
               className="iconfills textfills"
             >
@@ -143,7 +156,7 @@ export const LegoSetDetailPage = () => {
                 dataKey="value"
                 fill="#2F2F2F"
                 radius={3}
-                barSize={57}
+                barSize={windowWidth > 640 ? 57 : 28}
                 onMouseOver={(data) => (barData = data)}
               >
                 <LabelList
@@ -154,7 +167,7 @@ export const LegoSetDetailPage = () => {
                       name={value}
                       width={28}
                       height={28}
-                      x={width > 50 ? x + width / 4 : x + width / 6}
+                      x={width > 50 ? x + width / 4 : x}
                       y={y - 30}
                     />
                   )}
@@ -170,7 +183,8 @@ export const LegoSetDetailPage = () => {
             </BarChart>
           </div>
         ) : (
-          <div className="flex w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2 text-[#2E2626] dark:text-white">
+          <div
+            className="flex w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2 text-[#2E2626] dark:text-white">
             <NoneIcon className="w-10 iconfills" />
             We currently don&apos;t have enough information to give you our
             price evaluation for this set . We suggest checking out other
