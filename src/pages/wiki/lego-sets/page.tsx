@@ -13,21 +13,16 @@ export const LegoSetsPage = () => {
   useGate(model.gate);
 
   return (
-    <div className="h-full w-full flex flex-col">
-      <div className="w-full flex items-center justify-between mb-6">
-        <div className="flex items-end space-x-6">
-          <p className="text-xl">Lego sets</p>
+    <div className="h-full w-max max-w-full flex flex-col items-center">
+      <div className="flex-grow w-full overflow-y-auto flex flex-col gap-5">
+        <div className="flex items-center justify-between">
+          <ColumnControl model={model.columnControlModel} />
+          <LegoSetsFilter.View model={model.legoSetsFilterModel} />
         </div>
-        <ColumnControl model={model.columnControlModel} />
-      </div>
-      <div className="flex justify-end pb-4">
-        <LegoSetsFilter.View model={model.legoSetsFilterModel} />
-      </div>
-      <ActiveFilters model={model.legoSetsFilterModel} />
-      <div className="flex-grow w-full overflow-y-auto">
+        <ActiveFilters model={model.legoSetsFilterModel} />
         <Content />
+        <Pagination.View model={model.paginationModel} />
       </div>
-      <Pagination.View model={model.paginationModel} />
     </div>
   );
 };

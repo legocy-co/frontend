@@ -36,7 +36,7 @@ export const MarketItemsFilter = ({
   const setDirty = useUnit(model.form.fields.set_ids.$isDirty);
   const touched = useUnit(model.form.$touched);
 
-  const disabled = !seriesDirty && !setDirty && !touched;
+  const buttonsDisabled = !seriesDirty && !setDirty && !touched;
 
   function handlePriceChange() {
     model.form.fields.min_price.onChange(priceRange[0]);
@@ -115,7 +115,6 @@ export const MarketItemsFilter = ({
                 className="mt-5 mb-1"
               />
               <div className="flex w-full px-2 justify-between text-xs text-darkfiltersborder dark:text-[#F9F9F9] dark:text-opacity-70">
-                {/*<p>{priceRange[0]}$</p> <p>{priceRange[1]}$</p>*/}
                 <label
                   className="input-sizer bg-white dark:bg-transparent"
                   data-value={priceRange[0] ? priceRange[0] : ''}
@@ -159,19 +158,17 @@ export const MarketItemsFilter = ({
                 </label>
               </div>
             </div>
-            <div className="flex gap-5 justify-center">
+            <div className="flex w-full justify-between">
               <Button
                 className="!h-[39px] !w-40 text-[16px]"
                 type="submit"
-                disabled={disabled}
+                disabled={buttonsDisabled}
               >
                 Apply
               </Button>
               <Button
-                className={clsx('!h-[39px] !w-40 text-[16px] bg-white ', {
-                  'hover:!bg-gray-300': !disabled,
-                })}
-                disabled={disabled}
+                className="!h-[39px] !w-40 text-[16px] bg-white "
+                disabled={buttonsDisabled}
                 onClick={() => model.cancelTriggered()}
               >
                 Cancel

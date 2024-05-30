@@ -9,7 +9,7 @@ import { BsChevronDown } from 'react-icons/bs';
 
 export const Pagination = ({ model }: { model: PaginationModel }) => {
   return (
-    <div className=" flex max-w-[1204px] w-full items-center justify-between pt-2">
+    <div className="flex w-full items-center justify-between pt-2">
       <PageCountToggler model={model} />
       <PaginateController model={model} />
     </div>
@@ -25,6 +25,9 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
     $paginatedInfo,
     $totalCount,
   ]);
+
+  const findPageSize = (index: number): number =>
+    !index ? 10 : 25 * (2 * (index - 1) || 1);
 
   if (totalCount === 0) return null;
   return (
@@ -57,16 +60,12 @@ const PageCountToggler = ({ model }: { model: PaginationModel }) => {
               {Array.from({ length: 4 }, (_, index) => (
                 <button
                   key={index}
-                  onClick={() =>
-                    pageSizeChanged(!index ? 10 : 25 * (2 * (index - 1) || 1))
-                  }
+                  onClick={() => pageSizeChanged(findPageSize(index))}
                   type="button"
                   className={clsx(
                     ' leading-4 w-12 hover:bg-pagesizehover transition-colors pl-1.5 text-start py-1 px-1.5 rounded-b-md',
                     {
-                      hidden:
-                        pageSize ===
-                        (!index ? 10 : 25 * (2 * (index - 1) || 1)),
+                      hidden: pageSize === findPageSize(index),
                     },
                     { 'w-14': pageSize === 100 },
                     { 'hover:rounded-none': index < 3 }

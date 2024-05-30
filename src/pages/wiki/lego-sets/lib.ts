@@ -19,7 +19,7 @@ export const columns = [
   {
     id: 'name',
     size: 400,
-    title: 'Set',
+    title: 'Set name',
   },
   {
     id: 'pieces',
@@ -27,14 +27,14 @@ export const columns = [
     title: 'Pieces',
   },
   {
-    id: 'image',
-    size: 200,
-    title: 'Image',
-  },
-  {
     id: 'series',
     size: 400,
     title: 'Series',
+  },
+  {
+    id: 'image',
+    size: 200,
+    title: 'Image',
   },
 ];
 
@@ -43,7 +43,7 @@ export function toSetRows(response: PaginationData<LegoSet[]>): SetRow[] {
     id: set.id,
     image: set.images
       ?.sort((current, next) => Number(current.isMain) - Number(next.isMain))
-      .map((img) => 'https://' + img.imageURL)[0],
+      .map((img) => img.imageURL)[0],
     name: set.name,
     number: set.number,
     pieces: set.nPieces,
