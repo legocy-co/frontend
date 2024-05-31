@@ -76,7 +76,6 @@ const AppRouter = () => {
           <Route path="my/uploads" element={<MyUploadsPage />} />
         </Route>
 
-        {/*<Route path="wiki" element={<Navigate to="sets" />} />*/}
         <Route
           path="wiki"
           element={
