@@ -14,12 +14,15 @@ export const SignIn = () => {
 
   const navigate = useNavigate();
 
+  const { fields, eachValid } = useForm(model.form);
+
+  const from = location.search.split('=')[1];
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     model.form.submit();
   };
 
-  const { fields, eachValid } = useForm(model.form);
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-6 items-center">
       <div className="flex items-center justify-center gap-6">
@@ -34,18 +37,18 @@ export const SignIn = () => {
       <p className="text-xl text-center w-[301px]">
         Welcome back! To access your account, please sign in
       </p>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 !w-80 sm:!w-[343px]">
         <TextFieldAdapter
           field={model.form.fields.email}
           labelText="E-mail address"
           type="email"
-          className="!w-80 sm:!w-[343px] !h-[44px] bg-pagesize dark:bg-white dark:!text-black"
+          className="w-full !h-[44px] bg-pagesize dark:bg-white dark:!text-black"
         />
         <TextFieldAdapter
           field={model.form.fields.password}
           labelText="Password"
           type="password"
-          className="!w-80 sm:!w-[343px] !h-[44px] bg-pagesize dark:bg-white dark:!text-black"
+          className="w-full !h-[44px] bg-pagesize dark:bg-white dark:!text-black"
         />
       </div>
       <div className="flex justify-center mt-[-15px]">
@@ -62,7 +65,7 @@ export const SignIn = () => {
         Don’t have an account?{' '}
         <span
           onClick={() =>
-            navigate(`/auth/sign-up?from=${location.search.split('=')[1]}`)
+            navigate(`/auth/sign-up${from ? '?from=' + from : ''}`)
           }
           className="underline underline-offset-4 cursor-pointer"
         >

@@ -44,7 +44,7 @@ const Header = () => {
     e.stopPropagation();
     authService.IsAuthorized()
       ? setShowMenu((prev) => !prev)
-      : navigate(`auth/sign-in?from=${location.pathname}`);
+      : navigate(`auth?from=${location.pathname}`);
   }
 
   const [darkTheme, setDarkTheme] = useState(

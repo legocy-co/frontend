@@ -23,11 +23,10 @@ const $from = $location.map((loc) => GetFrom(loc?.search ?? null));
 
 const redirectBackFx = attach({
   source: $from,
-  effect: (from) => {
+  effect: (from) =>
     navigateFx({
       pathname: from === '/auth/sign-in' ? '/' : from,
-    });
-  },
+    }),
 });
 
 sample({
