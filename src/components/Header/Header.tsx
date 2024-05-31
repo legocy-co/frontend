@@ -1,4 +1,5 @@
 import './Header.scss';
+import AuthBackground from '../../assets/pics/lego-starwars.png';
 import CatalogIcon from '../../assets/icons/catalog.svg?react';
 import WikiIcon from '../../assets/icons/wiki.svg?react';
 import ChatIcon from '../../assets/icons/chat.svg?react';
@@ -65,8 +66,7 @@ const Header = () => {
   document.body.style.background = darkTheme ? '#191919' : '#FFFFFF';
 
   if (path === 'auth') {
-    document.body.style.background =
-      'url("/src/assets/pics/lego-starwars.png")';
+    document.body.style.background = `url(${AuthBackground})`;
     document.body.style.backgroundSize = 'cover';
     document.body.style.backgroundPosition = 'center';
     document.body.style.backgroundRepeat = 'norepeat';
