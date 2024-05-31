@@ -64,6 +64,14 @@ const Header = () => {
 
   document.body.style.background = darkTheme ? '#191919' : '#FFFFFF';
 
+  if (path === 'auth') {
+    document.body.style.background =
+      'url("/src/assets/pics/lego-starwars.png")';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundRepeat = 'norepeat';
+  }
+
   useEffect(() => {
     darkTheme
       ? document.documentElement.classList.add('dark')
