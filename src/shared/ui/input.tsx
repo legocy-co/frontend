@@ -33,7 +33,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const parsedType = getType(type, isPasswordVisible);
 
   return (
-    <>
+    <div className="flex flex-col gap-1">
       <label>{labelText}</label>
       <div className="relative">
         <input
@@ -54,14 +54,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         />
         {isPassword && (
           <img
-            className="absolute top-4 right-3 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+            className="absolute top-[16px] right-3 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
             onClick={() => setPasswordVisible((prev) => !prev)}
             src={isPasswordVisible ? HideIcon : ShowIcon}
             alt=""
           />
         )}
       </div>
-    </>
+    </div>
   );
 });
 

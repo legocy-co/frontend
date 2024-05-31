@@ -2,6 +2,7 @@ import { SignUp } from '../../../features/auth/sign-up';
 import { useGate } from 'effector-react';
 import * as model from '../model.ts';
 
+//TODO: layout sign-up card
 export const SignUpPage = () => {
   useGate(model.gate);
 
