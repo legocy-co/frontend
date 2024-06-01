@@ -10,6 +10,8 @@ import { auth } from '../pages/auth/';
 
 export interface AuthService {
   IsAuthorized: () => boolean;
+  GoogleSignIn: (token: string) => void;
+  GoogleSignUp: (token: string) => void;
   SignIn: (data: SignInData) => void;
   SignUp: (data: SignUpData) => void;
   RefreshToken: () => void;
@@ -38,6 +40,30 @@ type RefreshTokenResponse = {
 const IsAuthorized = () => {
   const storage = GetCredentials();
   return storage.accessToken !== '';
+};
+
+const GoogleSignIn = async (token: string) => {
+  try {
+    const response = await axios
+      .post<AuthResponse>('/users/auth/google/sign-in', token)
+      .then((response) => response.data);
+
+    SetAuthHeaders(response);
+  } catch (e) {
+    return handleUserError(e, 'GoogleSignIn', si.form);
+  }
+};
+
+const GoogleSignUp = async (token: string) => {
+  try {
+    const response = await axios
+      .post<AuthResponse>('/users/auth/google/sign-up', token)
+      .then((response) => response.data);
+
+    SetAuthHeaders(response);
+  } catch (e) {
+    return handleUserError(e, 'GoogleSignUp', su.form);
+  }
 };
 
 const SignIn = async (data: SignInData) => {
@@ -113,6 +139,8 @@ const GetAccessTokenHeader = (): string => {
 
 export const authService: AuthService = {
   IsAuthorized: IsAuthorized,
+  GoogleSignIn: GoogleSignIn,
+  GoogleSignUp: GoogleSignUp,
   SignIn: SignIn,
   SignUp: SignUp,
   RefreshToken: RefreshToken,
