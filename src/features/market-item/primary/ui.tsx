@@ -30,7 +30,6 @@ export const MarketItemPrimaryForm = () => {
               value: legoSet.id,
               label: `${legoSet.number} - ${legoSet.name}`,
             }))}
-            variant="primary"
             className="!w-[360px] sm:!w-[470px] !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
           />
           <ChevronUpIcon className="absolute rotate-180 opacity-50 top-5 right-4 iconstrokes" />
@@ -53,7 +52,9 @@ export const MarketItemPrimaryForm = () => {
                 }
               )}
               onClick={() =>
-                model.form.fields.setState.onChange(state[0] as any)
+                model.form.fields.setState.onChange(
+                  state[0] as keyof typeof setStates
+                )
               }
             >
               <LazySvg name={state[0]} className="w-5" />

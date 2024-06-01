@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import './CollectionCell.scss';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useState } from 'react';
-import PencilIcon from '../../assets/icons/pencil.svg';
+import PencilIcon from '../../assets/icons/pencil.svg?react';
 import ConfirmationModal from '../ConfirmationModal';
 import { collectionService } from '../../services/CollectionService.ts';
 import { collectionsModel } from '../../pages/collections/index.tsx';
@@ -51,11 +51,9 @@ const CollectionCell = (props: CollectionCellProps) => {
   return (
     <div className="collection-cell dark:bg-dark">
       <h1>{props.set}</h1>
-      <img
-        className="collection-cell--edit"
+      <PencilIcon
+        className="collection-cell--update"
         onClick={() => navigate('/collection/update/' + props.id)}
-        alt=""
-        src={PencilIcon}
       />
       <div
         className="collection-cell--delete"
@@ -99,7 +97,6 @@ const CollectionCell = (props: CollectionCellProps) => {
               ></button>
             </div>
           )}
-
           {props.images.length > 1 && (
             <div className="collection-cell--image-choice">{radioElements}</div>
           )}

@@ -1,7 +1,11 @@
 import { attach, createEffect, createStore, sample } from 'effector';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { createGate } from 'effector-react';
-import { MarketItem, setStates } from '../../../types/MarketItemType.ts';
+import {
+  MarketItem,
+  setStates,
+  statuses,
+} from '../../../types/MarketItemType.ts';
 import { NavigateFunction } from 'react-router-dom';
 import { valuationService } from '../../../services/ValuationService.ts';
 import { Valuation } from '../../../types/ValuationType.ts';
@@ -30,6 +34,7 @@ type MarketItemDetail = {
   setNumber: number;
   state: string;
   stateIcon: keyof typeof setStates;
+  status: (typeof statuses)[number];
   totalReviews?: number;
 };
 
@@ -62,6 +67,7 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   setNumber: 0,
   state: '',
   stateIcon: 'BUILT_WITH_BOX',
+  status: 'ACTIVE',
   totalReviews: 0,
 });
 
@@ -85,7 +91,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     description: marketItem.description,
     id: marketItem.id,
     images: marketItem.images
-      .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .sort((current, next) => Number(current.sortIndex) + Number(next.sortIndex))
       .map((img) => img.imageURL),
     location: marketItem.location,
     nPieces: marketItem.legoSet.nPieces,
@@ -99,6 +105,7 @@ function toDetail(marketItem: MarketItem): MarketItemDetail {
     setID: marketItem.legoSet.id,
     setNumber: marketItem.legoSet.number,
     state: setStates[marketItem.setState as keyof typeof setStates],
+    status: marketItem.status,
     stateIcon: marketItem.setState,
     totalReviews: marketItem.seller.reviewTotals?.totalReviews,
   };

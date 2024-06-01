@@ -23,6 +23,7 @@
     "effector-storage": "^7.0.0",
     "immer": "^10.0.3",
     "jwt-decode": "^4.0.0",
+    "lodash": "^4.17.21",
     "patronum": "^1.18.0",
     "quickblox": "^2.16.2",
     "quickblox-react-ui-kit": "^0.2.8",
@@ -43,6 +44,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/lodash": "^4.17.4",
     "@types/node": "^20.12.2",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",

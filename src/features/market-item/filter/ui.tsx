@@ -36,7 +36,7 @@ export const MarketItemsFilter = ({
   const setDirty = useUnit(model.form.fields.set_ids.$isDirty);
   const touched = useUnit(model.form.$touched);
 
-  const disabled = !seriesDirty && !setDirty && !touched;
+  const buttonsDisabled = !seriesDirty && !setDirty && !touched;
 
   function handlePriceChange() {
     model.form.fields.min_price.onChange(priceRange[0]);
@@ -79,30 +79,27 @@ export const MarketItemsFilter = ({
             <Search model={model.seriesListSearch} label="Set theme" />
             <div className="flex justify-between">
               <SetState model={model} />
-              <div className="flex flex-col gap-1 mt-[2px]">
+              <div className="flex flex-col gap-1 mt-[3px]">
                 <NumberFieldAdapter
                   field={model.form.fields.set_number}
                   labelText="Set number"
                   placeholder="76053"
-                  variant="primary"
                 />
               </div>
             </div>
             <div className="flex justify-between">
-              <div className="flex flex-col gap-1 mt-[-15px]">
+              <div className="flex flex-col gap-1 mt-[-13px]">
                 <NumberFieldAdapter
                   field={model.form.fields.min_pieces}
                   labelText="Amount of pieces"
                   placeholder="Min. amount"
-                  variant="primary"
                 />
               </div>
               <NumberFieldAdapter
                 field={model.form.fields.max_pieces}
                 labelText=""
                 placeholder="Max. amount"
-                className="mt-[7px]"
-                variant="primary"
+                className="mt-[6px]"
               />
             </div>
             <Location model={model} />
@@ -115,25 +112,63 @@ export const MarketItemsFilter = ({
                 onInput={setPriceRange}
                 onThumbDragEnd={handlePriceChange}
                 onRangeDragEnd={handlePriceChange}
-                className="my-5"
+                className="mt-5 mb-1"
               />
-              <div className="flex w-full justify-between text-xs text-filtersprice dark:text-[#F9F9F9] dark:text-opacity-35">
-                <p>{priceRange[0]}$</p> <p>{priceRange[1]}$</p>
+              <div className="flex w-full px-2 justify-between text-xs text-darkfiltersborder dark:text-[#F9F9F9] dark:text-opacity-70">
+                <label
+                  className="input-sizer bg-white dark:bg-transparent"
+                  data-value={priceRange[0] ? priceRange[0] : ''}
+                >
+                  <input
+                    size={1}
+                    value={priceRange[0] ? priceRange[0] + '$' : '$'}
+                    onInput={(e) => {
+                      e.currentTarget.value.concat(' $');
+                      setPriceRange([
+                        Number(e.currentTarget.value.replace('$', '')),
+                        priceRange[1],
+                      ]);
+                    }}
+                    onChange={(e) =>
+                      form.fields.min_price.onChange(
+                        Number(e.currentTarget.value.replace('$', ''))
+                      )
+                    }
+                  />
+                </label>
+                <label
+                  className="input-sizer bg-white dark:bg-transparent"
+                  data-value={priceRange[1] ? priceRange[1] : ''}
+                >
+                  <input
+                    size={1}
+                    value={priceRange[1] ? priceRange[1] + '$' : '$'}
+                    onInput={(e) =>
+                      setPriceRange([
+                        priceRange[0],
+                        Number(e.currentTarget.value.replace('$', '')),
+                      ])
+                    }
+                    onChange={(e) =>
+                      form.fields.max_price.onChange(
+                        Number(e.currentTarget.value.replace('$', ''))
+                      )
+                    }
+                  />
+                </label>
               </div>
             </div>
-            <div className="flex gap-5 justify-center">
+            <div className="flex w-full justify-between">
               <Button
                 className="!h-[39px] !w-40 text-[16px]"
                 type="submit"
-                disabled={disabled}
+                disabled={buttonsDisabled}
               >
                 Apply
               </Button>
               <Button
-                className={clsx('!h-[39px] !w-40 text-[16px] bg-white ', {
-                  'hover:!bg-gray-300': !disabled,
-                })}
-                disabled={disabled}
+                className="!h-[39px] !w-40 text-[16px] bg-white "
+                disabled={buttonsDisabled}
                 onClick={() => model.cancelTriggered()}
               >
                 Cancel
@@ -160,7 +195,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
   return (
     <div className="flex flex-col space-y-2">
       <p>Set state</p>
-      <div className="relative h-[35px] w-[160px]">
+      <div className="relative">
         <select
           value=""
           onChange={(ev) =>
@@ -168,7 +203,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
               value.concat(ev.currentTarget.value).join(',')
             )
           }
-          className="h-[35px] w-[160px] bg-white dark:bg-dark rounded-md !dark:text-confirmmodal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
+          className="h-[35px] w-[160px] relative bg-white dark:bg-dark rounded-md !dark:text-confirmmodal indent-3 pr-10 outline-0 mb-1 cursor-pointer"
         >
           {options.map(({ value, label }) => (
             <option key={value} value={value}>
@@ -179,7 +214,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
         <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3 right-3 rotate-180" />
       </div>
       {value.length > 0 && (
-        <div className="flex items-center gap-2 flex-wrap cursor-pointer">
+        <div className="flex items-center w-[160px] gap-2 flex-wrap cursor-pointer">
           {value.map((state) => (
             <div
               key={state}
@@ -303,7 +338,6 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
           options={options}
           placeholder={''}
           className="!w-[340px]"
-          variant="primary"
         />
         <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3.5 right-3 rotate-180" />
       </div>

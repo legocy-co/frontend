@@ -19,8 +19,8 @@ export type CollectionSetData = {
 };
 
 export type CollectionSetForm = Form<{
-  buy_price: number;
-  lego_set_id: string;
+  buyPrice: number;
+  legoSetID: string;
   state: keyof typeof setStates;
 }>;
 

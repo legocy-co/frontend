@@ -5,22 +5,18 @@ export const CollectionsIntroPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-[1213px] h-[544px] bg-cover bg-center bg-no-repeat bg-collections-intro bg-amber-300 rounded-2xl flex flex-col justify-center items-center text-white">
-      <h1 className="font-bold text-bh mb-5">Collections</h1>
-      <p className="text-xl w-96 mb-8">
-        Greetings, LEGO aficionado! Step into your very own LEGO-sets Collection
-        – the heart of brick excitement. ✨
+    <div className="w-[1180px] h-[510px] bg-cover bg-center bg-no-repeat bg-collections-intro bg-amber-300 rounded-[22px] flex flex-col gap-6 justify-center items-center text-white">
+      <h1 className="font-bold text-bh">Collections</h1>
+      <p className="text-lg w-80 sm:w-[639px] text-center">
+        Welcome to Lego Collections! Start building your own personal collection
+        by adding sets and easily track their prices over time.
       </p>
       <Button
-        className={'mt-0 mb-7 h-14'}
+        className="!w-80 !h-[53px] rounded-xl"
         onClick={() => navigate('/collection/add/')}
       >
         Start Collecting
       </Button>
-      <p className="text-xl w-96">
-        These empty spaces are waiting to be adorned with the treasures of the
-        LEGO world.
-      </p>
     </div>
   );
 };

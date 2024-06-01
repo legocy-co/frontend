@@ -1,3 +1,3 @@
-import SignInPage from './page.tsx';
+import { SignInPage } from './page.tsx';
 
 export default SignInPage;

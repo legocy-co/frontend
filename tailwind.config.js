@@ -6,10 +6,9 @@ export default {
     extend: {
       backgroundImage: {
         'buy': 'url("/src/assets/pics/yellow-lego.png")',
-        'collections-intro': 'url("/src/assets/pics/lego-museum.webp")',
+        'collections-intro': 'url("/src/assets/pics/lego-city.png")',
         'sell': 'url("/src/assets/pics/lego-money.png")',
-        'sign-in': 'url("/src/assets/pics/mixed-lego.png")',
-        'sign-up': 'url("/src/assets/pics/red-lego.png")',
+        'wiki-intro': 'url("/src/assets/pics/lego-space.png")',
       },
       fontSize: {
         'bh': '2.5rem',
@@ -28,7 +27,7 @@ export default {
         'filtersprice': '#5A5959',
         'tab': '#222020',
         'description': '#F8F8F8',
-        'menubuttonborder': '#414141',
+        'menubuttonborder': '#4F4F4F',
         'legocy': '#FFD540',
         'pagesize': '#EAEAEA',
         'pagesizehover': '#C9C9C9',
@@ -45,7 +44,9 @@ export default {
         'fair': '#458D3E',
         'fairdark': '#ABF8A4',
         'avatarbg': '#100F0F',
-        'avatarbgdark': '#F5F5F5'
+        'darkmenuborder': '#3D3D3D',
+        'statuswarn': '#FFE8AE',
+        'updatewarn': '#FCE9A6'
       },
       boxShadow: {
         'avatar': '0 4px 7px 0 #00000070',

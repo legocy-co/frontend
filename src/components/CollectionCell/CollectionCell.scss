@@ -109,10 +109,10 @@
       background: rgba(196, 195, 195, 0.68);
     }
   }
-  &--edit {
+  &--update {
     position: absolute;
     width: 15px;
-    top: 11px;
+    top: 1px;
     right: 30px;
     transition: opacity 0.1s;
     cursor: pointer;
@@ -121,7 +121,7 @@
   }
   &--delete {
     position: absolute;
-    top: 10px;
+    top: 1px;
     right: 10px;
     transition: opacity 0.1s;
     cursor: pointer;
@@ -139,6 +139,14 @@
     }
     h2 {
       cursor: pointer;
+    }
+  }
+}
+
+html[class='dark'] {
+  .collection-cell {
+    &--update path {
+      fill: white;
     }
   }
 }

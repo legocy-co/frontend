@@ -12,7 +12,7 @@ import NoneIcon from '../../../assets/icons/none.svg?react';
 import PieceIcon from '../../../assets/icons/piece.svg?react';
 import { Button } from '../../../shared/ui/button.tsx';
 import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
-import { up } from '../../UserProfilePage/index.tsx';
+import { upp } from '../../user-profile-pages/index.tsx';
 import { Bar, BarChart, LabelList, Tooltip, XAxis } from 'recharts';
 import { setStates } from '../../../types/MarketItemType.ts';
 import MarketItemCell from '../../../components/MarketItemCell';
@@ -30,8 +30,10 @@ const MarketItemDetailPage = () => {
   const chartData = useUnit(model.$chartData);
   const recommendations = useUnit(model.$recommendations);
 
-  // let prevents re-render component
-  let barGraphData = { x: 0, y: 0, name: '' };
+  const isActive = marketItem.status === 'ACTIVE';
+  const isSold = marketItem.status === 'SOLD';
+
+  let barData = { x: 0, y: 0, name: '' };
 
   const subImagesElement = (
     <div className="relative">
@@ -47,13 +49,15 @@ const MarketItemDetailPage = () => {
         {Array.from(
           {
             length:
-              marketItem.images.length >= 4 ? 4 : marketItem.images.length - 1,
+              marketItem.images.length > 4 ? 4 : marketItem.images.length - 1,
           },
           (_, i) => (
             <div
               onClick={() => setShowGallery(i + 1)}
               key={'subimage-' + i}
-              className="w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 shadow-subimages"
+              className={`w-[120px] h-[114px] rounded-md cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 shadow-subimages ${
+                isSold && 'contrast-50'
+              }`}
             >
               <img
                 src={marketItem.images[i + 1]}
@@ -78,16 +82,17 @@ const MarketItemDetailPage = () => {
   const recommendationsElement = recommendations.map((marketItem) => (
     <div id={'cell-' + marketItem.id} key={'cell-' + marketItem.id}>
       <MarketItemCell
+        status={marketItem.status}
         id={marketItem.id}
         location={marketItem.location}
-        condition_icon={marketItem.condition_icon}
-        condition={marketItem.condition}
+        stateIcon={marketItem.condition_icon}
+        state={marketItem.condition}
         images={marketItem.images}
         price={marketItem.price}
         series={marketItem.series}
         set={marketItem.set}
-        seller_id={marketItem.seller_id}
-        is_liked={marketItem.is_liked}
+        sellerID={marketItem.seller_id}
+        isLiked={marketItem.is_liked}
       />
     </div>
   ));
@@ -99,15 +104,15 @@ const MarketItemDetailPage = () => {
 
     useEffect(() => {
       if (tooltip) {
-        tooltip.style.left = `${barGraphData.x}px`;
-        tooltip.style.top = `${barGraphData.y - 50}px`;
+        tooltip.style.left = `${barData.x}px`;
+        tooltip.style.top = `${barData.y - 50}px`;
       }
-    }, [barGraphData]);
+    }, [barData]);
 
     if (active && payload && payload.length) {
       return (
         <div className="absolute flex h-4 bg-legocy items-center px-2 rounded-2xl text-[8px] dark:text-black whitespace-nowrap">
-          {setStates[barGraphData.name as keyof typeof setStates]}
+          {setStates[barData.name as keyof typeof setStates]}
           <div className="invisible absolute h-2 w-2 top-3 left-1/2 bg-inherit before:visible before:absolute before:h-2 before:w-2 before:rotate-45 before:bg-inherit before:content-['']"></div>
         </div>
       );
@@ -115,7 +120,7 @@ const MarketItemDetailPage = () => {
   };
 
   function handleReviews() {
-    up.sectionSelected('reviews');
+    upp.sectionSelected('reviews');
     navigate('/profile/' + marketItem.sellerID);
   }
 
@@ -144,13 +149,24 @@ const MarketItemDetailPage = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center">
+      {!isActive && (
+        <div className="w-80 sm:w-[584px] text-black h-12 bg-statuswarn flex justify-center items-center gap-5 bg-opacity-35 rounded-md border border-solid border-black dark:bg-white dark:bg-opacity-85 dark:border-statevaluationchart">
+          <NoneIcon />
+          <p>
+            This listing{' '}
+            {isSold ? 'has already been sold' : 'is still being validated'}
+          </p>
+        </div>
+      )}
       <div className="mt-8 mb-9 flex flex-wrap gap-7 justify-center">
-        <div className="flex flex-col gap-8 w-[300px] sm:w-[521px]">
+        <div className="flex flex-col gap-8 w-80 sm:w-[521px]">
           <div className="flex text-[2rem] gap-2 font-semibold text-celllink justify-between items-center dark:text-white">
             <p>{marketItem.set}</p> <p>{marketItem.price}$</p>
           </div>
           <img
-            className="w-full h-[200px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
+            className={`w-full h-[259px] sm:h-[415px] object-cover object-center rounded-md bg-pagesizehover cursor-pointer transition-opacity hover:opacity-95 active:opacity-90 ${
+              isSold && 'contrast-50'
+            }`}
             src={'' + marketItem.images.slice(0, 1)}
             onError={addDefaultSrc}
             onClick={() => setShowGallery(0)}
@@ -158,21 +174,23 @@ const MarketItemDetailPage = () => {
           />
           {subImagesElement}
         </div>
-        <div className="flex flex-col gap-5 justify-start w-[300px] sm:w-[521px]">
+        <div className="flex flex-col gap-5 justify-start w-80 sm:w-[521px]">
           <div className="flex flex-col gap-5">
             <div className="flex items-center flex-wrap gap-3 justify-between">
-              <div className="flex items-center justify-around gap-4 px-4 w-[300px] sm:w-[336px] h-11 rounded-md bg-pagesize dark:bg-dark text-avatarbg">
+              <div className="flex items-center justify-around gap-4 px-4 w-80 sm:w-[336px] h-11 rounded-md bg-pagesize dark:bg-dark text-avatarbg">
                 <div
                   onClick={() => navigate('/profile/' + marketItem.sellerID)}
                   className="flex items-center justify-center gap-2 cursor-pointer transition-opacity hover:opacity-95 active:opacity-90"
                 >
-                  <img
-                    src={marketItem.sellerImage}
-                    alt=""
-                    onError={addDefaultSrc}
-                    className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg dark:bg-avatarbgdark"
-                  />
-                  <p className="overflow-ellipsis overflow-hidden max-w-44 dark:text-avatarbgdark">
+                  {marketItem.sellerImage && (
+                    <img
+                      src={marketItem.sellerImage}
+                      alt=""
+                      onError={addDefaultSrc}
+                      className="w-7 h-7 rounded-full object-cover object-center bg-avatarbg dark:bg-description"
+                    />
+                  )}
+                  <p className="overflow-ellipsis overflow-hidden max-w-44 dark:text-description">
                     {marketItem.sellerUsername}
                   </p>
                 </div>
@@ -186,11 +204,11 @@ const MarketItemDetailPage = () => {
                   <p className="text-[#0D0C0C] dark:text-white">
                     {marketItem.avgRating}
                   </p>
-                  <StarIcon className="w-[18px] fillsblack iconfills" />
+                  <StarIcon className="w-[18px] iconfills" />
                 </div>
                 <p
                   onClick={handleReviews}
-                  className={'underline cursor-pointer dark:text-avatarbgdark'}
+                  className={'underline cursor-pointer dark:text-description'}
                 >
                   {marketItem.totalReviews ? marketItem.totalReviews : 0}{' '}
                   {'review' + (marketItem.totalReviews! !== 1 ? 's' : '')}
@@ -198,7 +216,10 @@ const MarketItemDetailPage = () => {
               </div>
               <Button
                 onClick={handleMessage}
-                className="!w-[162px] !h-11 !text-lg !text-celllink"
+                className="!w-[162px] !h-11 !text-lg !text-celllink disabled:!text-white"
+                disabled={
+                  !isActive || marketItem.sellerID === authService.GetUserId()
+                }
               >
                 Contact seller
               </Button>
@@ -220,7 +241,7 @@ const MarketItemDetailPage = () => {
               <p>Series: {marketItem.series}</p>
               <p
                 onClick={() => navigate('/wiki/sets/' + marketItem.setID)}
-                className="underline cursor-pointer"
+                className="underline underline-offset-4 cursor-pointer"
               >
                 Set number: {marketItem.setNumber}
               </p>
@@ -231,22 +252,28 @@ const MarketItemDetailPage = () => {
             </div>
           </div>
           {chartData.length > 0 ? (
-            <div className="w-[300px] sm:w-[521px] min-h-[281px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
+            <div className="w-80 sm:w-[521px] min-h-[281px] flex flex-col items-center justify-around bg-pagesize dark:bg-dark rounded-md text-tab dark:text-white">
               <p className="w-full indent-6 text-lg text-confirmmodal text-start dark:text-white">
                 Our Price Evaluation For This Set
               </p>
               <BarChart
-                width={windowWidth > 600 ? 500 : 300}
+                width={windowWidth > 640 ? 500 : 250}
                 height={220}
                 data={chartData}
-                margin={{ top: 20 }}
+                margin={{
+                  top: 30,
+                  right:
+                    (windowWidth > 640 ? 500 : 250) -
+                    chartData.length * (windowWidth > 640 ? 84 : 41),
+                }}
                 className="iconfills textfills"
               >
                 <Bar
                   dataKey="value"
                   fill="#2F2F2F"
-                  radius={6}
-                  onMouseOver={(data) => (barGraphData = data)}
+                  radius={3}
+                  barSize={windowWidth > 640 ? 57 : 28}
+                  onMouseOver={(data) => (barData = data)}
                 >
                   <LabelList
                     dataKey="name"
@@ -256,7 +283,7 @@ const MarketItemDetailPage = () => {
                         name={value}
                         width={28}
                         height={28}
-                        x={width > 50 ? x + width / 4 : x + width / 6}
+                        x={width > 50 ? x + width / 4 : x}
                         y={y - 30}
                       />
                     )}
@@ -274,9 +301,9 @@ const MarketItemDetailPage = () => {
           ) : (
             <div className="flex w-[300px] sm:w-[521px] text-wrap p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2 text-[#2E2626] dark:text-white">
               <NoneIcon className="w-10 iconfills" />
-              We currently don&apos;t have enough information on the market of
-              this set to provide a recommendation. We suggest checking out
-              other similar listings to determine an appropriate price.
+              We currently don&apos;t have enough information to give you our
+              price evaluation for this set . We suggest checking out other
+              similar listings to determine an appropriate price.
             </div>
           )}
         </div>

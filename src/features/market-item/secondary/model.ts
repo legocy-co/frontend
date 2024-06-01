@@ -71,7 +71,7 @@ export const $mappedValues = form.$values.map(mapFormToRequestBody);
 function mapFormToRequestBody(values: StoreValue<typeof form.$values>) {
   return {
     location: `${values.city}, ${values.country}`,
-    price: values.price,
+    price: Math.floor(values.price * 100) / 100,
   };
 }
 

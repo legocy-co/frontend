@@ -19,11 +19,10 @@ import {
 import PrivateRoute from './PrivateRoute.tsx';
 import MarketItemDetailPage from '../pages/market-items/detail';
 import CatalogPage from '../pages/market-items';
-import UserProfilePage from '../pages/UserProfilePage';
+import UserProfilePage from '../pages/user-profile-pages';
 import AddMarketItemPage from '../pages/market-items/add';
-import { authService } from '../services/AuthService.ts';
-import LegoSetsPage from '../pages/lego-sets';
-import LegoSetDetailPage from '../pages/lego-sets/detail';
+import LegoSetsPage from '../pages/wiki/lego-sets';
+import LegoSetDetailPage from '../pages/wiki/lego-sets/detail';
 import CollectionPage from '../pages/collections';
 import CollectionsIntroPage from '../pages/collections/intro';
 import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
@@ -31,6 +30,8 @@ import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
 import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
 import ChatPage from '../pages/ChatPage';
 import CatalogSelectPage from '../pages/market-items/select/index.tsx';
+import MyUploadsPage from '../pages/user-profile-pages/uploads/page.tsx';
+import WikiIntroPage from '../pages/wiki/intro';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -52,9 +53,11 @@ const AppRouter = () => {
       <Route path="/" element={<RootPage />}>
         <Route index element={<Navigate to="/catalog/select" />} />
 
-        <Route path="auth" element={<AuthRoute />} />
-        <Route path="auth/sign-up" element={<SignUpPage />} />
-        <Route path="auth/sign-in" element={<SignInPage />} />
+        <Route path="auth" element={<Outlet />}>
+          <Route index element={<AuthRoute />} />
+          <Route path="sign-up" element={<SignUpPage />} />
+          <Route path="sign-in" element={<SignInPage />} />
+        </Route>
 
         <Route path="catalog" element={<Outlet />}>
           <Route index element={<CatalogPage />} />
@@ -64,25 +67,28 @@ const AppRouter = () => {
           <Route path="update/:id" element={<UpdateMarketItemPage />} />
         </Route>
 
-        <Route path="/profile" element={<Outlet />}>
-          <Route
-            index
-            element={
-              <Navigate
-                to={
-                  authService.IsAuthorized()
-                    ? '/profile/' + authService.GetUserId()
-                    : '/'
-                }
-              />
-            }
-          />
+        <Route path="profile" element={<Outlet />}>
+          <Route index element={<Navigate to="my" />} />
           <Route
             path=":id"
             element={<UserProfilePage key={history.location.pathname} />}
           />
+          <Route path="my/uploads" element={<MyUploadsPage />} />
         </Route>
 
+        <Route
+          path="wiki"
+          element={
+            <Navigate
+              to={
+                localStorage.getItem('wikiVisited') === 'true'
+                  ? 'sets'
+                  : 'intro'
+              }
+            />
+          }
+        />
+        <Route path="wiki/intro" element={<WikiIntroPage />} />
         <Route path="wiki/sets" element={<Outlet />}>
           <Route index element={<LegoSetsPage />} />
           <Route path=":id" element={<LegoSetDetailPage />} />
@@ -96,7 +102,7 @@ const AppRouter = () => {
         </Route>
 
         <Route
-          path="/chat"
+          path="chat"
           element={
             <PrivateRoute>
               <ChatPage />

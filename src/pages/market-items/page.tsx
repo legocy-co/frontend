@@ -17,7 +17,9 @@ export const CatalogPage = () => {
       </div>
       <ActiveFilters model={model.marketItemsFilterModel} />
       <MarketItemsList />
-      <Pagination.View model={model.paginationModel} />
+      <div className="w-5/6">
+        <Pagination.View model={model.paginationModel} />
+      </div>
       <ScrollArrow />
     </div>
   );

@@ -1,11 +1,12 @@
 import './Header.scss';
+import AuthBackground from '../../assets/pics/lego-starwars.png';
 import CatalogIcon from '../../assets/icons/catalog.svg?react';
 import WikiIcon from '../../assets/icons/wiki.svg?react';
 import ChatIcon from '../../assets/icons/chat.svg?react';
 import UserIcon from '../../assets/icons/user.svg?react';
 import CollectionIcon from '../../assets/icons/collection.svg?react';
-import DarkIcon from '../../assets/icons/dark.svg';
-import LightIcon from '../../assets/icons/light.svg';
+import DarkIcon from '../../assets/icons/dark.svg?react';
+import LightIcon from '../../assets/icons/light.svg?react';
 import { addDefaultSrc } from '../../services/utils.ts';
 import { useNavigate } from 'react-router-dom';
 import * as model from './model.ts';
@@ -64,6 +65,13 @@ const Header = () => {
 
   document.body.style.background = darkTheme ? '#191919' : '#FFFFFF';
 
+  if (path === 'auth') {
+    document.body.style.background = `url(${AuthBackground})`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundRepeat = 'norepeat';
+  }
+
   useEffect(() => {
     darkTheme
       ? document.documentElement.classList.add('dark')
@@ -92,7 +100,7 @@ const Header = () => {
             className={clsx('header--member strokes', {
               'legocy-strokes': path === 'wiki',
             })}
-            onClick={() => navigate('/wiki/sets')}
+            onClick={() => navigate('wiki')}
           />
           <div
             className={clsx('header--chat fills', {
@@ -126,25 +134,22 @@ const Header = () => {
             )}
             {showMenu && (
               <div
-                className="header--user-menu bg-white dark:bg-dark dark:text-white"
+                className="header--user-menu"
                 onClick={(e) => e.stopPropagation()}
               >
-                <p
-                  onClick={() =>
-                    navigate('/profile/' + authService.GetUserId())
-                  }
-                >
-                  My profile
-                </p>
+                <p onClick={() => navigate('profile/my')}>My profile</p>
+                <p onClick={() => navigate('profile/my/uploads')}>My uploads</p>
+                <p onClick={handleShowLogout}>Log out</p>
                 <div className="header--user-menu_theme">
-                  <img src={LightIcon} alt="" onError={addDefaultSrc} />
+                  <div>
+                    <LightIcon className={darkTheme ? 'w-0' : ''} />
+                    <DarkIcon className={darkTheme ? '' : 'w-0'} />
+                  </div>
                   <Toggle
                     checked={darkTheme}
                     onChange={() => setDarkTheme((prev) => !prev)}
                   />
-                  <img src={DarkIcon} alt="" onError={addDefaultSrc} />
                 </div>
-                <p onClick={handleShowLogout}>Log out</p>
               </div>
             )}
           </div>

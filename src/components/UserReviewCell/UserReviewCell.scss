@@ -1,14 +1,26 @@
 .review {
+  background: #EAEAEA;
   position: relative;
   display: flex;
   justify-content: space-between;
-  box-shadow: -1px 1px 10px 2px rgba(82, 82, 82, 0.15);
-  border-radius: 13px;
-  max-width: 594px;
+  border-radius: 6px;
   min-width: 300px;
-  height: 150px;
+  max-width: 491px;
+  height: 159px;
   padding: 0.75rem 0.75rem 0.75rem 1.25rem;
   gap: 1px;
+  color: #171616;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #0D0C0C;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #131212;
+  }
 
   &_left {
     display: flex;
@@ -20,17 +32,20 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-end;
+    font-size: 10px;
   }
 
   &--author {
     display: flex;
     align-items: center;
     gap: 0.625rem;
+    font-size: 18px;
 
     &_avatar {
-      width: 3rem;
-      height: 3rem;
+      width: 31px;
+      height: 31px;
       object-fit: cover;
+      object-position: center;
       border-radius: 50%;
     }
     &_username {
@@ -46,6 +61,25 @@
   &--rating {
     display: flex;
     justify-content: flex-end;
-    min-height: 40px;
+    min-height: 15px;
+  }
+}
+
+html[class="dark"] {
+  .review {
+    background: #2F2F2F;
+    color: white;
+    &--rating svg path {
+      fill: #D9D9D9;
+    }
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #D9D9D9;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #cccccc;
   }
 }

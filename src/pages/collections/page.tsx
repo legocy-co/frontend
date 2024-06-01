@@ -52,7 +52,6 @@ export const CollectionPage = () => {
           Add Collection Set
         </Button>
       </div>
-      {/*<MenuButton onClick={() => navigate('/collection/add/')}>Add</MenuButton>*/}
       <CollectionList />
     </>
   );

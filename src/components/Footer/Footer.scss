@@ -7,6 +7,7 @@ footer {
   right: 0;
   left: 0;
   height: 95px;
+  background: white;
   white-space: nowrap;
   overflow: clip;
   p {margin: 0;}
@@ -64,6 +65,7 @@ footer {
 }
 
 html[class="dark"] {
+  footer {background: #191919};
   .footer--contacts path, .footer--policy path {
     fill: white;
   }

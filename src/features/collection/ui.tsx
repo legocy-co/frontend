@@ -30,13 +30,15 @@ export const CollectionSetForm = () => {
   return (
     <form onSubmit={onSubmit}>
       <NumberFieldAdapter
-        field={model.form.fields.buy_price}
+        field={model.form.fields.buyPrice}
         labelText="Buy price"
+        className="w-[343px] h-[44px] mb-3 bg-pagesize"
       />
       <SelectSearchAdapter
         clientSideSearch
-        field={model.form.fields.lego_set_id}
+        field={model.form.fields.legoSetID}
         labelText="Lego set"
+        className="w-[343px] h-[44px] mb-3 bg-pagesize"
         options={legoSets.map((legoSet) => ({
           value: legoSet.id,
           label: `${legoSet.number} - ${legoSet.name}`,
@@ -59,8 +61,8 @@ export const CollectionSetForm = () => {
       <div className="flex justify-center">
         {!eachValid && (
           <FormError>
-            {fields.buy_price.errorText() ||
-              fields.lego_set_id.errorText() ||
+            {fields.buyPrice.errorText() ||
+              fields.legoSetID.errorText() ||
               fields.state.errorText()}
           </FormError>
         )}

@@ -6,13 +6,13 @@ import {
 import axios from 'axios';
 import { handleIncorrectParse, handleUserError } from './ErrorHandlers.ts';
 import toaster from '../shared/lib/react-toastify.ts';
-import { upf } from '../features/user-profile/index.tsx';
+import { upf } from '../features/user-profile-page/index.tsx';
 import { User, UserSchema } from '../types/UserType.ts';
 import { UserImage, UserImageSchema } from '../types/UserImageType.ts';
 
 interface UserService {
   GetCurrentUserProfileInfo: () => Promise<User>;
-  GetUserProfilePage: (userID: number | string) => Promise<UserProfile>;
+  GetUserProfilePage: (userID?: number | string) => Promise<UserProfile>;
   UpdateUserProfilePage: (
     userID: number | string,
     userProfileData: UserProfileData
@@ -35,7 +35,9 @@ type ImagesResponse = {
 };
 
 const GetCurrentUserProfileInfo = async (): Promise<User> => {
-  const response = await axios.get<UserProfileResponse>('/users/profile/');
+  const response = await axios.get<UserProfileResponse>(
+    '/users/profile/header/'
+  );
   const result = UserSchema.safeParse(response.data);
   if (!result.success)
     return handleIncorrectParse(
@@ -48,10 +50,10 @@ const GetCurrentUserProfileInfo = async (): Promise<User> => {
 };
 
 const GetUserProfilePage = async (
-  userID: number | string
+  userID?: number | string
 ): Promise<UserProfile> => {
   const response = await axios.get<UserProfileResponse>(
-    '/users/profile/' + userID
+    `/users/profile/${userID ?? ''}`
   );
   const result = UserProfileSchema.safeParse(response.data);
   if (!result.success)

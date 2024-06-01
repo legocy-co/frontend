@@ -15,11 +15,13 @@ export type MarketItemData = {
   location: string;
   price: number;
   setState: keyof typeof setStates;
+  changed?: boolean;
+  isSold?: boolean;
 };
 
 export type MarketItemForm = Form<{
-  lego_set_id: string;
-  set_state: keyof typeof setStates;
+  legoSetID: string;
+  setState: keyof typeof setStates;
   description: string;
   price: number;
   country: string;
@@ -40,7 +42,7 @@ export const setStates = {
   BUILT_PIECES_LOST: 'Built, Pieces Lost',
 };
 
-const listingStatus = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
+export const statuses = ['CHECK_REQUIRED', 'ACTIVE', 'SOLD'] as const;
 
 export const MarketItemSchema = z.object({
   description: z.string(),
@@ -52,5 +54,5 @@ export const MarketItemSchema = z.object({
   price: z.number(),
   seller: UserSchema,
   setState: objectKeysToZodEnum(setStates),
-  status: z.enum(listingStatus).optional(),
+  status: z.enum(statuses),
 });

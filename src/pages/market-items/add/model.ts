@@ -23,7 +23,6 @@ import {
   toOptions,
 } from '../../../features/lego-set/options/model.ts';
 import { marketItemService } from '../../../services/MarketItemService.ts';
-import { sleep } from '../../../services/utils.ts';
 
 export const gate = createGate<{
   navigateFn: NavigateFunction;
@@ -68,8 +67,8 @@ const toCell = attach({
     imagesMapped,
     legoSet,
   }): MarketItemCell => {
-    console.log(primaryMapped, secondaryMapped, imagesMapped, legoSet);
     return {
+      status: 'ACTIVE',
       condition: setStates[primaryMapped.setState as keyof typeof setStates],
       condition_icon: primaryMapped.setState,
       id: null as unknown as number,
@@ -101,11 +100,7 @@ const uploadImagesFx = attach({
   },
   effect: async ({ id, images }) => {
     for (let i = 0; i < images.files.length; i++) {
-      const data = new FormData();
-      data.append('file', images.files[i]);
-
-      marketItemService.UploadImage(data, id);
-      await sleep(1010);
+      await marketItemService.UploadImage(images.files[i], String(i), id);
 
       const imgElem = document.getElementById(
         'preview-' + i

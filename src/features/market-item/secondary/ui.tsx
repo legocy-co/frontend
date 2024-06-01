@@ -119,8 +119,7 @@ export const MarketItemSecondaryForm = () => {
               field={model.form.fields.country}
               options={lo.countryOptions}
               defaultOptionValue=""
-              variant="primary"
-              className="!rounded-lg !text-darkfiltersborder !bg-pagesize !h-12 !w-[150px] sm:!w-[226px]"
+              className="!rounded-lg !text-darkfiltersborder border-none !bg-pagesize dark:!bg-dark !h-8 !w-[150px] sm:!w-[226px]"
             />
             <ChevronUpIcon className="absolute rotate-180 opacity-50 top-3 right-3 iconstrokes pointer-events-none" />
           </div>
@@ -130,8 +129,7 @@ export const MarketItemSecondaryForm = () => {
               options={lo.cityOptions(fields.country.value)}
               disabled={fields.country.value === ''}
               defaultOptionValue=""
-              variant="primary"
-              className="!rounded-lg !text-darkfiltersborder !bg-pagesize !h-12 !w-[150px] sm:!w-[226px]"
+              className="!rounded-lg !text-darkfiltersborder border-none !bg-pagesize dark:!bg-dark !h-8 !w-[150px] sm:!w-[226px]"
             />
             <ChevronUpIcon className="absolute rotate-180 opacity-50 top-3 right-3 iconstrokes pointer-events-none" />
           </div>

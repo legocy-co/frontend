@@ -1,9 +1,9 @@
-import { MarketItem, setStates } from '../../types/MarketItemType.ts';
-import { createStore } from 'effector';
+import { MarketItem, setStates, statuses } from '../../types/MarketItemType.ts';
+import { createEvent, createStore } from 'effector';
 
 export type MarketItemCell = {
   condition: string;
-  condition_icon: string;
+  condition_icon: keyof typeof setStates;
   id: number;
   images: string[];
   is_liked: boolean;
@@ -12,7 +12,10 @@ export type MarketItemCell = {
   seller_id: number;
   series: string;
   set: string;
+  status: (typeof statuses)[number];
 };
+
+export const marketItemUnliked = createEvent<number>();
 
 export const $marketItemCells = createStore<MarketItemCell[]>([]);
 
@@ -27,6 +30,7 @@ export const $marketItemCell = createStore<MarketItemCell>({
   seller_id: 0,
   series: '',
   set: '',
+  status: 'ACTIVE',
 });
 
 export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
@@ -35,7 +39,9 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     condition_icon: marketItem.setState,
     id: marketItem.id,
     images: marketItem.images
-      .sort((current, next) => Number(current.isMain) - Number(next.isMain))
+      .sort(
+        (current, next) => Number(current.sortIndex) + Number(next.sortIndex)
+      )
       .map((img) => img.imageURL),
     is_liked: marketItem.isLiked,
     location: marketItem.location,
@@ -43,5 +49,6 @@ export function toMarketItemCells(marketItems: MarketItem[]): MarketItemCell[] {
     seller_id: marketItem.seller?.id,
     series: marketItem.legoSet.series.name,
     set: marketItem.legoSet.name,
+    status: marketItem.status ?? '',
   }));
 }

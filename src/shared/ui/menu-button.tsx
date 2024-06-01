@@ -20,11 +20,13 @@ export const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
       <button
         className={clsx(
           className,
-          'py-3 px-6 rounded-full border border-solid border-menubuttonborder border-opacity-70 text-nowrap font-medium transition-all hover:brightness-95 active:brightness-90',
+          'py-2.5 px-5 rounded-2xl bg-pagesize dark:bg-dark border border-solid border-menubuttonborder text-nowrap whitespace-nowrap text-celllink dark:text-white transition-all hover:brightness-95 active:brightness-90',
           { 'flex justify-between items-center min-w-32 px-4': isCurrency },
-          { 'brightness-75 pointer-events-none': disabled },
-          { 'bg-white dark:bg-dark': !isInvalid },
-          { 'bg-invalid text-black': isInvalid }
+          {
+            'pointer-events-none !border-step !text-[#8E8D8D] dark:bg-tab dark:!border-darkmenuborder dark:border-opacity-95':
+              disabled,
+          },
+          { '!bg-invalid !text-black': isInvalid }
         )}
         ref={ref}
         onClick={onClick}
