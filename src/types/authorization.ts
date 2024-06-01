@@ -1,6 +1,8 @@
 import { z } from 'zod';
 import { Form } from 'effector-forms';
 
+export type SocialAuthData = { token: string };
+
 export type SignInData = z.infer<typeof SignInSchema>;
 
 export type SignUpData = z.infer<typeof SignUpSchema>;

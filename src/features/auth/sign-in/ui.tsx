@@ -9,6 +9,7 @@ import GoogleIcon from '../../../assets/icons/google.svg?react';
 import FacebookIcon from '../../../assets/icons/facebook.svg?react';
 import { useNavigate } from 'react-router-dom';
 import { IResolveParams, LoginSocialGoogle } from 'reactjs-social-login';
+import { auth } from '../../../pages/auth/index.tsx';
 
 export const SignIn = () => {
   useGate(model.gate);
@@ -17,8 +18,7 @@ export const SignIn = () => {
 
   const { fields, eachValid } = useForm(model.form);
 
-  const REDIRECT_URI = window.location.href;
-  console.log(REDIRECT_URI);
+  // const REDIRECT_URI = window.location.href;
 
   const from = location.search.split('=')[1];
 
@@ -28,7 +28,10 @@ export const SignIn = () => {
   };
 
   function handleSocialResolve({ provider, data }: typeof IResolveParams) {
-    if (provider === 'google') console.log(data);
+    if (provider === 'google') {
+      console.log(data);
+      auth.googleTokenFetched(data.credential);
+    }
   }
 
   return (

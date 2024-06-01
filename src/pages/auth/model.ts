@@ -1,6 +1,6 @@
 import { createGate } from 'effector-react';
 import { $location, navigateFx } from '../../shared/lib/react-router.ts';
-import { attach, createEvent, sample } from 'effector';
+import { attach, createEffect, createEvent, sample } from 'effector';
 import { authService } from '../../services/AuthService.ts';
 import { si } from '../../features/auth/sign-in/index.tsx';
 
@@ -31,7 +31,9 @@ const redirectBackFX = attach({
     }),
 });
 
-// const googleSignInFX = ;
+const googleAuthFX = createEffect((token: string) =>
+  authService.GoogleSignIn({ token })
+);
 
 sample({
   clock: gate.open,
@@ -39,10 +41,10 @@ sample({
   target: redirectBackFX,
 });
 
-// sample({
-//   clock: googleTokenFetched,
-//   target: googleSignInFX,
-// });
+sample({
+  source: googleTokenFetched,
+  target: googleAuthFX,
+});
 
 sample({
   clock: si.signedIn,

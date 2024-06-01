@@ -1,6 +1,10 @@
 import { GetCredentials, SetCredentials } from '../storage/credentials.ts';
-import { SignInData, SignUpData } from '../types/authorization.ts';
-import axios from 'axios';
+import {
+  SignInData,
+  SignUpData,
+  SocialAuthData,
+} from '../types/authorization.ts';
+import axios, { AxiosError } from 'axios';
 import { history } from '../routes/history.ts';
 import { handleUserError } from './ErrorHandlers.ts';
 import { su } from '../features/auth/sign-up/';
@@ -10,8 +14,8 @@ import { auth } from '../pages/auth/';
 
 export interface AuthService {
   IsAuthorized: () => boolean;
-  GoogleSignIn: (token: string) => void;
-  GoogleSignUp: (token: string) => void;
+  GoogleSignIn: (data: SocialAuthData) => void;
+  GoogleSignUp: (data: SocialAuthData) => void;
   SignIn: (data: SignInData) => void;
   SignUp: (data: SignUpData) => void;
   RefreshToken: () => void;
@@ -42,27 +46,33 @@ const IsAuthorized = () => {
   return storage.accessToken !== '';
 };
 
-const GoogleSignIn = async (token: string) => {
+const GoogleSignIn = async (data: SocialAuthData) => {
   try {
     const response = await axios
-      .post<AuthResponse>('/users/auth/google/sign-in', token)
+      .post<AuthResponse>('/users/auth/google/sign-in', data)
       .then((response) => response.data);
 
     SetAuthHeaders(response);
+    si.signedIn();
   } catch (e) {
+    const err = e as AxiosError;
+    if (err.response!.status === 404) return GoogleSignUp(data);
     return handleUserError(e, 'GoogleSignIn', si.form);
   }
 };
 
-const GoogleSignUp = async (token: string) => {
+const GoogleSignUp = async (data: SocialAuthData) => {
   try {
     const response = await axios
-      .post<AuthResponse>('/users/auth/google/sign-up', token)
+      .post<AuthResponse>('/users/auth/google/sign-up', data)
       .then((response) => response.data);
 
     SetAuthHeaders(response);
+    si.signedIn();
   } catch (e) {
-    return handleUserError(e, 'GoogleSignUp', su.form);
+    const err = e as AxiosError;
+    if (err.response!.status === 409) history.navigate('auth/sign-in');
+    return handleUserError(e, 'GoogleSignUp', si.form);
   }
 };
 
