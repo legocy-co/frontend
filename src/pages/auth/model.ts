@@ -10,6 +10,8 @@ export const loggedOut = createEvent();
 
 export const tokenRefreshed = createEvent();
 
+export const googleTokenFetched = createEvent<string>();
+
 // store previous path
 const GetFrom = (search: string | null) => {
   if (!search) return '/';
@@ -21,7 +23,7 @@ const GetFrom = (search: string | null) => {
 
 const $from = $location.map((loc) => GetFrom(loc?.search ?? null));
 
-const redirectBackFx = attach({
+const redirectBackFX = attach({
   source: $from,
   effect: (from) =>
     navigateFx({
@@ -29,13 +31,20 @@ const redirectBackFx = attach({
     }),
 });
 
+// const googleSignInFX = ;
+
 sample({
   clock: gate.open,
   filter: () => authService.IsAuthorized(),
-  target: redirectBackFx,
+  target: redirectBackFX,
 });
+
+// sample({
+//   clock: googleTokenFetched,
+//   target: googleSignInFX,
+// });
 
 sample({
   clock: si.signedIn,
-  target: redirectBackFx,
+  target: redirectBackFX,
 });
