@@ -55,7 +55,6 @@ export const SignIn = () => {
             appId={import.meta.env.VITE_FB_APP_ID}
             onResolve={handleSocialResolve}
             onReject={console.error}
-            auth_type="reauthorize'"
           >
             <FacebookIcon />
           </LoginSocialFacebook>
