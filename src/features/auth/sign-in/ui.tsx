@@ -47,8 +47,8 @@ export const SignIn = () => {
         </div>
         <div className="bg-step flex justify-center items-center w-[52px] h-[52px] rounded-full cursor-pointer transition-opacity hover:opacity-95 active:opacity-90">
           <LoginSocialFacebook
-            typeResponse="idToken"
-            client_id={import.meta.env.VITE_FB_APP_ID}
+            isOnlyGetToken
+            appId={import.meta.env.VITE_FB_APP_ID}
             onResolve={handleSocialResolve}
             onReject={console.error}
           >
