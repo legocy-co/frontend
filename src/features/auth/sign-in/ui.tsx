@@ -22,7 +22,7 @@ export const SignIn = () => {
 
   const { fields, eachValid } = useForm(model.form);
 
-  const REDIRECT_URI = window.location.href;
+  // const REDIRECT_URI = window.location.href;
 
   const from = location.search.split('=')[1];
 
@@ -51,10 +51,11 @@ export const SignIn = () => {
         </div>
         <div className="bg-step flex justify-center items-center w-[52px] h-[52px] rounded-full cursor-pointer transition-opacity hover:opacity-95 active:opacity-90">
           <LoginSocialFacebook
-            redirect_uri={REDIRECT_URI}
+            // redirect_uri={REDIRECT_URI}
             appId={import.meta.env.VITE_FB_APP_ID}
             onResolve={handleSocialResolve}
             onReject={console.error}
+            response_type="code"
           >
             <FacebookIcon />
           </LoginSocialFacebook>
