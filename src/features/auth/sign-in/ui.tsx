@@ -8,7 +8,7 @@ import { useGate } from 'effector-react';
 import GoogleIcon from '../../../assets/icons/google.svg?react';
 import FacebookIcon from '../../../assets/icons/facebook.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { IResolveParams, LoginSocialGoogle } from 'reactjs-social-login';
+import { IResolveParams, LoginSocialFacebook, LoginSocialGoogle } from 'reactjs-social-login';
 import { auth } from '../../../pages/auth/index.tsx';
 
 export const SignIn = () => {
@@ -28,10 +28,8 @@ export const SignIn = () => {
   };
 
   function handleSocialResolve({ provider, data }: typeof IResolveParams) {
-    if (provider === 'google') {
-      console.log(data);
-      auth.googleTokenFetched(data.credential);
-    }
+    if (provider === 'google') auth.googleTokenFetched(data.credential);
+    console.log(data);
   }
 
   return (
@@ -48,7 +46,14 @@ export const SignIn = () => {
           </LoginSocialGoogle>
         </div>
         <div className="bg-step flex justify-center items-center w-[52px] h-[52px] rounded-full cursor-pointer transition-opacity hover:opacity-95 active:opacity-90">
-          <FacebookIcon />
+          <LoginSocialFacebook
+            typeResponse="idToken"
+            client_id={import.meta.env.VITE_FB_APP_ID}
+            onResolve={handleSocialResolve}
+            onReject={console.error}
+          >
+            <FacebookIcon />
+          </LoginSocialFacebook>
         </div>
       </div>
       <h1 className="font-bold text-bh">Sign In</h1>
