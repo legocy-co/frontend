@@ -14,6 +14,7 @@ type LegoSetDetail = {
   name: string;
   number: number;
   series: string;
+  year?: number;
 };
 
 type BarData = {
@@ -34,6 +35,7 @@ export const $legoSetDetail = createStore<LegoSetDetail>({
   number: 0,
   pieces: 0,
   series: '',
+  year: undefined,
 });
 
 export const $chartData = createStore<BarData[]>([]);
@@ -63,6 +65,7 @@ function toDetail(set: LegoSet): LegoSetDetail {
     number: set.number,
     pieces: set.nPieces,
     series: set.series.name,
+    year: set.releaseYear ?? undefined,
   };
 }
 

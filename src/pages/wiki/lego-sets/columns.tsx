@@ -45,6 +45,16 @@ export const useColumns = () => {
       },
     }),
 
+    columnHelper.accessor('year', {
+      header: () => 'Year of release',
+      cell: (info) => <span>{info.getValue()}</span>,
+      id: 'year',
+      size: 200,
+      meta: {
+        title: 'Year of release',
+      },
+    }),
+
     columnHelper.accessor('image', {
       header: () => 'Image',
       cell: (info) => (
