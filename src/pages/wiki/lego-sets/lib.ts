@@ -8,6 +8,7 @@ export type SetRow = {
   number: number;
   pieces: number;
   series: string;
+  year?: number;
 };
 
 export const columns = [
@@ -32,6 +33,11 @@ export const columns = [
     title: 'Series',
   },
   {
+    id: 'year',
+    size: 200,
+    title: 'Year of release',
+  },
+  {
     id: 'image',
     size: 200,
     title: 'Image',
@@ -48,5 +54,6 @@ export function toSetRows(response: PaginationData<LegoSet[]>): SetRow[] {
     number: set.number,
     pieces: set.nPieces,
     series: set.series.name,
+    year: set.releaseYear ?? undefined,
   }));
 }

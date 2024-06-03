@@ -11,4 +11,5 @@ export const LegoSetSchema = z.object({
   name: z.string(),
   number: z.number(),
   series: LegoSeriesSchema,
+  releaseYear: z.number().optional().nullable(),
 });

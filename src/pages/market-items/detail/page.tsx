@@ -290,6 +290,7 @@ const MarketItemDetailPage = () => {
                   />
                 </Bar>
                 <XAxis
+                  interval={0}
                   dataKey="display"
                   stroke="#262323"
                   axisLine={false}
