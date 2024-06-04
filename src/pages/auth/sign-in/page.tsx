@@ -6,7 +6,7 @@ export const SignInPage = () => {
   useGate(model.gate);
 
   return (
-    <div className="w-96 sm:w-[804px] py-10 rounded-3xl bg-white dark:bg-dark flex flex-col justify-center gap-7 items-center">
+    <div className="min-w-96 w-[62%] p-12 rounded-3xl bg-white dark:bg-dark flex flex-col justify-center gap-7 items-center">
       <SignIn />
     </div>
   );

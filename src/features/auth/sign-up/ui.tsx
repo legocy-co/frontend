@@ -88,7 +88,7 @@ export const SignUp = () => {
           Sign Up
         </Button>
       </div>
-      <p className="text-xl">
+      <p className="text-xl text-center">
         Already have an account?{' '}
         <span
           onClick={() =>

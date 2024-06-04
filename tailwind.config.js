@@ -5,9 +5,8 @@ export default {
   theme: {
     extend: {
       backgroundImage: {
-        'buy': 'url("/src/assets/pics/yellow-lego.png")',
         'collections-intro': 'url("/src/assets/pics/lego-city.png")',
-        'sell': 'url("/src/assets/pics/lego-money.png")',
+        'select': 'url("/src/assets/pics/lego-money.png")',
         'wiki-intro': 'url("/src/assets/pics/lego-space.png")',
       },
       fontSize: {
