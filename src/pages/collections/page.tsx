@@ -4,55 +4,68 @@ import * as model from './model.ts';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
 import { useNavigate } from 'react-router-dom';
 import { $collectionTotals } from './model.ts';
-import clsx from 'clsx';
 import { Button } from '../../shared/ui/button.tsx';
+import CalculationIcon from '../../assets/icons/calculation.svg?react';
+import PlusIcon from '../../assets/icons/plus.svg?react';
+import HashIcon from '../../assets/icons/hash.svg?react';
+import GraphIcon from '../../assets/icons/graph.svg?react';
+import clsx from 'clsx';
 
 export const CollectionPage = () => {
   useGate(model.gate);
 
-  const totals = useUnit($collectionTotals);
   const navigate = useNavigate();
 
   return (
     <>
       <PageHeading>Collection</PageHeading>
-      <div className="flex flex-col justify-around w-1/3 min-w-96 h-48 shadow-md rounded-xl font-medium bg-white dark:bg-dark py-4 px-3 text-md text-gray-500">
-        <div className="flex justify-between">
-          <div className="flex flex-col gap-2">
-            <p>Total Amount (USD)</p>
-            <p className="text-lg dark:text-white text-black">
-              ${totals.total}
-            </p>
-          </div>
-          <div className="flex flex-col text-end gap-2">
-            <p>Average P&L</p>
-            <h1
-              className={clsx(
-                'text-lg',
-                {
-                  'text-green-400': totals.totalProfits.totalReturnUSD! > 0,
-                },
-                { 'text-red-400': totals.totalProfits.totalReturnUSD! < 0 }
-              )}
-            >{`${totals.totalProfits.totalReturnUSD}$(${
-              Math.round(totals.totalProfits.totalReturnPercentage * 100) / 100
-            }%)`}</h1>
-          </div>
-        </div>
-        <div className="flex justify-between my-5">
-          <p>Sets Valuated</p>
-          <p className="dark:text-white text-black">
-            {totals.setsValuated} / {totals.totalSets}
-          </p>
-        </div>
+      <div className="flex flex-col items-center justify-start gap-4 w-full">
         <Button
+          className="w-80 sm:w-[382px] h-[53px] rounded-[10px]"
           onClick={() => navigate('/collection/add/')}
-          className="w-full rounded-sm text-lg h-11"
         >
-          Add Collection Set
+          Add Set to Collection
         </Button>
+        <Totals />
       </div>
       <CollectionList />
     </>
+  );
+};
+
+const Totals = () => {
+  const totals = useUnit($collectionTotals);
+
+  return (
+    <div className="w-[95%] iconstrokes text-2xl py-4 px-8 bg-pagesize dark:bg-dark flex flex-wrap items-center justify-between gap-10 rounded-lg">
+      <div className="flex items-center gap-2">
+        <CalculationIcon className="w-[22px] iconfills" />
+        <p>Current value ($): {totals.total}</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <PlusIcon className="w-[18px] iconfills" />
+        <p>Sets added: {totals.totalSets}</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <HashIcon className="w-[21px] iconfills" />
+        <p>Sets valued: {totals.setsValuated}</p>
+      </div>
+      <div className="flex items-center gap-2">
+        <GraphIcon className="w-[22px]" />
+        <p>Overall P&L </p>
+        <span
+          className={clsx(
+            {
+              'text-[#78CA51]': totals.totalProfits.totalReturnUSD > 0,
+            },
+            { 'text-[#EE716C]': totals.totalProfits.totalReturnUSD < 0 }
+          )}
+        >
+          {totals.totalProfits.totalReturnUSD}$ (
+          {Math.round(totals.totalProfits.totalReturnPercentage * 100) / 100}
+          %)
+        </span>
+      </div>
+    </div>
   );
 };

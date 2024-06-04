@@ -78,7 +78,7 @@ export const MarketItemPreview = ({
             htmlFor="imagesUpload"
             className="rounded-lg w-[127px] h-[92px] dark:bg-white bg-black !bg-opacity-20 flex justify-center items-center cursor-pointer transition-all hover:!bg-opacity-25 active:!bg-opacity-30"
           >
-            <PlusIcon />
+            <PlusIcon className="[&>path]:fill-white" />
           </label>
         </>
       )}

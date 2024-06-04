@@ -18,7 +18,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
     return (
       <div
         className={clsx(
-          'relative w-2/3 h-12 flex justify-center items-center mb-7',
+          'relative w-2/3 h-12 flex justify-center items-center mb-[30px]',
           className
         )}
         ref={ref}
