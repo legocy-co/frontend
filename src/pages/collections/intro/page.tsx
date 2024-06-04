@@ -5,9 +5,9 @@ export const CollectionsIntroPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-[1180px] h-[510px] bg-cover bg-center bg-no-repeat bg-collections-intro bg-amber-300 rounded-[22px] flex flex-col gap-6 justify-center items-center text-white">
+    <div className="w-[92%] h-[510px] p-12 bg-cover bg-center bg-no-repeat bg-collections-intro bg-amber-300 rounded-[22px] flex flex-col gap-6 justify-center items-center text-white">
       <h1 className="font-bold text-bh">Collections</h1>
-      <p className="text-lg w-80 sm:w-[639px] text-center">
+      <p className="text-lg text-center text-wrap">
         Welcome to Lego Collections! Start building your own personal collection
         by adding sets and easily track their prices over time.
       </p>

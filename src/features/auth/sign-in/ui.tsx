@@ -85,7 +85,7 @@ export const SignIn = () => {
           Sign In
         </Button>
       </div>
-      <p className="text-xl">
+      <p className="text-xl text-center">
         Don’t have an account?{' '}
         <span
           onClick={() =>
