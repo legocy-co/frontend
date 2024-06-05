@@ -6,7 +6,7 @@ export const CatalogSelectPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-[94%] p-12 bg-select bg-center bg-no-repeat bg-cover bg-step rounded-[22px] flex flex-col justify-between items-center gap-6">
+    <div className="min-w-96 w-[94%] p-12 bg-select bg-center bg-no-repeat bg-cover bg-step rounded-[22px] flex flex-col justify-between items-center gap-6">
       <p className="font-bold text-[2.5rem] text-condition">I am here to...</p>
       <p className="font-normal text-lg max-w-[360px] sm:max-w-[729px] text-white text-center">
         Our platform includes both functions: you can sell and buy sets. Choose
