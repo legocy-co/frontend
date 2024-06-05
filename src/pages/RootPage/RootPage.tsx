@@ -22,7 +22,7 @@ const RootPage = () => {
   const authChatData = useUnit(cm.$authChatData);
   const creds = GetCredentials();
   const authorized = authService.IsAuthorized();
-  (!creds.chatToken || !creds.qbID) && authorized && cm.sessionExpired();
+  !creds.chatToken && !creds.qbID && authorized && cm.sessionExpired();
 
   const qbUIKitContext: QBDataContextType = React.useContext(qbDataContext);
   const [isSDKInitialized, setSDKInitialized] = React.useState(false);
