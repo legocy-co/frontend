@@ -10,6 +10,7 @@ import PlusIcon from '../../assets/icons/plus.svg?react';
 import HashIcon from '../../assets/icons/hash.svg?react';
 import GraphIcon from '../../assets/icons/graph.svg?react';
 import clsx from 'clsx';
+import RingChart from '../../components/RingChart';
 
 export const CollectionPage = () => {
   useGate(model.gate);
@@ -27,6 +28,7 @@ export const CollectionPage = () => {
           Add Set to Collection
         </Button>
         <Totals />
+        <RingChart />
       </div>
       <CollectionList />
     </>
