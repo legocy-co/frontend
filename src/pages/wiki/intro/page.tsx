@@ -11,7 +11,7 @@ export const WikiIntroPage = () => {
   }
 
   return (
-    <div className="w-[92%] p-12 h-[510px] bg-cover bg-center bg-no-repeat bg-wiki-intro bg-amber-300 rounded-[22px] flex flex-col gap-6 justify-center items-center text-white">
+    <div className="min-w-96 w-[92%] p-12 h-[510px] bg-cover bg-center bg-no-repeat bg-wiki-intro bg-amber-300 rounded-[22px] flex flex-col gap-6 justify-center items-center text-white">
       <h1 className="font-bold text-bh text-center">
         Welcome to our Lego Wikipedia
       </h1>
