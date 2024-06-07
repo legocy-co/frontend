@@ -11,6 +11,7 @@ import HashIcon from '../../assets/icons/hash.svg?react';
 import GraphIcon from '../../assets/icons/graph.svg?react';
 import clsx from 'clsx';
 import RingChart from '../../components/RingChart';
+import { setTwoDecimals } from '../../services/utils.ts';
 
 export const CollectionPage = () => {
   useGate(model.gate);
@@ -37,9 +38,6 @@ export const CollectionPage = () => {
 
 const Totals = () => {
   const totals = useUnit($collectionTotals);
-
-  const setTwoDecimals = (value: number): number =>
-    Math.floor(value * 100) / 100;
 
   return (
     <div className="w-[95%] iconstrokes text-2xl py-4 px-8 bg-pagesize dark:bg-dark flex flex-wrap items-center justify-between gap-10 rounded-lg">

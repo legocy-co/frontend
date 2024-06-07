@@ -30,7 +30,11 @@
     align-items: center;
     gap: 16px;
   }
-  p {color: #262424;}
+  p {
+    max-width: 280px;
+    color: #262424;
+    text-wrap: wrap;
+  }
   li::before {
     content: '• ';
     font-size: 3rem;

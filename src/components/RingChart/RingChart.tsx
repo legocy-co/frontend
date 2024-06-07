@@ -4,6 +4,7 @@ import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 import ConfirmationModal from '../ConfirmationModal';
 import React, { useState } from 'react';
 import clsx from 'clsx';
+import { setTwoDecimals } from '../../services/utils.ts';
 
 const RingChart = () => {
   const [showExpanded, setShowExpanded] = useState(false);
@@ -13,6 +14,7 @@ const RingChart = () => {
     { name: 'The LEGO Ninjago Movie', value: 10 },
     { name: 'BrickHeadz', value: 9 },
     { name: 'Architecture', value: 8 },
+    { name: 'DC Cosmic Super Heroes', value: 7 },
   ].sort((a, b) => a.value - b.value);
 
   const colors = Array.from({ length: data.length }, (_, i) => {
@@ -35,10 +37,13 @@ const RingChart = () => {
         data={data}
         colors={colors}
         total={total}
+        label="Series statistics"
+        legendPercentage
+        gluedHeader
       />
       {showExpanded && (
         <ConfirmationModal
-          className="!p-0 dark:!bg-dark"
+          className="!p-0 dark:!bg-dark !top-[10%]"
           show={showExpanded}
           onClose={() => setShowExpanded(false)}
           showYes={false}
@@ -48,6 +53,7 @@ const RingChart = () => {
             data={data}
             colors={colors}
             total={total}
+            label="Series statistics"
             expanded
           />
         </ConfirmationModal>
@@ -62,25 +68,45 @@ interface RingStatsProps {
   colors: string[];
   expanded?: boolean;
   total: number;
+  label: string;
+  hideExpand?: boolean;
+  gluedHeader?: boolean;
+  customUnits?: string;
+  legendPercentage?: boolean;
 }
 
-// TODO: conditional rendering stats
+// TODO: large collection expanded
 const RingStats = ({
   onClick,
   data,
   colors,
   expanded = false,
+  hideExpand = false,
   total,
+  label,
+  gluedHeader = false,
+  legendPercentage = false,
+  customUnits,
 }: RingStatsProps) => {
+  function toPercentage(value: number) {
+    return setTwoDecimals((value / total) * 100);
+  }
+
   return (
     <div
       className={clsx('ring-chart', {
         '!border-none': expanded,
       })}
     >
-      <div className="ring-chart__header">
-        <h1>Themes Overview</h1>
-        <Button onClick={onClick}>{expanded ? 'Go back' : 'Expand'}</Button>
+      <div
+        className={clsx('ring-chart__header', {
+          '!justify-start gap-5': gluedHeader,
+        })}
+      >
+        <h1>{label}</h1>
+        {!hideExpand && (
+          <Button onClick={onClick}>{expanded ? 'Go back' : 'Expand'}</Button>
+        )}
       </div>
       <div className="ring-chart__body">
         <PieChart width={250} height={250}>
@@ -108,9 +134,10 @@ const RingStats = ({
               payload &&
               payload.length && (
                 <div className="ring-chart__tooltip">
-                  {payload[0].name} (
-                  {Math.round((Number(payload[0].value) / total) * 10000) / 100}
-                  %)
+                  {customUnits
+                    ? `${payload[0].value} ${customUnits}`
+                    : `${payload[0].name}`}{' '}
+                  ({toPercentage(Number(payload[0].value))}%)
                 </div>
               )
             }
@@ -120,11 +147,15 @@ const RingStats = ({
           {data
             .map((item, i) => (
               <li key={'li-' + i} style={{ color: colors[i] }}>
-                <p>{item.name}</p>
+                <p>
+                  {item.name}
+                  {customUnits && `: ${item.value} ${customUnits}`}{' '}
+                  {legendPercentage && `(${toPercentage(item.value)}%)`}
+                </p>
               </li>
             ))
             .reverse()
-            .slice(0, expanded ? data.length : 4)}
+            .slice(0, expanded ? data.length : 5)}
         </ul>
       </div>
     </div>
