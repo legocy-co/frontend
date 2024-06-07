@@ -46,11 +46,8 @@ export default {
         'darkmenuborder': '#3D3D3D',
         'statuswarn': '#FFE8AE',
         'updatewarn': '#FCE9A6',
-        'tooltip': '#F8F8F8',
-        'tooltipdark': '#696969',
       },
       boxShadow: {
-        'avatar': '0 4px 7px 0 #00000070',
         'subimages': '0 4px 16px 0 #00000040',
         'tooltip': '0 1px 2.5px 0 #00000040',
       },

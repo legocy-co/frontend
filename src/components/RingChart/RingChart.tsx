@@ -1,26 +1,21 @@
 import './PieChart.scss';
 import { Button } from '../../shared/ui/button.tsx';
 import { Cell, Pie, PieChart, Tooltip } from 'recharts';
+import { clsx } from 'clsx';
 
 const RingChart = () => {
   const data = [
-    { name: 'The LEGO Ninjago Movie', value: 10 },
     { name: 'Botanical Collection', value: 9 },
+    { name: 'The LEGO Ninjago Movie', value: 10 },
     { name: 'BrickHeadz', value: 9 },
     { name: 'Architecture', value: 8 },
-    { name: 'Group E', value: 7 },
-    { name: 'Group F', value: 6 },
-    { name: 'Group G', value: 5 },
-    { name: 'Group G', value: 4 },
-    { name: 'Group G', value: 3 },
-  ];
+  ].sort((a, b) => a.value - b.value);
 
   const colors = Array.from({ length: data.length }, (_, i) => {
     const findColor = (left: number, right: number): number =>
-      // left + (right - left) * (i / (data.length - 1));
-      left + (i * (right - left)) / (data.length - 1);
+      right - (i * (right - left)) / (data.length - 1);
 
-    return `rgb(${findColor(215, 255)}, ${findColor(77, 228)}, ${findColor(
+    return `rgb(${findColor(215, 255)},${findColor(77, 228)},${findColor(
       33,
       133
     )})`;
@@ -34,39 +29,49 @@ const RingChart = () => {
         <h1>Themes Overview</h1>
         <Button>Expand</Button>
       </div>
-      <PieChart width={208} height={208}>
-        <Pie
-          data={data}
-          innerRadius={60}
-          startAngle={180}
-          endAngle={-180}
-          cornerRadius={9999}
-          paddingAngle={-15}
-          dataKey="value"
-        >
-          {data.map((_, index) => (
-            <Cell
-              key={`cell-${index}`}
-              stroke={colors[index]}
-              fill={colors[index]}
-            />
-          ))}
-        </Pie>
-        <Tooltip content={<RingTooltip />} />
-      </PieChart>
+      <div className="pie-chart__body">
+        <PieChart width={250} height={250}>
+          <Pie
+            data={data}
+            innerRadius={70}
+            startAngle={180}
+            endAngle={540}
+            cornerRadius={9999}
+            paddingAngle={-15}
+            dataKey="value"
+          >
+            {data.map((_, i) => (
+              <Cell
+                key={`cell-${i}`}
+                stroke={colors[i]}
+                strokeWidth={0.5}
+                fill={colors[i]}
+              />
+            ))}
+          </Pie>
+          <Tooltip
+            content={({ payload }) =>
+              payload &&
+              payload.length && (
+                <div className="pie-chart__tooltip">{payload[0].name}</div>
+              )
+            }
+          />
+        </PieChart>
+        <ul>
+          {/*TODO: normal legend text*/}
+          {data
+            .reverse()
+            .slice(0, 4)
+            .map((item, i) => (
+              <li style={{ color: colors[i] }}>
+                <p>{item.name}</p>
+              </li>
+            ))}
+        </ul>
+      </div>
     </div>
   );
-};
-
-//TODO: black tooltip shadow
-const RingTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="py-1 px-1.5 shadow-tooltip rounded-md bg-tooltip dark:bg-tooltipdark text-xs">
-        {`${label}`}
-      </div>
-    );
-  }
 };
 
 export default RingChart;
