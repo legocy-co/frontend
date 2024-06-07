@@ -8,7 +8,6 @@ const RingChart = () => {
     { name: 'The LEGO Ninjago Movie', value: 10 },
     { name: 'BrickHeadz', value: 9 },
     { name: 'Architecture', value: 8 },
-    { name: 'Architecture', value: 8 },
   ].sort((a, b) => a.value - b.value);
 
   const colors = Array.from({ length: data.length }, (_, i) => {
@@ -21,8 +20,10 @@ const RingChart = () => {
     )})`;
   });
 
-  console.log(colors);
+  // props
+  const totalCount = 36;
 
+  // layout expand modal
   return (
     <div className="pie-chart">
       <div className="pie-chart__header">
@@ -53,13 +54,17 @@ const RingChart = () => {
             content={({ payload }) =>
               payload &&
               payload.length && (
-                <div className="pie-chart__tooltip">{payload[0].name}</div>
+                <div className="pie-chart__tooltip">
+                  {payload[0].name} (
+                  {Math.round((Number(payload[0].value) / totalCount) * 10000) /
+                    100}
+                  %)
+                </div>
               )
             }
           />
         </PieChart>
         <ul>
-          {/*TODO: normal legend text*/}
           {data
             .map((item, i) => (
               <li style={{ color: colors[i] }}>
