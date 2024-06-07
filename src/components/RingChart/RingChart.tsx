@@ -1,16 +1,18 @@
 import './PieChart.scss';
 import { Button } from '../../shared/ui/button.tsx';
-import { Cell, Pie, PieChart } from 'recharts';
+import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 
 const RingChart = () => {
   const data = [
-    { name: 'Group A', value: 10 },
-    { name: 'Group B', value: 9 },
-    { name: 'Group C', value: 9 },
-    { name: 'Group D', value: 8 },
+    { name: 'The LEGO Ninjago Movie', value: 10 },
+    { name: 'Botanical Collection', value: 9 },
+    { name: 'BrickHeadz', value: 9 },
+    { name: 'Architecture', value: 8 },
     { name: 'Group E', value: 7 },
-    { name: 'Group E', value: 6 },
-    { name: 'Group E', value: 5 },
+    { name: 'Group F', value: 6 },
+    { name: 'Group G', value: 5 },
+    { name: 'Group G', value: 4 },
+    { name: 'Group G', value: 3 },
   ];
 
   const colors = Array.from({ length: data.length }, (_, i) => {
@@ -26,7 +28,6 @@ const RingChart = () => {
 
   console.log(colors);
 
-  //TODO: layout pie chart
   return (
     <div className="pie-chart">
       <div className="pie-chart__header">
@@ -41,7 +42,6 @@ const RingChart = () => {
           endAngle={-180}
           cornerRadius={9999}
           paddingAngle={-15}
-          fill="#8884d8"
           dataKey="value"
         >
           {data.map((_, index) => (
@@ -52,9 +52,21 @@ const RingChart = () => {
             />
           ))}
         </Pie>
+        <Tooltip content={<RingTooltip />} />
       </PieChart>
     </div>
   );
+};
+
+//TODO: black tooltip shadow
+const RingTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="py-1 px-1.5 shadow-tooltip rounded-md bg-tooltip dark:bg-tooltipdark text-xs">
+        {`${label}`}
+      </div>
+    );
+  }
 };
 
 export default RingChart;
