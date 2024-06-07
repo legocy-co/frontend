@@ -38,6 +38,9 @@ export const CollectionPage = () => {
 const Totals = () => {
   const totals = useUnit($collectionTotals);
 
+  const setTwoDecimals = (value: number): number =>
+    Math.floor(value * 100) / 100;
+
   return (
     <div className="w-[95%] iconstrokes text-2xl py-4 px-8 bg-pagesize dark:bg-dark flex flex-wrap items-center justify-between gap-10 rounded-lg">
       <div className="flex items-center gap-2">
@@ -63,8 +66,8 @@ const Totals = () => {
             { 'text-[#EE716C]': totals.totalProfits.totalReturnUSD < 0 }
           )}
         >
-          {totals.totalProfits.totalReturnUSD}$ (
-          {Math.round(totals.totalProfits.totalReturnPercentage * 100) / 100}
+          {setTwoDecimals(totals.totalProfits.totalReturnUSD)}$ (
+          {setTwoDecimals(totals.totalProfits.totalReturnPercentage)}
           %)
         </span>
       </div>

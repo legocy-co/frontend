@@ -58,7 +58,7 @@ export const CollectionSetForm = () => {
         ]}
         defaultOptionValue=""
       />
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-14">
         {!eachValid && (
           <FormError>
             {fields.buyPrice.errorText() ||

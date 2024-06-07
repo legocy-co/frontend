@@ -37,6 +37,7 @@ export const form = createForm({
           name: 'buyPrice',
           schema: z
             .number()
+            .min(0.01)
             .max(999999)
             .nonnegative()
             .nullable()
