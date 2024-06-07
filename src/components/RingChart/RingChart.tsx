@@ -1,13 +1,13 @@
 import './PieChart.scss';
 import { Button } from '../../shared/ui/button.tsx';
 import { Cell, Pie, PieChart, Tooltip } from 'recharts';
-import { clsx } from 'clsx';
 
 const RingChart = () => {
   const data = [
     { name: 'Botanical Collection', value: 9 },
     { name: 'The LEGO Ninjago Movie', value: 10 },
     { name: 'BrickHeadz', value: 9 },
+    { name: 'Architecture', value: 8 },
     { name: 'Architecture', value: 8 },
   ].sort((a, b) => a.value - b.value);
 
@@ -61,13 +61,13 @@ const RingChart = () => {
         <ul>
           {/*TODO: normal legend text*/}
           {data
-            .reverse()
-            .slice(0, 4)
             .map((item, i) => (
               <li style={{ color: colors[i] }}>
                 <p>{item.name}</p>
               </li>
-            ))}
+            ))
+            .reverse()
+            .slice(0, 4)}
         </ul>
       </div>
     </div>
