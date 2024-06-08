@@ -52,9 +52,9 @@ const RingChart = () => {
       />
       {showExpanded && (
         <ConfirmationModal
-          className={clsx('!p-0 dark:!bg-dark !top-[5%]', {
-            '!top-[0%]': data.length > 9,
-          })}
+          className={clsx(
+            '!p-0 dark:!bg-dark max-h-[550px] !top-12 overflow-auto'
+          )}
           show={showExpanded}
           onClose={() => setShowExpanded(false)}
           showYes={false}
@@ -64,9 +64,8 @@ const RingChart = () => {
             data={data}
             colors={colors}
             total={total}
-            label="Series statistics"
+            label="Theme overview"
             expanded
-            barChart
           />
         </ConfirmationModal>
       )}
@@ -88,7 +87,6 @@ interface StatsProps {
   barChart?: boolean;
 }
 
-// TODO: display label (value)
 const Stats = ({
   onClick,
   data,
@@ -102,9 +100,23 @@ const Stats = ({
   customUnits,
   barChart = false,
 }: StatsProps) => {
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+
+  const max = Math.max(...data.map((o) => o.value));
+
+  const isDesktop = windowWidth > 640;
+
   function toPercentage(value: number) {
     return setTwoDecimals((value / total) * 100);
   }
+
+  window.addEventListener(
+    'resize',
+    function () {
+      setWindowWidth(window.innerWidth);
+    },
+    true
+  );
 
   return (
     <div
@@ -114,7 +126,7 @@ const Stats = ({
     >
       <div
         className={clsx('ring-chart__header', {
-          '!justify-start gap-5': gluedHeader,
+          '!justify-start': gluedHeader,
         })}
       >
         <h1>{label}</h1>
@@ -124,16 +136,18 @@ const Stats = ({
       </div>
       {barChart ? (
         <BarChart
-          width={600}
+          width={isDesktop ? 600 : 300}
           height={40 * data.length}
-          data={data.reverse()}
+          data={data.sort((a, b) => b.value - a.value)}
           layout="vertical"
           className="textfills"
+          margin={{ right: 20, top: 20 }}
         >
           <XAxis
-            minTickGap={-10}
+            interval={0}
             tickCount={10}
-            dataKey="value"
+            allowDecimals={false}
+            domain={[1, max]}
             type="number"
             tickLine={{ stroke: 'gray' }}
             axisLine={{ stroke: 'gray' }}
@@ -146,18 +160,21 @@ const Stats = ({
             dataKey="name"
             type="category"
             stroke="#262323"
-            width={276}
-            fontSize={13}
+            width={isDesktop ? 200 : 100}
+            fontSize={isDesktop ? 21 : 14}
+            fontWeight={500}
             tickLine={false}
             axisLine={false}
           />
           <YAxis
+            tickMargin={20}
             yAxisId={0}
             dataKey="value"
+            stroke="#262323"
             tickFormatter={(tick) => `(${tick})`}
             type="category"
-            stroke="#262323"
-            fontSize={13}
+            fontSize={isDesktop ? 21 : 14}
+            fontWeight={500}
             tickLine={false}
             axisLine={false}
           />
