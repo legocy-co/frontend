@@ -1,6 +1,15 @@
 import './RingChart.scss';
 import { Button } from '../../shared/ui/button.tsx';
-import { Cell, Pie, PieChart, Tooltip } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  Cell,
+  Pie,
+  PieChart,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 import ConfirmationModal from '../ConfirmationModal';
 import React, { useState } from 'react';
 import clsx from 'clsx';
@@ -32,7 +41,7 @@ const RingChart = () => {
 
   return (
     <>
-      <RingStats
+      <Stats
         onClick={() => setShowExpanded(true)}
         data={data}
         colors={colors}
@@ -43,18 +52,21 @@ const RingChart = () => {
       />
       {showExpanded && (
         <ConfirmationModal
-          className="!p-0 dark:!bg-dark !top-[10%]"
+          className={clsx('!p-0 dark:!bg-dark !top-[5%]', {
+            '!top-[0%]': data.length > 9,
+          })}
           show={showExpanded}
           onClose={() => setShowExpanded(false)}
           showYes={false}
         >
-          <RingStats
+          <Stats
             onClick={() => setShowExpanded(false)}
             data={data}
             colors={colors}
             total={total}
             label="Series statistics"
             expanded
+            barChart
           />
         </ConfirmationModal>
       )}
@@ -62,7 +74,7 @@ const RingChart = () => {
   );
 };
 
-interface RingStatsProps {
+interface StatsProps {
   onClick: (e: React.MouseEvent<Element, MouseEvent>) => void;
   data: { name: string; value: number }[];
   colors: string[];
@@ -73,10 +85,11 @@ interface RingStatsProps {
   gluedHeader?: boolean;
   customUnits?: string;
   legendPercentage?: boolean;
+  barChart?: boolean;
 }
 
-// TODO: large collection expanded
-const RingStats = ({
+// TODO: display label (value)
+const Stats = ({
   onClick,
   data,
   colors,
@@ -87,7 +100,8 @@ const RingStats = ({
   gluedHeader = false,
   legendPercentage = false,
   customUnits,
-}: RingStatsProps) => {
+  barChart = false,
+}: StatsProps) => {
   function toPercentage(value: number) {
     return setTwoDecimals((value / total) * 100);
   }
@@ -108,56 +122,100 @@ const RingStats = ({
           <Button onClick={onClick}>{expanded ? 'Go back' : 'Expand'}</Button>
         )}
       </div>
-      <div className="ring-chart__body">
-        <PieChart width={250} height={250}>
-          <Pie
-            data={data}
-            innerRadius={70}
-            startAngle={180}
-            endAngle={540}
-            cornerRadius={9999}
-            paddingAngle={-15}
+      {barChart ? (
+        <BarChart
+          width={600}
+          height={40 * data.length}
+          data={data.reverse()}
+          layout="vertical"
+          className="textfills"
+        >
+          <XAxis
+            tickCount={10}
             dataKey="value"
-          >
-            {data.map((_, i) => (
-              <Cell
-                className="outline-none"
-                key={`cell-${i}`}
-                stroke={colors[i]}
-                strokeWidth={0}
-                fill={colors[i]}
-              />
-            ))}
-          </Pie>
-          <Tooltip
-            content={({ payload }) =>
-              payload &&
-              payload.length && (
-                <div className="ring-chart__tooltip">
-                  {customUnits
-                    ? `${payload[0].value} ${customUnits}`
-                    : `${payload[0].name}`}{' '}
-                  ({toPercentage(Number(payload[0].value))}%)
-                </div>
-              )
-            }
+            type="number"
+            tickLine={{ stroke: 'gray' }}
+            axisLine={{ stroke: 'gray' }}
+            stroke="#262323"
+            fontSize={13}
+            fontWeight={500}
           />
-        </PieChart>
-        <ul>
-          {data
-            .map((item, i) => (
-              <li key={'li-' + i} style={{ color: colors[i] }}>
-                <p>
-                  {item.name}
-                  {customUnits && `: ${item.value} ${customUnits}`}{' '}
-                  {legendPercentage && `(${toPercentage(item.value)}%)`}
-                </p>
-              </li>
-            ))
-            .reverse()
-            .slice(0, expanded ? data.length : 5)}
-        </ul>
-      </div>
+          <YAxis
+            tickMargin={20}
+            dataKey="name"
+            type="category"
+            stroke="#262323"
+            width={276}
+            fontSize={13}
+            tickLine={false}
+            axisLine={false}
+          />
+          <Bar dataKey="value" barSize={20} fontWeight={500} radius={6}>
+            {data
+              .map((_, i) => (
+                <Cell
+                  className="outline-none"
+                  key={`cellbar-${i}`}
+                  stroke={colors[i]}
+                  strokeWidth={0}
+                  fill={colors[i]}
+                />
+              ))
+              .reverse()}
+          </Bar>
+        </BarChart>
+      ) : (
+        <div className="ring-chart__body">
+          <PieChart width={250} height={250}>
+            <Pie
+              data={data}
+              innerRadius={70}
+              startAngle={180}
+              endAngle={540}
+              cornerRadius={9999}
+              paddingAngle={-15}
+              dataKey="value"
+            >
+              {data.map((_, i) => (
+                <Cell
+                  className="outline-none"
+                  key={`cell-${i}`}
+                  stroke={colors[i]}
+                  strokeWidth={0}
+                  fill={colors[i]}
+                />
+              ))}
+            </Pie>
+            <Tooltip
+              content={({ payload }) =>
+                payload &&
+                payload.length && (
+                  <div className="ring-chart__tooltip">
+                    {customUnits
+                      ? `${payload[0].value} ${customUnits}`
+                      : `${payload[0].name}`}{' '}
+                    ({toPercentage(Number(payload[0].value))}%)
+                  </div>
+                )
+              }
+            />
+          </PieChart>
+          <ul>
+            {data
+              .map((item, i) => (
+                <li key={'li-' + i} style={{ color: colors[i] }}>
+                  <p>
+                    {item.name}
+                    {customUnits && `: ${item.value} ${customUnits}`}{' '}
+                    {legendPercentage && `(${toPercentage(item.value)}%)`}
+                  </p>
+                </li>
+              ))
+              .reverse()
+              .slice(0, expanded ? data.length : 5)}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
