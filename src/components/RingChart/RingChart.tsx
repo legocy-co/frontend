@@ -131,6 +131,7 @@ const Stats = ({
           className="textfills"
         >
           <XAxis
+            minTickGap={-10}
             tickCount={10}
             dataKey="value"
             type="number"
@@ -141,11 +142,21 @@ const Stats = ({
             fontWeight={500}
           />
           <YAxis
-            tickMargin={20}
+            yAxisId={1}
             dataKey="name"
             type="category"
             stroke="#262323"
             width={276}
+            fontSize={13}
+            tickLine={false}
+            axisLine={false}
+          />
+          <YAxis
+            yAxisId={0}
+            dataKey="value"
+            tickFormatter={(tick) => `(${tick})`}
+            type="category"
+            stroke="#262323"
             fontSize={13}
             tickLine={false}
             axisLine={false}
