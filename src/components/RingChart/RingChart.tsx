@@ -15,20 +15,34 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { setTwoDecimals } from '../../services/utils.ts';
 
-const RingChart = () => {
+interface RingChartProps {
+  data: { name: string; value: number }[];
+  expanded?: boolean;
+  total: number;
+  label: string;
+  hideExpand?: boolean;
+  gluedHeader?: boolean;
+  customUnits?: string;
+  legendPercentage?: boolean;
+  className?: string;
+}
+
+const RingChart = ({
+  data,
+  hideExpand = false,
+  total,
+  label,
+  gluedHeader = false,
+  legendPercentage = false,
+  customUnits,
+  className,
+}: RingChartProps) => {
   const [showExpanded, setShowExpanded] = useState(false);
 
-  const data = [
-    { name: 'Botanical Collection', value: 9 },
-    { name: 'The LEGO Ninjago Movie', value: 10 },
-    { name: 'BrickHeadz', value: 9 },
-    { name: 'Architecture', value: 8 },
-    { name: 'DC Cosmic Super Heroes', value: 7 },
-  ].sort((a, b) => a.value - b.value);
-
+  // TODO: optimize findColor calls
   const colors = Array.from({ length: data.length }, (_, i) => {
     const findColor = (left: number, right: number): number =>
-      right - (i * (right - left)) / (data.length - 1);
+      right - (i * (right - left)) / (data.length - 1 ? data.length - 1 : 1);
 
     return `rgb(${findColor(215, 255)},${findColor(77, 228)},${findColor(
       33,
@@ -36,8 +50,7 @@ const RingChart = () => {
     )})`;
   });
 
-  // prop
-  const total = data.map((item) => item.value).reduce((sum, a) => sum + a, 0);
+  console.log(colors);
 
   return (
     <>
@@ -46,9 +59,12 @@ const RingChart = () => {
         data={data}
         colors={colors}
         total={total}
-        label="Series statistics"
-        legendPercentage
-        gluedHeader
+        label={label}
+        hideExpand={hideExpand}
+        customUnits={customUnits}
+        legendPercentage={legendPercentage}
+        gluedHeader={gluedHeader}
+        className={className}
       />
       {showExpanded && (
         <ConfirmationModal
@@ -66,6 +82,7 @@ const RingChart = () => {
             total={total}
             label="Theme overview"
             expanded
+            barChart={data.length > 10}
           />
         </ConfirmationModal>
       )}
@@ -73,18 +90,10 @@ const RingChart = () => {
   );
 };
 
-interface StatsProps {
+interface StatsProps extends RingChartProps {
   onClick: (e: React.MouseEvent<Element, MouseEvent>) => void;
-  data: { name: string; value: number }[];
-  colors: string[];
-  expanded?: boolean;
-  total: number;
-  label: string;
-  hideExpand?: boolean;
-  gluedHeader?: boolean;
-  customUnits?: string;
-  legendPercentage?: boolean;
   barChart?: boolean;
+  colors: string[];
 }
 
 const Stats = ({
@@ -99,6 +108,7 @@ const Stats = ({
   legendPercentage = false,
   customUnits,
   barChart = false,
+  className,
 }: StatsProps) => {
   const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
@@ -120,12 +130,16 @@ const Stats = ({
 
   return (
     <div
-      className={clsx('ring-chart', {
-        '!border-none': expanded,
-      })}
+      className={clsx(
+        'ring-chart',
+        {
+          '!border-none': expanded,
+        },
+        className
+      )}
     >
       <div
-        className={clsx('ring-chart__header', {
+        className={clsx('ring-chart__header h-[38px]', {
           '!justify-start': gluedHeader,
         })}
       >

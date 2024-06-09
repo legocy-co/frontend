@@ -3,7 +3,6 @@ import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
 import { useNavigate } from 'react-router-dom';
-import { $collectionTotals } from './model.ts';
 import { Button } from '../../shared/ui/button.tsx';
 import CalculationIcon from '../../assets/icons/calculation.svg?react';
 import PlusIcon from '../../assets/icons/plus.svg?react';
@@ -16,12 +15,16 @@ import { setTwoDecimals } from '../../services/utils.ts';
 export const CollectionPage = () => {
   useGate(model.gate);
 
+  const totals = useUnit(model.$collectionTotals);
+  const pnlData = useUnit(model.$pnlData);
+  const seriesData = useUnit(model.$seriesChartData);
+
   const navigate = useNavigate();
 
   return (
     <>
       <PageHeading>Collection</PageHeading>
-      <div className="flex flex-col items-center justify-start gap-4 w-full">
+      <div className="flex flex-col items-center justify-start gap-4 min-w-80 w-[95%]">
         <Button
           className="w-80 sm:w-[382px] h-[53px] rounded-[10px]"
           onClick={() => navigate('/collection/add/')}
@@ -29,7 +32,27 @@ export const CollectionPage = () => {
           Add Set to Collection
         </Button>
         <Totals />
-        <RingChart />
+        <div className="w-full flex items-center justify-around flex-wrap gap-5">
+          {totals.setsValuated > 0 && (
+            <RingChart
+              data={pnlData}
+              total={totals.setsValuated}
+              label="Profits Overview"
+              hideExpand
+              customUnits="sets"
+              className="!max-w-[556px]"
+            />
+          )}
+          <RingChart
+            data={seriesData}
+            total={totals.totalSets}
+            label={
+              totals.totalSets < 6 ? 'Series statistics' : 'Themes overview'
+            }
+            legendPercentage={totals.totalSets < 6}
+            gluedHeader={totals.totalSets < 6}
+          />
+        </div>
       </div>
       <CollectionList />
     </>
@@ -37,10 +60,10 @@ export const CollectionPage = () => {
 };
 
 const Totals = () => {
-  const totals = useUnit($collectionTotals);
+  const totals = useUnit(model.$collectionTotals);
 
   return (
-    <div className="w-[95%] iconstrokes text-2xl py-4 px-8 bg-pagesize dark:bg-dark flex flex-wrap items-center justify-between gap-10 rounded-lg">
+    <div className="w-full iconstrokes text-2xl py-4 px-8 bg-pagesize dark:bg-dark flex flex-wrap items-center justify-between gap-10 rounded-lg">
       <div className="flex items-center gap-2">
         <CalculationIcon className="w-[22px] iconfills" />
         <p>Current value ($): {totals.total}</p>
