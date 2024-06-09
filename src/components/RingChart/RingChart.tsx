@@ -81,6 +81,7 @@ const RingChart = ({
             label="Theme overview"
             expanded
             barChart={data.length > 10}
+            className="!w-[100%]"
           />
         </ConfirmationModal>
       )}
@@ -94,7 +95,6 @@ interface StatsProps extends RingChartProps {
   colors: string[];
 }
 
-//TODO: adaptive chart modasl
 const Stats = ({
   onClick,
   data,
@@ -160,7 +160,7 @@ const Stats = ({
             interval={0}
             tickCount={10}
             allowDecimals={false}
-            domain={[1, max]}
+            domain={[0, max]}
             type="number"
             tickLine={{ stroke: 'gray' }}
             axisLine={{ stroke: 'gray' }}
@@ -174,7 +174,7 @@ const Stats = ({
             type="category"
             stroke="#262323"
             width={isDesktop ? 200 : 100}
-            fontSize={isDesktop ? 21 : 14}
+            fontSize={isDesktop ? 17 : 12}
             fontWeight={500}
             tickLine={false}
             axisLine={false}
@@ -186,7 +186,7 @@ const Stats = ({
             stroke="#262323"
             tickFormatter={(tick) => `(${tick})`}
             type="category"
-            fontSize={isDesktop ? 21 : 14}
+            fontSize={isDesktop ? 17 : 12}
             fontWeight={500}
             tickLine={false}
             axisLine={false}
@@ -209,7 +209,7 @@ const Stats = ({
         <div className="ring-chart__body">
           <PieChart width={250} height={250}>
             <Pie
-              data={data}
+              data={data.sort((a, b) => a.value - b.value)}
               innerRadius={70}
               startAngle={180}
               endAngle={540}

@@ -22,6 +22,7 @@ interface CollectionCellProps {
   total_return_usd?: number;
 }
 
+//TODO: redesign collection cell
 const CollectionCell = (props: CollectionCellProps) => {
   const navigate = useNavigate();
 
