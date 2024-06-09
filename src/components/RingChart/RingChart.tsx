@@ -39,18 +39,15 @@ const RingChart = ({
 }: RingChartProps) => {
   const [showExpanded, setShowExpanded] = useState(false);
 
-  // TODO: optimize findColor calls
   const colors = Array.from({ length: data.length }, (_, i) => {
-    const findColor = (left: number, right: number): number =>
-      right - (i * (right - left)) / (data.length - 1 ? data.length - 1 : 1);
+    const maximumIndex = data.length - 1;
 
-    return `rgb(${findColor(215, 255)},${findColor(77, 228)},${findColor(
-      33,
-      133
+    return `rgb(${[255, 228, 133].map(
+      (color, j) =>
+        color -
+        (i * (color - [215, 77, 33][j])) / (maximumIndex ? maximumIndex : 1)
     )})`;
   });
-
-  console.log(colors);
 
   return (
     <>
