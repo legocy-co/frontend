@@ -22,7 +22,7 @@ interface RingChartProps {
   label: string;
   hideExpand?: boolean;
   gluedHeader?: boolean;
-  customUnits?: string;
+  customUnits?: string[];
   legendPercentage?: boolean;
   className?: string;
 }
@@ -41,11 +41,12 @@ const RingChart = ({
 
   const colors = Array.from({ length: data.length }, (_, i) => {
     const maximumIndex = data.length - 1;
+    const startColor = [215, 77, 33];
 
-    return `rgb(${[255, 228, 133].map(
-      (color, j) =>
-        color -
-        (i * (color - [215, 77, 33][j])) / (maximumIndex ? maximumIndex : 1)
+    return `rgb(${[255, 228, 133].map((color, j) =>
+      maximumIndex
+        ? color - (i * (color - startColor[j])) / maximumIndex
+        : startColor[j]
     )})`;
   });
 
@@ -93,6 +94,7 @@ interface StatsProps extends RingChartProps {
   colors: string[];
 }
 
+//TODO: adaptive chart modasl
 const Stats = ({
   onClick,
   data,
@@ -231,7 +233,11 @@ const Stats = ({
                 payload.length && (
                   <div className="ring-chart__tooltip">
                     {customUnits
-                      ? `${payload[0].value} ${customUnits}`
+                      ? `${payload[0].value} ${
+                          Number(payload[0].value) > 1
+                            ? customUnits[0]
+                            : customUnits[1]
+                        }`
                       : `${payload[0].name}`}{' '}
                     ({toPercentage(Number(payload[0].value))}%)
                   </div>
@@ -245,7 +251,10 @@ const Stats = ({
                 <li key={'li-' + i} style={{ color: colors[i] }}>
                   <p>
                     {item.name}
-                    {customUnits && `: ${item.value} ${customUnits}`}{' '}
+                    {customUnits &&
+                      `: ${item.value} ${
+                        item.value > 1 ? customUnits[0] : customUnits[1]
+                      }`}{' '}
                     {legendPercentage && `(${toPercentage(item.value)}%)`}
                   </p>
                 </li>

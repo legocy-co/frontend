@@ -39,7 +39,7 @@ export const CollectionPage = () => {
               total={totals.setsValuated}
               label="Profits Overview"
               hideExpand
-              customUnits="sets"
+              customUnits={['sets', 'set']}
               className="!max-w-[556px]"
             />
           )}
