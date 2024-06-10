@@ -10,25 +10,26 @@ import {
 } from '../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../shared/ui/form-error.tsx';
 import { lso } from '../lego-set/options/index.ts';
-import { setStates } from '../../types/MarketItemType.ts';
 import { Button } from '../../shared/ui/button.tsx';
+import { sso } from '../set-state/options/index.ts';
 
 export const CollectionSetForm = () => {
   const params = useParams<'id'>();
+
+  const { fields, eachValid } = useForm(model.form);
 
   const legoSets = useUnit(lso.$legoSetOptions);
   const navigateFn = useNavigate();
 
   useGate(model.gate, { id: params.id ?? null, navigateFn });
 
-  const { fields, eachValid } = useForm(model.form);
-  function onSubmit(ev: React.FormEvent) {
+  function handleSubmit(ev: React.FormEvent) {
     ev.preventDefault();
     model.form.submit();
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={handleSubmit}>
       <NumberFieldAdapter
         field={model.form.fields.buyPrice}
         labelText="Buy price"
@@ -46,16 +47,7 @@ export const CollectionSetForm = () => {
       />
       <SelectFieldAdapter
         field={model.form.fields.state}
-        options={[
-          {
-            value: '',
-            label: 'Select condition',
-          },
-          ...Object.entries(setStates).map((state) => ({
-            label: state[1],
-            value: state[0],
-          })),
-        ]}
+        options={sso.setStateOptions}
         defaultOptionValue=""
       />
       <div className="flex justify-center mt-14">

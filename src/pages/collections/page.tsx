@@ -2,7 +2,6 @@ import CollectionList from '../../components/CollectionList';
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
-import { useNavigate } from 'react-router-dom';
 import { Button } from '../../shared/ui/button.tsx';
 import CalculationIcon from '../../assets/icons/calculation.svg?react';
 import PlusIcon from '../../assets/icons/plus.svg?react';
@@ -11,16 +10,19 @@ import GraphIcon from '../../assets/icons/graph.svg?react';
 import clsx from 'clsx';
 import RingChart from '../../components/RingChart';
 import { setTwoDecimals } from '../../services/utils.ts';
+import { useState } from 'react';
+import ConfirmationModal from '../../components/ConfirmationModal';
+import { CollectionSetForm } from '../../features/collection';
 
-//TODO: pop-up collection forms
+//TODO: handle submit close
 export const CollectionPage = () => {
   useGate(model.gate);
+
+  const [showAdd, setShowAdd] = useState(false);
 
   const totals = useUnit(model.$collectionTotals);
   const pnlData = useUnit(model.$pnlData);
   const seriesData = useUnit(model.$seriesChartData);
-
-  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col items-center min-w-80 w-[95%]">
@@ -28,7 +30,7 @@ export const CollectionPage = () => {
       <div className="flex flex-col max-w-full flex-grow items-center gap-4">
         <Button
           className="w-80 sm:w-[382px] h-[53px] rounded-[10px]"
-          onClick={() => navigate('/collection/add/')}
+          onClick={() => setShowAdd(true)}
         >
           Add Set to Collection
         </Button>
@@ -56,6 +58,15 @@ export const CollectionPage = () => {
         </div>
       </div>
       <CollectionList />
+      {showAdd && (
+        <ConfirmationModal
+          show={showAdd}
+          onClose={() => setShowAdd(false)}
+          showYes={false}
+        >
+          <CollectionSetForm />
+        </ConfirmationModal>
+      )}
     </div>
   );
 };

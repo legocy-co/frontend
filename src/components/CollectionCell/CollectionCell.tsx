@@ -43,7 +43,7 @@ const CollectionCell = (props: CollectionCellProps) => {
         >
           <PencilIcon width={13} />
         </div>
-        <u>{props.set}</u>
+        <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>{props.set}</u>
         <div
           className="collection-cell--button"
           onClick={() => {
