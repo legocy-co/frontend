@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import RingChart from '../../components/RingChart';
 import { setTwoDecimals } from '../../services/utils.ts';
 
+//TODO: pop-up collection forms
 export const CollectionPage = () => {
   useGate(model.gate);
 
@@ -22,9 +23,9 @@ export const CollectionPage = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div className="flex flex-col items-center min-w-80 w-[95%]">
       <PageHeading>Collection</PageHeading>
-      <div className="flex flex-col items-center justify-start gap-4 min-w-80 w-[95%]">
+      <div className="flex flex-col max-w-full flex-grow items-center gap-4">
         <Button
           className="w-80 sm:w-[382px] h-[53px] rounded-[10px]"
           onClick={() => navigate('/collection/add/')}
@@ -32,7 +33,7 @@ export const CollectionPage = () => {
           Add Set to Collection
         </Button>
         <Totals />
-        <div className="w-full flex items-center justify-around flex-wrap gap-5">
+        <div className="w-full flex items-center justify-around flex-grow flex-wrap gap-5">
           {totals.setsValuated > 0 && (
             <RingChart
               data={pnlData}
@@ -55,7 +56,7 @@ export const CollectionPage = () => {
         </div>
       </div>
       <CollectionList />
-    </>
+    </div>
   );
 };
 

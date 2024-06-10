@@ -28,7 +28,7 @@ export const UserProfilePageForm = () => {
           labelText="Username"
           className="w-[386px] h-[48px] mb-6 bg-pagesize"
         />
-        <PencilIcon className="absolute top-1/2 right-3 iconfills" />
+        <PencilIcon className="absolute top-9 right-3 iconfills" />
       </div>
       <div className="relative">
         <TextFieldAdapter
@@ -36,7 +36,7 @@ export const UserProfilePageForm = () => {
           labelText="Email address"
           className="w-[386px] h-[48px] mb-2 bg-pagesize"
         />
-        <PencilIcon className="absolute top-1/2 right-3 iconfills" />
+        <PencilIcon className="absolute top-9 right-3 iconfills" />
       </div>
       <div className="flex justify-center">
         {!eachValid && (

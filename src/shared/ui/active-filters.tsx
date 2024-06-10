@@ -54,7 +54,7 @@ export const ActiveFilters = ({
       <button
         onClick={() => resetTriggered()}
         type="button"
-        className="rounded-md min-w-[144px] h-[37px] bg-black bg-opacity-35 flex items-center justify-around dark:bg-white dark:bg-opacity-35 text-[#F9F9F9] hover:opacity-90 active:opacity-80 transition-opacity"
+        className="rounded-md min-w-[144px] h-[37px] bg-black bg-opacity-35 flex items-center justify-around dark:bg-white dark:bg-opacity-35 text-[#F9F9F9] hover:opacity-90 active:opacity-80 transition-opacity fillswhite"
       >
         Clear filters
         <TrashIcon />

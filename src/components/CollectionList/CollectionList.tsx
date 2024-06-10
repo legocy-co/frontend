@@ -16,7 +16,6 @@ const CollectionList = () => {
         set_number={set.setNumber}
         set_id={set.setID}
         condition={set.condition}
-        images={set.images}
         total_return_percentage={set.totalReturnPercentage}
         total_return_usd={set.totalReturnUSD}
       />
@@ -24,7 +23,7 @@ const CollectionList = () => {
   ));
 
   return (
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 transition-all mt-7">
+    <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 transition-all mt-7">
       {collectionCellsElement}
     </div>
   );
