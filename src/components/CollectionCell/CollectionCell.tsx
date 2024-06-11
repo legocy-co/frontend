@@ -24,7 +24,6 @@ interface CollectionCellProps {
   total_return_usd?: number;
 }
 
-// TODO: pop-ups close onSubmit
 const CollectionCell = (props: CollectionCellProps) => {
   const navigate = useNavigate();
 
@@ -94,6 +93,7 @@ const CollectionCell = (props: CollectionCellProps) => {
       </div>
       {(showEdit || showDelete) && (
         <ConfirmationModal
+          className="!p-[59px] dark:!bg-dark max-h-[550px] !top-12 overflow-auto"
           show={showDelete}
           onClose={() =>
             showDelete ? setShowDelete(false) : setShowEdit(false)

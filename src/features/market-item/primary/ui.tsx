@@ -21,7 +21,7 @@ export const MarketItemPrimaryForm = () => {
     <form className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">Set name</p>
-        <div className="relative w-[360px] sm:w-[470px]">
+        <div className="relative w-80 sm:w-[470px]">
           <SelectSearchAdapter
             clientSideSearch
             field={model.form.fields.legoSetID}
@@ -30,7 +30,7 @@ export const MarketItemPrimaryForm = () => {
               value: legoSet.id,
               label: `${legoSet.number} - ${legoSet.name}`,
             }))}
-            className="!w-[360px] sm:!w-[470px] !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
+            className="!w-full !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
           />
           <ChevronUpIcon className="absolute rotate-180 opacity-50 top-5 right-4 iconstrokes" />
         </div>
@@ -40,7 +40,7 @@ export const MarketItemPrimaryForm = () => {
         <p className="text-sm font-normal text-[#242020] dark:text-[#F9F9F9] text-opacity-85">
           Choose a condition that best describes your set
         </p>
-        <div className="flex flex-wrap !w-[360px] sm:!w-[466px] gap-[10px] mb-2">
+        <div className="flex flex-wrap !w-80 sm:!w-[466px] gap-[10px] mb-2">
           {...Object.entries(setStates).map((state) => (
             <div
               key={'state-' + state}

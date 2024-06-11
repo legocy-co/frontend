@@ -14,7 +14,6 @@ import { useEffect, useState } from 'react';
 import ConfirmationModal from '../../components/ConfirmationModal';
 import { CollectionSetForm, csf } from '../../features/collection';
 
-//TODO: handle submit close
 export const CollectionPage = () => {
   useGate(model.gate);
 

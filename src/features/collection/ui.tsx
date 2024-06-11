@@ -5,19 +5,17 @@ import { useForm } from 'effector-forms';
 import React from 'react';
 import {
   NumberFieldAdapter,
-  SelectFieldAdapter,
   SelectSearchAdapter,
 } from '../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../shared/ui/form-error.tsx';
 import { lso } from '../lego-set/options/index.ts';
 import { Button } from '../../shared/ui/button.tsx';
-import { sso } from '../set-state/options/index.ts';
 
 interface Props {
   id?: number;
 }
 
-// TODO: layout collectionSet form
+// TODO: common setStates field
 export const CollectionSetForm = ({ id }: Props) => {
   const { fields, eachValid } = useForm(model.form);
 
@@ -32,27 +30,34 @@ export const CollectionSetForm = ({ id }: Props) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <NumberFieldAdapter
-        field={model.form.fields.buyPrice}
-        labelText="Buy price"
-        className="w-[343px] h-[44px] mb-3 bg-pagesize"
-      />
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center gap-5 text-lg font-medium"
+    >
+      <h1 className="text-[2rem] font-bold mb-5">
+        {id ? 'Edit' : 'Add Collection'} Set
+      </h1>
       <SelectSearchAdapter
         clientSideSearch
         field={model.form.fields.legoSetID}
         labelText="Lego set"
-        className="w-[343px] h-[44px] mb-3 bg-pagesize relative"
+        className="w-80 sm:w-[470px] h-[48px] font-normal !bg-pagesize !text-black"
         options={legoSets.map((legoSet) => ({
           value: legoSet.id,
           label: `${legoSet.number} - ${legoSet.name}`,
         }))}
       />
-      <SelectFieldAdapter
-        field={model.form.fields.state}
-        options={sso.setStateOptions}
-        defaultOptionValue=""
+      <NumberFieldAdapter
+        field={model.form.fields.buyPrice}
+        labelText="Buy price, $"
+        className="w-80 sm:w-[470px] h-[48px] font-normal !bg-pagesize !text-black"
       />
+      {/*<SelectFieldAdapter*/}
+      {/*  field={model.form.fields.state}*/}
+      {/*  className="!bg-pagesize !text-black"*/}
+      {/*  options={sso.setStateOptions}*/}
+      {/*  defaultOptionValue=""*/}
+      {/*/>*/}
       <div className="flex justify-center mt-14">
         {!eachValid && (
           <FormError>
