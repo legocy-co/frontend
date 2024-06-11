@@ -10,9 +10,9 @@ import GraphIcon from '../../assets/icons/graph.svg?react';
 import clsx from 'clsx';
 import RingChart from '../../components/RingChart';
 import { setTwoDecimals } from '../../services/utils.ts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConfirmationModal from '../../components/ConfirmationModal';
-import { CollectionSetForm } from '../../features/collection';
+import { CollectionSetForm, csf } from '../../features/collection';
 
 //TODO: handle submit close
 export const CollectionPage = () => {
@@ -23,6 +23,11 @@ export const CollectionPage = () => {
   const totals = useUnit(model.$collectionTotals);
   const pnlData = useUnit(model.$pnlData);
   const seriesData = useUnit(model.$seriesChartData);
+  const formClosed = useUnit(csf.$formClosed);
+
+  useEffect(() => {
+    if (formClosed) setShowAdd(false);
+  }, [formClosed]);
 
   return (
     <div className="flex flex-col items-center min-w-80 w-[95%]">

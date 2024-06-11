@@ -7,7 +7,6 @@ import {
   attach,
   createDomain,
   createEffect,
-  createEvent,
   createStore,
   EventPayload,
   sample,
@@ -24,7 +23,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { CollectionSet } from '../../types/CollectionType.ts';
 
 export const gate = createGate<{
-  id: string | null;
+  id: number | null;
   navigateFn: NavigateFunction;
 }>();
 
@@ -70,13 +69,13 @@ const domain = createDomain();
 
 export const setForm = domain.createEvent<CollectionSet>();
 
+export const $formClosed = createStore(false);
+
 const $collectionSets = createStore<CollectionSet[]>([]);
 
 const $setID = gate.state.map(({ id }) => id);
 
 const $isEditing = $setID.map((id) => id !== null);
-
-const setCollectionSet = createEvent<CollectionSet>();
 
 const GetCollectionFx = createEffect(() => collectionService.GetCollection());
 
@@ -86,10 +85,7 @@ const fetchCollectionSetFx = attach({
     setId: $setID,
   },
   effect: ({ collectionSets, setId }) => {
-    const collectionSet = collectionSets.find(
-      (set) => String(set.id) === setId
-    );
-
+    const collectionSet = collectionSets.find((set) => set.id === setId);
     if (!collectionSet) throw new Error('Collection set not found');
     return collectionSet;
   },
@@ -118,11 +114,6 @@ const updateCollectionSetFx = attach({
     }),
 });
 
-const collectionRedirectFx = attach({
-  source: gate.state,
-  effect: ({ navigateFn }) => navigateFn('/collection/'),
-});
-
 function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
   return {
     buyPrice: values.buyPrice,
@@ -137,7 +128,7 @@ sample({
 });
 
 sample({
-  clock: fetchLegoSetsFx.doneData,
+  source: fetchLegoSetsFx.doneData,
   fn: toOptions,
   target: $legoSetOptions,
 });
@@ -161,11 +152,6 @@ sample({
 
 sample({
   clock: fetchCollectionSetFx.doneData,
-  target: setCollectionSet,
-});
-
-sample({
-  clock: setCollectionSet,
   target: setForm,
 });
 
@@ -186,7 +172,8 @@ split({
 
 sample({
   clock: [addCollectionSetFx.done, updateCollectionSetFx.done],
-  target: collectionRedirectFx,
+  fn: () => true,
+  target: $formClosed,
 });
 
 sample({

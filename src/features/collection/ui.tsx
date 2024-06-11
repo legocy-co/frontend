@@ -1,6 +1,6 @@
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'effector-forms';
 import React from 'react';
 import {
@@ -13,15 +13,17 @@ import { lso } from '../lego-set/options/index.ts';
 import { Button } from '../../shared/ui/button.tsx';
 import { sso } from '../set-state/options/index.ts';
 
-export const CollectionSetForm = () => {
-  const params = useParams<'id'>();
+interface Props {
+  id?: number;
+}
 
+export const CollectionSetForm = ({ id }: Props) => {
   const { fields, eachValid } = useForm(model.form);
 
   const legoSets = useUnit(lso.$legoSetOptions);
   const navigateFn = useNavigate();
 
-  useGate(model.gate, { id: params.id ?? null, navigateFn });
+  useGate(model.gate, { id: id ? id : null, navigateFn });
 
   function handleSubmit(ev: React.FormEvent) {
     ev.preventDefault();
@@ -39,7 +41,7 @@ export const CollectionSetForm = () => {
         clientSideSearch
         field={model.form.fields.legoSetID}
         labelText="Lego set"
-        className="w-[343px] h-[44px] mb-3 bg-pagesize"
+        className="w-[343px] h-[44px] mb-3 bg-pagesize relative"
         options={legoSets.map((legoSet) => ({
           value: legoSet.id,
           label: `${legoSet.number} - ${legoSet.name}`,
@@ -59,7 +61,7 @@ export const CollectionSetForm = () => {
           </FormError>
         )}
         <Button type="submit" className="mt-14 w-64">
-          {params.id ? 'Update collection set' : 'Add collection set'}
+          {id ? 'Update collection set' : 'Add collection set'}
         </Button>
       </div>
     </form>

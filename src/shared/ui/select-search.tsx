@@ -1,7 +1,6 @@
 import { useRef, useState } from 'react';
 import * as Portal from '@radix-ui/react-portal';
 import { useOutsideClick } from 'rooks';
-
 import { Input } from './input';
 import clsx from 'clsx';
 
@@ -41,18 +40,28 @@ export const SelectSearch = ({
   );
 
   const ref = useRef<HTMLDivElement>(null);
-  const [coords, setCoords] = useState({ left: 0, top: 0, right: 0 });
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  const [coords, setCoords] = useState({ left: 0, top: 0, right: 0 });
   const [isOpened, setIsOpened] = useState(false);
+
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const defineOptionsPosition = () => {
+    const current = ref.current;
+    if (!current) return;
+    const { x, y } = current.getBoundingClientRect();
+    const right = window.innerWidth - x - current.offsetWidth;
+
+    setCoords({
+      left: x,
+      top: y + scrollY + current.offsetHeight - 10,
+      right,
+    });
+  };
+
   const handleInputClick = () => {
-    if (!ref.current) return;
-
-    const { x, y } = ref.current.getBoundingClientRect();
-
-    const right = window.innerWidth - x - ref.current.offsetWidth;
-    setCoords({ left: x, top: y + 35, right });
+    defineOptionsPosition();
     setIsOpened(true);
   };
 
@@ -65,9 +74,14 @@ export const SelectSearch = ({
   const isEmptyOptions = filteredOptions.length === 0;
   const renderOptions = clientSideSearch ? filteredOptions : options;
 
+  addEventListener('scroll', () => {
+    defineOptionsPosition();
+  });
+
   return (
     <div ref={ref} className="w-full relative flex flex-col">
       <Input
+        ref={inputRef}
         onClick={handleInputClick}
         className={className}
         onChange={(ev) => onInputChange(ev.currentTarget.value)}
@@ -80,7 +94,9 @@ export const SelectSearch = ({
         <Portal.Root>
           <div
             ref={containerRef}
-            className="absolute bg-white dark:bg-dark rounded overflow-hidden max-h-60 overflow-y-auto w-[343px] shadow-md border-black border-solid border z-30"
+            className={`absolute bg-white dark:bg-dark rounded overflow-hidden max-h-60 overflow-y-auto w-[${
+              inputRef.current ? inputRef.current.offsetWidth : 333
+            }px] shadow-md border-black border-solid border z-30`}
             style={coords}
           >
             {isEmptyOptions &&

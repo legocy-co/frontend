@@ -8,6 +8,7 @@ import ConfirmationModal from '../ConfirmationModal';
 import { collectionService } from '../../services/CollectionService.ts';
 import { collectionsModel } from '../../pages/collections/index.tsx';
 import clsx from 'clsx';
+import { CollectionSetForm } from '../../features/collection';
 
 interface CollectionCellProps {
   id: number;
@@ -22,6 +23,7 @@ interface CollectionCellProps {
   total_return_usd?: number;
 }
 
+// TODO: pop-ups close onSubmit
 const CollectionCell = (props: CollectionCellProps) => {
   const navigate = useNavigate();
 
@@ -33,17 +35,20 @@ const CollectionCell = (props: CollectionCellProps) => {
   }
 
   const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   return (
     <div className="collection-cell">
       <div className="collection-cell__header">
         <div
           className="collection-cell--button"
-          onClick={() => navigate('/collection/update/' + props.id)}
+          onClick={() => setShowEdit(true)}
         >
           <PencilIcon width={13} />
         </div>
-        <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>{props.set}</u>
+        <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>
+          {props.set}
+        </u>
         <div
           className="collection-cell--button"
           onClick={() => {
@@ -80,13 +85,20 @@ const CollectionCell = (props: CollectionCellProps) => {
           </div>
         </div>
       </div>
-      {showDelete && (
+      {(showEdit || showDelete) && (
         <ConfirmationModal
           show={showDelete}
-          onClose={() => setShowDelete(false)}
+          onClose={() =>
+            showDelete ? setShowDelete(false) : setShowEdit(false)
+          }
+          showYes={showDelete}
           onYes={handleDelete}
         >
-          Are you sure you want to delete a collection set?
+          {showEdit ? (
+            <CollectionSetForm id={props.id} />
+          ) : (
+            'Are you sure you want to delete a collection set?'
+          )}
         </ConfirmationModal>
       )}
     </div>
