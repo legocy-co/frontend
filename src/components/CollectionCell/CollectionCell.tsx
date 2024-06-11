@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './CollectionCell.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PencilIcon from '../../assets/icons/pencil.svg?react';
 import TrashIcon from '../../assets/icons/trash.svg?react';
 import ArrowIcon from '../../assets/icons/arrow.svg?react';
@@ -8,7 +8,8 @@ import ConfirmationModal from '../ConfirmationModal';
 import { collectionService } from '../../services/CollectionService.ts';
 import { collectionsModel } from '../../pages/collections/index.tsx';
 import clsx from 'clsx';
-import { CollectionSetForm } from '../../features/collection';
+import { CollectionSetForm, csf } from '../../features/collection';
+import { useUnit } from 'effector-react';
 
 interface CollectionCellProps {
   id: number;
@@ -36,6 +37,12 @@ const CollectionCell = (props: CollectionCellProps) => {
 
   const [showDelete, setShowDelete] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+
+  const formClosed = useUnit(csf.$formClosed);
+
+  useEffect(() => {
+    if (formClosed) setShowEdit(false);
+  }, [formClosed]);
 
   return (
     <div className="collection-cell">

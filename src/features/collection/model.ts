@@ -171,7 +171,13 @@ split({
 });
 
 sample({
-  clock: [addCollectionSetFx.done, updateCollectionSetFx.done],
+  clock: addCollectionSetFx.done,
+  fn: () => true,
+  target: $formClosed,
+});
+
+sample({
+  clock: updateCollectionSetFx.done,
   fn: () => true,
   target: $formClosed,
 });
