@@ -93,7 +93,7 @@ const CollectionCell = (props: CollectionCellProps) => {
       </div>
       {(showEdit || showDelete) && (
         <ConfirmationModal
-          className="!p-[59px] dark:!bg-dark max-h-[550px] !top-12 overflow-auto"
+          className="!p-10 dark:!bg-dark max-h-[550px] !top-12 overflow-auto"
           show={showDelete}
           onClose={() =>
             showDelete ? setShowDelete(false) : setShowEdit(false)

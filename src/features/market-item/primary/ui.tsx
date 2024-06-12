@@ -2,23 +2,22 @@ import { useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useForm } from 'effector-forms';
 import {
+  SelectMenuAdapter,
   SelectSearchAdapter,
   TextareaFieldAdapter,
 } from '../../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { lso } from '../../lego-set/options/index.ts';
-import { setStates } from '../../../types/MarketItemType.ts';
-import { LazySvg } from '../../../shared/ui/lazy-svg.tsx';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
-import clsx from 'clsx';
+import { sso } from '../../set-state/options/index.ts';
+import { setStates } from '../../../types/MarketItemType.ts';
 
 export const MarketItemPrimaryForm = () => {
   const legoSets = useUnit(lso.$legoSetOptions);
   const { fields, eachValid } = useForm(model.form);
-  const selectedState = useUnit(model.form.fields.setState.$value);
 
   return (
-    <form className="flex flex-col gap-4">
+    <form className="flex flex-col gap-4 w-80 sm:w-[470px]">
       <div className="flex flex-col gap-2">
         <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">Set name</p>
         <div className="relative w-80 sm:w-[470px]">
@@ -32,49 +31,28 @@ export const MarketItemPrimaryForm = () => {
             }))}
             className="!w-full !h-[48px] !rounded-lg !bg-pagesize dark:!bg-dark"
           />
-          <ChevronUpIcon className="absolute rotate-180 opacity-50 top-5 right-4 iconstrokes" />
+          <ChevronUpIcon className="absolute rotate-180 opacity-50 top-6 right-4 iconstrokes" />
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">Set state</p>
-        <p className="text-sm font-normal text-[#242020] dark:text-[#F9F9F9] text-opacity-85">
-          Choose a condition that best describes your set
-        </p>
-        <div className="flex flex-wrap !w-80 sm:!w-[466px] gap-[10px] mb-2">
-          {...Object.entries(setStates).map((state) => (
-            <div
-              key={'state-' + state}
-              className={clsx(
-                'h-[30px] flex items-center px-3 text-state gap-2 bg-pagesize rounded-[19px] cursor-pointer dark:!bg-dark dark:text-darkstate',
-                {
-                  '!bg-dark !text-white dark:!text-darkstatefocus dark:!bg-darkstatebg':
-                    selectedState === state[0],
-                }
-              )}
-              onClick={() =>
-                model.form.fields.setState.onChange(
-                  state[0] as keyof typeof setStates
-                )
-              }
-            >
-              <LazySvg name={state[0]} className="w-5" />
-              <p className="text-[10px]">{state[1]}</p>
-            </div>
-          ))}
-        </div>
-      </div>
+      <SelectMenuAdapter
+        label="Set state"
+        description="Choose a condition that best describes your set"
+        options={sso.setStateOptions.slice(1)}
+        field={model.form.fields.setState}
+        icons={Object.keys(setStates)}
+      />
       <div className="flex flex-col gap-2">
         <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">
           Description
         </p>
-        <p className="text-sm font-normal text-[#242020] w-[360px] sm:w-[450px] dark:text-[#F9F9F9] text-opacity-85">
+        <p className="text-sm font-normal text-[#242020] sm:w-[450px] dark:text-[#F9F9F9] text-opacity-85">
           Here you can provide additional details, such as elaborating on the
           condition of the item, preferred communication method, etc
         </p>
         <TextareaFieldAdapter
           field={model.form.fields.description}
           labelText="Ex. Set is missing a few insignificant pieces, but overall, it’s in great condition. Bought it two months ago."
-          className="!w-[360px] sm:!w-[471px] !min-h-[108px] !rounded-lg !pl-5 !pt-5 !pr-16 !pb-16 !bg-pagesize !border-none !text-[#332929] dark:!text-[#F9F9F9] dark:!bg-dark"
+          className="sm:!w-[471px] !min-h-[108px] !rounded-lg !pl-5 !pt-5 !pr-16 !pb-16 !bg-pagesize !border-none !text-[#332929] dark:!text-[#F9F9F9] dark:!bg-dark"
         />
       </div>
       <div className="flex justify-center">

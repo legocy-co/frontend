@@ -128,15 +128,15 @@ sample({
 });
 
 sample({
-  source: fetchLegoSetsFx.doneData,
-  fn: toOptions,
-  target: $legoSetOptions,
+  clock: gate.open,
+  filter: $isEditing,
+  target: GetCollectionFx,
 });
 
 sample({
-  clock: $legoSetOptions,
-  filter: $isEditing,
-  target: GetCollectionFx,
+  source: fetchLegoSetsFx.doneData,
+  fn: toOptions,
+  target: $legoSetOptions,
 });
 
 sample({
@@ -184,5 +184,5 @@ sample({
 
 sample({
   clock: gate.close,
-  target: form.reset,
+  target: [form.reset, $formClosed.reinit!],
 });

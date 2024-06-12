@@ -64,6 +64,7 @@ export const CollectionPage = () => {
       <CollectionList />
       {showAdd && (
         <ConfirmationModal
+          className="!p-10 dark:!bg-dark max-h-[550px] !top-12 overflow-auto"
           show={showAdd}
           onClose={() => setShowAdd(false)}
           showYes={false}

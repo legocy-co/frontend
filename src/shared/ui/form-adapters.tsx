@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
 import { SelectSearch, SelectSearchOption } from './select-search.tsx';
+import { LazySvg } from './lazy-svg.tsx';
 
 export type FormAdapterProps<T> = {
   field: Field<T>;
@@ -144,6 +145,54 @@ export const SelectSearchAdapter = ({
         onClick={handleReset}
       >
         x
+      </div>
+    </div>
+  );
+};
+
+export const SelectMenuAdapter = ({
+  label,
+  field,
+  options,
+  description,
+  className,
+  icons,
+}: {
+  label: string;
+  icons?: string[];
+  description?: string;
+  options: SelectFieldOption[];
+  field: Field<any>;
+  disabled?: boolean;
+  className?: string;
+}) => {
+  const { value, onChange } = useField(field);
+
+  return (
+    <div className={clsx('flex flex-col gap-2', className)}>
+      <p className="text-xl text-[#332929] dark:text-[#F9F9F9]">{label}</p>
+      {description && (
+        <p className="text-sm font-normal text-[#242020] dark:text-[#F9F9F9] text-opacity-85">
+          {description}
+        </p>
+      )}
+      <div className="flex flex-wrap w-80 sm:w-[466px] gap-[10px] mb-2">
+        {options.map((option, i) => (
+          <div
+            key={'menu-button-' + option}
+            className={clsx(
+              ' h-[30px] flex items-center px-3 text-state gap-2 bg-pagesize rounded-[19px] cursor-pointer dark:bg-darkfiltersborder dark:bg-opacity-30 dark:text-darkstate',
+              {
+                '!bg-dark !text-white dark:!text-darkstatefocus dark:!bg-darkstatebg dark:!bg-opacity-none':
+                  value === option.value,
+              }
+            )}
+            onClick={() => onChange(option.value)}
+          >
+            {icons && icons[i] && <LazySvg name={icons[i]} className="w-5" />}
+            <p className="text-[10px]">{option.label}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
