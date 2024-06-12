@@ -14,7 +14,8 @@ type ChartData = {
 
 export const gate = createGate();
 
-export const collectionSetDeleted = createEvent();
+export const collectionUpdated = createEvent();
+
 export const $collectionCells = createStore<CollectionCell[]>([]);
 
 export const $collectionTotals = createStore<Totals>({
@@ -47,7 +48,7 @@ function toChartData(names: string[]): ChartData {
 }
 
 sample({
-  clock: [gate.open, collectionSetDeleted],
+  clock: [gate.open, collectionUpdated],
   target: GetCollectionFx,
 });
 

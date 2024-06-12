@@ -6,10 +6,12 @@ import TrashIcon from '../../assets/icons/trash.svg?react';
 import ArrowIcon from '../../assets/icons/arrow.svg?react';
 import ConfirmationModal from '../ConfirmationModal';
 import { collectionService } from '../../services/CollectionService.ts';
-import { collectionsModel } from '../../pages/collections/index.tsx';
 import clsx from 'clsx';
 import { CollectionSetForm, csf } from '../../features/collection';
 import { useUnit } from 'effector-react';
+import { Button } from '../../shared/ui/button.tsx';
+import * as model from '../../features/collection/model.ts';
+import { collectionUpdated } from '../../pages/collections/model.ts';
 
 interface CollectionCellProps {
   id: number;
@@ -24,13 +26,12 @@ interface CollectionCellProps {
   total_return_usd?: number;
 }
 
-// TODO: redesign delete ConfirmationModal
 const CollectionCell = (props: CollectionCellProps) => {
   const navigate = useNavigate();
 
   async function handleDelete() {
     await collectionService.DeleteCollectionSet(props.id);
-    collectionsModel.collectionSetDeleted();
+    collectionUpdated();
 
     setShowDelete(false);
   }
@@ -95,17 +96,38 @@ const CollectionCell = (props: CollectionCellProps) => {
       {(showEdit || showDelete) && (
         <ConfirmationModal
           className="!p-10 dark:!bg-dark max-h-[550px] !top-12 overflow-auto"
-          show={showDelete}
+          show={showDelete || showEdit}
+          showYes={false}
           onClose={() =>
             showDelete ? setShowDelete(false) : setShowEdit(false)
           }
-          showYes={showDelete}
-          onYes={handleDelete}
         >
           {showEdit ? (
             <CollectionSetForm id={props.id} />
           ) : (
-            'Are you sure you want to delete a collection set?'
+            <div className="flex flex-col gap-5 px-10 w-80 sm:w-[500px] font-medium">
+              <h1 className="font-bold text-[32px]">
+                Delete Set from Collection?
+              </h1>
+              <p className="text-lg text-center">
+                Once you confirm, this set will be removed from your collection.
+                You can always add it again.
+              </p>
+              <div className="flex items-center gap-5 mt-5">
+                <Button
+                  onClick={handleDelete}
+                  className="w-48 !h-12 !text-avatarbg"
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={() => model.formClosed()}
+                  className="w-48 !h-12 text-white dark:!text-dark !bg-darkfiltersborder"
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
           )}
         </ConfirmationModal>
       )}

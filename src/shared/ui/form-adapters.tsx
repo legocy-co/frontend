@@ -179,7 +179,7 @@ export const SelectMenuAdapter = ({
       <div className="flex flex-wrap w-80 sm:w-[466px] gap-[10px] mb-2">
         {options.map((option, i) => (
           <div
-            key={'menu-button-' + option}
+            key={'menu-button-' + i}
             className={clsx(
               ' h-[30px] flex items-center px-3 text-state gap-2 bg-pagesize rounded-[19px] cursor-pointer dark:bg-darkfiltersborder dark:bg-opacity-30 dark:text-darkstate',
               {

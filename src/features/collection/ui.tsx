@@ -18,6 +18,7 @@ interface Props {
   id?: number;
 }
 
+// TODO: call GetCollections onUpdate
 export const CollectionSetForm = ({ id }: Props) => {
   const { fields, eachValid } = useForm(model.form);
 
@@ -77,7 +78,7 @@ export const CollectionSetForm = ({ id }: Props) => {
           </Button>
           <Button
             onClick={() => model.formClosed()}
-            className="w-48 !h-12 text-white dark:!text-dark bg-darkfiltersborder"
+            className="w-48 !h-12 text-white dark:!text-dark !bg-darkfiltersborder"
           >
             Cancel
           </Button>
