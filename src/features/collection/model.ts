@@ -7,6 +7,7 @@ import {
   attach,
   createDomain,
   createEffect,
+  createEvent,
   createStore,
   EventPayload,
   sample,
@@ -68,6 +69,8 @@ export const form = createForm({
 const domain = createDomain();
 
 export const setForm = domain.createEvent<CollectionSet>();
+
+export const formClosed = createEvent();
 
 export const $formClosed = createStore(false);
 
@@ -159,6 +162,12 @@ sample({
   clock: setForm,
   fn: toForm,
   target: form.setForm,
+});
+
+sample({
+  clock: formClosed,
+  fn: () => true,
+  target: $formClosed,
 });
 
 split({

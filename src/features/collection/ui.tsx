@@ -18,7 +18,6 @@ interface Props {
   id?: number;
 }
 
-// TODO: common setStates field
 export const CollectionSetForm = ({ id }: Props) => {
   const { fields, eachValid } = useForm(model.form);
 
@@ -72,9 +71,17 @@ export const CollectionSetForm = ({ id }: Props) => {
               fields.state.errorText()}
           </FormError>
         )}
-        <Button type="submit" className="w-64 mt-14">
-          {id ? 'Update collection set' : 'Add collection set'}
-        </Button>
+        <div className="flex items-center gap-5 mt-14">
+          <Button type="submit" className="w-48 !h-12 !text-avatarbg">
+            Save
+          </Button>
+          <Button
+            onClick={() => model.formClosed()}
+            className="w-48 !h-12 text-white dark:!text-dark bg-darkfiltersborder"
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
     </form>
   );
