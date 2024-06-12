@@ -1,11 +1,12 @@
 import { createGate } from 'effector-react';
-import { createEffect, createEvent, createStore, sample } from 'effector';
+import { createEffect, createStore, sample } from 'effector';
 import { collectionService } from '../../services/CollectionService.ts';
 import {
   CollectionCell,
   toCollectionCells,
 } from '../../components/CollectionList/model.ts';
 import { Totals } from '../../types/CollectionType.ts';
+import { csf } from '../../features/collection/index.tsx';
 
 type ChartData = {
   name: string;
@@ -13,8 +14,6 @@ type ChartData = {
 }[];
 
 export const gate = createGate();
-
-export const collectionUpdated = createEvent();
 
 export const $collectionCells = createStore<CollectionCell[]>([]);
 
@@ -48,7 +47,7 @@ function toChartData(names: string[]): ChartData {
 }
 
 sample({
-  clock: [gate.open, collectionUpdated],
+  clock: [gate.open, csf.collectionUpdated],
   target: GetCollectionFx,
 });
 

@@ -11,7 +11,6 @@ import { CollectionSetForm, csf } from '../../features/collection';
 import { useUnit } from 'effector-react';
 import { Button } from '../../shared/ui/button.tsx';
 import * as model from '../../features/collection/model.ts';
-import { collectionUpdated } from '../../pages/collections/model.ts';
 
 interface CollectionCellProps {
   id: number;
@@ -31,7 +30,7 @@ const CollectionCell = (props: CollectionCellProps) => {
 
   async function handleDelete() {
     await collectionService.DeleteCollectionSet(props.id);
-    collectionUpdated();
+    csf.collectionUpdated();
 
     setShowDelete(false);
   }
@@ -105,11 +104,11 @@ const CollectionCell = (props: CollectionCellProps) => {
           {showEdit ? (
             <CollectionSetForm id={props.id} />
           ) : (
-            <div className="flex flex-col gap-5 px-10 w-80 sm:w-[500px] font-medium">
+            <div className="flex flex-col gap-5 px-10 w-80 sm:w-[500px] font-medium text-center">
               <h1 className="font-bold text-[32px]">
                 Delete Set from Collection?
               </h1>
-              <p className="text-lg text-center">
+              <p className="text-lg">
                 Once you confirm, this set will be removed from your collection.
                 You can always add it again.
               </p>

@@ -69,6 +69,8 @@ const domain = createDomain();
 
 export const setForm = domain.createEvent<CollectionSet>();
 
+export const collectionUpdated = createEvent();
+
 export const formClosed = createEvent();
 
 export const $formClosed = createStore(false);
@@ -181,13 +183,13 @@ split({
 sample({
   clock: addCollectionSetFx.done,
   fn: () => true,
-  target: $formClosed,
+  target: [$formClosed, collectionUpdated],
 });
 
 sample({
   clock: updateCollectionSetFx.done,
   fn: () => true,
-  target: $formClosed,
+  target: [$formClosed, collectionUpdated],
 });
 
 sample({
