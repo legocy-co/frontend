@@ -85,8 +85,8 @@ export const Table = <T,>({
                     style: {
                       width: header.getSize(),
                     },
-                    key: header.id,
                   }}
+                  key={header.id}
                   header={header}
                   table={table}
                   isSortable={isSortable}
@@ -115,11 +115,11 @@ export const Table = <T,>({
               {row.getVisibleCells().map((cell) => (
                 <td
                   {...{
-                    key: cell.id,
                     style: {
                       width: cell.column.getSize(),
                     },
                   }}
+                  key={cell.id}
                   className="px-3 py-3 text-left align-middle text-xs overflow-hidden"
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -5,7 +5,6 @@ export type CollectionCell = {
   buyPrice: number;
   condition: string;
   id: number;
-  images: string[];
   series: string;
   set: string;
   setID: number;
@@ -22,11 +21,6 @@ export function toCollectionCells(
     buyPrice: set.buyPrice,
     condition: setStates[set.state as keyof typeof setStates],
     id: set.id,
-    images: set.legoSet.images
-      ? set.legoSet.images
-          .sort((current, next) => Number(current.isMain) - Number(next.isMain))
-          .map((img) => img.imageURL)
-      : [],
     series: set.legoSet.series.name,
     set: set.legoSet.name,
     setID: set.legoSet.id,

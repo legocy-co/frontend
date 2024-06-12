@@ -20,11 +20,10 @@ import {
 } from '../lego-set/options/model.ts';
 import { collectionService } from '../../services/CollectionService.ts';
 import { NavigateFunction } from 'react-router-dom';
-
 import { CollectionSet } from '../../types/CollectionType.ts';
 
 export const gate = createGate<{
-  id: string | null;
+  id: number | null;
   navigateFn: NavigateFunction;
 }>();
 
@@ -37,6 +36,7 @@ export const form = createForm({
           name: 'buyPrice',
           schema: z
             .number()
+            .min(0.01)
             .max(999999)
             .nonnegative()
             .nullable()
@@ -69,13 +69,17 @@ const domain = createDomain();
 
 export const setForm = domain.createEvent<CollectionSet>();
 
+export const collectionUpdated = createEvent();
+
+export const formClosed = createEvent();
+
+export const $formClosed = createStore(false);
+
 const $collectionSets = createStore<CollectionSet[]>([]);
 
 const $setID = gate.state.map(({ id }) => id);
 
 const $isEditing = $setID.map((id) => id !== null);
-
-const setCollectionSet = createEvent<CollectionSet>();
 
 const GetCollectionFx = createEffect(() => collectionService.GetCollection());
 
@@ -85,10 +89,7 @@ const fetchCollectionSetFx = attach({
     setId: $setID,
   },
   effect: ({ collectionSets, setId }) => {
-    const collectionSet = collectionSets.find(
-      (set) => String(set.id) === setId
-    );
-
+    const collectionSet = collectionSets.find((set) => set.id === setId);
     if (!collectionSet) throw new Error('Collection set not found');
     return collectionSet;
   },
@@ -117,11 +118,6 @@ const updateCollectionSetFx = attach({
     }),
 });
 
-const collectionRedirectFx = attach({
-  source: gate.state,
-  effect: ({ navigateFn }) => navigateFn('/collection/'),
-});
-
 function toForm(values: CollectionSet): EventPayload<typeof form.setForm> {
   return {
     buyPrice: values.buyPrice,
@@ -136,15 +132,15 @@ sample({
 });
 
 sample({
-  clock: fetchLegoSetsFx.doneData,
-  fn: toOptions,
-  target: $legoSetOptions,
+  clock: gate.open,
+  filter: $isEditing,
+  target: GetCollectionFx,
 });
 
 sample({
-  clock: $legoSetOptions,
-  filter: $isEditing,
-  target: GetCollectionFx,
+  source: fetchLegoSetsFx.doneData,
+  fn: toOptions,
+  target: $legoSetOptions,
 });
 
 sample({
@@ -160,11 +156,6 @@ sample({
 
 sample({
   clock: fetchCollectionSetFx.doneData,
-  target: setCollectionSet,
-});
-
-sample({
-  clock: setCollectionSet,
   target: setForm,
 });
 
@@ -172,6 +163,12 @@ sample({
   clock: setForm,
   fn: toForm,
   target: form.setForm,
+});
+
+sample({
+  clock: formClosed,
+  fn: () => true,
+  target: $formClosed,
 });
 
 split({
@@ -184,11 +181,18 @@ split({
 });
 
 sample({
-  clock: [addCollectionSetFx.done, updateCollectionSetFx.done],
-  target: collectionRedirectFx,
+  clock: addCollectionSetFx.done,
+  fn: () => true,
+  target: [$formClosed, collectionUpdated],
+});
+
+sample({
+  clock: updateCollectionSetFx.done,
+  fn: () => true,
+  target: [$formClosed, collectionUpdated],
 });
 
 sample({
   clock: gate.close,
-  target: form.reset,
+  target: [form.reset, $formClosed.reinit!],
 });

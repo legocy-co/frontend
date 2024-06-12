@@ -45,11 +45,11 @@ export default {
         'avatarbg': '#100F0F',
         'darkmenuborder': '#3D3D3D',
         'statuswarn': '#FFE8AE',
-        'updatewarn': '#FCE9A6'
+        'updatewarn': '#FCE9A6',
       },
       boxShadow: {
-        'avatar': '0 4px 7px 0 #00000070',
-        'subimages': '0px 4px 16px 0px #00000040;'
+        'subimages': '0 4px 16px 0 #00000040',
+        'tooltip': '0 1px 2.5px 0 #00000040',
       },
       keyframes: {
         slideDownAndFade: {

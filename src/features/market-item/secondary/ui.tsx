@@ -65,7 +65,7 @@ export const MarketItemSecondaryForm = () => {
     switch (mark) {
       case 'none':
         return (
-          <div className="flex w-[360px] sm:w-[781px] p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10 text-[#2E2626] dark:text-white">
+          <div className="flex sm:max-w-[781px] p-3 border border-solid border-black dark:border-white dark:bg-white dark:bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10 text-[#2E2626] dark:text-white">
             <LazySvg name={mark} className="w-10 iconfills" />
             We currently don&apos;t have enough information on the market price
             of this set to provide a recommendation. We suggest checking out
@@ -74,7 +74,7 @@ export const MarketItemSecondaryForm = () => {
         );
       case 'below':
         return (
-          <div className="flex w-[360px] sm:w-[710px] p-3 text-lg text-[#363535] dark:text-white bg-below dark:bg-white !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
+          <div className="flex sm:max-w-[710px] p-3 text-lg text-[#363535] dark:text-white bg-below dark:bg-white !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
             <LazySvg name={mark} className="w-10 iconfills" />
             Below market average: Your price is lower than what is typically
             seen on the market.
@@ -82,7 +82,7 @@ export const MarketItemSecondaryForm = () => {
         );
       case 'above':
         return (
-          <div className="flex w-[360px] sm:w-[780px] p-3 text-lg text-[#FCB11F] dark:text-legocy bg-above dark:bg-abovedark !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
+          <div className="flex sm:max-w-[780px] p-3 text-lg text-[#FCB11F] dark:text-legocy bg-above dark:bg-abovedark !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
             <LazySvg name={mark} className="w-10" />
             Slightly above market average: Your price is somewhat higher than
             the average market price.
@@ -90,7 +90,7 @@ export const MarketItemSecondaryForm = () => {
         );
       case 'high':
         return (
-          <div className="flex w-[360px] sm:w-[824px] p-3 text-lg text-[#FF6464] dark:text-[#FF6464] bg-high !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
+          <div className="flex sm:max-w-[824px] p-3 text-lg text-[#FF6464] dark:text-[#FF6464] bg-high !bg-opacity-20 rounded-md items-center justify-around gap-2 mt-10">
             <LazySvg name={mark} className="w-10" />
             Significantly above market average: Your price is considerably
             higher than the average market price.
@@ -108,18 +108,18 @@ export const MarketItemSecondaryForm = () => {
   }
 
   return (
-    <form className="flex flex-col gap-8 items-center">
+    <form className="flex flex-col gap-8 items-center w-80 sm:w-full">
       <div className="flex flex-col gap-2">
         <p className="text-xl text-[#332929] dark:text-[#F9F9F9] flex items-center gap-2">
           Location <LocationIcon className="iconfills inline" />
         </p>
-        <div className="flex items-center gap-4 styled-select">
+        <div className="flex items-center gap-4 styled-select w-full sm:w-[470px]">
           <div className="relative">
             <SelectFieldAdapter
               field={model.form.fields.country}
               options={lo.countryOptions}
               defaultOptionValue=""
-              className="!rounded-lg !text-darkfiltersborder border-none !bg-pagesize dark:!bg-dark !h-8 !w-[150px] sm:!w-[226px]"
+              className="!rounded-lg !text-darkfiltersborder border-none !bg-pagesize dark:!bg-dark !h-8 !w-36 sm:!w-[226px]"
             />
             <ChevronUpIcon className="absolute rotate-180 opacity-50 top-3 right-3 iconstrokes pointer-events-none" />
           </div>
@@ -129,7 +129,7 @@ export const MarketItemSecondaryForm = () => {
               options={lo.cityOptions(fields.country.value)}
               disabled={fields.country.value === ''}
               defaultOptionValue=""
-              className="!rounded-lg !text-darkfiltersborder border-none !bg-pagesize dark:!bg-dark !h-8 !w-[150px] sm:!w-[226px]"
+              className="!rounded-lg !text-darkfiltersborder border-none !bg-pagesize dark:!bg-dark !h-8 !w-36 sm:!w-[226px]"
             />
             <ChevronUpIcon className="absolute rotate-180 opacity-50 top-3 right-3 iconstrokes pointer-events-none" />
           </div>
@@ -147,7 +147,7 @@ export const MarketItemSecondaryForm = () => {
         />
       </div>
       {stateValuation > 0 && (
-        <div className="relative w-[360px] sm:w-[468px] mt-10">
+        <div className="relative w-full sm:w-[468px] mt-10">
           <div className="w-full border border-solid border-statevaluationchart dark:border-white"></div>
           <div className="absolute top-[-4px] flex justify-between w-full">
             {Array.from({ length: 20 }, (_, i) => (

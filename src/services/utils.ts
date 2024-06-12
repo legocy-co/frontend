@@ -94,3 +94,7 @@ export function handleUploadFile(
 export function partialToFull<T>(x: Partial<T>): T {
   return x as T;
 }
+
+export function setTwoDecimals(value: number): number {
+  return Math.floor(value * 100) / 100;
+}

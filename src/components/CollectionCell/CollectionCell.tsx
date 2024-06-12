@@ -1,12 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import './CollectionCell.scss';
-import { addDefaultSrc } from '../../services/utils.ts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PencilIcon from '../../assets/icons/pencil.svg?react';
+import TrashIcon from '../../assets/icons/trash.svg?react';
+import ArrowIcon from '../../assets/icons/arrow.svg?react';
 import ConfirmationModal from '../ConfirmationModal';
 import { collectionService } from '../../services/CollectionService.ts';
-import { collectionsModel } from '../../pages/collections/index.tsx';
 import clsx from 'clsx';
+import { CollectionSetForm, csf } from '../../features/collection';
+import { useUnit } from 'effector-react';
+import { Button } from '../../shared/ui/button.tsx';
+import * as model from '../../features/collection/model.ts';
 
 interface CollectionCellProps {
   id: number;
@@ -17,7 +21,6 @@ interface CollectionCellProps {
   set_number: number;
   set_id: number;
   condition: string;
-  images: string[];
   total_return_percentage?: number;
   total_return_usd?: number;
 }
@@ -25,117 +28,106 @@ interface CollectionCellProps {
 const CollectionCell = (props: CollectionCellProps) => {
   const navigate = useNavigate();
 
-  const [imageSrc, setImageSrc] = useState(props.images[0]);
-
   async function handleDelete() {
     await collectionService.DeleteCollectionSet(props.id);
-    collectionsModel.collectionSetDeleted();
+    csf.collectionUpdated();
 
     setShowDelete(false);
   }
 
-  const radioElements = props.images.map((img, i) => (
-    <div key={img + i}>
-      <input
-        type="radio"
-        id={img}
-        onChange={() => setImageSrc(img)}
-        checked={img === imageSrc}
-      />
-      <label htmlFor={img} />
-    </div>
-  ));
-
   const [showDelete, setShowDelete] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
+
+  const formClosed = useUnit(csf.$formClosed);
+
+  useEffect(() => {
+    if (formClosed) setShowEdit(false);
+  }, [formClosed]);
 
   return (
-    <div className="collection-cell dark:bg-dark">
-      <h1>{props.set}</h1>
-      <PencilIcon
-        className="collection-cell--update"
-        onClick={() => navigate('/collection/update/' + props.id)}
-      />
-      <div
-        className="collection-cell--delete"
-        onClick={() => {
-          setShowDelete(true);
-        }}
-      >
-        x
+    <div className="collection-cell">
+      <div className="collection-cell__header">
+        <div
+          className="collection-cell--button"
+          onClick={() => setShowEdit(true)}
+        >
+          <PencilIcon width={13} />
+        </div>
+        <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>
+          {props.set}
+        </u>
+        <div
+          className="collection-cell--button"
+          onClick={() => {
+            setShowDelete(true);
+          }}
+        >
+          <TrashIcon />
+        </div>
       </div>
-      {props.images.length > 0 && (
-        <div className="collection-cell--image-wrapper">
-          <img
-            className="collection-cell--image"
-            src={imageSrc ? imageSrc : ''}
-            onError={addDefaultSrc}
-            alt=""
-          ></img>
-          {props.images.length > 1 && (
-            <div className="collection-cell--buttons-wrapper">
-              <button
-                onClick={() =>
-                  setImageSrc(
-                    props.images[
-                      (props.images.findIndex((img) => img === imageSrc) +
-                        props.images.length -
-                        1) %
-                        props.images.length
-                    ]
-                  )
-                }
-              ></button>
-              <button
-                onClick={() =>
-                  setImageSrc(
-                    props.images[
-                      (props.images.findIndex((img) => img === imageSrc) + 1) %
-                        props.images.length
-                    ]
-                  )
-                }
-              ></button>
+      <div className="collection-cell__body">
+        <p>Condition: {props.condition}</p>
+        <div className="collection-cell--price">
+          <div>
+            <h1>Purchase price</h1>
+            <p>{props.buy_price}$</p>
+          </div>
+          <ArrowIcon width={20} />
+          <div>
+            <h1>Current price</h1>
+            <p>{props.valuation ? `${props.valuation}$` : '---'}</p>
+          </div>
+          <div
+            className={clsx(
+              { '!text-green-400': props.total_return_usd! > 0 },
+              { '!text-red-400': props.total_return_usd! < 0 }
+            )}
+          >
+            <h1>ROI</h1>
+            <p>
+              {props.valuation! !== 0
+                ? `${props.total_return_usd}$(${props.total_return_percentage}%)`
+                : 'Not estimated'}
+            </p>
+          </div>
+        </div>
+      </div>
+      {(showEdit || showDelete) && (
+        <ConfirmationModal
+          className="!p-10 dark:!bg-dark max-h-[550px] !top-12 overflow-auto"
+          show={showDelete || showEdit}
+          showYes={false}
+          onClose={() =>
+            showDelete ? setShowDelete(false) : setShowEdit(false)
+          }
+        >
+          {showEdit ? (
+            <CollectionSetForm id={props.id} />
+          ) : (
+            <div className="flex flex-col gap-5 px-10 w-80 sm:w-[500px] font-medium text-center">
+              <h1 className="font-bold text-[32px]">
+                Delete Set from Collection?
+              </h1>
+              <p className="text-lg">
+                Once you confirm, this set will be removed from your collection.
+                You can always add it again.
+              </p>
+              <div className="flex items-center gap-5 mt-5">
+                <Button
+                  onClick={handleDelete}
+                  className="w-48 !h-12 !text-avatarbg"
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={() => model.formClosed()}
+                  className="w-48 !h-12 text-white dark:!text-dark !bg-darkfiltersborder"
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           )}
-          {props.images.length > 1 && (
-            <div className="collection-cell--image-choice">{radioElements}</div>
-          )}
-        </div>
-      )}
-      <div className="collection-cell--props">
-        <p>Series: {props.series}</p>
-        <p>Condition: {props.condition}</p>
-      </div>
-      <p>
-        <u onClick={() => navigate('/wiki/sets/' + props.set_id)}>
-          Set number: {props.set_number}
-        </u>
-      </p>
-      <div className="collection-cell--props">
-        <h1>Buy price: {props.buy_price} $</h1>
-        ---&gt;
-        <h2>{props.valuation ? `${props.valuation}$` : '---'}</h2>
-      </div>
-      <div className="collection-cell--roi">
-        <h1>ROI</h1>
-        <h1
-          className={clsx(
-            { 'text-green-400': props.total_return_usd! > 0 },
-            { 'text-red-400': props.total_return_usd! < 0 }
-          )}
-        >
-          {props.valuation! !== 0
-            ? `${props.total_return_usd}$(${props.total_return_percentage}%)`
-            : 'Not estimated'}
-        </h1>
-      </div>
-      {showDelete && (
-        <ConfirmationModal
-          show={showDelete}
-          onClose={() => setShowDelete(false)}
-          onYes={handleDelete}
-        >
-          Are you sure you want to delete a collection set?
         </ConfirmationModal>
       )}
     </div>

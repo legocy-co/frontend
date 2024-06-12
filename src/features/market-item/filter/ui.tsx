@@ -339,7 +339,7 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
           placeholder={''}
           className="!w-[340px]"
         />
-        <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-3.5 right-3 rotate-180" />
+        <ChevronUpIcon className="absolute iconstrokes pointer-events-none top-4 right-3 rotate-180" />
       </div>
       <div className="flex flex-wrap gap-1 top-0">
         {selectedWithNames.map((selected) => (

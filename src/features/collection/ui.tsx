@@ -1,62 +1,72 @@
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'effector-forms';
 import React from 'react';
 import {
   NumberFieldAdapter,
-  SelectFieldAdapter,
+  SelectMenuAdapter,
   SelectSearchAdapter,
 } from '../../shared/ui/form-adapters.tsx';
 import { FormError } from '../../shared/ui/form-error.tsx';
 import { lso } from '../lego-set/options/index.ts';
-import { setStates } from '../../types/MarketItemType.ts';
 import { Button } from '../../shared/ui/button.tsx';
+import { setStates } from '../../types/MarketItemType.ts';
+import { sso } from '../set-state/options/index.ts';
+import ChevronUpIcon from '../../assets/icons/chevron-up.svg?react';
 
-export const CollectionSetForm = () => {
-  const params = useParams<'id'>();
+interface Props {
+  id?: number;
+}
+
+// TODO: call GetCollections onUpdate
+export const CollectionSetForm = ({ id }: Props) => {
+  const { fields, eachValid } = useForm(model.form);
 
   const legoSets = useUnit(lso.$legoSetOptions);
+
   const navigateFn = useNavigate();
 
-  useGate(model.gate, { id: params.id ?? null, navigateFn });
+  useGate(model.gate, { id: id ? id : null, navigateFn });
 
-  const { fields, eachValid } = useForm(model.form);
-  function onSubmit(ev: React.FormEvent) {
+  function handleSubmit(ev: React.FormEvent) {
     ev.preventDefault();
     model.form.submit();
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center gap-5 text-lg font-medium w-80 sm:w-[470px]"
+    >
+      <h1 className="text-[2rem] font-bold mb-5">
+        {id ? 'Edit' : 'Add Collection'} Set
+      </h1>
+      <div className="relative">
+        <SelectSearchAdapter
+          clientSideSearch
+          field={model.form.fields.legoSetID}
+          labelText="Lego set"
+          className="!w-80 sm:!w-[470px] h-[48px] font-normal !bg-pagesize !text-black"
+          options={legoSets.map((legoSet) => ({
+            value: legoSet.id,
+            label: `${legoSet.number} - ${legoSet.name}`,
+          }))}
+        />
+        <ChevronUpIcon className="absolute pointer-events-none top-[52px] [&>path]:stroke-[#B9B9B9] right-3 rotate-180" />
+      </div>
       <NumberFieldAdapter
         field={model.form.fields.buyPrice}
-        labelText="Buy price"
-        className="w-[343px] h-[44px] mb-3 bg-pagesize"
+        labelText="Buy price, $"
+        className="!w-80 sm:!w-[470px] h-[48px] font-normal !bg-pagesize !text-black"
       />
-      <SelectSearchAdapter
-        clientSideSearch
-        field={model.form.fields.legoSetID}
-        labelText="Lego set"
-        className="w-[343px] h-[44px] mb-3 bg-pagesize"
-        options={legoSets.map((legoSet) => ({
-          value: legoSet.id,
-          label: `${legoSet.number} - ${legoSet.name}`,
-        }))}
-      />
-      <SelectFieldAdapter
+      <SelectMenuAdapter
+        label="Set state"
+        description="Choose a condition that best describes your set"
+        options={sso.setStateOptions.slice(1)}
         field={model.form.fields.state}
-        options={[
-          {
-            value: '',
-            label: 'Select condition',
-          },
-          ...Object.entries(setStates).map((state) => ({
-            label: state[1],
-            value: state[0],
-          })),
-        ]}
-        defaultOptionValue=""
+        icons={Object.keys(setStates)}
+        className="mb-[-10px] [&>]:!bg-legocy"
       />
       <div className="flex justify-center">
         {!eachValid && (
@@ -66,9 +76,20 @@ export const CollectionSetForm = () => {
               fields.state.errorText()}
           </FormError>
         )}
-        <Button type="submit" className="mt-14 w-64">
-          {params.id ? 'Update collection set' : 'Add collection set'}
-        </Button>
+        <div className="flex items-center gap-5 mt-14">
+          <Button
+            type="submit"
+            className="w-[130px] sm:w-48 !h-12 !text-avatarbg"
+          >
+            Save
+          </Button>
+          <Button
+            onClick={() => model.formClosed()}
+            className="w-[130px] sm:w-48 !h-12 text-white dark:!text-dark !bg-darkfiltersborder"
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
     </form>
   );
