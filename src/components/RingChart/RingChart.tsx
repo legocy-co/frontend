@@ -67,7 +67,7 @@ const RingChart = ({
       {showExpanded && (
         <ConfirmationModal
           className={clsx(
-            '!p-0 dark:!bg-dark max-h-[550px] !top-12 overflow-auto'
+            '!p-0 dark:!bg-dark max-h-[80vh] !top-12 overflow-auto'
           )}
           show={showExpanded}
           onClose={() => setShowExpanded(false)}
