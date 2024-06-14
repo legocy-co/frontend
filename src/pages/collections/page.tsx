@@ -53,9 +53,7 @@ export const CollectionPage = () => {
           <RingChart
             data={seriesData}
             total={totals.totalSets}
-            label={
-              totals.totalSets < 6 ? 'Series statistics' : 'Themes overview'
-            }
+            label="Themes Overview"
             legendPercentage={totals.totalSets < 6}
             gluedHeader={totals.totalSets < 6}
           />
