@@ -1,5 +1,5 @@
 import { createGate } from 'effector-react';
-import { createEffect, createStore, sample } from 'effector';
+import { createEffect, createEvent, createStore, sample } from 'effector';
 import { collectionService } from '../../services/CollectionService.ts';
 import {
   CollectionCell,
@@ -7,6 +7,7 @@ import {
 } from '../../components/CollectionList/model.ts';
 import { Totals } from '../../types/CollectionType.ts';
 import { csf } from '../../features/collection/index.tsx';
+import { persist } from 'effector-storage/local';
 
 type ChartData = {
   name: string;
@@ -14,6 +15,10 @@ type ChartData = {
 }[];
 
 export const gate = createGate();
+
+export const collectionSortingChanged = createEvent<'' | 'asc' | 'desc'>();
+
+export const $collectionSorting = createStore<'' | 'asc' | 'desc'>('');
 
 export const $collectionCells = createStore<CollectionCell[]>([]);
 
@@ -30,6 +35,8 @@ export const $collectionTotals = createStore<Totals>({
 export const $pnlData = createStore<ChartData>([]);
 
 export const $seriesChartData = createStore<ChartData>([]);
+
+const $initialCollection = createStore<CollectionCell[]>([]);
 
 const GetCollectionFx = createEffect(collectionService.GetCollection);
 
@@ -54,7 +61,7 @@ sample({
 sample({
   source: GetCollectionFx.doneData.map((data) => data.collectionSets),
   fn: toCollectionCells,
-  target: $collectionCells,
+  target: $initialCollection,
 });
 
 sample({
@@ -84,4 +91,42 @@ sample({
   ),
   fn: toChartData,
   target: $seriesChartData,
+});
+
+sample({
+  clock: $initialCollection,
+  source: $collectionSorting,
+  target: collectionSortingChanged,
+});
+
+sample({
+  source: collectionSortingChanged,
+  target: $collectionSorting,
+});
+
+sample({
+  clock: collectionSortingChanged,
+  source: $initialCollection,
+  filter: (_, sorting) => sorting !== '',
+  fn: (cells, sorting) =>
+    cells
+      .filter((cell) => cell.valuation !== undefined)
+      .sort((a, b) =>
+        sorting === 'asc'
+          ? a.totalReturnUSD - b.totalReturnUSD
+          : b.totalReturnUSD - a.totalReturnUSD
+      ),
+  target: $collectionCells,
+});
+
+sample({
+  clock: collectionSortingChanged,
+  source: $initialCollection,
+  filter: (_, sorting) => sorting === '',
+  target: $collectionCells,
+});
+
+persist({
+  store: $collectionSorting,
+  key: 'collectionSorting',
 });

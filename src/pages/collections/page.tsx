@@ -7,6 +7,9 @@ import CalculationIcon from '../../assets/icons/calculation.svg?react';
 import PlusIcon from '../../assets/icons/plus.svg?react';
 import HashIcon from '../../assets/icons/hash.svg?react';
 import GraphIcon from '../../assets/icons/graph.svg?react';
+import SlidersIcon from '../../assets/icons/sliders.svg?react';
+import ChevronUpIcon from '../../assets/icons/chevron-up.svg?react';
+import ArrowIcon from '../../assets/icons/arrow.svg?react';
 import clsx from 'clsx';
 import RingChart from '../../components/RingChart';
 import { setTwoDecimals } from '../../services/utils.ts';
@@ -23,6 +26,20 @@ export const CollectionPage = () => {
   const pnlData = useUnit(model.$pnlData);
   const seriesData = useUnit(model.$seriesChartData);
   const formClosed = useUnit(csf.$formClosed);
+  const sorting = useUnit(model.$collectionSorting);
+
+  function handleSort() {
+    switch (sorting) {
+      case '':
+        model.collectionSortingChanged('asc');
+        return;
+      case 'asc':
+        model.collectionSortingChanged('desc');
+        return;
+      default:
+        model.collectionSortingChanged('');
+    }
+  }
 
   useEffect(() => {
     if (formClosed) setShowAdd(false);
@@ -53,18 +70,48 @@ export const CollectionPage = () => {
           <RingChart
             data={seriesData}
             total={totals.totalSets}
-            label={
-              totals.totalSets < 6 ? 'Series statistics' : 'Themes overview'
-            }
+            label="Themes Overview"
             legendPercentage={totals.totalSets < 6}
             gluedHeader={totals.totalSets < 6}
           />
+        </div>
+        <div className="w-full flex justify-between items-center mt-8">
+          <div>
+            Sort by:{' '}
+            <span
+              onClick={handleSort}
+              className="inline-flex items-center gap-1 cursor-pointer transition-opacity hover:opacity-90 active:opacity-80"
+            >
+              Profit
+              <ArrowIcon
+                width={16}
+                className={clsx('[&>path]:fill-black iconfills', {
+                  'rotate-[270deg]': sorting === 'asc',
+                  'rotate-[90deg]': sorting === 'desc',
+                  hidden: sorting === '',
+                })}
+              />
+            </span>
+          </div>
+          <Button className="!bg-pagesize dark:!bg-dark dark:!text-[#F9F9F9] rounded-md !text-sm w-36 max-w-32 h-9 flex items-center justify-around">
+            <SlidersIcon className="iconstrokes" />
+            <span className="text-primary text-base">Filters</span>
+            <ChevronUpIcon
+              // className={clsx(
+              //   'transition-all mt-px -translate-y-[2px] iconstrokes',
+              //   {
+              //     'rotate-180': !isOpen,
+              //   }
+              // )}
+              className="iconstrokes rotate-180"
+            />
+          </Button>
         </div>
       </div>
       <CollectionList />
       {showAdd && (
         <ConfirmationModal
-          className="!p-10 dark:!bg-dark max-h-[550px] !top-12 overflow-auto"
+          className="!p-10 dark:!bg-dark max-h-[80vh] !top-12 overflow-auto"
           show={showAdd}
           onClose={() => setShowAdd(false)}
           showYes={false}
