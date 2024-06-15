@@ -19,8 +19,9 @@ import {
   $userReviewCells,
   toUserReviewCells,
 } from '../../components/UserReviewsList/model.ts';
-import { profileUpdated } from '../../features/user-profile-page/model.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
+import { persist } from 'effector-storage/local';
+import { toUnixTime } from '../../services/utils.ts';
 
 export const gate = createGate<{
   id: string | null;
@@ -31,15 +32,21 @@ export const sectionSelected = createEvent<string>();
 
 export const avatarChanged = createEvent();
 
+export const profileUpdated = createEvent();
+
 export const loadingStarted = createEvent();
 
-export const $section = createStore<string>('');
+export const userReviewsSortingChanged = createEvent<'Last' | 'First'>();
+
+export const $section = createStore<string>('uploads');
 
 export const $favorites = createStore<MarketItemCell[]>([]);
 
 export const $favoritesLength = createStore<number>(0);
 
 export const $isLoading = createStore<number>(0);
+
+export const $userReviewsSorting = createStore<'Last' | 'First'>('Last');
 
 export const $user = createStore<User>({
   email: '',
@@ -50,10 +57,12 @@ export const $user = createStore<User>({
   username: '',
 });
 
+export const $uid = gate.state.map(({ id }) => id);
+
 const $offset = createStore<number>(0);
 
-const GetUserProfilePageFx = attach({
-  source: gate.state.map(({ id }) => id),
+export const GetUserProfilePageFx = attach({
+  source: $uid,
   effect: (id) => {
     if (!id) throw new Error('No id provided');
     return userService.GetUserProfilePage(id === 'my' ? undefined : id);
@@ -99,7 +108,8 @@ sample({
   source: gate.state,
   filter: (state: { id: string | null; navigate: NavigateFunction }) =>
     state.id === 'my',
-  target: GetFavoritesFX,
+  fn: () => '',
+  target: [sectionSelected, GetFavoritesFX],
 });
 
 sample({
@@ -168,6 +178,29 @@ sample({
 });
 
 sample({
+  clock: GetUserProfilePageFx.done,
+  source: $userReviewsSorting,
+  target: userReviewsSortingChanged,
+});
+
+sample({
+  source: userReviewsSortingChanged,
+  target: $userReviewsSorting,
+});
+
+sample({
+  clock: userReviewsSortingChanged,
+  source: $userReviewCells,
+  fn: (cells, sorting) =>
+    cells.sort((a, b) =>
+      sorting === 'Last'
+        ? toUnixTime(b.date) - toUnixTime(a.date)
+        : toUnixTime(a.date) - toUnixTime(b.date)
+    ),
+  target: $userReviewCells,
+});
+
+sample({
   clock: GetUserProfilePageFx.doneData.map((data) => data.marketItems),
   source: gate.state,
   filter: (state: { id: string | null; navigate: NavigateFunction }) =>
@@ -179,4 +212,9 @@ sample({
 sample({
   clock: gate.close,
   target: [$section.reinit!, $offset.reinit!, $favoritesLength.reinit!],
+});
+
+persist({
+  store: $userReviewsSorting,
+  key: 'userReviewsSorting',
 });

@@ -5,6 +5,7 @@ import toaster from '../shared/lib/react-toastify';
 import { MarketItemForm } from '../types/MarketItemType.ts';
 import { UserProfileForm } from '../types/UserProfileType.ts';
 import { CollectionSetForm } from '../types/CollectionType.ts';
+import { UserReviewForm } from '../types/UserReviewType.ts';
 
 const handleIncorrectParse = (
   e: ZodError,
@@ -16,24 +17,30 @@ const handleIncorrectParse = (
   return Promise.reject(e.format());
 };
 
+const handleAxiosError = (e: AxiosError, consolePrefix: string) => {
+  const errorMessage = (e.response?.data as any)?.error ?? e.message;
+
+  console.error(
+    `${consolePrefix}: code = ${e.response?.status}, msg = ${errorMessage}`
+  );
+
+  return errorMessage;
+};
+
 const handleUserError = (
   e: unknown,
   consolePrefix: string,
   form: SignInForm | SignUpForm | UserProfileForm
 ): Promise<never> => {
   if (axios.isAxiosError(e)) {
-    const err = e as AxiosError;
-    const errorMessage = (err.response?.data as any)?.error ?? err.message;
-    console.error(
-      `${consolePrefix}: code = ${err.response?.status}, msg = ${errorMessage}`
-    );
+    const errorMessage = handleAxiosError(e, consolePrefix);
 
     form.fields.email.addError({
       rule: '',
       errorText: errorMessage,
     });
 
-    return Promise.reject(err.message);
+    return Promise.reject(errorMessage);
   }
 
   console.error(`${consolePrefix}: undefined error: `, e);
@@ -46,22 +53,43 @@ const handleSetError = (
   form: MarketItemForm | CollectionSetForm
 ): Promise<never> => {
   if (axios.isAxiosError(e)) {
-    const err = e as AxiosError;
-    const errorMessage = (err.response?.data as any)?.error ?? err.message;
-    console.error(
-      `${consolePrefix}: code = ${err.response?.status}, msg = ${errorMessage}`
-    );
+    const errorMessage = handleAxiosError(e, consolePrefix);
 
     form.fields.legoSetID.addError({
       rule: '',
       errorText: errorMessage,
     });
 
-    return Promise.reject(err.message);
+    return Promise.reject(errorMessage);
   }
 
   console.error(`${consolePrefix}: undefined error: `, e);
   return Promise.reject(e);
 };
 
-export { handleIncorrectParse, handleUserError, handleSetError };
+const handleReviewError = (
+  e: unknown,
+  consolePrefix: string,
+  form: UserReviewForm
+): Promise<never> => {
+  if (axios.isAxiosError(e)) {
+    const errorMessage = handleAxiosError(e, consolePrefix);
+
+    form.fields.rating.addError({
+      rule: '',
+      errorText: errorMessage,
+    });
+
+    return Promise.reject(errorMessage);
+  }
+
+  console.error(`${consolePrefix}: undefined error: `, e);
+  return Promise.reject(e);
+};
+
+export {
+  handleIncorrectParse,
+  handleUserError,
+  handleSetError,
+  handleReviewError,
+};

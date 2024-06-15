@@ -19,7 +19,6 @@ interface Props {
   id?: number;
 }
 
-// TODO: call GetCollections onUpdate
 export const CollectionSetForm = ({ id }: Props) => {
   const { fields, eachValid } = useForm(model.form);
 

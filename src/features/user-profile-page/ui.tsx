@@ -1,4 +1,4 @@
-import { useGate, useUnit } from 'effector-react';
+import { useUnit } from 'effector-react';
 import * as model from './model.ts';
 import React from 'react';
 import { TextFieldAdapter } from '../../shared/ui/form-adapters.tsx';
@@ -9,8 +9,6 @@ import PencilIcon from '../../assets/icons/pencil.svg?react';
 import clsx from 'clsx';
 
 export const UserProfilePageForm = () => {
-  useGate(model.gate);
-
   const { fields, eachValid } = useForm(model.form);
 
   const isDirty = useUnit(model.form.$touched);

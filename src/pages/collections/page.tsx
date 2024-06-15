@@ -30,14 +30,14 @@ export const CollectionPage = () => {
 
   function handleSort() {
     switch (sorting) {
-      case '':
-        model.collectionSortingChanged('asc');
-        return;
       case 'asc':
         model.collectionSortingChanged('desc');
         return;
-      default:
+      case 'desc':
         model.collectionSortingChanged('');
+        return;
+      default:
+        model.collectionSortingChanged('asc');
     }
   }
 
@@ -85,11 +85,14 @@ export const CollectionPage = () => {
               Profit
               <ArrowIcon
                 width={16}
-                className={clsx('[&>path]:fill-black iconfills', {
-                  'rotate-[270deg]': sorting === 'asc',
-                  'rotate-[90deg]': sorting === 'desc',
-                  hidden: sorting === '',
-                })}
+                className={clsx(
+                  '[&>path]:fill-black iconfills transition-all',
+                  {
+                    'rotate-[270deg]': sorting === 'asc',
+                    'rotate-[90deg]': sorting === 'desc',
+                    hidden: sorting === '',
+                  }
+                )}
               />
             </span>
           </div>

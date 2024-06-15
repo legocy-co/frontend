@@ -98,3 +98,21 @@ export function partialToFull<T>(x: Partial<T>): T {
 export function setTwoDecimals(value: number): number {
   return Math.floor(value * 100) / 100;
 }
+
+export function toUnixTime(date: string): number {
+  // ensure 3 parts
+  const parts = date.split('.');
+  if (parts.length !== 3) {
+    throw new Error('Invalid date format');
+  }
+
+  // extract year part
+  const year = parts[2];
+
+  // construct unix format
+  return Math.floor(
+    new Date(
+      `${year.length === 2 ? `20${year}` : year}.${parts[1]}.${parts[0]}`
+    ).getTime() / 1000
+  );
+}

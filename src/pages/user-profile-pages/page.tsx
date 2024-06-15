@@ -11,6 +11,7 @@ import { authService } from '../../services/AuthService.ts';
 import GalleryModal from '../../components/GalleryModal';
 import { userService } from '../../services/UserService.ts';
 import PencilIcon from '../../assets/icons/pencil.svg';
+import ChevronUpIcon from '../../assets/icons/chevron-up.svg?react';
 import StarIcon from '../../assets/icons/star.svg?react';
 import BatmanPic from '../../assets/pics/batman.png';
 import ChickenPic from '../../assets/pics/chicken.png';
@@ -25,6 +26,8 @@ import { $userReviewCells } from '../../components/UserReviewsList/model.ts';
 import { $marketItemCells } from '../../components/MarketItemsList/model.ts';
 import clsx from 'clsx';
 import Loader from '../../shared/ui/loader.tsx';
+import { Button } from '../../shared/ui/button.tsx';
+import { UserReviewForm } from '../../features/user-review';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -43,7 +46,7 @@ const UserProfilePage = () => {
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const selectedSection = useUnit(model.$section);
+  const section = useUnit(model.$section);
   const user = useUnit(model.$user);
   const reviews = useUnit($userReviewCells);
   const marketItems = useUnit($marketItemCells);
@@ -52,9 +55,6 @@ const UserProfilePage = () => {
 
   const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
-  const [section, setSection] = useState(
-    selectedSection ? selectedSection : isPersonal ? '' : 'uploads'
-  );
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.currentTarget.files?.[0];
@@ -105,7 +105,19 @@ const UserProfilePage = () => {
       }
       case 'reviews': {
         onscroll = () => {};
-        setContentElement(<UserReviewsList />);
+        setContentElement(
+          <UserReviewsContent
+            userID={isPersonal ? -1 : Number(params.id)}
+            onRate={() => model.sectionSelected('rate')}
+          />
+        );
+        break;
+      }
+      case 'rate': {
+        onscroll = () => {};
+        setContentElement(
+          <UserReviewForm onCancel={() => model.sectionSelected('reviews')} />
+        );
         break;
       }
       default: {
@@ -172,34 +184,39 @@ const UserProfilePage = () => {
           </div>
         )}
       </PageHeading>
-      <div className="w-full flex items-center justify-center gap-5 mb-7">
-        {isPersonal && (
-          <MenuButton onClick={() => setSection('')} disabled={!section}>
-            General info
-          </MenuButton>
-        )}
-        {isPersonal ? (
+      {section !== 'rate' && (
+        <div className="w-full flex items-center justify-center gap-5 mb-7">
+          {isPersonal && (
+            <MenuButton
+              onClick={() => model.sectionSelected('')}
+              disabled={!section}
+            >
+              General info
+            </MenuButton>
+          )}
+          {isPersonal ? (
+            <MenuButton
+              onClick={() => model.sectionSelected('favorites')}
+              disabled={section === 'favorites'}
+            >
+              Favorites {favoritesLength}
+            </MenuButton>
+          ) : (
+            <MenuButton
+              onClick={() => model.sectionSelected('uploads')}
+              disabled={section === 'uploads'}
+            >
+              Uploads {marketItems.length}
+            </MenuButton>
+          )}
           <MenuButton
-            onClick={() => setSection('favorites')}
-            disabled={section === 'favorites'}
+            onClick={() => model.sectionSelected('reviews')}
+            disabled={section === 'reviews'}
           >
-            Favorites {favoritesLength}
+            Reviews {reviews.length}
           </MenuButton>
-        ) : (
-          <MenuButton
-            onClick={() => setSection('uploads')}
-            disabled={section === 'uploads'}
-          >
-            Uploads {marketItems.length}
-          </MenuButton>
-        )}
-        <MenuButton
-          onClick={() => setSection('reviews')}
-          disabled={section === 'reviews'}
-        >
-          Reviews {reviews.length}
-        </MenuButton>
-      </div>
+        </div>
+      )}
       {contentElement}
       {showGallery > -1 && (
         <GalleryModal
@@ -208,6 +225,46 @@ const UserProfilePage = () => {
           onClose={() => setShowGallery(-1)}
         />
       )}
+    </>
+  );
+};
+
+interface Props {
+  userID: number;
+  onRate: () => void;
+}
+
+const UserReviewsContent = ({ userID, onRate }: Props) => {
+  const sorting = useUnit(model.$userReviewsSorting);
+
+  const sortedLast = sorting === 'Last';
+
+  return (
+    <>
+      <div className="flex gap-5">
+        {userID > -1 && (
+          <Button
+            onClick={onRate}
+            className="!w-44 !h-9 flex items-center justify-center gap-2 text-[16px] relative bg-pagesize dark:bg-dark !text-[#201D1D] dark:!text-description"
+          >
+            Leave Review
+          </Button>
+        )}
+        <Button
+          onClick={() =>
+            model.userReviewsSortingChanged(sortedLast ? 'First' : 'Last')
+          }
+          className="!w-[188px] !h-9 flex items-center justify-center gap-2 text-[16px] relative bg-pagesize dark:bg-dark !text-[#201D1D] dark:!text-description"
+        >
+          Sort by: {sorting} Added
+          <ChevronUpIcon
+            className={clsx('iconstrokes transition-all', {
+              'rotate-180': sortedLast,
+            })}
+          />
+        </Button>
+      </div>
+      <UserReviewsList />
     </>
   );
 };
