@@ -11,6 +11,7 @@ import { authService } from '../../services/AuthService.ts';
 import GalleryModal from '../../components/GalleryModal';
 import { userService } from '../../services/UserService.ts';
 import PencilIcon from '../../assets/icons/pencil.svg';
+import ChevronUpIcon from '../../assets/icons/chevron-up.svg?react';
 import StarIcon from '../../assets/icons/star.svg?react';
 import BatmanPic from '../../assets/pics/batman.png';
 import ChickenPic from '../../assets/pics/chicken.png';
@@ -25,6 +26,8 @@ import { $userReviewCells } from '../../components/UserReviewsList/model.ts';
 import { $marketItemCells } from '../../components/MarketItemsList/model.ts';
 import clsx from 'clsx';
 import Loader from '../../shared/ui/loader.tsx';
+import { Button } from '../../shared/ui/button.tsx';
+import { UserReviewForm } from '../../features/user-review';
 
 const DEFAULT_AVATARS = [
   BatmanPic,
@@ -105,7 +108,17 @@ const UserProfilePage = () => {
       }
       case 'reviews': {
         onscroll = () => {};
-        setContentElement(<UserReviewsList />);
+        setContentElement(
+          <UserReviewsContent
+            userID={isPersonal ? -1 : Number(params.id)}
+            onRate={() => setSection('rate')}
+          />
+        );
+        break;
+      }
+      case 'rate': {
+        onscroll = () => {};
+        setContentElement(<UserReviewForm />);
         break;
       }
       default: {
@@ -208,6 +221,46 @@ const UserProfilePage = () => {
           onClose={() => setShowGallery(-1)}
         />
       )}
+    </>
+  );
+};
+
+interface Props {
+  userID: number;
+  onRate: () => void;
+}
+
+const UserReviewsContent = ({ userID, onRate }: Props) => {
+  const sorting = useUnit(model.$userReviewsSorting);
+
+  const sortedLast = sorting === 'Last';
+
+  return (
+    <>
+      <div className="flex gap-5">
+        {userID > -1 && (
+          <Button
+            onClick={onRate}
+            className="!w-44 !h-9 flex items-center justify-center gap-2 text-[16px] relative bg-pagesize dark:bg-dark !text-[#201D1D] dark:!text-description"
+          >
+            Leave Review
+          </Button>
+        )}
+        <Button
+          onClick={() =>
+            model.userReviewsSortingChanged(sortedLast ? 'First' : 'Last')
+          }
+          className="!w-[188px] !h-9 flex items-center justify-center gap-2 text-[16px] relative bg-pagesize dark:bg-dark !text-[#201D1D] dark:!text-description"
+        >
+          Sort by: {sorting} Added
+          <ChevronUpIcon
+            className={clsx('iconstrokes transition-all', {
+              'rotate-180': sortedLast,
+            })}
+          />
+        </Button>
+      </div>
+      <UserReviewsList />
     </>
   );
 };
