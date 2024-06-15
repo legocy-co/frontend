@@ -1,5 +1,17 @@
 import { z } from 'zod';
 import { UserSchema } from './UserType';
+import { Form } from 'effector-forms';
+
+export type UserReviewForm = Form<{
+  message: string;
+  rating: number;
+}>;
+
+export type UserReviewData = {
+  message: string;
+  rating: number;
+  sellerID: number;
+};
 
 export type UserReview = z.infer<typeof UserReviewSchema>;
 

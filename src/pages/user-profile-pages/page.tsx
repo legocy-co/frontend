@@ -46,7 +46,7 @@ const UserProfilePage = () => {
 
   useGate(model.gate, { id: params.id ?? null, navigate });
 
-  const selectedSection = useUnit(model.$section);
+  const section = useUnit(model.$section);
   const user = useUnit(model.$user);
   const reviews = useUnit($userReviewCells);
   const marketItems = useUnit($marketItemCells);
@@ -55,9 +55,6 @@ const UserProfilePage = () => {
 
   const [contentElement, setContentElement] = useState<ReactElement>(<></>);
   const [showGallery, setShowGallery] = useState<number>(-1);
-  const [section, setSection] = useState(
-    selectedSection ? selectedSection : isPersonal ? '' : 'uploads'
-  );
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.currentTarget.files?.[0];
@@ -111,7 +108,7 @@ const UserProfilePage = () => {
         setContentElement(
           <UserReviewsContent
             userID={isPersonal ? -1 : Number(params.id)}
-            onRate={() => setSection('rate')}
+            onRate={() => model.sectionSelected('rate')}
           />
         );
         break;
@@ -119,7 +116,7 @@ const UserProfilePage = () => {
       case 'rate': {
         onscroll = () => {};
         setContentElement(
-          <UserReviewForm onCancel={() => setSection('reviews')} />
+          <UserReviewForm onCancel={() => model.sectionSelected('reviews')} />
         );
         break;
       }
@@ -190,27 +187,30 @@ const UserProfilePage = () => {
       {section !== 'rate' && (
         <div className="w-full flex items-center justify-center gap-5 mb-7">
           {isPersonal && (
-            <MenuButton onClick={() => setSection('')} disabled={!section}>
+            <MenuButton
+              onClick={() => model.sectionSelected('')}
+              disabled={!section}
+            >
               General info
             </MenuButton>
           )}
           {isPersonal ? (
             <MenuButton
-              onClick={() => setSection('favorites')}
+              onClick={() => model.sectionSelected('favorites')}
               disabled={section === 'favorites'}
             >
               Favorites {favoritesLength}
             </MenuButton>
           ) : (
             <MenuButton
-              onClick={() => setSection('uploads')}
+              onClick={() => model.sectionSelected('uploads')}
               disabled={section === 'uploads'}
             >
               Uploads {marketItems.length}
             </MenuButton>
           )}
           <MenuButton
-            onClick={() => setSection('reviews')}
+            onClick={() => model.sectionSelected('reviews')}
             disabled={section === 'reviews'}
           >
             Reviews {reviews.length}

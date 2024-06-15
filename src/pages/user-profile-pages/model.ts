@@ -38,7 +38,7 @@ export const loadingStarted = createEvent();
 
 export const userReviewsSortingChanged = createEvent<'Last' | 'First'>();
 
-export const $section = createStore<string>('');
+export const $section = createStore<string>('uploads');
 
 export const $favorites = createStore<MarketItemCell[]>([]);
 
@@ -57,10 +57,12 @@ export const $user = createStore<User>({
   username: '',
 });
 
+export const $uid = gate.state.map(({ id }) => id);
+
 const $offset = createStore<number>(0);
 
 export const GetUserProfilePageFx = attach({
-  source: gate.state.map(({ id }) => id),
+  source: $uid,
   effect: (id) => {
     if (!id) throw new Error('No id provided');
     return userService.GetUserProfilePage(id === 'my' ? undefined : id);
@@ -106,7 +108,8 @@ sample({
   source: gate.state,
   filter: (state: { id: string | null; navigate: NavigateFunction }) =>
     state.id === 'my',
-  target: GetFavoritesFX,
+  fn: () => '',
+  target: [sectionSelected, GetFavoritesFX],
 });
 
 sample({
