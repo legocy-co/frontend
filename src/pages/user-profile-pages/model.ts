@@ -19,7 +19,6 @@ import {
   $userReviewCells,
   toUserReviewCells,
 } from '../../components/UserReviewsList/model.ts';
-import { profileUpdated } from '../../features/user-profile-page/model.ts';
 import { marketItemService } from '../../services/MarketItemService.ts';
 import { persist } from 'effector-storage/local';
 import { toUnixTime } from '../../services/utils.ts';
@@ -32,6 +31,8 @@ export const gate = createGate<{
 export const sectionSelected = createEvent<string>();
 
 export const avatarChanged = createEvent();
+
+export const profileUpdated = createEvent();
 
 export const loadingStarted = createEvent();
 
@@ -58,7 +59,7 @@ export const $user = createStore<User>({
 
 const $offset = createStore<number>(0);
 
-const GetUserProfilePageFx = attach({
+export const GetUserProfilePageFx = attach({
   source: gate.state.map(({ id }) => id),
   effect: (id) => {
     if (!id) throw new Error('No id provided');

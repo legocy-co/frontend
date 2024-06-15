@@ -90,12 +90,13 @@ export const TextareaFieldAdapter = ({
   className,
   labelText,
 }: FormAdapterProps<string>) => {
-  const { value, onChange } = useField(field);
+  const { value, onChange, hasError } = useField(field);
 
   return (
     <Textarea
       labelText={labelText}
       className={className}
+      isInvalid={hasError()}
       value={value}
       onChange={(e) => onChange(e.currentTarget.value)}
     />

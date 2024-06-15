@@ -7,20 +7,25 @@ import TextareaAutosize, {
 export type TextareaProps = TextareaAutosizeProps & {
   labelText: string;
   className?: string;
+  isInvalid?: boolean;
 };
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (props, ref) => {
-    const { labelText, className, ...rest } = props;
+    const { labelText, className, isInvalid = false, ...rest } = props;
 
     return (
       <TextareaAutosize
         ref={ref}
         className={clsx(
-          'border dark:bg-dark border-solid border-selectborder rounded-xl !dark:text-confirmmodal pl-3 pr-10 outline-0 mb-3.5 py-5',
-          'focus:outline-none focus:border-primary-default',
+          'bg-pagesize dark:bg-dark rounded-lg !dark:text-confirmmodal outline-0 pl-5 pt-5 pr-16 pb-16',
+          'focus:outline-none',
           'placeholder:opacity-95',
           'floating-input-base',
           'w-full',
+          {
+            '!bg-invalid dark:!bg-invalid !text-confirmmodal dark:!text-confirmmodal':
+              isInvalid,
+          },
           className
         )}
         placeholder={labelText}

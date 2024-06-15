@@ -1,22 +1,11 @@
-import { createGate } from 'effector-react';
 import { createForm } from 'effector-forms';
 import { createRule } from '../../services/utils.ts';
 import { z } from 'zod';
-import {
-  attach,
-  combine,
-  createDomain,
-  createEffect,
-  createEvent,
-  createStore,
-  EventPayload,
-  sample,
-} from 'effector';
-import { UserProfileData } from '../../types/UserProfileType.ts';
+import { attach, createEffect, EventPayload, sample } from 'effector';
 import { userService } from '../../services/UserService.ts';
 import { authService } from '../../services/AuthService.ts';
-
-export const gate = createGate();
+import { upp } from '../../pages/user-profile-pages/index.tsx';
+import { User } from '../../types/UserType.ts';
 
 export const form = createForm({
   fields: {
@@ -45,38 +34,13 @@ export const form = createForm({
   },
 });
 
-const domain = createDomain();
-
-export const setForm = domain.createEvent<UserProfileData>();
-
-export const profileUpdated = createEvent();
-
-const $userId = createStore<number>(0);
-
-const $email = createStore<string>('');
-
-const $username = createStore<string>('');
-
-const $userProfileData = combine($email, $username, toData);
-
-const GetUserEmailFx = createEffect(() => authService.GetUserEmail());
-
-const GetUserIdFx = createEffect(() => authService.GetUserId());
-
-const GetUserProfilePageFx = attach({
-  source: {
-    id: $userId,
-  },
-  effect: ({ id }) => userService.GetUserProfilePage(id),
-});
-
 const updateUserProfilePageFx = attach({
   source: {
-    id: $userId,
+    user: upp.$user,
     data: form.$values,
   },
-  effect: ({ id, data }) =>
-    userService.UpdateUserProfilePage(id, {
+  effect: ({ user, data }) =>
+    userService.UpdateUserProfilePage(user.id, {
       email: data.email,
       username: data.username,
     }),
@@ -84,53 +48,15 @@ const updateUserProfilePageFx = attach({
 
 const refreshTokenFx = createEffect(() => authService.RefreshToken());
 
-function toData(email: string, username: string): UserProfileData {
+function toForm(user: User): EventPayload<typeof form.setForm> {
   return {
-    email: email,
-    username: username,
-  };
-}
-
-function toForm(values: UserProfileData): EventPayload<typeof form.setForm> {
-  return {
-    email: values.email,
-    username: values.username,
+    email: user.email,
+    username: user.username,
   };
 }
 
 sample({
-  clock: gate.open,
-  target: [GetUserEmailFx, GetUserIdFx],
-});
-
-sample({
-  clock: GetUserEmailFx.doneData,
-  target: $email,
-});
-
-sample({
-  clock: GetUserIdFx.doneData,
-  target: $userId,
-});
-
-sample({
-  clock: $userId,
-  target: GetUserProfilePageFx,
-});
-
-sample({
-  clock: GetUserProfilePageFx.doneData,
-  fn: (data) => data.user.username,
-  target: $username,
-});
-
-sample({
-  clock: $userProfileData,
-  target: setForm,
-});
-
-sample({
-  clock: setForm,
+  source: upp.$user,
   fn: toForm,
   target: form.setForm,
 });
@@ -142,5 +68,5 @@ sample({
 
 sample({
   clock: updateUserProfilePageFx.done,
-  target: [refreshTokenFx, profileUpdated],
+  target: [refreshTokenFx, upp.profileUpdated],
 });

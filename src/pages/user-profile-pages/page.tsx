@@ -118,7 +118,9 @@ const UserProfilePage = () => {
       }
       case 'rate': {
         onscroll = () => {};
-        setContentElement(<UserReviewForm />);
+        setContentElement(
+          <UserReviewForm onCancel={() => setSection('reviews')} />
+        );
         break;
       }
       default: {
@@ -185,34 +187,36 @@ const UserProfilePage = () => {
           </div>
         )}
       </PageHeading>
-      <div className="w-full flex items-center justify-center gap-5 mb-7">
-        {isPersonal && (
-          <MenuButton onClick={() => setSection('')} disabled={!section}>
-            General info
-          </MenuButton>
-        )}
-        {isPersonal ? (
+      {section !== 'rate' && (
+        <div className="w-full flex items-center justify-center gap-5 mb-7">
+          {isPersonal && (
+            <MenuButton onClick={() => setSection('')} disabled={!section}>
+              General info
+            </MenuButton>
+          )}
+          {isPersonal ? (
+            <MenuButton
+              onClick={() => setSection('favorites')}
+              disabled={section === 'favorites'}
+            >
+              Favorites {favoritesLength}
+            </MenuButton>
+          ) : (
+            <MenuButton
+              onClick={() => setSection('uploads')}
+              disabled={section === 'uploads'}
+            >
+              Uploads {marketItems.length}
+            </MenuButton>
+          )}
           <MenuButton
-            onClick={() => setSection('favorites')}
-            disabled={section === 'favorites'}
+            onClick={() => setSection('reviews')}
+            disabled={section === 'reviews'}
           >
-            Favorites {favoritesLength}
+            Reviews {reviews.length}
           </MenuButton>
-        ) : (
-          <MenuButton
-            onClick={() => setSection('uploads')}
-            disabled={section === 'uploads'}
-          >
-            Uploads {marketItems.length}
-          </MenuButton>
-        )}
-        <MenuButton
-          onClick={() => setSection('reviews')}
-          disabled={section === 'reviews'}
-        >
-          Reviews {reviews.length}
-        </MenuButton>
-      </div>
+        </div>
+      )}
       {contentElement}
       {showGallery > -1 && (
         <GalleryModal
