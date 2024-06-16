@@ -13,6 +13,10 @@ import clsx from 'clsx';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
 
+// const YEAR_OPTIONS = Array.from({ length: 15 }, (_, i) =>
+//   Object({ label: 2010 + i, value: 2010 + i })
+// );
+
 export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   const { gate, disclosure, form } = model;
   useGate(gate);
@@ -85,9 +89,10 @@ export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
                   placeholder="Max. amount"
                   field={form.fields.max_pieces}
                   labelText=""
-                  className="h-[34px] mt-[23px] placeholder:text-xs placeholder:text-[#C8C7C7] dark:placeholder:text-[#767676]"
+                  className="h-[34px] mt-5 placeholder:text-xs placeholder:text-[#C8C7C7] dark:placeholder:text-[#767676]"
                 />
               </div>
+              <Release />
             </div>
             <div className="w-[332px] flex justify-between text-celllink text-opacity-75">
               <Button
@@ -137,7 +142,7 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
           placeholder={''}
           className="w-full !h-[34px]"
         />
-        <ChevronUpIcon className="absolute dark:opacity-25 iconstrokes w-[14px] pointer-events-none top-3 right-3 rotate-180" />
+        <ChevronUpIcon className="absolute dark:opacity-25 iconstrokes w-[14px] pointer-events-none top-4 right-3 rotate-180" />
       </div>
       <div className="flex flex-wrap gap-1 top-0">
         {selectedWithNames.map((selected) => (
@@ -151,6 +156,16 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
           </div>
         ))}
       </div>
+    </div>
+  );
+};
+
+// TODO: multiple years select
+const Release = () => {
+  return (
+    <div>
+      <p>Set release year</p>
+      <select multiple></select>
     </div>
   );
 };
