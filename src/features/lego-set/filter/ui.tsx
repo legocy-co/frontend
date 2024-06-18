@@ -4,6 +4,7 @@ import React from 'react';
 import { Button } from '../../../shared/ui/button.tsx';
 import {
   NumberFieldAdapter,
+  SelectFieldOption,
   TextFieldAdapter,
 } from '../../../shared/ui/form-adapters.tsx';
 import { LegoSetFilterModel } from './model.ts';
@@ -12,10 +13,12 @@ import SlidersIcon from '../../../assets/icons/sliders.svg?react';
 import clsx from 'clsx';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
+import { default as ReactSelect, components } from 'react-select';
+import { Field, useField } from 'effector-forms';
 
-// const YEAR_OPTIONS = Array.from({ length: 15 }, (_, i) =>
-//   Object({ label: 2010 + i, value: 2010 + i })
-// );
+const YEAR_OPTIONS = Array.from({ length: 15 }, (_, i) =>
+  Object({ label: 2010 + i, value: 2010 + i })
+);
 
 export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   const { gate, disclosure, form } = model;
@@ -92,7 +95,7 @@ export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
                   className="h-[34px] mt-5 placeholder:text-xs placeholder:text-[#C8C7C7] dark:placeholder:text-[#767676]"
                 />
               </div>
-              <Release />
+              <Release field={form.fields.releaseYears} />
             </div>
             <div className="w-[332px] flex justify-between text-celllink text-opacity-75">
               <Button
@@ -160,12 +163,48 @@ const Search = ({ model, label }: { model: SearchModel; label: string }) => {
   );
 };
 
-// TODO: multiple years select
-const Release = () => {
+interface Props {
+  field: Field<string[]>;
+}
+
+//TODO: send releaseYear query
+const Release = ({ field }: Props) => {
+  const { value, onChange } = useField(field);
+
+  const handleChange = (opt: any) => {
+    console.log(opt.map((op: SelectFieldOption) => op.value));
+    onChange(opt.map((op: SelectFieldOption) => op.value));
+  };
+
   return (
     <div>
       <p>Set release year</p>
-      <select multiple></select>
+      <ReactSelect
+        options={YEAR_OPTIONS}
+        isMulti
+        closeMenuOnSelect={false}
+        hideSelectedOptions={false}
+        components={{
+          Option,
+        }}
+        onChange={handleChange}
+        value={value.map((value) => Object({ value: value, label: value }))}
+      />
+    </div>
+  );
+};
+
+const Option = (props: any) => {
+  return (
+    <div>
+      <components.Option {...props}>
+        <input
+          type="checkbox"
+          checked={props.isSelected}
+          onChange={() => null}
+        />{' '}
+        <label>{props.label}</label>
+      </components.Option>
     </div>
   );
 };

@@ -41,6 +41,9 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
       set_number: {
         init: null as unknown as number,
       },
+      releaseYears: {
+        init: [] as string[],
+      },
     },
   });
 
@@ -132,6 +135,11 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
           value: filters?.set_number,
           show: !!filters?.set_number,
           label: 'Set number',
+        },
+        releaseYears: {
+          value: filters?.releaseYears,
+          show: !!filters?.releaseYears,
+          label: 'Release years',
         },
       };
 
