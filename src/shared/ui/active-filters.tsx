@@ -7,7 +7,6 @@ import TrashIcon from '../../assets/icons/trash.svg?react';
 export const ActiveFilters = ({ model }: { model: MarketItemFilterModel }) => {
   const { $activeFilters, resetExactFilterTriggered, resetTriggered } = model;
   const activeFilters = useUnit($activeFilters);
-  console.log(activeFilters);
 
   let count = 0;
   for (let i = 0; i < activeFilters.length; i++)

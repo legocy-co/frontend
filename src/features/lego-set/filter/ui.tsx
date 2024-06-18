@@ -10,11 +10,12 @@ import {
 import { LegoSetFilterModel } from './model.ts';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import SlidersIcon from '../../../assets/icons/sliders.svg?react';
+import TrashIcon from '../../../assets/icons/trash.svg?react';
 import clsx from 'clsx';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
-import { default as ReactSelect, components } from 'react-select';
 import { Field, useField } from 'effector-forms';
+import Select, { components } from 'react-select';
 
 export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   const { gate, disclosure, form } = model;
@@ -163,30 +164,59 @@ interface Props {
   field: Field<string[]>;
 }
 
-//TODO: layout release field
+//TODO: refine releaseField styles
 const Release = ({ field }: Props) => {
   const { value, onChange } = useField(field);
 
-  const handleChange = (opt: any) => {
-    console.log(opt.map((op: SelectFieldOption) => op.value));
-    onChange(opt.map((op: SelectFieldOption) => op.value));
-  };
+  const ClearIndicator = () => (
+    <Button
+      className="w-[52px] h-5 flex !flex-grow-0 !bg-black dark:!bg-white !bg-opacity-35 text-[0.7rem] dark:bg-opacity-35 items-center align-top justify-evenly rounded-sm"
+      onClick={() => onChange([])}
+    >
+      <p>Clear</p>
+      <TrashIcon className="[&>path]:fill-white w-2" />
+    </Button>
+  );
 
   return (
     <div>
       <p>Set release year</p>
-      <ReactSelect
+      <Select
         options={Array.from({ length: 15 }, (_, i) =>
           Object({ label: 2010 + i, value: 2010 + i })
         )}
         isMulti
+        isSearchable={false}
+        placeholder={2010}
         closeMenuOnSelect={false}
+        classNames={{
+          control: () =>
+            `${
+              value.length > 0 ? '!bg-transparent' : '!bg-white dark:!bg-dark'
+            } !min-h-[35px] !border-none !shadow-none mt-2`,
+          option: () =>
+            '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark dark:hover:!bg-tab input:!bg-transparent accent-white',
+          multiValue: () =>
+            '!bg-dark rounded-sm h-5 !text-xs flex items-center justify-between',
+          multiValueLabel: () => '!text-statevaluationchart',
+          multiValueRemove: () =>
+            'hover:!bg-transparent text-white hover:!text-white hover:!text-opacity-95',
+          indicatorSeparator: () => 'hidden',
+          dropdownIndicator: () => (value.length ? '!hidden' : ''),
+        }}
         hideSelectedOptions={false}
         components={{
           Option,
+          ClearIndicator,
         }}
-        onChange={handleChange}
-        value={value.map((value) => Object({ value: value, label: value }))}
+        onChange={(opt) =>
+          onChange(opt.map((op: SelectFieldOption) => op.value))
+        }
+        value={
+          value
+            ? value.map((value) => Object({ value: value, label: value }))
+            : []
+        }
       />
     </div>
   );
@@ -195,7 +225,10 @@ const Release = ({ field }: Props) => {
 const Option = (props: any) => {
   return (
     <div>
-      <components.Option {...props}>
+      <components.Option
+        {...props}
+        className="dark:!bg-dark dark:!border-dark "
+      >
         <input
           type="checkbox"
           checked={props.isSelected}
