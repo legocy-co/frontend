@@ -16,10 +16,6 @@ import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
 import { default as ReactSelect, components } from 'react-select';
 import { Field, useField } from 'effector-forms';
 
-const YEAR_OPTIONS = Array.from({ length: 15 }, (_, i) =>
-  Object({ label: 2010 + i, value: 2010 + i })
-);
-
 export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   const { gate, disclosure, form } = model;
   useGate(gate);
@@ -167,7 +163,7 @@ interface Props {
   field: Field<string[]>;
 }
 
-//TODO: send releaseYear query
+//TODO: layout release field
 const Release = ({ field }: Props) => {
   const { value, onChange } = useField(field);
 
@@ -180,7 +176,9 @@ const Release = ({ field }: Props) => {
     <div>
       <p>Set release year</p>
       <ReactSelect
-        options={YEAR_OPTIONS}
+        options={Array.from({ length: 15 }, (_, i) =>
+          Object({ label: 2010 + i, value: 2010 + i })
+        )}
         isMulti
         closeMenuOnSelect={false}
         hideSelectedOptions={false}

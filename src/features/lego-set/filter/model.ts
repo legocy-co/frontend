@@ -96,8 +96,9 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
         name__ilike: snapshot?.name,
         npieces_gte: snapshot?.min_pieces,
         npieces_lte: snapshot?.max_pieces,
-        series_id__in: snapshot?.series_ids,
+        series_id__in: snapshot?.series_ids.split(',').join(',ser'),
         set_number__in: snapshot?.set_number,
+        release_year__in: snapshot?.releaseYears.join(',year'),
       },
       false
     )

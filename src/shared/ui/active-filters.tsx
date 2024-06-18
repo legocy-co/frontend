@@ -1,17 +1,13 @@
 import { MarketItemFilterModel } from '../../features/market-item/filter/model.ts';
-import { LegoSetFilterModel } from '../../features/lego-set/filter/model.ts';
 import { useUnit } from 'effector-react';
 import CloseIcon from '../../assets/icons/close.svg?react';
 import { EventPayload } from 'effector';
 import TrashIcon from '../../assets/icons/trash.svg?react';
 
-export const ActiveFilters = ({
-  model,
-}: {
-  model: MarketItemFilterModel | LegoSetFilterModel;
-}) => {
+export const ActiveFilters = ({ model }: { model: MarketItemFilterModel }) => {
   const { $activeFilters, resetExactFilterTriggered, resetTriggered } = model;
   const activeFilters = useUnit($activeFilters);
+  console.log(activeFilters);
 
   let count = 0;
   for (let i = 0; i < activeFilters.length; i++)
@@ -34,7 +30,12 @@ export const ActiveFilters = ({
                 <div className="flex space-x-1">
                   <span className="capitalize">{value.label}: </span>
                   <span className="capitalize">
-                    {String(value.value).split('_').join(' ').toLowerCase()}
+                    {String(value.value)
+                      .split('_')
+                      .join(' ')
+                      .split(',')
+                      .join(', ')
+                      .toLowerCase()}
                   </span>
                 </div>
                 <CloseIcon

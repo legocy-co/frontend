@@ -60,7 +60,11 @@ const GetLegoSetsPageFx = attach({
       stringifyParams(
         { limit: pageSize, offset: page * pageSize },
         true,
-        query.split('%2C').join('&series_id__in=')
+        query
+          .split('%2Cset')
+          .join('&series_id__in=')
+          .split('%2Cyear')
+          .join('&release_year__in=')
       )
     ),
 });
