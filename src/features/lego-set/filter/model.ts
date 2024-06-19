@@ -138,7 +138,7 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
           label: 'Set number',
         },
         releaseYears: {
-          value: filters?.releaseYears,
+          value: filters?.releaseYears?.length ? filters?.releaseYears : null,
           show: !!filters?.releaseYears,
           label: 'Release years',
         },
