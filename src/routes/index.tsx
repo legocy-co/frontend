@@ -26,7 +26,6 @@ import LegoSetDetailPage from '../pages/wiki/lego-sets/detail';
 import CollectionPage from '../pages/collections';
 import CollectionsIntroPage from '../pages/collections/intro';
 import { AddCollectionSetPage } from '../pages/collections/add/page.tsx';
-import UpdateCollectionSetPage from '../pages/collections/update/index.tsx';
 import UpdateMarketItemPage from '../pages/market-items/update/index.tsx';
 import ChatPage from '../pages/ChatPage';
 import CatalogSelectPage from '../pages/market-items/select/index.tsx';
@@ -98,7 +97,6 @@ const AppRouter = () => {
           <Route index element={<CollectionPage />} />
           <Route path="intro" element={<CollectionsIntroPage />} />
           <Route path="add" element={<AddCollectionSetPage />} />
-          <Route path="update/:id" element={<UpdateCollectionSetPage />} />
         </Route>
 
         <Route

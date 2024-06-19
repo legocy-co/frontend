@@ -4,8 +4,7 @@ import * as model from './model';
 import { useNavigate } from 'react-router-dom';
 
 export const AddCollectionSetPage = () => {
-  const navigate = useNavigate();
-  useGate(model.gate, { navigate });
+  useGate(model.gate, { navigate: useNavigate() });
 
   return <CollectionSetForm />;
 };
