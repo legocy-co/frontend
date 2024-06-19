@@ -110,8 +110,8 @@ export const CollectionPage = () => {
             />
           </Button>
         </div>
+        <CollectionList />
       </div>
-      <CollectionList />
       {showAdd && (
         <ConfirmationModal
           className="!p-10 dark:!bg-dark max-h-[80vh] !top-12 overflow-auto"
