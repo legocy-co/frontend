@@ -170,12 +170,18 @@ const Release = ({ field }: Props) => {
 
   const ClearIndicator = () => (
     <Button
-      className="w-[52px] h-5 flex !flex-grow-0 !bg-black dark:!bg-white !bg-opacity-35 text-[0.7rem] dark:bg-opacity-35 items-center align-top justify-evenly rounded-sm"
+      className="w-[52px] h-5 flex !flex-grow-0 text-white !bg-black dark:!bg-white !bg-opacity-35 text-[0.7rem] dark:!bg-opacity-35 items-center align-top justify-evenly rounded-sm"
       onClick={() => onChange([])}
     >
       <p>Clear</p>
-      <TrashIcon className="[&>path]:fill-white w-2" />
+      <TrashIcon className="w-2 fillswhite" />
     </Button>
+  );
+
+  const DropdownIndicator = () => (
+    <ChevronUpIcon
+      className={`${value.length ? 'hidden' : 'w-[14px] mr-3 rotate-180'}`}
+    />
   );
 
   return (
@@ -195,19 +201,19 @@ const Release = ({ field }: Props) => {
               value.length > 0 ? '!bg-transparent' : '!bg-white dark:!bg-dark'
             } !min-h-[35px] !border-none !shadow-none mt-2`,
           option: () =>
-            '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark dark:hover:!bg-tab input:!bg-transparent accent-white',
+            '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark dark:hover:!bg-tab input:!bg-transparent accent-dark',
           multiValue: () =>
             '!bg-dark rounded-sm h-5 !text-xs flex items-center justify-between',
           multiValueLabel: () => '!text-statevaluationchart',
           multiValueRemove: () =>
             'hover:!bg-transparent text-white hover:!text-white hover:!text-opacity-95',
           indicatorSeparator: () => 'hidden',
-          dropdownIndicator: () => (value.length ? '!hidden' : ''),
         }}
         hideSelectedOptions={false}
         components={{
           Option,
           ClearIndicator,
+          DropdownIndicator,
         }}
         onChange={(opt) =>
           onChange(opt.map((op: SelectFieldOption) => op.value))
