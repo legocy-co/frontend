@@ -1,11 +1,10 @@
-import { PageHeading } from '../../../shared/ui/page-heading.tsx';
 import { CollectionSetForm } from '../../../features/collection';
+import { useGate } from 'effector-react';
+import * as model from './model';
+import { useNavigate } from 'react-router-dom';
 
 export const AddCollectionSetPage = () => {
-  return (
-    <div className="w-full h-full flex flex-col items-center">
-      <PageHeading to={'/collection'}>Add collection set</PageHeading>
-      <CollectionSetForm />
-    </div>
-  );
+  useGate(model.gate, { navigate: useNavigate() });
+
+  return <CollectionSetForm />;
 };
