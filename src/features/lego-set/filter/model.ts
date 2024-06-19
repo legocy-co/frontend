@@ -128,7 +128,7 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
           value: filters?.series_ids
             .split(',')
             .map((id) => seriesListMap[id])
-            .join(', '),
+            .join(','),
           show: !!filters?.series_ids,
           label: 'Series',
         },
@@ -138,7 +138,7 @@ export const legoSetFilterFactory = (options: { domain?: Domain }) => {
           label: 'Set number',
         },
         releaseYears: {
-          value: filters?.releaseYears,
+          value: filters?.releaseYears?.length ? filters?.releaseYears : null,
           show: !!filters?.releaseYears,
           label: 'Release years',
         },

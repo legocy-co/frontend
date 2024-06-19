@@ -15,7 +15,7 @@ import clsx from 'clsx';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
 import { Field, useField } from 'effector-forms';
-import Select, { components } from 'react-select';
+import Select, { components, OptionProps } from 'react-select';
 
 export const LegoSetsFilter = ({ model }: { model: LegoSetFilterModel }) => {
   const { gate, disclosure, form } = model;
@@ -199,14 +199,13 @@ const Release = ({ field }: Props) => {
         isMulti
         isSearchable={false}
         placeholder={2010}
-        closeMenuOnSelect={false}
         classNames={{
           control: () =>
             `${
               hasValue ? '!bg-transparent' : '!bg-white dark:!bg-dark'
             } !min-h-[35px] !border-none !shadow-none mt-2`,
           option: () =>
-            '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark dark:hover:!bg-tab input:!bg-transparent accent-dark',
+            '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark hover:!bg-condition dark:hover:!bg-tab input:!bg-transparent accent-dark',
           multiValue: () =>
             '!bg-dark rounded-sm h-5 !text-xs flex items-center justify-between',
           multiValueLabel: () => '!text-statevaluationchart',
@@ -233,7 +232,7 @@ const Release = ({ field }: Props) => {
   );
 };
 
-const Option = (props: any) => {
+const Option = (props: OptionProps) => {
   return (
     <div>
       <components.Option
