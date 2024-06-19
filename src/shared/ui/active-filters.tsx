@@ -19,6 +19,8 @@ export const ActiveFilters = ({
 }) => {
   const { $activeFilters, resetExactFilterTriggered, resetTriggered } = model;
   const activeFilters = useUnit($activeFilters as ActiveFiltersStore);
+  console.log(activeFilters);
+  //TODO: remove null releaseYear
 
   let count = 0;
   for (let i = 0; i < activeFilters.length; i++)
