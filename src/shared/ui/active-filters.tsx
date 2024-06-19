@@ -1,16 +1,28 @@
 import { MarketItemFilterModel } from '../../features/market-item/filter/model.ts';
 import { useUnit } from 'effector-react';
 import CloseIcon from '../../assets/icons/close.svg?react';
-import { EventPayload } from 'effector';
+import { EventPayload, Store } from 'effector';
 import TrashIcon from '../../assets/icons/trash.svg?react';
+import { LegoSetFilterModel } from '../../features/lego-set/filter/model.ts';
 
-export const ActiveFilters = ({ model }: { model: MarketItemFilterModel }) => {
+type ActiveFiltersStore = Store<
+  [
+    string,
+    { value: number | string | undefined; show: boolean; label: string },
+  ][]
+>;
+
+export const ActiveFilters = ({
+  model,
+}: {
+  model: MarketItemFilterModel | LegoSetFilterModel;
+}) => {
   const { $activeFilters, resetExactFilterTriggered, resetTriggered } = model;
-  const activeFilters = useUnit($activeFilters);
+  const activeFilters = useUnit($activeFilters as ActiveFiltersStore);
 
   let count = 0;
   for (let i = 0; i < activeFilters.length; i++)
-    activeFilters[i][1]['value'] && count++;
+    activeFilters[i][1].value && count++;
 
   if (!count) {
     return null;

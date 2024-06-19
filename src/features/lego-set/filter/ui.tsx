@@ -164,9 +164,10 @@ interface Props {
   field: Field<string[]>;
 }
 
-//TODO: refine releaseField styles
 const Release = ({ field }: Props) => {
   const { value, onChange } = useField(field);
+
+  const hasValue = value && value.length;
 
   const ClearIndicator = () => (
     <Button
@@ -180,7 +181,11 @@ const Release = ({ field }: Props) => {
 
   const DropdownIndicator = () => (
     <ChevronUpIcon
-      className={`${value.length ? 'hidden' : 'w-[14px] mr-3 rotate-180'}`}
+      className={`${
+        hasValue
+          ? 'hidden'
+          : 'w-[14px] mr-3 rotate-180 dark:opacity-25 iconstrokes'
+      }`}
     />
   );
 
@@ -198,7 +203,7 @@ const Release = ({ field }: Props) => {
         classNames={{
           control: () =>
             `${
-              value.length > 0 ? '!bg-transparent' : '!bg-white dark:!bg-dark'
+              hasValue ? '!bg-transparent' : '!bg-white dark:!bg-dark'
             } !min-h-[35px] !border-none !shadow-none mt-2`,
           option: () =>
             '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark dark:hover:!bg-tab input:!bg-transparent accent-dark',

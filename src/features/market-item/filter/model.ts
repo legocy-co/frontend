@@ -157,7 +157,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
     (filters, seriesListMap, setsMap) => {
       const allFilters = {
         locations: {
-          value: filters?.locations.split(',').join(', '),
+          value: filters?.locations,
           show: !!filters?.locations,
           label: 'Location',
         },
@@ -172,7 +172,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
           label: 'Max price',
         },
         set_states: {
-          value: filters?.set_states.split(',').join(', '),
+          value: filters?.set_states,
           show: !!filters?.set_states,
           label: 'Set state',
         },
@@ -180,7 +180,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
           value: filters?.set_ids
             .split(',')
             .map((id) => setsMap[id])
-            .join(', '),
+            .join(','),
           show: !!filters?.set_ids,
           label: 'Set name',
         },
@@ -188,7 +188,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
           value: filters?.series_ids
             .split(',')
             .map((id) => seriesListMap[id])
-            .join(', '),
+            .join(','),
           show: !!filters?.series_ids,
           label: 'Set theme',
         },
