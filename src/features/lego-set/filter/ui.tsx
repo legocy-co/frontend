@@ -171,7 +171,7 @@ const Release = ({ field }: Props) => {
 
   const ClearIndicator = () => (
     <Button
-      className="w-[52px] h-5 flex !flex-grow-0 text-white !bg-black dark:!bg-white !bg-opacity-35 text-[0.7rem] dark:!bg-opacity-35 items-center align-top justify-evenly rounded-sm"
+      className="w-[52px] h-5 flex !flex-grow-0 text-white mr-3 !bg-black dark:!bg-white !bg-opacity-35 text-[0.7rem] dark:!bg-opacity-35 items-center align-top justify-evenly rounded-sm"
       onClick={() => onChange([])}
     >
       <p>Clear</p>
@@ -201,13 +201,11 @@ const Release = ({ field }: Props) => {
         placeholder={2010}
         classNames={{
           control: () =>
-            `${
-              hasValue ? '!bg-transparent' : '!bg-white dark:!bg-dark'
-            } !min-h-[35px] !border-none !shadow-none mt-2`,
+            '!bg-white dark:!bg-dark !min-h-[35px] !border-none !shadow-none mt-2',
           option: () =>
             '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark hover:!bg-condition dark:hover:!bg-tab input:!bg-transparent accent-dark',
           multiValue: () =>
-            '!bg-dark rounded-sm h-5 !text-xs flex items-center justify-between',
+            '!bg-celllink rounded-sm h-5 !text-xs flex items-center justify-between',
           multiValueLabel: () => '!text-statevaluationchart',
           multiValueRemove: () =>
             'hover:!bg-transparent text-white hover:!text-white hover:!text-opacity-95',
