@@ -21,7 +21,6 @@
 }
 .range-slider .range-slider__thumb {
   position: absolute;
-  z-index: 3;
   top: 50%;
   width: 12px;
   height: 12px;
@@ -41,7 +40,6 @@
 }
 .range-slider .range-slider__range {
   position: absolute;
-  z-index: 1;
   transform: translate(0, -50%);
   top: 50%;
   width: 100%;

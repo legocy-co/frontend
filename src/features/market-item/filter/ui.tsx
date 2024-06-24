@@ -11,9 +11,13 @@ import SlidersIcon from '../../../assets/icons/sliders.svg?react';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import { SelectSearch } from '../../../shared/ui/select-search.tsx';
 import { SearchModel } from '../../../shared/lib/filter/search-factory.ts';
-import { NumberFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
+import {
+  MultiCheckboxAdapter,
+  NumberFieldAdapter,
+} from '../../../shared/ui/form-adapters.tsx';
 import { lo } from '../../location/options/index.ts';
-import { sso } from '../../set-state/options/index.ts';
+import { mio } from '../options/index.ts';
+import { lso } from '../../lego-set/options/index.ts';
 
 export const MarketItemsFilter = ({
   model,
@@ -103,6 +107,11 @@ export const MarketItemsFilter = ({
               />
             </div>
             <Location model={model} />
+            <MultiCheckboxAdapter
+              field={model.form.fields.releaseYears}
+              label="Set release year"
+              options={lso.setReleaseYearOptions}
+            />
             <div>
               <p>Price, $</p>
               <RangeSlider
@@ -188,7 +197,7 @@ const SetState = ({ model }: { model: MarketItemFilterModel }) => {
     (value) => value?.split(',').filter(Boolean) ?? []
   );
 
-  const options = sso.setStateOptions.filter(
+  const options = mio.setStateOptions.filter(
     (state) => !value.includes(state.value)
   );
 

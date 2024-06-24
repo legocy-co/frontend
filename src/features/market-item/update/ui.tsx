@@ -12,7 +12,7 @@ import { useField, useForm } from 'effector-forms';
 import { lso } from '../../lego-set/options/index.ts';
 import { Button } from '../../../shared/ui/button.tsx';
 import { lo } from '../../location/options/index.ts';
-import { sso } from '../../set-state/options/index.ts';
+import { mio } from '../options/index.ts';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
 import LocationIcon from '../../../assets/icons/location.svg?react';
 import React, { useEffect, useState } from 'react';
@@ -77,7 +77,7 @@ export const MarketItemUpdateForm = () => {
           <div className="relative h-12 w-[185] sm:w-[257px] styled-select">
             <SelectFieldAdapter
               field={model.form.fields.setState}
-              options={sso.setStateOptions}
+              options={mio.setStateOptions}
               defaultOptionValue=""
               className="!w-full !h-12 !rounded-lg !bg-pagesize dark:!bg-dark"
             />

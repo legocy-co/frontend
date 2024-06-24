@@ -12,7 +12,7 @@ import { FormError } from '../../shared/ui/form-error.tsx';
 import { lso } from '../lego-set/options/index.ts';
 import { Button } from '../../shared/ui/button.tsx';
 import { setStates } from '../../types/MarketItemType.ts';
-import { sso } from '../set-state/options/index.ts';
+import { mio } from '../market-item/options/index.ts';
 import ChevronUpIcon from '../../assets/icons/chevron-up.svg?react';
 
 interface Props {
@@ -62,7 +62,7 @@ export const CollectionSetForm = ({ id }: Props) => {
       <SelectMenuAdapter
         label="Set state"
         description="Choose a condition that best describes your set"
-        options={sso.setStateOptions.slice(1)}
+        options={mio.setStateOptions.slice(1)}
         field={model.form.fields.state}
         icons={Object.keys(setStates)}
         className="mb-[-10px] [&>]:!bg-legocy"

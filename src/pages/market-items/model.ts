@@ -62,6 +62,8 @@ const GetMarketItemsPageFx = attach({
               .join('&lego_set[series_id__in]=')
               .split('%2Cset')
               .join('&set_id__in=')
+              .split('%2Cyear')
+              .join('&lego_set[release_year__in]=')
               .split('%5B')
               .join('[')
               .split('%5D')
@@ -77,6 +79,8 @@ const GetMarketItemsPageFx = attach({
               .join('&location__in=')
               .split('%2Cstate')
               .join('&set_state__in=')
+              .split('%2Cyear')
+              .join('&lego_set[release_year__in]=')
           )
         ),
 });
