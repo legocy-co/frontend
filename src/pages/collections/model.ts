@@ -109,13 +109,13 @@ sample({
   source: $initialCollection,
   filter: (_, sorting) => sorting !== '',
   fn: (cells, sorting) =>
-    cells
-      .filter((cell) => cell.valuation !== undefined)
-      .sort((a, b) =>
-        sorting === 'asc'
-          ? a.totalReturnUSD - b.totalReturnUSD
-          : b.totalReturnUSD - a.totalReturnUSD
-      ),
+    cells.sort((a, b) => {
+      if (a.valuation === undefined) return 1;
+      if (b.valuation === undefined) return -1;
+      return sorting === 'asc'
+        ? a.totalReturnUSD - b.totalReturnUSD
+        : b.totalReturnUSD - a.totalReturnUSD;
+    }),
   target: $collectionCells,
 });
 
@@ -123,6 +123,7 @@ sample({
   clock: collectionSortingChanged,
   source: $initialCollection,
   filter: (_, sorting) => sorting === '',
+  fn: (cells) => cells.sort((a, b) => b.id - a.id),
   target: $collectionCells,
 });
 
