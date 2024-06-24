@@ -5,6 +5,10 @@ import { Textarea } from './textarea.tsx';
 import clsx from 'clsx';
 import { SelectSearch, SelectSearchOption } from './select-search.tsx';
 import { LazySvg } from './lazy-svg.tsx';
+import { Button } from './button.tsx';
+import Select, { components, OptionProps } from 'react-select';
+import TrashIcon from '../../assets/icons/trash.svg?react';
+import ChevronUpIcon from '../../assets/icons/chevron-up.svg?react';
 
 export type FormAdapterProps<T> = {
   field: Field<T>;
@@ -195,6 +199,96 @@ export const SelectMenuAdapter = ({
           </div>
         ))}
       </div>
+    </div>
+  );
+};
+
+export const MultiCheckboxAdapter = ({
+  field,
+  label,
+  options,
+}: {
+  field: Field<string[]>;
+  label: string;
+  options: SelectFieldOption[];
+}) => {
+  const { value, onChange } = useField(field);
+
+  const hasValue = value && value.length;
+
+  const Option = (props: OptionProps) => {
+    return (
+      <div>
+        <components.Option
+          {...props}
+          className="dark:!bg-dark dark:!border-dark "
+        >
+          <input
+            type="checkbox"
+            checked={props.isSelected}
+            onChange={() => null}
+          />{' '}
+          <label>{props.label}</label>
+        </components.Option>
+      </div>
+    );
+  };
+
+  const ClearIndicator = () => (
+    <Button
+      className="w-[52px] h-5 flex !flex-grow-0 text-white mr-3 !bg-black dark:!bg-white !bg-opacity-35 text-[0.7rem] dark:!bg-opacity-35 items-center align-top justify-evenly rounded-sm"
+      onClick={() => onChange([])}
+    >
+      <p>Clear</p>
+      <TrashIcon className="w-2 fillswhite" />
+    </Button>
+  );
+
+  const DropdownIndicator = () => (
+    <ChevronUpIcon
+      className={`${
+        hasValue
+          ? 'hidden'
+          : 'w-[14px] mr-3 rotate-180 dark:opacity-25 iconstrokes'
+      }`}
+    />
+  );
+
+  return (
+    <div>
+      <p>{label}</p>
+      <Select
+        options={options}
+        isMulti
+        isSearchable={false}
+        placeholder={2010}
+        classNames={{
+          control: () =>
+            '!bg-white dark:!bg-dark !min-h-[35px] !border-none !shadow-none mt-2',
+          option: () =>
+            '!bg-white !flex !gap-2 !text-black dark:!text-white dark:!bg-dark hover:!bg-condition dark:hover:!bg-tab input:!bg-transparent accent-dark',
+          multiValue: () =>
+            '!bg-celllink rounded-sm h-5 !text-xs flex items-center justify-between',
+          multiValueLabel: () => '!text-statevaluationchart',
+          multiValueRemove: () =>
+            'hover:!bg-transparent text-white hover:!text-white hover:!text-opacity-95',
+          indicatorSeparator: () => 'hidden',
+        }}
+        hideSelectedOptions={false}
+        components={{
+          Option,
+          ClearIndicator,
+          DropdownIndicator,
+        }}
+        onChange={(opt) =>
+          onChange(opt.map((op: SelectFieldOption) => op.value))
+        }
+        value={
+          value
+            ? value.map((value) => Object({ value: value, label: value }))
+            : []
+        }
+      />
     </div>
   );
 };

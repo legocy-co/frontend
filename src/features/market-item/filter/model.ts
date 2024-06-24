@@ -56,6 +56,9 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
       set_states: {
         init: '',
       },
+      releaseYears: {
+        init: [] as string[],
+      },
     },
   });
 
@@ -145,6 +148,7 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
         'lego_set[set_number__in]': snapshot?.set_number,
         'lego_set[npieces_gte]': snapshot?.min_pieces,
         'lego_set[npieces_lte]': snapshot?.max_pieces,
+        'lego_set[release_year__in]': snapshot?.releaseYears?.join(',year'),
       },
       false
     )
@@ -206,6 +210,11 @@ export const marketItemFilterFactory = (options: { domain?: Domain }) => {
           value: filters?.max_pieces,
           show: !!filters?.max_pieces,
           label: 'Max pieces',
+        },
+        releaseYears: {
+          value: filters?.releaseYears?.length ? filters?.releaseYears : null,
+          show: !!filters?.releaseYears,
+          label: 'Release years',
         },
       };
 

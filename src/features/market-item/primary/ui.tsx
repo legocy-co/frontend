@@ -9,7 +9,7 @@ import {
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { lso } from '../../lego-set/options/index.ts';
 import ChevronUpIcon from '../../../assets/icons/chevron-up.svg?react';
-import { sso } from '../../set-state/options/index.ts';
+import { mio } from '../options/index.ts';
 import { setStates } from '../../../types/MarketItemType.ts';
 
 export const MarketItemPrimaryForm = () => {
@@ -37,7 +37,7 @@ export const MarketItemPrimaryForm = () => {
       <SelectMenuAdapter
         label="Set state"
         description="Choose a condition that best describes your set"
-        options={sso.setStateOptions.slice(1)}
+        options={mio.setStateOptions.slice(1)}
         field={model.form.fields.setState}
         icons={Object.keys(setStates)}
       />
