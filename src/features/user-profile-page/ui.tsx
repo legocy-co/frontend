@@ -24,7 +24,7 @@ export const UserProfilePageForm = () => {
         <TextFieldAdapter
           field={model.form.fields.username}
           labelText="Username"
-          className="w-96 sm:w-[386px] h-[48px] mb-6 bg-pagesize"
+          className="!w-80 sm:w-[386px] h-[48px] mb-6 bg-pagesize"
         />
         <PencilIcon className="absolute top-9 right-3 iconfills" />
       </div>
@@ -32,7 +32,7 @@ export const UserProfilePageForm = () => {
         <TextFieldAdapter
           field={model.form.fields.email}
           labelText="Email address"
-          className="w-96 sm:w-[386px] h-[48px] mb-2 bg-pagesize"
+          className="!w-80 sm:w-[386px] h-[48px] mb-2 bg-pagesize"
         />
         <PencilIcon className="absolute top-9 right-3 iconfills" />
       </div>

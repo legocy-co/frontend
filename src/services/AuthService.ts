@@ -1,21 +1,25 @@
 import { GetCredentials, SetCredentials } from '../storage/credentials.ts';
 import {
+  FacebookAuthData,
+  GoogleAuthData,
   SignInData,
   SignUpData,
-  SocialAuthData,
 } from '../types/authorization.ts';
 import axios, { AxiosError } from 'axios';
 import { history } from '../routes/history.ts';
-import { handleUserError } from './ErrorHandlers.ts';
+import { handleSocialError, handleUserError } from './ErrorHandlers.ts';
 import { su } from '../features/auth/sign-up/';
 import { si } from '../features/auth/sign-in/';
 import { jwtDecode } from 'jwt-decode';
 import { auth } from '../pages/auth/';
+import { sha256 } from 'js-sha256';
 
 export interface AuthService {
   IsAuthorized: () => boolean;
-  GoogleSignIn: (data: SocialAuthData) => void;
-  GoogleSignUp: (data: SocialAuthData) => void;
+  FacebookSignIn: (data: FacebookAuthData) => void;
+  FacebookSignUp: (data: FacebookAuthData) => void;
+  GoogleSignIn: (data: GoogleAuthData) => void;
+  GoogleSignUp: (data: GoogleAuthData) => void;
   SignIn: (data: SignInData) => void;
   SignUp: (data: SignUpData) => void;
   RefreshToken: () => void;
@@ -46,33 +50,70 @@ const IsAuthorized = () => {
   return storage.accessToken !== '';
 };
 
-const GoogleSignIn = async (data: SocialAuthData) => {
+const FacebookSignIn = async (data: FacebookAuthData) => {
+  try {
+    const response = await axios
+      .post<AuthResponse>(
+        '/users/auth/fb/sign-in',
+        data,
+        hashSecretKeyHeader(
+          data.email,
+          data.facebook_id,
+          import.meta.env.VITE_FB_SALT
+        )
+      )
+      .then((response) => response.data);
+
+    SetAuthHeaders(response);
+  } catch (e) {
+    if ((e as AxiosError).response!.status === 404) return FacebookSignUp(data);
+    return handleUserError(e, 'FacebookSignIn', si.form);
+  }
+};
+
+const FacebookSignUp = async (data: FacebookAuthData) => {
+  try {
+    const response = await axios
+      .post<AuthResponse>(
+        '/users/auth/fb/sign-up',
+        data.facebook_id,
+        hashSecretKeyHeader(
+          data.email,
+          data.facebook_id,
+          import.meta.env.VITE_FB_SALT
+        )
+      )
+      .then((response) => response.data);
+
+    SetAuthHeaders(response);
+  } catch (e) {
+    return handleSocialError(e, 'FacebookSignUp');
+  }
+};
+
+const GoogleSignIn = async (data: GoogleAuthData) => {
   try {
     const response = await axios
       .post<AuthResponse>('/users/auth/google/sign-in', data)
       .then((response) => response.data);
 
     SetAuthHeaders(response);
-    si.signedIn();
   } catch (e) {
     const err = e as AxiosError;
     if (err.response!.status === 404) return GoogleSignUp(data);
-    return handleUserError(e, 'GoogleSignIn', si.form);
+    return handleSocialError(e, 'GoogleSignIn');
   }
 };
 
-const GoogleSignUp = async (data: SocialAuthData) => {
+const GoogleSignUp = async (data: GoogleAuthData) => {
   try {
     const response = await axios
       .post<AuthResponse>('/users/auth/google/sign-up', data)
       .then((response) => response.data);
 
     SetAuthHeaders(response);
-    si.signedIn();
   } catch (e) {
-    const err = e as AxiosError;
-    if (err.response!.status === 409) history.navigate('auth/sign-in');
-    return handleUserError(e, 'GoogleSignUp', si.form);
+    return handleSocialError(e, 'GoogleSignUp');
   }
 };
 
@@ -149,6 +190,8 @@ const GetAccessTokenHeader = (): string => {
 
 export const authService: AuthService = {
   IsAuthorized: IsAuthorized,
+  FacebookSignIn: FacebookSignIn,
+  FacebookSignUp: FacebookSignUp,
   GoogleSignIn: GoogleSignIn,
   GoogleSignUp: GoogleSignUp,
   SignIn: SignIn,
@@ -179,6 +222,13 @@ const GetBaseUrl = () => {
   if (baseUrl) return baseUrl;
   return '/api/v1';
 };
+
+const hashSecretKeyHeader = (key1: string, key2: string, key3: string) =>
+  Object({
+    headers: {
+      'X-Secret-Key': sha256(key1 + key2 + key3),
+    },
+  });
 
 axios.defaults.baseURL = GetBaseUrl();
 axios.defaults.headers.common.Authorization = IsAuthorized()

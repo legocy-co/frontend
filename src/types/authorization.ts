@@ -1,7 +1,13 @@
 import { z } from 'zod';
 import { Form } from 'effector-forms';
 
-export type SocialAuthData = { token: string };
+export type FacebookAuthData = {
+  email: string;
+  facebook_id: string;
+  username: string;
+};
+
+export type GoogleAuthData = { token: string };
 
 export type SignInData = z.infer<typeof SignInSchema>;
 

@@ -185,7 +185,7 @@ const UserProfilePage = () => {
         )}
       </PageHeading>
       {section !== 'rate' && (
-        <div className="w-full flex items-center justify-center gap-5 mb-7">
+        <div className="w-full flex flex-wrap items-center justify-center gap-5 mb-7">
           {isPersonal && (
             <MenuButton
               onClick={() => model.sectionSelected('')}

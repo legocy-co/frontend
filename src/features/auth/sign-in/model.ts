@@ -7,8 +7,6 @@ import { createGate } from 'effector-react';
 
 export const gate = createGate();
 
-export const signedIn = createEvent();
-
 export const form = createForm({
   fields: {
     email: {
@@ -35,6 +33,8 @@ export const form = createForm({
     },
   },
 });
+
+export const signedIn = createEvent();
 
 // AuthService
 const signInFx = attach({

@@ -6,6 +6,8 @@ import { MarketItemForm } from '../types/MarketItemType.ts';
 import { UserProfileForm } from '../types/UserProfileType.ts';
 import { CollectionSetForm } from '../types/CollectionType.ts';
 import { UserReviewForm } from '../types/UserReviewType.ts';
+import { history } from '../routes/history.ts';
+import { si } from '../features/auth/sign-in/index.tsx';
 
 const handleIncorrectParse = (
   e: ZodError,
@@ -87,9 +89,16 @@ const handleReviewError = (
   return Promise.reject(e);
 };
 
+const handleSocialError = (err: unknown, prefix: string) => {
+  if ((err as AxiosError).response!.status === 409)
+    history.navigate('auth/sign-in');
+  return handleUserError(err, prefix, si.form);
+};
+
 export {
   handleIncorrectParse,
   handleUserError,
   handleSetError,
   handleReviewError,
+  handleSocialError,
 };

@@ -12,6 +12,7 @@ interface ImportMetaEnv {
   readonly VITE_QB_ACCOUNT_KEY: string;
   readonly VITE_GG_APP_ID: string;
   readonly VITE_FB_APP_ID: string;
+  readonly VITE_FB_SALT: string;
 }
 
 interface ImportMeta {

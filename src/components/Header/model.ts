@@ -3,11 +3,10 @@ import { createGate } from 'effector-react';
 import { authService } from '../../services/AuthService.ts';
 import { userService } from '../../services/UserService.ts';
 import { auth } from '../../pages/auth/';
-import { si } from '../../features/auth/sign-in/index.tsx';
 import { upp } from '../../pages/user-profile-pages';
 import { $username } from '../../pages/ChatPage/model.ts';
-
 import { UserImage } from '../../types/UserImageType.ts';
+import { si } from '../../features/auth/sign-in/index.tsx';
 
 export const gate = createGate();
 
