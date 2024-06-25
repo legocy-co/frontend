@@ -1,0 +1,1 @@
+export { RootNavigationPage } from './page';
