@@ -223,12 +223,13 @@ const GetBaseUrl = () => {
   return '/api/v1';
 };
 
-const hashSecretKeyHeader = (key1: string, key2: string, key3: string) =>
-  Object({
+const hashSecretKeyHeader = (...keys: string[]) => {
+  return {
     headers: {
-      'X-Secret-Key': sha256(key1 + key2 + key3),
+      'X-Secret-Key': sha256(keys.join('')),
     },
-  });
+  };
+};
 
 axios.defaults.baseURL = GetBaseUrl();
 axios.defaults.headers.common.Authorization = IsAuthorized()
