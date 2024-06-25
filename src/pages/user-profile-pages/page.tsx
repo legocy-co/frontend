@@ -2,7 +2,7 @@ import { useGate, useUnit } from 'effector-react';
 import * as model from './model';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PageHeading } from '../../shared/ui/page-heading.tsx';
-import { addDefaultSrc } from '../../services/utils.ts';
+import { addDefaultSrc, setTwoDecimals } from '../../services/utils.ts';
 import MarketItemsList from '../../components/MarketItemsList';
 import UserReviewsList from '../../components/UserReviewsList';
 import { MenuButton } from '../../shared/ui/menu-button.tsx';
@@ -175,14 +175,16 @@ const UserProfilePage = () => {
           )}
         </div>
         {user.username}
-        {!isPersonal && user.reviewTotals?.avgRating !== 0 && (
-          <div className="h-[34px] bg-pagesize dark:bg-dark flex items-center gap-2 px-2 rounded-2xl mt-1">
-            <p className="text-tab dark:text-white text-[16px] font-medium">
-              {user.reviewTotals?.avgRating}
-            </p>
-            <StarIcon className="iconfills" width={18} />
-          </div>
-        )}
+        {!isPersonal &&
+          user.reviewTotals?.avgRating !== 0 &&
+          user.reviewTotals?.avgRating !== undefined && (
+            <div className="h-[34px] bg-pagesize dark:bg-dark flex items-center gap-2 px-2 rounded-2xl mt-1">
+              <p className="text-tab dark:text-white text-[16px] font-medium">
+                {setTwoDecimals(user.reviewTotals?.avgRating)}
+              </p>
+              <StarIcon className="iconfills" width={18} />
+            </div>
+          )}
       </PageHeading>
       {section !== 'rate' && (
         <div className="w-full flex flex-wrap items-center justify-center gap-5 mb-7">

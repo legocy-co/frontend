@@ -1,7 +1,7 @@
 import { useGate, useUnit } from 'effector-react';
 import * as model from './model.ts';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addDefaultSrc } from '../../../services/utils.ts';
+import { addDefaultSrc, setTwoDecimals } from '../../../services/utils.ts';
 import { useEffect, useState } from 'react';
 import GalleryModal from '../../../components/GalleryModal';
 import { chatService } from '../../../services/ChatService.ts';
@@ -202,7 +202,8 @@ const MarketItemDetailPage = () => {
                   }
                 >
                   <p className="text-[#0D0C0C] dark:text-white">
-                    {marketItem.avgRating}
+                    {marketItem.avgRating !== undefined &&
+                      setTwoDecimals(marketItem.avgRating)}
                   </p>
                   <StarIcon className="w-[18px] iconfills" />
                 </div>

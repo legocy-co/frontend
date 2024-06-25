@@ -8,6 +8,7 @@ export default {
         'collections-intro': 'url("/src/assets/pics/lego-city.png")',
         'select': 'url("/src/assets/pics/lego-money.png")',
         'wiki-intro': 'url("/src/assets/pics/lego-space.png")',
+        'root-navigation': 'url("/src/assets/pics/lego-sea.png")',
       },
       fontSize: {
         'bh': '2.5rem',

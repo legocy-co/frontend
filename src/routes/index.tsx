@@ -31,6 +31,7 @@ import ChatPage from '../pages/ChatPage';
 import CatalogSelectPage from '../pages/market-items/select/index.tsx';
 import MyUploadsPage from '../pages/user-profile-pages/uploads/page.tsx';
 import WikiIntroPage from '../pages/wiki/intro';
+import { RootNavigationPage } from '../pages/RootNavigationPage';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const AppRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<RootPage />}>
-        <Route index element={<Navigate to="/catalog/select" />} />
+        <Route index element={<RootNavigationPage />} />
 
         <Route path="auth" element={<Outlet />}>
           <Route index element={<AuthRoute />} />
