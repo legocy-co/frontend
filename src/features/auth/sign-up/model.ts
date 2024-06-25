@@ -3,8 +3,9 @@ import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
 import { attach, sample } from 'effector';
 import { authService } from '../../../services/AuthService.ts';
-import { si } from '../sign-in/index.tsx';
 import { createGate } from 'effector-react';
+
+import { signedIn } from '../sign-in/model.ts';
 
 export const gate = createGate();
 
@@ -108,7 +109,7 @@ sample({
 
 sample({
   clock: signInFx.done,
-  target: si.signedIn,
+  target: signedIn,
 });
 
 sample({

@@ -2,7 +2,6 @@ import { createGate } from 'effector-react';
 import { $location, navigateFx } from '../../shared/lib/react-router.ts';
 import { attach, createEffect, createEvent, sample } from 'effector';
 import { authService } from '../../services/AuthService.ts';
-import { si } from '../../features/auth/sign-in/index.tsx';
 import { IResolveParams } from 'reactjs-social-login';
 
 export const gate = createGate();
@@ -63,6 +62,6 @@ sample({
 });
 
 sample({
-  clock: si.signedIn,
+  clock: [googleAuthFX.done, fbAuthFX.done],
   target: redirectBackFX,
 });

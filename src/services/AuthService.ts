@@ -1,23 +1,23 @@
 import { GetCredentials, SetCredentials } from '../storage/credentials.ts';
 import {
+  FacebookAuthData,
+  GoogleAuthData,
   SignInData,
   SignUpData,
-  GoogleAuthData,
-  FacebookAuthData,
 } from '../types/authorization.ts';
 import axios, { AxiosError } from 'axios';
 import { history } from '../routes/history.ts';
-import { handleUserError } from './ErrorHandlers.ts';
+import { handleSocialError, handleUserError } from './ErrorHandlers.ts';
 import { su } from '../features/auth/sign-up/';
 import { si } from '../features/auth/sign-in/';
 import { jwtDecode } from 'jwt-decode';
 import { auth } from '../pages/auth/';
 import { sha256 } from 'js-sha256';
 
-// TODO: FacebookSignUp auth integration
 export interface AuthService {
   IsAuthorized: () => boolean;
   FacebookSignIn: (data: FacebookAuthData) => void;
+  FacebookSignUp: (data: FacebookAuthData) => void;
   GoogleSignIn: (data: GoogleAuthData) => void;
   GoogleSignUp: (data: GoogleAuthData) => void;
   SignIn: (data: SignInData) => void;
@@ -56,7 +56,7 @@ const FacebookSignIn = async (data: FacebookAuthData) => {
       .post<AuthResponse>(
         '/users/auth/fb/sign-in',
         data,
-        GetXsecretKeyHeader(
+        hashSecretKeyHeader(
           data.email,
           data.facebook_id,
           import.meta.env.VITE_FB_SALT
@@ -65,11 +65,29 @@ const FacebookSignIn = async (data: FacebookAuthData) => {
       .then((response) => response.data);
 
     SetAuthHeaders(response);
-    si.signedIn();
   } catch (e) {
-    const err = e as AxiosError;
-    if (err.response!.status === 404) throw 'user not found';
+    if ((e as AxiosError).response!.status === 404) return FacebookSignUp(data);
     return handleUserError(e, 'FacebookSignIn', si.form);
+  }
+};
+
+const FacebookSignUp = async (data: FacebookAuthData) => {
+  try {
+    const response = await axios
+      .post<AuthResponse>(
+        '/users/auth/fb/sign-up',
+        data.facebook_id,
+        hashSecretKeyHeader(
+          data.email,
+          data.facebook_id,
+          import.meta.env.VITE_FB_SALT
+        )
+      )
+      .then((response) => response.data);
+
+    SetAuthHeaders(response);
+  } catch (e) {
+    return handleSocialError(e, 'FacebookSignUp');
   }
 };
 
@@ -80,11 +98,10 @@ const GoogleSignIn = async (data: GoogleAuthData) => {
       .then((response) => response.data);
 
     SetAuthHeaders(response);
-    si.signedIn();
   } catch (e) {
     const err = e as AxiosError;
     if (err.response!.status === 404) return GoogleSignUp(data);
-    return handleUserError(e, 'GoogleSignIn', si.form);
+    return handleSocialError(e, 'GoogleSignIn');
   }
 };
 
@@ -95,11 +112,8 @@ const GoogleSignUp = async (data: GoogleAuthData) => {
       .then((response) => response.data);
 
     SetAuthHeaders(response);
-    si.signedIn();
   } catch (e) {
-    const err = e as AxiosError;
-    if (err.response!.status === 409) history.navigate('auth/sign-in');
-    return handleUserError(e, 'GoogleSignUp', si.form);
+    return handleSocialError(e, 'GoogleSignUp');
   }
 };
 
@@ -177,6 +191,7 @@ const GetAccessTokenHeader = (): string => {
 export const authService: AuthService = {
   IsAuthorized: IsAuthorized,
   FacebookSignIn: FacebookSignIn,
+  FacebookSignUp: FacebookSignUp,
   GoogleSignIn: GoogleSignIn,
   GoogleSignUp: GoogleSignUp,
   SignIn: SignIn,
@@ -208,7 +223,7 @@ const GetBaseUrl = () => {
   return '/api/v1';
 };
 
-const GetXsecretKeyHeader = (key1: string, key2: string, key3: string) =>
+const hashSecretKeyHeader = (key1: string, key2: string, key3: string) =>
   Object({
     headers: {
       'X-Secret-Key': sha256(key1 + key2 + key3),

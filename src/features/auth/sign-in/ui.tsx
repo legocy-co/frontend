@@ -78,13 +78,13 @@ export const SignIn = () => {
           className="w-full !h-[44px] bg-pagesize dark:bg-white dark:!text-black"
         />
       </div>
-      <div className="flex justify-center mt-[-15px]">
+      <div className="flex justify-center mt-[-15px] min-w-96 w-[62%]">
         {!eachValid && (
-          <FormError>
+          <FormError className="max-w-[50%]">
             {fields.email.errorText() || fields.password.errorText()}
           </FormError>
         )}
-        <Button type="submit" className="mt-10 rounded-xl h-[54px] w-[242px]">
+        <Button type="submit" className="mt-12 rounded-xl h-[54px] w-[242px]">
           Sign In
         </Button>
       </div>
