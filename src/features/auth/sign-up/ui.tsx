@@ -5,11 +5,8 @@ import { Button } from '../../../shared/ui/button.tsx';
 import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 import { useGate } from 'effector-react';
-import GoogleIcon from '../../../assets/icons/google.svg?react';
-import FacebookIcon from '../../../assets/icons/facebook.svg?react';
 import { useNavigate } from 'react-router-dom';
-import { IResolveParams, LoginSocialGoogle } from 'reactjs-social-login';
-import { auth } from '../../../pages/auth/index.tsx';
+import { SocialAuth } from '../../../entities/auth/social';
 
 export const SignUp = () => {
   useGate(model.gate);
@@ -25,30 +22,9 @@ export const SignUp = () => {
     model.form.submit();
   };
 
-  function handleSocialResolve({ provider, data }: typeof IResolveParams) {
-    if (provider === 'google') {
-      console.log(data);
-      auth.googleTokenFetched(data.credential);
-    }
-  }
-
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-6 items-center">
-      <div className="flex items-center justify-center gap-6">
-        <div className="bg-step flex justify-center items-center w-[52px] h-[52px] rounded-full cursor-pointer transition-opacity hover:opacity-95 active:opacity-90">
-          <LoginSocialGoogle
-            typeResponse="idToken"
-            client_id={import.meta.env.VITE_GG_APP_ID}
-            onResolve={handleSocialResolve}
-            onReject={console.error}
-          >
-            <GoogleIcon />
-          </LoginSocialGoogle>
-        </div>
-        <div className="bg-step flex justify-center items-center w-[52px] h-[52px] rounded-full cursor-pointer transition-opacity hover:opacity-95 active:opacity-90">
-          <FacebookIcon />
-        </div>
-      </div>
+      <SocialAuth />
       <h1 className="font-bold text-bh">Sign Up</h1>
       <div className="flex flex-col gap-4 !w-80 sm:!w-[343px]">
         <TextFieldAdapter
