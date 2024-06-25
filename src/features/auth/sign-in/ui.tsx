@@ -30,8 +30,11 @@ export const SignIn = () => {
   };
 
   function handleSocialResolve({ provider, data }: typeof IResolveParams) {
-    if (provider === 'google') auth.googleTokenFetched(data.credential);
-    console.log(data);
+    if (provider === 'google') {
+      auth.googleTokenFetched(data.credential);
+      return;
+    }
+    auth.fbDataFetched(data);
   }
 
   return (

@@ -3,6 +3,7 @@ import { $location, navigateFx } from '../../shared/lib/react-router.ts';
 import { attach, createEffect, createEvent, sample } from 'effector';
 import { authService } from '../../services/AuthService.ts';
 import { si } from '../../features/auth/sign-in/index.tsx';
+import { IResolveParams } from 'reactjs-social-login';
 
 export const gate = createGate();
 
@@ -11,6 +12,8 @@ export const loggedOut = createEvent();
 export const tokenRefreshed = createEvent();
 
 export const googleTokenFetched = createEvent<string>();
+
+export const fbDataFetched = createEvent();
 
 // store previous path
 const GetFrom = (search: string | null) => {
@@ -35,6 +38,14 @@ const googleAuthFX = createEffect((token: string) =>
   authService.GoogleSignIn({ token })
 );
 
+const fbAuthFX = createEffect((data: typeof IResolveParams.data) =>
+  authService.FacebookSignIn({
+    email: data.email,
+    facebook_id: data.facebook_id,
+    username: data.username,
+  })
+);
+
 sample({
   clock: gate.open,
   filter: () => authService.IsAuthorized(),
@@ -44,6 +55,11 @@ sample({
 sample({
   source: googleTokenFetched,
   target: googleAuthFX,
+});
+
+sample({
+  source: fbDataFetched,
+  target: fbAuthFX,
 });
 
 sample({
