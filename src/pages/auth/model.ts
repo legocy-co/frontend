@@ -40,8 +40,8 @@ const googleAuthFX = createEffect((token: string) =>
 const fbAuthFX = createEffect((data: typeof IResolveParams.data) =>
   authService.FacebookSignIn({
     email: data.email,
-    facebook_id: data.facebook_id,
-    username: data.username,
+    facebook_id: data.id,
+    username: data.name,
   })
 );
 
