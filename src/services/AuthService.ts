@@ -55,7 +55,7 @@ const FacebookSignIn = async (data: FacebookAuthData) => {
     const response = await axios
       .post<AuthResponse>(
         '/users/auth/fb/sign-in',
-        data,
+        data.facebook_id,
         hashSecretKeyHeader(
           data.email,
           data.facebook_id,
@@ -76,7 +76,7 @@ const FacebookSignUp = async (data: FacebookAuthData) => {
     const response = await axios
       .post<AuthResponse>(
         '/users/auth/fb/sign-up',
-        data.facebook_id,
+        data,
         hashSecretKeyHeader(
           data.email,
           data.facebook_id,
