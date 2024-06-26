@@ -1,6 +1,6 @@
 import BuyIcon from '../../../assets/icons/buy.svg?react';
 import BagMoneyIcon from '../../../assets/icons/bag-money.svg?react';
-import { SelectOption } from '../../../entities/market-item/select-option';
+import { SelectSection } from '../../../entities/select-section';
 
 export const CatalogSelectPage = () => {
   return (
@@ -11,13 +11,13 @@ export const CatalogSelectPage = () => {
         an option below.
       </p>
       <div className="flex justify-center flex-wrap gap-6 mt-6 text-center">
-        <SelectOption
+        <SelectSection
           to="/catalog"
           label="Buy"
           description="I want to buy a set from the marketplace"
           icon={<BuyIcon className="iconfills iconstrokes" />}
         />
-        <SelectOption
+        <SelectSection
           to="/catalog/add"
           label="Sell"
           description="I want to upload a set to the marketplace"

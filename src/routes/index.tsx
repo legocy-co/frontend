@@ -32,6 +32,8 @@ import CatalogSelectPage from '../pages/market-items/select/index.tsx';
 import MyUploadsPage from '../pages/user-profile-pages/uploads/page.tsx';
 import WikiIntroPage from '../pages/wiki/intro';
 import { RootNavigationPage } from '../pages/RootNavigationPage';
+import { FaqPage } from '../pages/FAQ';
+import { FaqPurchasesPage } from '../pages/FAQ/purchases';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -98,6 +100,11 @@ const AppRouter = () => {
           <Route index element={<CollectionPage />} />
           <Route path="intro" element={<CollectionsIntroPage />} />
           <Route path="add" element={<AddCollectionSetPage />} />
+        </Route>
+
+        <Route path="faq" element={<Outlet />}>
+          <Route index element={<FaqPage />} />
+          <Route path="purchases" element={<FaqPurchasesPage />} />
         </Route>
 
         <Route

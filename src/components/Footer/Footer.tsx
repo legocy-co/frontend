@@ -23,8 +23,8 @@ const Footer = () => {
         </div>
         <div className="footer--right">
           <p>SUPPORT</p>
-          <p onClick={() => navigate('/catalog/')}>CATALOG</p>
-          <p>FAQ</p>
+          <p onClick={() => navigate('/catalog')}>CATALOG</p>
+          <p onClick={() => navigate('/faq')}>FAQ</p>
           <p>CONTACT US</p>
         </div>
       </div>
