@@ -34,6 +34,7 @@ import WikiIntroPage from '../pages/wiki/intro';
 import { RootNavigationPage } from '../pages/RootNavigationPage';
 import { FaqPage } from '../pages/FAQ';
 import { FaqPurchasesPage } from '../pages/FAQ/purchases';
+import { FaqCollectionsPage } from '../pages/FAQ/collections/index.tsx';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -105,6 +106,7 @@ const AppRouter = () => {
         <Route path="faq" element={<Outlet />}>
           <Route index element={<FaqPage />} />
           <Route path="purchases" element={<FaqPurchasesPage />} />
+          <Route path="collections" element={<FaqCollectionsPage />} />
         </Route>
 
         <Route

@@ -4,7 +4,7 @@ import { FaqAnswer } from '../../../entities/faq-answer';
 
 export const FaqPurchasesPage = () => {
   return (
-    <div className="flex flex-col gap-12 items-center">
+    <div className="flex flex-col gap-14 items-center">
       <div className="flex flex-col items-center text-center">
         <PageHeading>Purchases</PageHeading>
         <p className="text-xl max-w-[874px]">

@@ -1,0 +1,1 @@
+export { FaqCollectionsPage } from './page';
