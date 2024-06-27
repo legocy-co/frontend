@@ -18,7 +18,7 @@ const Footer = () => {
           <Logo />
           <div>
             <p>&copy; 2024 Legocy </p>
-            <p>Privacy Policy</p>
+            <a onClick={() => navigate('/faq/privacy-policy')}>Privacy Policy</a>
           </div>
         </div>
         <div className="footer--right">

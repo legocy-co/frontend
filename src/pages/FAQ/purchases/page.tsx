@@ -2,6 +2,7 @@ import { PageHeading } from '../../../shared/ui/page-heading.tsx';
 import { purchaseAnswers } from '../lib.ts';
 import { FaqAnswer } from '../../../entities/faq-answer';
 
+// TODO: layout contact us
 export const FaqPurchasesPage = () => {
   return (
     <div className="flex flex-col gap-14 items-center">
@@ -16,8 +17,12 @@ export const FaqPurchasesPage = () => {
         </p>
       </div>
       <div className="flex flex-col gap-6">
-        {purchaseAnswers.map((ans) => (
-          <FaqAnswer question={ans.question} answer={ans.answer} />
+        {purchaseAnswers.map((ans, i) => (
+          <FaqAnswer
+            question={ans.question}
+            answer={ans.answer}
+            key={'ans-' + i}
+          />
         ))}
       </div>
     </div>

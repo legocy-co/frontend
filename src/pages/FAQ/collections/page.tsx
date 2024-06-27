@@ -14,8 +14,12 @@ export const FaqCollectionsPage = () => {
         </p>
       </div>
       <div className="flex flex-col gap-6">
-        {collectionsAnswers.map((ans) => (
-          <FaqAnswer question={ans.question} answer={ans.answer} />
+        {collectionsAnswers.map((ans, i) => (
+          <FaqAnswer
+            question={ans.question}
+            answer={ans.answer}
+            key={'ans-' + i}
+          />
         ))}
       </div>
     </div>

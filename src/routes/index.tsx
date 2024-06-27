@@ -35,6 +35,7 @@ import { RootNavigationPage } from '../pages/RootNavigationPage';
 import { FaqPage } from '../pages/FAQ';
 import { FaqPurchasesPage } from '../pages/FAQ/purchases';
 import { FaqCollectionsPage } from '../pages/FAQ/collections/index.tsx';
+import { PrivacyPolicyPage } from '../pages/FAQ/privacy-policy';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -107,6 +108,7 @@ const AppRouter = () => {
           <Route index element={<FaqPage />} />
           <Route path="purchases" element={<FaqPurchasesPage />} />
           <Route path="collections" element={<FaqCollectionsPage />} />
+          <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
         </Route>
 
         <Route
