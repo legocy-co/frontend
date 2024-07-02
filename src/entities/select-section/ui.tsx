@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
-type SelectOptionProps = {
+type SelectSectionProps = {
   to: string;
   label: string;
   description: string;
@@ -11,14 +11,14 @@ type SelectOptionProps = {
   white?: boolean;
 };
 
-export const SelectOption = ({
+export const SelectSection = ({
   to,
   label,
   description,
   icon,
   descriptionWidth = 160,
   white,
-}: SelectOptionProps) => {
+}: SelectSectionProps) => {
   const navigate = useNavigate();
 
   return (

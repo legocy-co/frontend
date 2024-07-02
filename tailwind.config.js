@@ -47,6 +47,8 @@ export default {
         'darkmenuborder': '#3D3D3D',
         'statuswarn': '#FFE8AE',
         'updatewarn': '#FCE9A6',
+        'faqoption': '#312F2F',
+        'answer': '#E9E9E9',
       },
       boxShadow: {
         'subimages': '0 4px 16px 0 #00000040',

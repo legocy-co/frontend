@@ -1,0 +1,1 @@
+export { FaqPurchasesPage } from './page';

@@ -1,7 +1,7 @@
 import CollectionsIcon from '../../assets/icons/collection.svg?react';
 import MarketplaceIcon from '../../assets/icons/catalog.svg?react';
 import WikiIcon from '../../assets/icons/wiki.svg?react';
-import { SelectOption } from '../../entities/market-item/select-option';
+import { SelectSection } from '../../entities/select-section';
 
 export const RootNavigationPage = () => {
   return (
@@ -14,7 +14,7 @@ export const RootNavigationPage = () => {
         premier platform for LEGO enthusiasts worldwide.
       </p>
       <div className="flex justify-center flex-wrap gap-4 mt-6 text-center">
-        <SelectOption
+        <SelectSection
           to="/collection"
           label="Collections"
           description="Build your own collection by adding sets and easily track their
@@ -23,7 +23,7 @@ export const RootNavigationPage = () => {
           icon={<CollectionsIcon className="w-[52px] h-[38px]" />}
           white
         />
-        <SelectOption
+        <SelectSection
           to="/catalog/select"
           label="Marketplace"
           description="Discover, buy, and sell LEGO sets of any condition and series."
@@ -31,7 +31,7 @@ export const RootNavigationPage = () => {
           icon={<MarketplaceIcon className="w-[38px] h-9" />}
           white
         />
-        <SelectOption
+        <SelectSection
           to="/wiki"
           label="Wikipedia"
           description="Explore a vast array of Lego sets, all neatly organized in one

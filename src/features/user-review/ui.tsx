@@ -35,7 +35,8 @@ export const UserReviewForm = ({ onCancel }: Props) => {
         </p>
         <TextareaFieldAdapter
           field={model.form.fields.message}
-          labelText="Ex. Happy with my overall experience, bought a set from this user, the set was in perfect state. Gave me a discount for driving 2h to pick up set."
+          labelText=""
+          placeholder="Ex. Happy with my overall experience, bought a set from this user, the set was in perfect state. Gave me a discount for driving 2h to pick up set."
           className="!min-h-[108px] font-normal text-[1rem] placeholder:font-normal placeholder:text-[#4F4D4D] placeholder:!text-opacity-85"
         />
       </div>
