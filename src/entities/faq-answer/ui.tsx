@@ -18,7 +18,7 @@ export const FaqAnswer = ({ question, answer }: Props) => {
         />
         <p>Q: {question}</p>
       </div>
-      <div className="w-full p-5 bg-answer text-black rounded-[10px]">
+      <div className="w-full p-5 bg-answer dark:bg-dark rounded-[10px]">
         A: {answer}
       </div>
     </div>

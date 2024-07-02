@@ -93,11 +93,13 @@ export const TextareaFieldAdapter = ({
   field,
   className,
   labelText,
+  placeholder,
 }: FormAdapterProps<string>) => {
   const { value, onChange, hasError } = useField(field);
 
   return (
     <Textarea
+      placeholder={placeholder}
       labelText={labelText}
       className={className}
       isInvalid={hasError()}

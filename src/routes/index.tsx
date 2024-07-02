@@ -32,10 +32,11 @@ import CatalogSelectPage from '../pages/market-items/select/index.tsx';
 import MyUploadsPage from '../pages/user-profile-pages/uploads/page.tsx';
 import WikiIntroPage from '../pages/wiki/intro';
 import { RootNavigationPage } from '../pages/RootNavigationPage';
-import { FaqPage } from '../pages/FAQ';
-import { FaqPurchasesPage } from '../pages/FAQ/purchases';
-import { FaqCollectionsPage } from '../pages/FAQ/collections/index.tsx';
-import { PrivacyPolicyPage } from '../pages/FAQ/privacy-policy';
+import { FaqPage } from '../pages/FaqPage';
+import { FaqPurchasesPage } from '../pages/FaqPage/purchases';
+import { FaqCollectionsPage } from '../pages/FaqPage/collections';
+import { PrivacyPolicyPage } from '../pages/FaqPage/privacy-policy';
+import { ContactUsPage } from '../pages/FaqPage/contact-us/index.tsx';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -109,6 +110,7 @@ const AppRouter = () => {
           <Route path="purchases" element={<FaqPurchasesPage />} />
           <Route path="collections" element={<FaqCollectionsPage />} />
           <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="contact-us" element={<ContactUsPage />} />
         </Route>
 
         <Route

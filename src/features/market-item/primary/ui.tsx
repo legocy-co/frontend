@@ -51,7 +51,8 @@ export const MarketItemPrimaryForm = () => {
         </p>
         <TextareaFieldAdapter
           field={model.form.fields.description}
-          labelText="Ex. Set is missing a few insignificant pieces, but overall, it’s in great condition. Bought it two months ago."
+          labelText=""
+          placeholder="Ex. Set is missing a few insignificant pieces, but overall, it’s in great condition. Bought it two months ago."
           className="sm:!w-[471px] !min-h-[108px] !rounded-lg !bg-pagesize !border-none !text-[#332929] dark:!text-[#F9F9F9] dark:!bg-dark"
         />
       </div>
