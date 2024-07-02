@@ -17,12 +17,11 @@ export const ContactUsPage = () => {
         <Input labelText="Your name" className="!w-80 sm:!w-[381px] !h-12" />
         <Input
           labelText="Email address"
-          className="!w-80 sm:!w-[381px] !h-12"
+          className="!w-80 sm:!w-[381px] !h-12 bg-pagesize"
         />
-
         <Textarea
           labelText="Your message"
-          className="!w-80 sm:!w-[381px] min-h-[119px]"
+          className="!w-80 sm:!w-[381px] min-h-[119px] bg-pagesize"
         />
       </div>
       <div className="!w-80 sm:!w-[381px] flex justify-around font-normal">
