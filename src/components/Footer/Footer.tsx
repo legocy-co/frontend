@@ -28,6 +28,7 @@ const Footer = () => {
           <p onClick={() => navigate('/catalog')}>CATALOG</p>
           <p onClick={() => navigate('/faq')}>FAQ</p>
           <p onClick={() => navigate('/faq/contact-us')}>CONTACT US</p>
+          <p onClick={() => navigate('/about-us')}>ABOUT US</p>
         </div>
       </div>
     </footer>

@@ -5,7 +5,7 @@ import {
 } from 'reactjs-social-login';
 import GoogleIcon from '../../../assets/icons/google.svg?react';
 import FacebookIcon from '../../../assets/icons/facebook.svg?react';
-import { auth } from '../../../pages/auth';
+import { auth } from '../../../features/auth';
 
 export const SocialAuth = () => {
   function handleSocialResolve({ provider, data }: typeof IResolveParams) {

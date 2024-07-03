@@ -1,9 +1,10 @@
 import { createForm } from 'effector-forms';
-import { attach, createEvent, sample } from 'effector';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
-import { authService } from '../../../services/AuthService.ts';
 import { createGate } from 'effector-react';
+import { sample } from 'effector';
+import { auth } from '..';
+import { authService } from '../../../services/AuthService.ts';
 
 export const gate = createGate();
 
@@ -34,26 +35,17 @@ export const form = createForm({
   },
 });
 
-export const signedIn = createEvent();
+// TODO: refactor redirect back
 
-// AuthService
-const signInFx = attach({
-  source: form.$values,
-  effect: (values) =>
-    authService.SignIn({
-      email: values.email,
-      password: values.password,
-    }),
+sample({
+  clock: gate.open,
+  filter: () => authService.IsAuthorized(),
+  target: auth.redirectBackFX,
 });
 
 sample({
-  clock: form.formValidated,
-  target: signInFx,
-});
-
-sample({
-  clock: signInFx.done,
-  target: signedIn,
+  source: form.formValidated,
+  target: auth.signInFx,
 });
 
 sample({

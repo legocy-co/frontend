@@ -1,11 +1,11 @@
 import { FormEvent } from 'react';
-import * as model from './model.ts';
-import { TextFieldAdapter } from '../../../shared/ui/form-adapters.tsx';
-import { Button } from '../../../shared/ui/button.tsx';
-import { FormError } from '../../../shared/ui/form-error.tsx';
 import { useForm } from 'effector-forms';
 import { useGate } from 'effector-react';
 import { useNavigate } from 'react-router-dom';
+import * as model from './model';
+import { TextFieldAdapter } from '../../../shared/ui/form-adapters';
+import { Button } from '../../../shared/ui/button';
+import { FormError } from '../../../shared/ui/form-error';
 import { SocialAuth } from '../../../entities/auth/social';
 
 export const SignIn = () => {
@@ -43,7 +43,7 @@ export const SignIn = () => {
           className="w-full !h-[44px] bg-pagesize dark:bg-white dark:!text-black"
         />
       </div>
-      <div className="flex justify-center mt-[-15px] min-w-96 w-[62%]">
+      <div className="flex justify-center mt-[-15px]">
         {!eachValid && (
           <FormError className="max-w-[50%]">
             {fields.email.errorText() || fields.password.errorText()}

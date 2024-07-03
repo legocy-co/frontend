@@ -9,6 +9,7 @@ export default {
         'select': 'url("/src/assets/pics/lego-money.png")',
         'wiki-intro': 'url("/src/assets/pics/lego-space.png")',
         'root-navigation': 'url("/src/assets/pics/lego-sea.png")',
+        'about-us': 'url("/src/assets/pics/lego-shelf.png")',
       },
       fontSize: {
         'bh': '2.5rem',
