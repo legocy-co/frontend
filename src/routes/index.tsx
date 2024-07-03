@@ -36,7 +36,6 @@ import { FaqCollectionsPage } from '../pages/FaqPage/collections';
 import { PrivacyPolicyPage } from '../pages/FaqPage/privacy-policy';
 import { ContactUsPage } from '../pages/FaqPage/contact-us';
 import { AboutUsPage } from '../pages/AboutUsPage';
-import { SignInPage } from '../pages/auth/sign-in/page.tsx';
 import { AuthRoute } from '../pages/auth';
 
 const AppRouter = () => {
@@ -61,8 +60,8 @@ const AppRouter = () => {
 
         <Route path="auth" element={<Outlet />}>
           <Route index element={<AuthRoute />} />
+          <Route path="sign-in" element={<AuthRoute />} />
           <Route path="sign-up" element={<SignUpPage />} />
-          <Route path="sign-in" element={<SignInPage />} />
         </Route>
 
         <Route path="catalog" element={<Outlet />}>

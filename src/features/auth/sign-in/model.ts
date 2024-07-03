@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { createGate } from 'effector-react';
 import { sample } from 'effector';
 import { auth } from '..';
-import { authService } from '../../../services/AuthService.ts';
 
 export const gate = createGate();
 
@@ -33,14 +32,6 @@ export const form = createForm({
       ],
     },
   },
-});
-
-// TODO: refactor redirect back
-
-sample({
-  clock: gate.open,
-  filter: () => authService.IsAuthorized(),
-  target: auth.redirectBackFX,
 });
 
 sample({
