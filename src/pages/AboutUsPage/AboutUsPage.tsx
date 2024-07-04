@@ -2,12 +2,15 @@ import { Button } from '../../shared/ui/button';
 import LegoHeadIcon from '../../assets/icons/lego-head.svg?react';
 import LocationIcon from '../../assets/icons/location.svg?react';
 import RocketIcon from '../../assets/icons/rocket.svg?react';
+import MarketplaceIcon from '../../assets/icons/catalog.svg?react';
+import CollectionIcon from '../../assets/icons/collection.svg?react';
 import * as lib from './lib';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/AuthService.ts';
 import clsx from 'clsx';
+import React from 'react';
 
-// TODO: layout our goals
+// TODO: refactor contact us
 
 export const AboutUsPage = () => {
   const navigate = useNavigate();
@@ -125,6 +128,21 @@ export const AboutUsPage = () => {
           />
         ))}
       </div>
+      <div className="flex flex-col gap-20 items-center justify-center">
+        <h1 className="font-bold text-bh">Our services</h1>
+        <div className="flex flex-wrap items-center justify-center gap-8">
+          {lib.services.map((serv, i) => (
+            <Service
+              buttonText={serv.buttonText}
+              header={serv.header}
+              index={i}
+              text={serv.text}
+              to={serv.to}
+              key={'serv-' + i}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
@@ -169,3 +187,36 @@ const Goal = ({ index, header, text }: lib.Goal & { index: number }) => (
     </div>
   </div>
 );
+
+const Service = ({
+  header,
+  text,
+  buttonText,
+  to,
+  index,
+}: lib.Service & { index: number }) => {
+  const navigate = useNavigate();
+
+  const icons: React.ReactNode[] = [
+    <MarketplaceIcon className="iconfills" />,
+    <CollectionIcon className="iconfills iconstrokes" />,
+  ];
+
+  return (
+    <div className="flex flex-col justify-center items-center gap-6">
+      <div className="w-80 sm:w-[596px] rounded-xl text-lg px-6 py-8 bg-about dark:bg-dark flex flex-col items-center justify-center gap-8">
+        <div className="flex items-center justify-center gap-8 font-semibold text-[1.375rem]">
+          {icons[index]}
+          <h1>{header}</h1>
+        </div>
+        <p>{text}</p>
+      </div>
+      <Button
+        className="!w-80 sm:!w-[340px] !h-12 !text-xl !rounded-xl"
+        onClick={() => navigate(to)}
+      >
+        {buttonText}
+      </Button>
+    </div>
+  );
+};
