@@ -72,15 +72,15 @@ export const AboutUsPage = () => {
       </div>
       <div className="flex flex-col gap-8 items-center justify-center">
         <h1 className="text-bh font-bold">Our mission</h1>
-        <div className="mt-14 min-w-96 w-[95%] rounded-xl bg-pagesize flex lg:flex-col gap-3 lg:gap-12 items-center justify-center dark:bg-dark px-10 pl-20 py-10 lg:pt-20 lg:pl-10 text-center">
-          <div className="h-[948px] w-max-[948px] flex flex-col lg:flex-row justify-between lg:w-[77%] lg:h-0 border border-solid border-state dark:border-white">
+        <div className="mt-14 min-w-96 rounded-xl bg-pagesize flex lg:flex-col gap-3 lg:gap-12 items-center justify-center dark:bg-dark px-10 pl-20 py-10 lg:pt-20 lg:pl-10 text-center">
+          <div className="h-[450px] w-max-[948px] flex flex-col lg:flex-row justify-between lg:w-[77%] lg:h-0 border border-solid border-state dark:border-white">
             {lib.spotPics.map((spotPic) => (
               <div className="relative" key={spotPic}>
                 <Spot picture={spotPic} />
               </div>
             ))}
           </div>
-          <p className="w-28 text-left lg:text-center lg:w-[875px] xl:w-[1094px] text-lg">
+          <p className="w-52 sm:w-56 text-left lg:text-center lg:w-[875px] xl:w-[1094px] text-lg">
             At LEGOCY, our mission is to connect LEGO enthusiasts worldwide,
             creating a vibrant, inclusive community where passion for LEGO
             transcends borders. We strive to offer an innovative platform that
@@ -108,7 +108,7 @@ const Teammate = ({ name, picture }: lib.Teammate) => {
     <div className="flex flex-col gap-4 items-center justify-center">
       <div className="w-80 relative sm:w-[387px] aspect-[1.78] rounded-xl bg-pagesize dark:bg-dark flex justify-center items-center">
         <div className="w-[126px] sm:w-[153px] aspect-square rounded-full bg-legocy" />
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-0 left-1/2 transform -translate-x-[55%]">
           <img
             src={picture}
             alt=""
@@ -123,12 +123,14 @@ const Teammate = ({ name, picture }: lib.Teammate) => {
 
 const Spot = ({ picture }: { picture: string }) => {
   return (
-    <div className="absolute flex lg:flex-col gap-8 bottom-[-39px] sm:bottom-[-45px] right-[-5px] justify-end items-center lg:gap-8 lg:bottom-[-8px]">
-      <img
-        src={picture}
-        alt=""
-        className="h-20 object-cover object-center overflow-visible"
-      />
+    <div className="absolute flex lg:flex-col gap-4 sm:gap-8 -bottom-[8px] sm:-bottom-[16px] -right-[5px] justify-end items-center lg:gap-8 lg:-bottom-2 lg:-right-8">
+      <div className="absolute -top-3 sm:-top-5 right-10 w-10 sm:w-16 aspect-square lg:aspect-auto lg:static">
+        <img
+          src={picture}
+          alt=""
+          className="w-full lg:h-20 object-cover object-center overflow-visible"
+        />
+      </div>
       <LocationIcon className="iconfills w-4 h-6 -rotate-90 lg:rotate-0 overflow-visible" />
     </div>
   );
