@@ -20,6 +20,7 @@ export default {
         'condition': '#EAE8E8',
         'conditiondark': '#484747',
         'dark': '#2F2F2F',
+        'darkpage': '#191919',
         'statevaluationchart': '#A2A2A2',
         'darkfiltersborder': '#727272',
         'darkstate': '#EEEEEE',
@@ -50,6 +51,7 @@ export default {
         'updatewarn': '#FCE9A6',
         'faqoption': '#312F2F',
         'answer': '#E9E9E9',
+        'about': '#EFEFEF',
       },
       boxShadow: {
         'subimages': '0 4px 16px 0 #00000040',

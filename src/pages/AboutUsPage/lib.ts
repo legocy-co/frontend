@@ -9,6 +9,8 @@ import LegoPyramid from '../../assets/pics/lego-pyramid.png';
 
 export type Teammate = { name: string; picture: string };
 
+export type Goal = { header: string; text: string };
+
 export const team: Teammate[] = [
   { name: 'Lyuba Vozzhova', picture: LyubaVozzhova },
   { name: 'Tikhon Kozlov', picture: TikhonKozlov },
@@ -21,4 +23,19 @@ export const spotPics: string[] = [
   LegoGlobe,
   LegoNotreDame,
   LegoPyramid,
+];
+
+export const goals: Goal[] = [
+  {
+    header: 'Foster Connections',
+    text: "We aim to create a space where LEGO collectors can connect, share, and learn from each other. Whether you're a seasoned collector or just starting out, there's a place for you here.\n",
+  },
+  {
+    header: 'Simplify Trading',
+    text: "We strive to make buying and selling LEGO sets a breeze. Our peer-to-peer marketplace allows collectors to find the sets they're looking for and sell the ones they no longer need.\n",
+  },
+  {
+    header: 'Empower Collectors',
+    text: "We strive to make buying and selling LEGO sets a breeze. Our peer-to-peer marketplace allows collectors to find the sets they're looking for and sell the ones they no longer need.\n",
+  },
 ];
