@@ -17,9 +17,8 @@ export const AboutUsPage = () => {
   const aboutUsRef = useRef<HTMLDivElement | null>(null);
   const contactUsRef = useRef<HTMLDivElement | null>(null);
 
-  const scroll = (
-    ref: React.MutableRefObject<HTMLDivElement | HTMLButtonElement | null>
-  ) => ref.current!.scrollIntoView();
+  const scroll = (ref: React.MutableRefObject<HTMLDivElement | null>) =>
+    ref.current!.scrollIntoView();
 
   return (
     <div className="flex flex-col items-center justify-start gap-28 w-full">
