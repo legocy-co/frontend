@@ -24,7 +24,9 @@ export const ContactUs = () => {
       />
       <div className="flex justify-center">
         {sent && (
-          <FormError className="!bg-sent !text-[#3E8267]">Sent</FormError>
+          <FormError className="!bg-statuswarn !text-[#C5B179]">
+            Temporary unavailable
+          </FormError>
         )}
         <Button
           onClick={() => setSent(true)}
