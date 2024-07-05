@@ -17,6 +17,8 @@ html, body {
   font-size: 16px;
   font-weight: 500;
 
+  scroll-behavior: smooth;
+
   & * {
     box-sizing: border-box;
 
