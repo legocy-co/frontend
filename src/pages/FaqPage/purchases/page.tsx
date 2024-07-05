@@ -2,7 +2,6 @@ import { PageHeading } from '../../../shared/ui/page-heading.tsx';
 import { purchaseAnswers } from '../lib.ts';
 import { FaqAnswer } from '../../../entities/faq-answer';
 
-// TODO: layout contact us
 export const FaqPurchasesPage = () => {
   return (
     <div className="flex flex-col gap-14 items-center">

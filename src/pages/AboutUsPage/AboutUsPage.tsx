@@ -8,11 +8,18 @@ import * as lib from './lib';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/AuthService.ts';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useRef } from 'react';
 import { ContactUs } from '../../features/contact-us';
 
 export const AboutUsPage = () => {
   const navigate = useNavigate();
+
+  const aboutUsRef = useRef<HTMLDivElement | null>(null);
+  const contactUsRef = useRef<HTMLDivElement | null>(null);
+
+  const scroll = (
+    ref: React.MutableRefObject<HTMLDivElement | HTMLButtonElement | null>
+  ) => ref.current!.scrollIntoView();
 
   return (
     <div className="flex flex-col items-center justify-start gap-28 w-full">
@@ -29,16 +36,23 @@ export const AboutUsPage = () => {
             camaraderie of LEGO enthusiasts worldwide.
           </p>
           <div className="flex items-center justify-center gap-6 flex-wrap">
-            <Button className="!h-12 !w-[244px] !rounded-lg !text-xl">
+            <Button
+              onClick={() => scroll(aboutUsRef)}
+              className="!h-12 !w-[244px] !rounded-lg !text-xl"
+            >
               Read about us
             </Button>
-            <Button className="!h-12 !w-[244px] !rounded-lg !text-xl !bg-celllink !text-white">
+            <Button
+              onClick={() => scroll(contactUsRef)}
+              className="!h-12 !w-[244px] !rounded-lg !text-xl !bg-celllink !text-white"
+            >
               Contact us
             </Button>
           </div>
         </div>
       </div>
       <div className="relative min-w-96 w-[95%] rounded-xl bg-about dark:bg-dark p-10 pt-20 text-center text-[1.625rem]">
+        <section className="absolute -top-32" ref={aboutUsRef} />
         <div className="absolute flex justify-center items-center top-[-28px] left-1/2 transform -translate-x-1/2">
           <LegoHeadIcon />
           <h1 className="absolute text-nowrap text-bh font-bold">About Us</h1>
@@ -142,7 +156,10 @@ export const AboutUsPage = () => {
           ))}
         </div>
       </div>
-      <div className="absolute bottom-24 w-screen flex flex-col justify-center bg-contact-us bg-center bg-cover bg-no-repeat items-center gap-4 py-16">
+      <div
+        ref={contactUsRef}
+        className="absolute bottom-24 w-screen flex flex-col justify-center bg-contact-us bg-center bg-cover bg-no-repeat items-center gap-4 py-16"
+      >
         <div className="min-w-96 w-[61%] bg-white dark:bg-darkpage rounded-xl flex flex-col justify-center p-20 items-center gap-8">
           <h1 className="text-bh font-bold">Contact us</h1>
           <p className="max-w-[568px] text-center text-lg">
