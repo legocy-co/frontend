@@ -9,6 +9,8 @@ export default {
         'select': 'url("/src/assets/pics/lego-money.png")',
         'wiki-intro': 'url("/src/assets/pics/lego-space.png")',
         'root-navigation': 'url("/src/assets/pics/lego-sea.png")',
+        'about-us': 'url("/src/assets/pics/lego-shelf.png")',
+        'contact-us': 'url("/src/assets/pics/lego-sails.png")',
       },
       fontSize: {
         'bh': '2.5rem',
@@ -19,6 +21,7 @@ export default {
         'condition': '#EAE8E8',
         'conditiondark': '#484747',
         'dark': '#2F2F2F',
+        'darkpage': '#191919',
         'statevaluationchart': '#A2A2A2',
         'darkfiltersborder': '#727272',
         'darkstate': '#EEEEEE',
@@ -49,6 +52,8 @@ export default {
         'updatewarn': '#FCE9A6',
         'faqoption': '#312F2F',
         'answer': '#E9E9E9',
+        'about': '#EFEFEF',
+        'sent': '#84CFA6'
       },
       boxShadow: {
         'subimages': '0 4px 16px 0 #00000040',

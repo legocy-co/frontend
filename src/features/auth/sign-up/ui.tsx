@@ -11,9 +11,9 @@ import { SocialAuth } from '../../../entities/auth/social';
 export const SignUp = () => {
   useGate(model.gate);
 
-  const navigate = useNavigate();
-
   const { fields, eachValid } = useForm(model.form);
+
+  const navigate = useNavigate();
 
   const from = location.search.split('=')[1];
 
@@ -53,14 +53,14 @@ export const SignUp = () => {
       </div>
       <div className="flex justify-center mt-[-15px]">
         {!eachValid && (
-          <FormError>
+          <FormError className="max-w-[50%]">
             {fields.username.errorText() ||
               fields.email.errorText() ||
               fields.password.errorText() ||
               fields.passwordConfirm.errorText()}
           </FormError>
         )}
-        <Button className="mt-10 rounded-xl h-[54px] w-[242px]" type="submit">
+        <Button className="mt-16 rounded-xl h-[54px] w-[242px]" type="submit">
           Sign Up
         </Button>
       </div>

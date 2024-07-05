@@ -1,2 +1,2 @@
-export { SignIn } from './ui.tsx';
-export * as si from './model.ts';
+export { SignIn } from './ui';
+export * as si from './model';

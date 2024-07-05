@@ -1,14 +1,16 @@
 import { lazy, Suspense } from 'react';
 import Loader from '../../shared/ui/loader.tsx';
 
-export * as auth from './model.ts';
+export * as authPage from './model';
 
 const SignInPage = lazy(() =>
-  import('./sign-in/page.tsx').then((page) => ({ default: page.SignInPage }))
+  import('./sign-in').then((page) => ({ default: page.SignInPage }))
 );
 
-export const AuthRoute = () => (
-  <Suspense fallback={<Loader />}>
-    <SignInPage />
-  </Suspense>
-);
+export const AuthRoute = () => {
+  return (
+    <Suspense fallback={<Loader />}>
+      <SignInPage />
+    </Suspense>
+  );
+};

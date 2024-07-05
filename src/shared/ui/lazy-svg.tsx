@@ -34,7 +34,6 @@ const useLazySvgImport = (name: string) => {
   };
 };
 
-// Example wrapper component using the hook.
 export const LazySvg = ({ name, ...props }: LazySvgProps) => {
   const { loading, error, Svg } = useLazySvgImport(name);
 

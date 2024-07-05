@@ -6,9 +6,7 @@ import {
   Outlet,
   Navigate,
 } from 'react-router-dom';
-import { AuthRoute } from '../pages/auth';
 import SignUpPage from '../pages/auth/sign-up';
-import SignInPage from '../pages/auth/sign-in';
 import RootPage from '../pages/RootPage';
 import { history } from './history.ts';
 import { useEffect } from 'react';
@@ -36,7 +34,9 @@ import { FaqPage } from '../pages/FaqPage';
 import { FaqPurchasesPage } from '../pages/FaqPage/purchases';
 import { FaqCollectionsPage } from '../pages/FaqPage/collections';
 import { PrivacyPolicyPage } from '../pages/FaqPage/privacy-policy';
-import { ContactUsPage } from '../pages/FaqPage/contact-us/index.tsx';
+import { ContactUsPage } from '../pages/FaqPage/contact-us';
+import { AboutUsPage } from '../pages/AboutUsPage';
+import { AuthRoute } from '../pages/auth';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -60,8 +60,8 @@ const AppRouter = () => {
 
         <Route path="auth" element={<Outlet />}>
           <Route index element={<AuthRoute />} />
+          <Route path="sign-in" element={<AuthRoute />} />
           <Route path="sign-up" element={<SignUpPage />} />
-          <Route path="sign-in" element={<SignInPage />} />
         </Route>
 
         <Route path="catalog" element={<Outlet />}>
@@ -112,6 +112,8 @@ const AppRouter = () => {
           <Route path="privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="contact-us" element={<ContactUsPage />} />
         </Route>
+
+        <Route path="about-us" element={<AboutUsPage />} />
 
         <Route
           path="chat"

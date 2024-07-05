@@ -7,7 +7,7 @@ import { UserProfileForm } from '../types/UserProfileType.ts';
 import { CollectionSetForm } from '../types/CollectionType.ts';
 import { UserReviewForm } from '../types/UserReviewType.ts';
 import { history } from '../routes/history.ts';
-import { si } from '../features/auth/sign-in/index.tsx';
+import { si } from '../features/auth/sign-in';
 
 const handleIncorrectParse = (
   e: ZodError,

@@ -1,11 +1,11 @@
 import { createForm } from 'effector-forms';
 import { createRule } from '../../../services/utils.ts';
 import { z } from 'zod';
-import { attach, sample } from 'effector';
+import { createEffect, sample } from 'effector';
 import { authService } from '../../../services/AuthService.ts';
+import { auth } from '../index.tsx';
+import { SignUpData } from '../../../types/authorization.ts';
 import { createGate } from 'effector-react';
-
-import { signedIn } from '../sign-in/model.ts';
 
 export const gate = createGate();
 
@@ -78,38 +78,23 @@ export const form = createForm({
 });
 
 // AuthService
-const signUpFx = attach({
-  source: form.$values,
-  effect: (values) =>
-    authService.SignUp({
-      username: values.username,
-      email: values.email,
-      password: values.password,
-    }),
-});
-
-const signInFx = attach({
-  source: form.$values,
-  effect: (values) =>
-    authService.SignIn({
-      email: values.email,
-      password: values.password,
-    }),
-});
+const signUpFx = createEffect((values: SignUpData) =>
+  authService.SignUp({
+    username: values.username,
+    email: values.email,
+    password: values.password,
+  })
+);
 
 sample({
-  clock: form.formValidated,
+  source: form.formValidated,
   target: signUpFx,
 });
 
 sample({
   clock: signUpFx.done,
-  target: signInFx,
-});
-
-sample({
-  clock: signInFx.done,
-  target: signedIn,
+  source: form.$values,
+  target: auth.signInFx,
 });
 
 sample({

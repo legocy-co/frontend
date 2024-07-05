@@ -1,5 +1,4 @@
 import './Footer.scss';
-import SocialIcon from '../../assets/icons/social.svg?react';
 import Logo from '../../assets/icons/logo-dark.svg?react';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,7 +11,6 @@ const Footer = () => {
         <div className="footer--contacts">
           <p>legocycorp@gmail.com</p>
           <p>+7 898 384 9884</p>
-          <SocialIcon />
         </div>
         <div className="footer--policy">
           <Logo />
@@ -24,10 +22,10 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer--right">
-          <p>SUPPORT</p>
           <p onClick={() => navigate('/catalog')}>CATALOG</p>
           <p onClick={() => navigate('/faq')}>FAQ</p>
           <p onClick={() => navigate('/faq/contact-us')}>CONTACT US</p>
+          <p onClick={() => navigate('/about-us')}>ABOUT US</p>
         </div>
       </div>
     </footer>

@@ -18,7 +18,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
     return (
       <div
         className={clsx(
-          'relative w-2/3 h-12 flex justify-center items-center mb-[30px]',
+          'relative w-2/3 h-12 flex justify-center items-center mb-[30px] text-nowrap',
           className
         )}
         ref={ref}
@@ -31,7 +31,7 @@ export const PageHeading = forwardRef<HTMLDivElement, PageHeadingProps>(
           }
           onClick={() => navigate(to!)}
         />
-        <div className="flex justify-center text-celllink dark:text-description items-center gap-6 text-bh font-bold text-nowrap">
+        <div className="flex justify-center text-celllink dark:text-description items-center gap-6 text-bh font-bold">
           {children}
         </div>
         {isMarketItemDetail && (

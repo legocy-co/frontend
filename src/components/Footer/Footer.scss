@@ -24,9 +24,9 @@ footer {
 }
 
 .footer--contacts {
-  width: 349px;
+  width: 238px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   @media (max-width: 1000px) {
     display: none;

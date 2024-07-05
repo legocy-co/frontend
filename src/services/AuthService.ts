@@ -1,4 +1,4 @@
-import { GetCredentials, SetCredentials } from '../storage/credentials.ts';
+import { GetCredentials, SetCredentials } from '../storage/credentials';
 import {
   FacebookAuthData,
   GoogleAuthData,
@@ -7,11 +7,11 @@ import {
 } from '../types/authorization.ts';
 import axios, { AxiosError } from 'axios';
 import { history } from '../routes/history.ts';
-import { handleSocialError, handleUserError } from './ErrorHandlers.ts';
-import { su } from '../features/auth/sign-up/';
-import { si } from '../features/auth/sign-in/';
+import { handleSocialError, handleUserError } from './ErrorHandlers';
+import { su } from '../features/auth/sign-up';
+import { si } from '../features/auth/sign-in';
+import { auth } from '../features/auth';
 import { jwtDecode } from 'jwt-decode';
-import { auth } from '../pages/auth/';
 import { sha256 } from 'js-sha256';
 
 export interface AuthService {
