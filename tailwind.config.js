@@ -10,6 +10,7 @@ export default {
         'wiki-intro': 'url("/src/assets/pics/lego-space.png")',
         'root-navigation': 'url("/src/assets/pics/lego-sea.png")',
         'about-us': 'url("/src/assets/pics/lego-shelf.png")',
+        'contact-us': 'url("/src/assets/pics/lego-sails.png")',
       },
       fontSize: {
         'bh': '2.5rem',
@@ -52,6 +53,7 @@ export default {
         'faqoption': '#312F2F',
         'answer': '#E9E9E9',
         'about': '#EFEFEF',
+        'sent': '#84CFA6'
       },
       boxShadow: {
         'subimages': '0 4px 16px 0 #00000040',

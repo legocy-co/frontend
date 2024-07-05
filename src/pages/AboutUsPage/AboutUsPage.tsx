@@ -9,8 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { authService } from '../../services/AuthService.ts';
 import clsx from 'clsx';
 import React from 'react';
-
-// TODO: refactor contact us
+import { ContactUs } from '../../features/contact-us';
 
 export const AboutUsPage = () => {
   const navigate = useNavigate();
@@ -128,7 +127,7 @@ export const AboutUsPage = () => {
           />
         ))}
       </div>
-      <div className="flex flex-col gap-20 items-center justify-center">
+      <div className="flex flex-col gap-20 items-center justify-center mb-[900px]">
         <h1 className="font-bold text-bh">Our services</h1>
         <div className="flex flex-wrap items-center justify-center gap-8">
           {lib.services.map((serv, i) => (
@@ -141,6 +140,20 @@ export const AboutUsPage = () => {
               key={'serv-' + i}
             />
           ))}
+        </div>
+      </div>
+      <div className="absolute bottom-24 w-screen flex flex-col justify-center bg-contact-us bg-center bg-cover bg-no-repeat items-center gap-4 py-16">
+        <div className="min-w-96 w-[61%] bg-white dark:bg-darkpage rounded-xl flex flex-col justify-center p-20 items-center gap-8">
+          <h1 className="text-bh font-bold">Contact us</h1>
+          <p className="max-w-[568px] text-center text-lg">
+            Whether you have inquiries, suggestions, or a desire to contribute
+            to our vibrant LEGO community, we would love to hear from you.
+          </p>
+          <ContactUs />
+        </div>
+        <div className="flex flex-wrap text-white justify-center items-center gap-6 text-xl">
+          <p>legocy.info@gmail.com</p>
+          <p>+7 898 384 9884</p>
         </div>
       </div>
     </div>
