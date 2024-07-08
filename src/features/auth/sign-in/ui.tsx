@@ -43,7 +43,7 @@ export const SignIn = () => {
           className="w-full !h-[44px] bg-pagesize dark:bg-white dark:!text-black"
         />
       </div>
-      <div className="flex justify-center mt-[-15px]">
+      <div className="flex justify-center -mt-4">
         {!eachValid && (
           <FormError className="max-w-[50%]">
             {fields.email.errorText() || fields.password.errorText()}
