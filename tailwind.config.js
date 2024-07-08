@@ -53,7 +53,6 @@ export default {
         'faqoption': '#312F2F',
         'answer': '#E9E9E9',
         'about': '#EFEFEF',
-        'sent': '#84CFA6'
       },
       boxShadow: {
         'subimages': '0 4px 16px 0 #00000040',
