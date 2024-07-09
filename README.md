@@ -60,7 +60,7 @@ Create complex designed components in `components`, create new `.tsx` files for 
 
 By following these guidelines, you can effectively manage and extend the frontend LEGOcy application.
 
-# Install
+# Installation
 
 ### 1. Create `.env` file
 
