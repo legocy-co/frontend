@@ -1,11 +1,9 @@
 import { createGate } from 'effector-react';
 import { NavigateFunction } from 'react-router-dom';
-import { attach, createEffect, createStore, sample } from 'effector';
+import { createEffect, createStore, sample } from 'effector';
 import { LegoSet } from '../../../../types/LegoSetType.ts';
 import { legoSetService } from '../../../../services/LegoSetService.ts';
-import { valuationService } from '../../../../services/ValuationService.ts';
-import { Valuation } from '../../../../types/ValuationType.ts';
-import { setStates } from '../../../../types/MarketItemType.ts';
+import { valuationChartModel } from '../../../../components/ValuationChart/index.tsx';
 
 type LegoSetDetail = {
   id: number;
@@ -15,12 +13,6 @@ type LegoSetDetail = {
   number: number;
   series: string;
   year?: number;
-};
-
-type BarData = {
-  name: keyof typeof setStates;
-  value: number;
-  display: string;
 };
 
 export const gate = createGate<{
@@ -38,22 +30,12 @@ export const $legoSetDetail = createStore<LegoSetDetail>({
   year: undefined,
 });
 
-export const $chartData = createStore<BarData[]>([]);
-
 const $id = gate.state.map(({ id }) => id!);
-
 const GetLegoSetFX = createEffect(legoSetService.GetLegoSet);
 
 const setsRedirectFX = createEffect((navigate: NavigateFunction) =>
   navigate('/wiki/sets')
 );
-
-const fetchValuationsFX = attach({
-  source: $id,
-  effect: (id) => {
-    return valuationService.GetValuations(id);
-  },
-});
 
 function toDetail(set: LegoSet): LegoSetDetail {
   return {
@@ -67,18 +49,6 @@ function toDetail(set: LegoSet): LegoSetDetail {
     series: set.series.name,
     year: set.releaseYear ?? undefined,
   };
-}
-
-function toChartData(valuations: Valuation[]): BarData[] {
-  return valuations
-    .sort((a, b) => b.valuation - a.valuation)
-    .map((val) =>
-      Object({
-        name: val.state,
-        value: val.valuation,
-        display: val.valuation + '$',
-      })
-    );
 }
 
 sample({
@@ -99,12 +69,7 @@ sample({
 });
 
 sample({
-  clock: GetLegoSetFX.done,
-  target: fetchValuationsFX,
-});
-
-sample({
-  clock: fetchValuationsFX.doneData,
-  fn: toChartData,
-  target: $chartData,
+  source: $legoSetDetail,
+  fn: (detail) => detail.id,
+  target: valuationChartModel.fetchValuationsFX,
 });

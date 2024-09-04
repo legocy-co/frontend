@@ -1,20 +1,21 @@
 import { attach, createEffect, createStore, sample } from 'effector';
 import { marketItemService } from '../../../services/MarketItemService.ts';
 import { createGate } from 'effector-react';
+import { NavigateFunction } from 'react-router-dom';
+import { navigateFx } from '../../../shared/lib/react-router.ts';
+import { AxiosError } from 'axios';
+import { valuationChartModel } from '../../../components/ValuationChart/index.tsx';
+
 import {
   MarketItem,
   setStates,
   statuses,
 } from '../../../types/MarketItemType.ts';
-import { NavigateFunction } from 'react-router-dom';
-import { valuationService } from '../../../services/ValuationService.ts';
-import { Valuation } from '../../../types/ValuationType.ts';
+
 import {
   MarketItemCell,
   toMarketItemCells,
 } from '../../../components/MarketItemsList/model.ts';
-import { navigateFx } from '../../../shared/lib/react-router.ts';
-import { AxiosError } from 'axios';
 
 type MarketItemDetail = {
   avgRating?: number;
@@ -36,12 +37,6 @@ type MarketItemDetail = {
   stateIcon: keyof typeof setStates;
   status: (typeof statuses)[number];
   totalReviews?: number;
-};
-
-type BarData = {
-  name: keyof typeof setStates;
-  value: number;
-  display: string;
 };
 
 export const gate = createGate<{
@@ -71,8 +66,6 @@ export const $marketItemDetail = createStore<MarketItemDetail>({
   totalReviews: 0,
 });
 
-export const $chartData = createStore<BarData[]>([]);
-
 export const $recommendations = createStore<MarketItemCell[]>([]);
 
 const GetMarketItemFx = attach({
@@ -82,8 +75,6 @@ const GetMarketItemFx = attach({
     return marketItemService.GetMarketItem(id);
   },
 });
-
-const fetchValuationsFX = createEffect(valuationService.GetValuations);
 
 function toDetail(marketItem: MarketItem): MarketItemDetail {
   return {
@@ -117,18 +108,6 @@ const fetchMarketItemsFX = createEffect(
   marketItemService.GetMarketItemsAuthorized
 );
 
-function toChartData(valuations: Valuation[]): BarData[] {
-  return valuations
-    .sort((a, b) => b.valuation - a.valuation)
-    .map((val) =>
-      Object({
-        name: val.state,
-        value: val.valuation,
-        display: val.valuation + '$',
-      })
-    );
-}
-
 sample({
   clock: [gate.open, gate.state.map(({ id }) => id)],
   target: GetMarketItemFx,
@@ -152,20 +131,14 @@ sample({
 
 sample({
   source: $marketItemDetail,
-  fn: (detail) => detail.setID,
-  target: fetchValuationsFX,
+  fn: (detail: MarketItemDetail) => detail.setID,
+  target: valuationChartModel.fetchValuationsFX,
 });
 
 sample({
   source: $marketItemDetail,
   fn: (detail) => `?lego_set[series_id__in]=${detail.seriesID}`,
   target: fetchMarketItemsFX,
-});
-
-sample({
-  source: fetchValuationsFX.doneData,
-  fn: toChartData,
-  target: $chartData,
 });
 
 sample({
