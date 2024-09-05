@@ -3,10 +3,14 @@ $gallery-background: #191515cc;
 .gallery {
   padding: 2rem 1.4rem;
   background: var(--black);
-
+  position: fixed;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   font-size: 1.25rem;
+  @media (max-height: 440px) {
+    padding-top: 190px;
+  }
 
   &--main {
     display: flex;
@@ -19,9 +23,13 @@ $gallery-background: #191515cc;
     padding: 10px;
     color: white;
     transition: opacity 0.1s;
-    &:hover {opacity: 0.9}
-    &:active {opacity: 0.8}
-    @media (max-width: 600px) {
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      opacity: 0.8;
+    }
+    @media (max-width: 800px) {
       display: none;
     }
   }
@@ -38,8 +46,16 @@ $gallery-background: #191515cc;
     cursor: pointer;
     background: $gallery-background;
     transition: opacity 0.1s;
-    &:hover {opacity: 0.9}
-    &:active {opacity: 0.8}
+    &:hover {
+      opacity: 0.9;
+    }
+    &:active {
+      opacity: 0.8;
+    }
+    @media (max-width: 600px) {
+      max-width: 300px;
+      max-height: 300px;
+    }
   }
 
   &--index {
@@ -51,24 +67,27 @@ $gallery-background: #191515cc;
   }
 
   &--list {
-    margin-top: 50px;
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
-    width: 588px;
     justify-items: center;
     gap: 10px;
 
     &_member {
-      max-width: 111px;
-      max-height: 109px;
+      width: 50px;
+      height: 50px;
       object-fit: cover;
       object-position: center;
       border-radius: 6px;
       transition: opacity 0.1s;
       cursor: pointer;
       background-color: $gallery-background;
-      &:hover {opacity: 0.9}
-      &:active {opacity: 0.8}
+      &:hover {
+        opacity: 0.9;
+      }
+      &:active {
+        opacity: 0.8;
+      }
     }
   }
 }
